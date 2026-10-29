@@ -209,17 +209,15 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
 
   # Anything we couldn't represent in JSON or that the CMS shouldn't
   # accept. Functions, PIDs, refs are all out.
-  defp serializable?(value) do
-    case value do
-      v when is_function(v) -> false
-      v when is_pid(v) -> false
-      v when is_reference(v) -> false
-      v when is_port(v) -> false
-      v when is_tuple(v) -> Enum.all?(Tuple.to_list(v), &serializable?/1)
-      v when is_list(v) -> Enum.all?(v, &serializable?/1)
-      %_struct{} = s -> Map.from_struct(s) |> Map.values() |> Enum.all?(&serializable?/1)
-      v when is_map(v) -> Enum.all?(Map.values(v), &serializable?/1)
-      _ -> true
-    end
-  end
+  defp serializable?(v) when is_function(v) or is_pid(v) or is_reference(v) or is_port(v),
+    do: false
+
+  defp serializable?(v) when is_tuple(v), do: Enum.all?(Tuple.to_list(v), &serializable?/1)
+  defp serializable?(v) when is_list(v), do: Enum.all?(v, &serializable?/1)
+
+  defp serializable?(%_struct{} = s),
+    do: s |> Map.from_struct() |> Map.values() |> Enum.all?(&serializable?/1)
+
+  defp serializable?(v) when is_map(v), do: Enum.all?(Map.values(v), &serializable?/1)
+  defp serializable?(_v), do: true
 end

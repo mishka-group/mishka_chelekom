@@ -250,82 +250,89 @@ defmodule MishkaChelekom.Generators.Assets do
   end
 
   defp update_js_files(igniter, _template_config, scripts) do
-    files = Enum.filter(scripts, &(&1.type == "file"))
+    case Enum.filter(scripts, &(&1.type == "file")) do
+      [] ->
+        igniter
 
-    if files != [] do
-      igniter =
-        Enum.reduce(files, igniter, fn item, acc ->
-          core_path = Core.lib_priv("assets/js/#{item.file}")
+      files ->
+        files
+        |> Enum.reduce(igniter, &copy_js_file(&1, &2, igniter))
+        |> wire_app_js()
+    end
+  end
 
-          mishka_user_priv_path =
-            Path.join(
-              IAPP.priv_dir(igniter, ["mishka_chelekom", "javascripts"]),
-              "#{item.file}"
-            )
+  defp copy_js_file(item, acc, igniter) do
+    core_path = Core.lib_priv("assets/js/#{item.file}")
 
-          # Priority is given to Core assets.
-          content =
-            cond do
-              File.exists?(core_path) -> File.read!(core_path)
-              File.exists?(mishka_user_priv_path) -> File.read!(mishka_user_priv_path)
-              true -> nil
-            end
+    mishka_user_priv_path =
+      Path.join(
+        IAPP.priv_dir(igniter, ["mishka_chelekom", "javascripts"]),
+        "#{item.file}"
+      )
 
-          # The INSTALLED name may differ from the source name (`as:`), so two engines for the
-          # same component land on one file — switching engines then overwrites instead of leaving
-          # a stale file that still imports the packages we just removed.
-          installed = Map.get(item, :as, item.file)
-
-          if is_nil(content) do
-            acc
-            |> Igniter.add_issue("The requested JavaScript file does not exist.")
-          else
-            # `create_or_update_file/4` only uses this when the file is absent, and it reads an
-            # existing one through the rewrite — so never touch the real filesystem here, or the
-            # whole wiring step becomes untestable (and wrong under `Igniter.Test`).
-            caller_js = File.read!(Core.lib_priv("assets/js/mishka_components.js"))
-
-            acc
-            |> Igniter.create_or_update_file("assets/vendor/#{installed}", content, fn source ->
-              Rewrite.Source.update(source, :content, content)
-            end)
-            |> register_hook(item, caller_js)
-          end
-        end)
-
-      app_js = "assets/js/app.js"
-
-      # Read through Igniter, never `File.read/1`: the rewrite is the source of truth, so this
-      # works under `Igniter.Test` (where the project is virtual) and picks up an app.js that an
-      # earlier step in the same run created.
-      if Igniter.exists?(igniter, app_js) do
-        Igniter.update_file(igniter, app_js, fn source ->
-          imports = """
-          import MishkaComponents from "../vendor/mishka_components.js";
-          """
-
-          with original_content <- Rewrite.Source.get(source, :content),
-               {:ok, _, imported} <- JsParser.insert_imports(original_content, imports),
-               {:ok, _, output} <- JsParser.extend_hook_object(imported, "...MishkaComponents"),
-               {:ok, _, formatted} <- JsFormatter.format(output) do
-            Rewrite.Source.update(source, :content, formatted)
-          else
-            {:error, _, error} ->
-              Rewrite.Source.add_issue(source, "#{inspect(error)}")
-          end
-        end)
-      else
-        Igniter.add_notice(igniter, """
-        Note:
-        Unfortunately, we couldn't find the assets/js/app.js file in your project path.
-        Register the hooks yourself:
-
-            import MishkaComponents from "../vendor/mishka_components.js";
-            // ...then spread ...MishkaComponents into your LiveSocket hooks
-        """)
+    # Priority is given to Core assets.
+    content =
+      cond do
+        File.exists?(core_path) -> File.read!(core_path)
+        File.exists?(mishka_user_priv_path) -> File.read!(mishka_user_priv_path)
+        true -> nil
       end
+
+    # The INSTALLED name may differ from the source name (`as:`), so two engines for the
+    # same component land on one file — switching engines then overwrites instead of leaving
+    # a stale file that still imports the packages we just removed.
+    installed = Map.get(item, :as, item.file)
+
+    if is_nil(content) do
+      acc
+      |> Igniter.add_issue("The requested JavaScript file does not exist.")
     else
-      igniter
+      # `create_or_update_file/4` only uses this when the file is absent, and it reads an
+      # existing one through the rewrite — so never touch the real filesystem here, or the
+      # whole wiring step becomes untestable (and wrong under `Igniter.Test`).
+      caller_js = File.read!(Core.lib_priv("assets/js/mishka_components.js"))
+
+      acc
+      |> Igniter.create_or_update_file("assets/vendor/#{installed}", content, fn source ->
+        Rewrite.Source.update(source, :content, content)
+      end)
+      |> register_hook(item, caller_js)
+    end
+  end
+
+  defp wire_app_js(igniter) do
+    app_js = "assets/js/app.js"
+
+    # Read through Igniter, never `File.read/1`: the rewrite is the source of truth, so this
+    # works under `Igniter.Test` (where the project is virtual) and picks up an app.js that an
+    # earlier step in the same run created.
+    if Igniter.exists?(igniter, app_js) do
+      Igniter.update_file(igniter, app_js, &import_mishka_components/1)
+    else
+      Igniter.add_notice(igniter, """
+      Note:
+      Unfortunately, we couldn't find the assets/js/app.js file in your project path.
+      Register the hooks yourself:
+
+          import MishkaComponents from "../vendor/mishka_components.js";
+          // ...then spread ...MishkaComponents into your LiveSocket hooks
+      """)
+    end
+  end
+
+  defp import_mishka_components(source) do
+    imports = """
+    import MishkaComponents from "../vendor/mishka_components.js";
+    """
+
+    with original_content <- Rewrite.Source.get(source, :content),
+         {:ok, _, imported} <- JsParser.insert_imports(original_content, imports),
+         {:ok, _, output} <- JsParser.extend_hook_object(imported, "...MishkaComponents"),
+         {:ok, _, formatted} <- JsFormatter.format(output) do
+      Rewrite.Source.update(source, :content, formatted)
+    else
+      {:error, _, error} ->
+        Rewrite.Source.add_issue(source, "#{inspect(error)}")
     end
   end
 

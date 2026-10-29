@@ -1170,10 +1170,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       template =
         MishkaChelekom.CmsBundle.Heex.rewrite(component.template, sibling_names, kit_name)
 
-      body =
-        if is_binary(component.body),
-          do: MishkaChelekom.CmsBundle.Heex.rewrite(component.body, sibling_names, kit_name),
-          else: component.body
+      body = rewrite_body(component.body, sibling_names, kit_name)
 
       helpers =
         Enum.map(component.__private_helpers__, fn h ->
@@ -1183,13 +1180,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
       extra_clauses =
         Enum.map(component.__extra_clauses__, fn c ->
           tpl = MishkaChelekom.CmsBundle.Heex.rewrite(c.template, sibling_names, kit_name)
-
-          bdy =
-            if is_binary(c.body),
-              do: MishkaChelekom.CmsBundle.Heex.rewrite(c.body, sibling_names, kit_name),
-              else: c.body
-
-          %{c | template: tpl, body: bdy}
+          %{c | template: tpl, body: rewrite_body(c.body, sibling_names, kit_name)}
         end)
 
       %{
@@ -1201,6 +1192,12 @@ defmodule MishkaChelekom.CmsBundleExporter do
       }
     end
   end
+
+  # A body is HEEx text to rewrite, or `nil` for a component with none.
+  defp rewrite_body(body, sibling_names, kit_name) when is_binary(body),
+    do: MishkaChelekom.CmsBundle.Heex.rewrite(body, sibling_names, kit_name)
+
+  defp rewrite_body(body, _sibling_names, _kit_name), do: body
 
   # Single-clause defs whose head pattern destructures `assigns`
   # (e.g. `def f(%{a: a, b: b} = assigns)`) lose the destructure when
@@ -1290,7 +1287,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
     Enum.reject(prelude_lines, fn line ->
       case parse_import_only_line(line) do
         {:ok, only_pairs} ->
-          Enum.any?(only_pairs, fn pair -> MapSet.member?(local_sigs, pair) end)
+          Enum.any?(only_pairs, &MapSet.member?(local_sigs, &1))
 
         :no_match ->
           false
@@ -1390,6 +1387,17 @@ defmodule MishkaChelekom.CmsBundleExporter do
     (sibling_deps ++ script_deps) |> Enum.uniq()
   end
 
+  defp attr_params(a, opts) do
+    base = %{"name" => a.name, "type" => a.type, "opts" => opts}
+
+    if Map.has_key?(a, :struct_name),
+      do: Map.put(base, "struct_name", a.struct_name),
+      else: base
+  end
+
+  defp slot_params(s),
+    do: %{"name" => s.name, "opts" => stringify_keys(s.opts), "attrs" => s.attrs}
+
   defp finalize_component_params(c) do
     helpers =
       c.__private_helpers__
@@ -1404,20 +1412,9 @@ defmodule MishkaChelekom.CmsBundleExporter do
         helper_attrs =
           h
           |> Map.get(:attrs, [])
-          |> Enum.map(fn a ->
-            base = %{"name" => a.name, "type" => a.type, "opts" => stringify_keys(a.opts)}
+          |> Enum.map(&attr_params(&1, stringify_keys(&1.opts)))
 
-            if Map.has_key?(a, :struct_name),
-              do: Map.put(base, "struct_name", a.struct_name),
-              else: base
-          end)
-
-        helper_slots =
-          h
-          |> Map.get(:slots, [])
-          |> Enum.map(fn s ->
-            %{"name" => s.name, "opts" => stringify_keys(s.opts), "attrs" => s.attrs}
-          end)
+        helper_slots = h |> Map.get(:slots, []) |> Enum.map(&slot_params/1)
 
         %{
           "name" => h.name,
@@ -1431,18 +1428,13 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     attrs =
       Enum.map(c.attrs, fn a ->
-        opts = a.opts |> stringify_keys() |> AttrValues.put(Map.get(c.__declared__, a.name))
-        base = %{"name" => a.name, "type" => a.type, "opts" => opts}
-
-        if Map.has_key?(a, :struct_name),
-          do: Map.put(base, "struct_name", a.struct_name),
-          else: base
+        attr_params(
+          a,
+          a.opts |> stringify_keys() |> AttrValues.put(Map.get(c.__declared__, a.name))
+        )
       end)
 
-    slots =
-      Enum.map(c.slots, fn s ->
-        %{"name" => s.name, "opts" => stringify_keys(s.opts), "attrs" => s.attrs}
-      end)
+    slots = Enum.map(c.slots, &slot_params/1)
 
     module_attributes =
       Enum.map(c.__module_attrs__, fn ma ->

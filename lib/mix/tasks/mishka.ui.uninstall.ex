@@ -405,15 +405,17 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     Enum.reduce([:styled, :headless, :mob], %{}, fn kind, acc ->
       config_paths(kind)
       |> Enum.flat_map(&Path.wildcard(Path.join(&1, "*.exs")))
-      |> Enum.reduce(acc, fn path, acc2 ->
-        component = Path.basename(path, ".exs")
-
-        case read_config_file(path, component) do
-          nil -> acc2
-          config -> Map.put(acc2, {component, kind}, config)
-        end
-      end)
+      |> Enum.reduce(acc, &put_config(&1, &2, kind))
     end)
+  end
+
+  defp put_config(path, acc, kind) do
+    component = Path.basename(path, ".exs")
+
+    case read_config_file(path, component) do
+      nil -> acc
+      config -> Map.put(acc, {component, kind}, config)
+    end
   end
 
   # `Core.lib_priv/1` resolves the library catalogs via `:code.priv_dir/1`, which works for
@@ -573,18 +575,17 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     Enum.flat_map(configs_remaining, fn {{_name, kind} = component, config} ->
       removed_names = Map.get(removed_by_kind, kind, [])
 
-      case config do
-        nil ->
-          []
-
-        config ->
-          affected =
-            config |> Keyword.get(:necessary, []) |> Enum.filter(&(&1 in removed_names))
-
-          if affected != [], do: [{component, affected}], else: []
+      case affected_necessary(config, removed_names) do
+        [] -> []
+        affected -> [{component, affected}]
       end
     end)
   end
+
+  defp affected_necessary(nil, _removed_names), do: []
+
+  defp affected_necessary(config, removed_names),
+    do: config |> Keyword.get(:necessary, []) |> Enum.filter(&(&1 in removed_names))
 
   # Module.concat, not Core.module_atom: this name is handed to
   # Igniter.Project.Module.find_module/2, which needs a real (Elixir-prefixed)
@@ -785,30 +786,29 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     if Igniter.exists?(igniter, path) do
       verbose_log(igniter, "  Cleaning up: #{path}")
 
-      Igniter.update_file(igniter, path, fn source ->
-        content = Rewrite.Source.get(source, :content)
-
-        import_statement = ~s(import MishkaComponents from "../vendor/mishka_components.js")
-
-        content =
-          case JsParser.remove_imports(content, import_statement, :content) do
-            {:ok, _, updated} -> updated
-            _ -> content
-          end
-
-        content =
-          case JsParser.remove_objects_from_hooks(content, "...MishkaComponents", :content) do
-            {:ok, _, updated} -> updated
-            _ -> content
-          end
-
-        case JsFormatter.format(content) do
-          {:ok, _, formatted} -> Rewrite.Source.update(source, :content, formatted)
-          _ -> Rewrite.Source.update(source, :content, content)
-        end
-      end)
+      Igniter.update_file(igniter, path, &remove_mishka_components_hooks/1)
     else
       igniter
+    end
+  end
+
+  defp remove_mishka_components_hooks(source) do
+    import_statement = ~s(import MishkaComponents from "../vendor/mishka_components.js")
+
+    content =
+      source
+      |> Rewrite.Source.get(:content)
+      |> then(&with_js_result(JsParser.remove_imports(&1, import_statement, :content), &1))
+      |> then(
+        &with_js_result(
+          JsParser.remove_objects_from_hooks(&1, "...MishkaComponents", :content),
+          &1
+        )
+      )
+
+    case JsFormatter.format(content) do
+      {:ok, _, formatted} -> Rewrite.Source.update(source, :content, formatted)
+      _ -> Rewrite.Source.update(source, :content, content)
     end
   end
 
@@ -983,35 +983,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         has_core_import? = has_core_components_import?(zipper, core_components_module)
 
         new_node =
-          case zipper.node do
-            {:quote, _, [[{_, {:__block__, _, _}}]]} = node ->
-              Macro.prewalk(node, fn
-                {:use, meta, [{:__aliases__, alias_meta, module_parts}]}
-                when is_list(module_parts) ->
-                  case List.last(module_parts) do
-                    name when is_atom(name) ->
-                      if Atom.to_string(name) |> String.contains?("MishkaComponents") do
-                        if has_core_import? do
-                          {:__mishka_remove__, [], []}
-                        else
-                          {:import, meta, [{:__aliases__, alias_meta, core_components_module}]}
-                        end
-                      else
-                        {:use, meta, [{:__aliases__, alias_meta, module_parts}]}
-                      end
-
-                    _ ->
-                      {:use, meta, [{:__aliases__, alias_meta, module_parts}]}
-                  end
-
-                other ->
-                  other
-              end)
-              |> remove_marker_nodes()
-
-            other ->
-              other
-          end
+          drop_mishka_components_use(zipper.node, core_components_module, has_core_import?)
 
         {:ok, Igniter.Code.Common.replace_code(zipper, new_node)}
 
@@ -1019,6 +991,40 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         {:ok, zipper}
     end
   end
+
+  defp drop_mishka_components_use(
+         {:quote, _, [[{_, {:__block__, _, _}}]]} = node,
+         core_components_module,
+         has_core_import?
+       ) do
+    node
+    |> Macro.prewalk(&restore_core_import(&1, core_components_module, has_core_import?))
+    |> remove_marker_nodes()
+  end
+
+  defp drop_mishka_components_use(other, _core_components_module, _has_core_import?), do: other
+
+  # `use …MishkaComponents` goes: dropped when `import CoreComponents` is still there, and turned
+  # back into that import when it is not.
+  defp restore_core_import(
+         {:use, meta, [{:__aliases__, alias_meta, module_parts}]} = node,
+         core_components_module,
+         has_core_import?
+       )
+       when is_list(module_parts) do
+    cond do
+      not mishka_components_module?(List.last(module_parts)) -> node
+      has_core_import? -> {:__mishka_remove__, [], []}
+      true -> {:import, meta, [{:__aliases__, alias_meta, core_components_module}]}
+    end
+  end
+
+  defp restore_core_import(other, _core_components_module, _has_core_import?), do: other
+
+  defp mishka_components_module?(name) when is_atom(name),
+    do: name |> Atom.to_string() |> String.contains?("MishkaComponents")
+
+  defp mishka_components_module?(_name), do: false
 
   defp has_core_components_import?(zipper, core_components_module) do
     case zipper.node do
@@ -1129,8 +1135,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       removed: length(plan.component_files),
       js_removed: length(plan.js_to_remove),
       preserved: if(plan.js_preserved != [], do: "\nJS preserved: #{length(plan.js_preserved)}"),
-      css: if(all_removed && (opts.all || opts.include_css), do: "\nCSS removed"),
-      config: if(all_removed && (opts.all || opts.include_config), do: "\nConfig removed"),
+      css: if(also_removed?(all_removed, opts, :include_css), do: "\nCSS removed"),
+      config: if(also_removed?(all_removed, opts, :include_config), do: "\nConfig removed"),
       remaining: if(!all_removed, do: "\nRemaining: #{length(plan.remaining)}")
     }
 
@@ -1143,6 +1149,10 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     #{if all_removed, do: "All Mishka components removed.", else: "Run --all to remove everything."}
     """)
   end
+
+  # The CSS and the config go with the last component, under --all or their own flag.
+  defp also_removed?(true, opts, key), do: opts.all || Map.fetch!(opts, key)
+  defp also_removed?(false, _opts, _key), do: false
 
   defp verbose_log(%{assigns: %{opts: %{verbose: true}}}, msg) do
     if Mix.env() != :test, do: IO.puts(msg)

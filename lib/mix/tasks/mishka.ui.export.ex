@@ -232,50 +232,51 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     %Igniter.Mix.Task.Args{positional: %{dir: dir}} = igniter.args
 
     options = igniter.args.options
-    tty? = IO.ANSI.enabled?()
+    spin? = !options[:test] and IO.ANSI.enabled?()
 
     if !options[:test], do: Core.banner(IO.ANSI.yellow(), "Export")
-
-    if !options[:test] and tty?,
-      do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
-
-    name = Keyword.get(options, :name, "template")
-    org = Keyword.get(options, :org, "component")
-
-    org =
-      if org in ["component", "preset", "template", "javascript"], do: org, else: "component"
+    if spin?, do: Owl.Spinner.start(id: :my_spinner, labels: [processing: "Please wait..."])
 
     igniter =
       if File.dir?(dir),
         do: igniter,
         else: Igniter.add_issue(igniter, "The entered directory does not exist.")
 
+    igniter
+    |> export(dir, options)
+    |> Core.stop_spinner(spin?)
+  end
+
+  defp export(igniter, dir, options) do
+    name = Keyword.get(options, :name, "template")
+    org = Keyword.get(options, :org, "component")
+
+    org =
+      if org in ["component", "preset", "template", "javascript"], do: org, else: "component"
+
     base64 = Keyword.get(options, :base64, false)
 
     # If user selects --template, it just creates a default JSON template
-    final_igniter =
-      cond do
-        Keyword.get(options, :template, false) ->
-          Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
-            on_exists: :overwrite
-          )
+    cond do
+      Keyword.get(options, :template, false) ->
+        Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
+          on_exists: :overwrite
+        )
 
-        Keyword.get(options, :cms, false) ->
-          igniter
-          |> Igniter.assign(%{cli_args: options, cli_dir: dir})
-          |> check_dir_files()
-          |> create_cms_bundle(name, options, base64)
+      Keyword.get(options, :cms, false) ->
+        igniter
+        |> Igniter.assign(%{cli_args: options, cli_dir: dir})
+        |> check_dir_files()
+        |> create_cms_bundle(name, options, base64)
 
-        true ->
-          igniter
-          |> Igniter.assign(%{cli_args: options, cli_dir: dir})
-          |> check_dir_files()
-          |> create_elixir_files_config(base64)
-          |> create_asset_files_config(base64)
-          |> create_json_file(name, org)
-      end
-
-    Core.stop_spinner(final_igniter, !options[:test] and tty?)
+      true ->
+        igniter
+        |> Igniter.assign(%{cli_args: options, cli_dir: dir})
+        |> check_dir_files()
+        |> create_elixir_files_config(base64)
+        |> create_asset_files_config(base64)
+        |> create_json_file(name, org)
+    end
   end
 
   # --cms output (mishka.ui_kit.bundle.v3)
@@ -596,29 +597,29 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     do: components
 
   defp prefix_phx_hooks(components, hook_renames) do
-    Enum.map(components, fn c ->
-      c
-      |> update_in(["template"], &rewrite_phx_hooks(&1, hook_renames))
-      |> update_in(["body"], &rewrite_phx_hooks(&1, hook_renames))
-      |> update_in(["helpers"], fn helpers ->
-        Enum.map(helpers || [], fn h ->
-          Map.update(h, "code", h["code"], &rewrite_phx_hooks(&1, hook_renames))
-        end)
-      end)
-      |> update_in(["extra", "clauses"], fn clauses ->
-        case clauses do
-          nil ->
-            nil
+    Enum.map(components, &prefix_component_hooks(&1, hook_renames))
+  end
 
-          list when is_list(list) ->
-            Enum.map(list, fn cl ->
-              cl
-              |> Map.update("template", cl["template"], &rewrite_phx_hooks(&1, hook_renames))
-              |> Map.update("body", cl["body"], &rewrite_phx_hooks(&1, hook_renames))
-            end)
-        end
-      end)
-      |> rewrite_hook_defaults(hook_renames)
+  defp prefix_component_hooks(c, hook_renames) do
+    rewrite = &rewrite_phx_hooks(&1, hook_renames)
+
+    c
+    |> update_in(["template"], rewrite)
+    |> update_in(["body"], rewrite)
+    |> update_in(["helpers"], fn helpers ->
+      Enum.map(helpers || [], &Map.update(&1, "code", &1["code"], rewrite))
+    end)
+    |> update_in(["extra", "clauses"], &rewrite_clause_hooks(&1, rewrite))
+    |> rewrite_hook_defaults(hook_renames)
+  end
+
+  defp rewrite_clause_hooks(nil, _rewrite), do: nil
+
+  defp rewrite_clause_hooks(clauses, rewrite) when is_list(clauses) do
+    Enum.map(clauses, fn cl ->
+      cl
+      |> Map.update("template", cl["template"], rewrite)
+      |> Map.update("body", cl["body"], rewrite)
     end)
   end
 
@@ -647,16 +648,18 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     renames = Map.new(hook_renames)
 
     Map.update(component, "attrs", component["attrs"], fn attrs ->
-      Enum.map(attrs || [], fn attr ->
-        with true <- MapSet.member?(hook_attrs, attr["name"]),
-             default when is_binary(default) <- get_in(attr, ["opts", "default"]),
-             {:ok, live_key} <- Map.fetch(renames, default) do
-          put_in(attr, ["opts", "default"], live_key)
-        else
-          _not_a_hook_default -> attr
-        end
-      end)
+      Enum.map(attrs || [], &rewrite_hook_default(&1, hook_attrs, renames))
     end)
+  end
+
+  defp rewrite_hook_default(attr, hook_attrs, renames) do
+    with true <- MapSet.member?(hook_attrs, attr["name"]),
+         default when is_binary(default) <- get_in(attr, ["opts", "default"]),
+         {:ok, live_key} <- Map.fetch(renames, default) do
+      put_in(attr, ["opts", "default"], live_key)
+    else
+      _not_a_hook_default -> attr
+    end
   end
 
   defp rewrite_phx_hooks(nil, _), do: nil
@@ -674,17 +677,19 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         String.replace(acc, ~s(phx-hook="#{module_name}"), ~s(phx-hook="#{live_key}"))
       end)
 
-    map_hook_expressions(literal, fn expression ->
-      Regex.replace(~r/"([A-Za-z][A-Za-z0-9]*)"/, expression, fn whole, name ->
-        case Map.fetch(renames, name) do
-          {:ok, live_key} -> ~s("#{live_key}")
-          :error -> whole
-        end
-      end)
-    end)
+    map_hook_expressions(literal, &rename_hook_strings(&1, renames))
   end
 
   defp rewrite_phx_hooks(other, _), do: other
+
+  defp rename_hook_strings(expression, renames) do
+    Regex.replace(~r/"([A-Za-z][A-Za-z0-9]*)"/, expression, fn whole, name ->
+      case Map.fetch(renames, name) do
+        {:ok, live_key} -> ~s("#{live_key}")
+        :error -> whole
+      end
+    end)
+  end
 
   # The Elixir expression of every `phx-hook={…}` in `text`, braces balanced.
   defp hook_expressions(text) do
@@ -863,41 +868,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     if cli_files do
       configs =
         Enum.filter(cli_files, &(Path.extname(&1) in [".eex"]))
-        |> Enum.reduce([], fn item, acc ->
-          content = File.read!(item)
-          content = if base64, do: content |> Base.encode64(), else: content
-          file_name = item |> Path.basename() |> Path.rootname()
-          file_name_type = List.first(String.split(file_name, "_"))
-
-          file_name_type =
-            if file_name_type in ["component", "preset", "template"],
-              do: file_name_type,
-              else: "component"
-
-          {_name, config} =
-            Config.Reader.read!("#{String.replace_suffix(item, ".eex", ".exs")}")
-            |> List.first()
-
-          converted =
-            %{
-              type: file_name_type,
-              name: config[:name],
-              content: content,
-              args:
-                Enum.into(config[:args] || [], %{})
-                |> Map.merge(%{helpers: Enum.into(config[:args][:helpers] || [], %{})}),
-              optional: config[:optional] || [],
-              necessary: config[:necessary] || [],
-              scripts: config[:scripts] || [],
-              # Without these the export -> add round trip drops them silently, producing a
-              # component that installs its JS engine with no package and fails at runtime on
-              # an unresolved bare import.
-              npm: config[:npm] || [],
-              license: config[:license] || []
-            }
-
-          [converted | acc]
-        end)
+        |> Enum.reduce([], &[component_file_config(&1, base64) | &2])
 
       igniter
       |> Igniter.assign(%{cli_configs: configs})
@@ -912,6 +883,41 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       Igniter.add_issue(igniter, msg)
   end
 
+  defp component_file_config(item, base64) do
+    content = item |> File.read!() |> maybe_base64(base64)
+    file_name = item |> Path.basename() |> Path.rootname()
+    file_name_type = List.first(String.split(file_name, "_"))
+
+    file_name_type =
+      if file_name_type in ["component", "preset", "template"],
+        do: file_name_type,
+        else: "component"
+
+    {_name, config} =
+      Config.Reader.read!("#{String.replace_suffix(item, ".eex", ".exs")}")
+      |> List.first()
+
+    %{
+      type: file_name_type,
+      name: config[:name],
+      content: content,
+      args:
+        Enum.into(config[:args] || [], %{})
+        |> Map.merge(%{helpers: Enum.into(config[:args][:helpers] || [], %{})}),
+      optional: config[:optional] || [],
+      necessary: config[:necessary] || [],
+      scripts: config[:scripts] || [],
+      # Without these the export -> add round trip drops them silently, producing a
+      # component that installs its JS engine with no package and fails at runtime on
+      # an unresolved bare import.
+      npm: config[:npm] || [],
+      license: config[:license] || []
+    }
+  end
+
+  defp maybe_base64(content, base64) when base64 in [nil, false], do: content
+  defp maybe_base64(content, _base64), do: Base.encode64(content)
+
   defp create_asset_files_config(igniter, base64) do
     cli_files = Map.get(igniter.assigns, :cli_files, false)
     cli_configs = Map.get(igniter.assigns, :cli_configs, [])
@@ -920,8 +926,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       configs =
         Enum.filter(cli_files, &(Path.extname(&1) in [".js"]))
         |> Enum.reduce([], fn item, acc ->
-          content = File.read!(item)
-          content = if base64, do: content |> Base.encode64(), else: content
+          content = item |> File.read!() |> maybe_base64(base64)
           file_name = item |> Path.basename() |> Path.rootname()
           [%{type: "javascript", name: file_name, content: content} | acc]
         end)
@@ -965,33 +970,24 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   def validate_files(components) do
     Enum.reduce(components, {:ok, []}, fn file, {status, errors} ->
-      ext = Path.extname(file)
-
-      cond do
-        ext not in [".exs", ".eex"] ->
-          {:error, [{"Invalid extension", file} | errors]}
-
-        # The next two patterns are very easy to read. Refactor them when the goal is
-        # not just to reduce code but also to make it simple.
-        ext == ".exs" ->
-          eex_file = Path.rootname(file) <> ".eex"
-
-          if eex_file in components,
-            do: {status, errors},
-            else: {:error, [{".eex missing", eex_file} | errors]}
-
-        ext == ".eex" ->
-          exs_file = Path.rootname(file) <> ".exs"
-
-          if exs_file in components,
-            do: {status, errors},
-            else: {:error, [{".exs missing", exs_file} | errors]}
-
-        true ->
-          {status, errors}
+      case missing_pair(file, components) do
+        :ok -> {status, errors}
+        {:error, error} -> {:error, [error | errors]}
       end
     end)
   end
+
+  # A `.exs` needs its `.eex` beside it and the other way round; any other extension is refused.
+  defp missing_pair(file, components) do
+    case Path.extname(file) do
+      ".exs" -> pair_present(Path.rootname(file) <> ".eex", components, ".eex missing")
+      ".eex" -> pair_present(Path.rootname(file) <> ".exs", components, ".exs missing")
+      _other -> {:error, {"Invalid extension", file}}
+    end
+  end
+
+  defp pair_present(pair, components, message),
+    do: if(pair in components, do: :ok, else: {:error, {message, pair}})
 
   # Walk `<demos_dir>/*_live.html.heex`. For each demo, collect every
   # top-level chelekom invocation, rewrite it to the runtime

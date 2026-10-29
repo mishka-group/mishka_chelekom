@@ -127,28 +127,33 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
     filename = String.replace(topic, "-", "_")
 
     # Check usage-rules/docs/ for library-level documentation
-    docs_filename = Map.get(@local_docs_map, topic)
+    case Map.get(@local_docs_map, topic) do
+      nil -> local_doc_pointer(filename)
+      docs_filename -> local_lib_doc(PathHelper.lib_doc_path(docs_filename), filename)
+    end
+  end
 
-    docs_path =
-      if docs_filename,
-        do: PathHelper.lib_doc_path(docs_filename),
-        else: nil
+  defp local_lib_doc(docs_path, filename) do
+    if File.exists?(docs_path), do: read_lib_doc(docs_path), else: local_doc_pointer(filename)
+  end
 
+  defp read_lib_doc(docs_path) do
+    case File.read(docs_path) do
+      {:ok, content} ->
+        """
+        ## Local Documentation
+
+        #{content}
+        """
+
+      _ ->
+        ""
+    end
+  end
+
+  # usage-rules/components/ and usage-rules/js/, for a component or hook this kit ships
+  defp local_doc_pointer(filename) do
     cond do
-      docs_path && File.exists?(docs_path) ->
-        case File.read(docs_path) do
-          {:ok, content} ->
-            """
-            ## Local Documentation
-
-            #{content}
-            """
-
-          _ ->
-            ""
-        end
-
-      # usage-rules/components/ and usage-rules/js/, for a component or hook this kit ships
       ComponentConfig.known_component?(filename) and
           File.exists?(PathHelper.component_doc_path(filename)) ->
         """

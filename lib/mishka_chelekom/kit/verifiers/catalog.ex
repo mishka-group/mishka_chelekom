@@ -26,14 +26,12 @@ defmodule MishkaChelekom.Kit.Verifiers.Catalog do
     }
 
     with :ok <- no_clashes(customizes, module) do
-      Enum.reduce_while(customizes, :ok, fn c, :ok ->
-        case check_from(c, ns, module) do
-          :ok -> {:cont, :ok}
-          error -> {:halt, error}
-        end
-      end)
+      Enum.reduce_while(customizes, :ok, fn c, :ok -> halt_on_error(check_from(c, ns, module)) end)
     end
   end
+
+  defp halt_on_error(:ok), do: {:cont, :ok}
+  defp halt_on_error(error), do: {:halt, error}
 
   # Only well-formed customizes are checked (the Rules verifier handles mixed/empty ones), and only
   # under the default convention — a custom `components`/`headless` namespace owns its own modules.
@@ -42,15 +40,18 @@ defmodule MishkaChelekom.Kit.Verifiers.Catalog do
     kind = if parts != [], do: :headless, else: :styled
 
     cond do
-      dims == [] and parts == [] -> :ok
-      dims != [] and parts != [] -> :ok
-      # an explicit {Module, :function} tuple is the user's own module — not a catalog component
-      is_tuple(c.from) -> :ok
-      ns[kind] != nil -> :ok
+      not catalog_component?(dims, parts, c.from, ns[kind]) -> :ok
       Catalog.member?(kind, c.from || name) -> :ok
       true -> not_found(c.from || name, name, kind, module)
     end
   end
+
+  # Mixed or empty rules are left to the Rules verifier. An explicit {Module, :function} tuple, or
+  # any `from` under a custom namespace, is the user's own module — not a catalog component.
+  defp catalog_component?([], [], _from, _ns), do: false
+  defp catalog_component?([_ | _], [_ | _], _from, _ns), do: false
+  defp catalog_component?(_dims, _parts, from, _ns) when is_tuple(from), do: false
+  defp catalog_component?(_dims, _parts, _from, ns), do: is_nil(ns)
 
   defp not_found(from, name, kind, module) do
     hint = if m = Catalog.suggest(kind, from), do: ". Did you mean #{inspect(m)}?", else: ""

@@ -214,13 +214,15 @@ defmodule MishkaChelekom.CmsBundle.Npm do
 
   defp candidates(doc, range) do
     (doc["versions"] || %{})
-    |> Enum.flat_map(fn {v, manifest} ->
-      case Version.parse(v) do
-        {:ok, parsed} -> if satisfies?(parsed, range), do: [{v, parsed, manifest}], else: []
-        :error -> []
-      end
-    end)
+    |> Enum.flat_map(&candidate(&1, range))
     |> Enum.sort_by(fn {_v, parsed, _manifest} -> parsed end, {:desc, Version})
+  end
+
+  defp candidate({v, manifest}, range) do
+    case Version.parse(v) do
+      {:ok, parsed} -> if satisfies?(parsed, range), do: [{v, parsed, manifest}], else: []
+      :error -> []
+    end
   end
 
   defp peers_fit?(manifest, target, state) do
@@ -299,12 +301,14 @@ defmodule MishkaChelekom.CmsBundle.Npm do
         alternative
         |> String.replace(~r/(>=|<=|>|<|=)\s+/, "\\1")
         |> String.split(~r/\s+/, trim: true)
-        |> Enum.reduce_while([], fn token, acc ->
-          case comparator(token) do
-            :invalid -> {:halt, :invalid}
-            list -> {:cont, acc ++ list}
-          end
-        end)
+        |> Enum.reduce_while([], &add_comparator/2)
+    end
+  end
+
+  defp add_comparator(token, acc) do
+    case comparator(token) do
+      :invalid -> {:halt, :invalid}
+      list -> {:cont, acc ++ list}
     end
   end
 

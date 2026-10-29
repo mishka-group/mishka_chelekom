@@ -75,16 +75,7 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
 
     hooks_info =
       Enum.map_join(hooks, "\n", fn hook ->
-        # Find which components use this hook
-        using_components =
-          scripts_by_component
-          |> Enum.filter(fn {_comp, scripts} ->
-            Enum.any?(scripts, fn script ->
-              file = script[:file] || script.file
-              String.contains?(file, hook.name)
-            end)
-          end)
-          |> Enum.map(fn {comp, _} -> comp end)
+        using_components = using_components(hook, scripts_by_component)
 
         components_str =
           if using_components == [] do
@@ -124,6 +115,13 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
 
     Use `get_js_hook_info(name: "clipboard")` to get documentation for a specific hook.
     """
+  end
+
+  # The components whose `scripts:` name this hook's file.
+  defp using_components(hook, scripts_by_component) do
+    for {comp, scripts} <- scripts_by_component,
+        Enum.any?(scripts, &String.contains?(&1[:file] || &1.file, hook.name)),
+        do: comp
   end
 
   defp format_hook_doc(name, content) do

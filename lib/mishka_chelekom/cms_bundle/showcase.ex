@@ -201,7 +201,7 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
       {:ok, tokens} ->
         Enum.find_value(tokens, %{}, fn
           {:local_component, "component", attrs, _meta} ->
-            for {name, {:string, value, _}, _} <- attrs, into: %{}, do: {name, value}
+            string_attrs(attrs)
 
           _token ->
             nil
@@ -211,6 +211,9 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
         %{}
     end
   end
+
+  defp string_attrs(attrs),
+    do: for({name, {:string, value, _}, _} <- attrs, into: %{}, do: {name, value})
 
   # A leading underscore marks a file that is ABOUT the showcase rather than part
   # of it — `_schema.json`, which authors validate against. Without this it would

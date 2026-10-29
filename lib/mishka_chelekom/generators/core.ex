@@ -387,26 +387,30 @@ defmodule MishkaChelekom.Generators.Core do
         """)
 
       {:ok, dep} ->
-        version_req =
-          case {is_binary(dep), Regex.run(~r/"([^"]+)"/, dep)} do
-            {true, [_, version]} -> version
-            _ -> nil
-          end
-
-        if version_req && !valid_version?(version_req, @phoenix_min, fn _ -> true end) do
-          Igniter.add_issue(igniter, """
-          Phoenix version requirement #{inspect(version_req)} is not compatible.
-          Mishka Chelekom requires Phoenix #{@phoenix_min} or higher.
-          Please update your Phoenix dependency to "~> 1.8" or higher.
-          """)
-        else
-          igniter
-        end
+        check_phoenix_requirement(igniter, dep)
 
       {:error, _} ->
         igniter
     end
     |> check_tailwind()
+  end
+
+  defp check_phoenix_requirement(igniter, dep) do
+    version_req =
+      case {is_binary(dep), Regex.run(~r/"([^"]+)"/, dep)} do
+        {true, [_, version]} -> version
+        _ -> nil
+      end
+
+    if version_req && !valid_version?(version_req, @phoenix_min, fn _ -> true end) do
+      Igniter.add_issue(igniter, """
+      Phoenix version requirement #{inspect(version_req)} is not compatible.
+      Mishka Chelekom requires Phoenix #{@phoenix_min} or higher.
+      Please update your Phoenix dependency to "~> 1.8" or higher.
+      """)
+    else
+      igniter
+    end
   end
 
   defp check_tailwind(igniter) do

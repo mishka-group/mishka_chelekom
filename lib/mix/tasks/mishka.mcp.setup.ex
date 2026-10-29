@@ -287,30 +287,38 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
       if has_mcp_route?(zipper, mcp_path) do
         {:ok, zipper}
       else
-        # Find the last scope or forward and add after it
-        case find_insertion_point(zipper) do
-          {:ok, zipper} ->
-            # Insert the route code after the current position
-            new_code = Sourceror.parse_string!(route_code)
-
-            {:ok,
-             zipper
-             |> Sourceror.Zipper.insert_right(new_code)
-             |> Sourceror.Zipper.right()}
-
-          :error ->
-            # If no good insertion point, add at the end of the module
-            case Igniter.Code.Common.move_to_do_block(zipper) do
-              {:ok, zipper} ->
-                new_code = Sourceror.parse_string!(route_code)
-                {:ok, Sourceror.Zipper.append_child(zipper, new_code)}
-
-              :error ->
-                {:ok, zipper}
-            end
-        end
+        insert_route(zipper, route_code)
       end
     end)
+  end
+
+  defp insert_route(zipper, route_code) do
+    # Find the last scope or forward and add after it
+    case find_insertion_point(zipper) do
+      {:ok, zipper} ->
+        # Insert the route code after the current position
+        new_code = Sourceror.parse_string!(route_code)
+
+        {:ok,
+         zipper
+         |> Sourceror.Zipper.insert_right(new_code)
+         |> Sourceror.Zipper.right()}
+
+      :error ->
+        # If no good insertion point, add at the end of the module
+        append_route(zipper, route_code)
+    end
+  end
+
+  defp append_route(zipper, route_code) do
+    case Igniter.Code.Common.move_to_do_block(zipper) do
+      {:ok, zipper} ->
+        new_code = Sourceror.parse_string!(route_code)
+        {:ok, Sourceror.Zipper.append_child(zipper, new_code)}
+
+      :error ->
+        {:ok, zipper}
+    end
   end
 
   defp has_mcp_route?(zipper, mcp_path) do

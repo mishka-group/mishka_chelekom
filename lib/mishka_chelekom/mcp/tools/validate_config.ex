@@ -152,26 +152,27 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
     ]
 
     Enum.reduce(list_fields, issues, fn field, acc ->
-      case Keyword.get(config, field) do
-        nil ->
-          acc
-
-        [] ->
-          acc
-
-        list when is_list(list) ->
-          if Enum.all?(list, &is_binary/1) do
-            acc
-          else
-            invalid = list |> Enum.reject(&is_binary/1) |> Enum.map_join(", ", &inspect/1)
-            ["#{field} must contain only strings, invalid values: #{invalid}" | acc]
-          end
-
-        invalid ->
-          ["#{field} must be a list, got: #{inspect(invalid)}" | acc]
-      end
+      list_field_issues(field, Keyword.get(config, field)) ++ acc
     end)
   end
+
+  defp list_field_issues(_field, nil), do: []
+  defp list_field_issues(_field, []), do: []
+
+  defp list_field_issues(field, list) when is_list(list) do
+    case Enum.reject(list, &is_binary/1) do
+      [] ->
+        []
+
+      invalid ->
+        [
+          "#{field} must contain only strings, invalid values: #{Enum.map_join(invalid, ", ", &inspect/1)}"
+        ]
+    end
+  end
+
+  defp list_field_issues(field, invalid),
+    do: ["#{field} must be a list, got: #{inspect(invalid)}"]
 
   defp validate_string_fields(issues, config) do
     string_fields = [:component_prefix, :module_prefix]
@@ -188,7 +189,6 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
   defp format_validation_result(config_path, config, []) do
     overrides_count =
       case Keyword.get(config, :css_overrides) do
-        nil -> 0
         map when is_map(map) -> map_size(map)
         _ -> 0
       end
@@ -206,13 +206,12 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
         :component_padding,
         :component_space
       ]
-      |> Enum.map(fn field ->
+      |> Enum.flat_map(fn field ->
         case Keyword.get(config, field, []) do
-          [] -> nil
-          list -> "#{field}: #{length(list)} values"
+          [] -> []
+          list -> ["#{field}: #{length(list)} values"]
         end
       end)
-      |> Enum.reject(&is_nil/1)
 
     excluded = Keyword.get(config, :exclude_components, [])
 
@@ -230,11 +229,11 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
     |---------|-------|
     | CSS Strategy | #{strategy} |
     | CSS Overrides | #{overrides_count} variables |
-    | Component Prefix | #{if component_prefix, do: "`#{component_prefix}`", else: "(none)"} |
-    | Module Prefix | #{if module_prefix, do: "`#{module_prefix}`", else: "(none)"} |
-    | Excluded Components | #{if excluded == [], do: "(none)", else: "#{length(excluded)} components"} |
+    | Component Prefix | #{code_or_none(component_prefix)} |
+    | Module Prefix | #{code_or_none(module_prefix)} |
+    | Excluded Components | #{excluded_cell(excluded)} |
 
-    #{if filters != [], do: "### Active Filters\n\n#{Enum.map_join(filters, "\n", &"- #{&1}")}", else: ""}
+    #{filters_section(filters)}
 
     ---
 
@@ -297,6 +296,17 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
     ```
     """
   end
+
+  defp code_or_none(value) when value in [nil, false], do: "(none)"
+  defp code_or_none(value), do: "`#{value}`"
+
+  defp excluded_cell([]), do: "(none)"
+  defp excluded_cell(excluded), do: "#{length(excluded)} components"
+
+  defp filters_section([]), do: ""
+
+  defp filters_section(filters),
+    do: "### Active Filters\n\n#{Enum.map_join(filters, "\n", &"- #{&1}")}"
 
   defp format_parse_error(config_path, reason) do
     """

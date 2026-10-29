@@ -111,9 +111,8 @@ defmodule MishkaChelekom.Generators.Npm do
           existing_deps = Map.get(json, deps_key, %{})
 
           formatted =
-            Enum.reduce(parsed_deps, existing_deps, fn {name, version}, acc ->
-              Map.put(acc, name, version)
-            end)
+            existing_deps
+            |> Map.merge(Map.new(parsed_deps))
             |> then(&Map.put(json, deps_key, &1))
             |> Jason.encode!(pretty: true)
             |> Kernel.<>("\n")
@@ -330,20 +329,24 @@ defmodule MishkaChelekom.Generators.Npm do
         {name, version}
 
       dep when is_binary(dep) ->
-        case String.split(dep, "@", parts: 2) do
-          [name] ->
-            {name, "latest"}
-
-          ["", scoped_rest] ->
-            case String.split(scoped_rest, "@", parts: 2) do
-              [scoped_name] -> {"@#{scoped_name}", "latest"}
-              [scoped_name, version] -> {"@#{scoped_name}", version}
-            end
-
-          [name, version] ->
-            {name, version}
-        end
+        parse_dep_string(dep)
     end)
+  end
+
+  # `name`, `name@version`, `@scope/name` or `@scope/name@version`.
+  defp parse_dep_string(dep) do
+    case String.split(dep, "@", parts: 2) do
+      [name] -> {name, "latest"}
+      ["", scoped_rest] -> parse_scoped_dep(scoped_rest)
+      [name, version] -> {name, version}
+    end
+  end
+
+  defp parse_scoped_dep(scoped_rest) do
+    case String.split(scoped_rest, "@", parts: 2) do
+      [scoped_name] -> {"@#{scoped_name}", "latest"}
+      [scoped_name, version] -> {"@#{scoped_name}", version}
+    end
   end
 
   defp manifest_changed?(igniter), do: Igniter.has_changes?(igniter, [@package_json])
@@ -354,23 +357,25 @@ defmodule MishkaChelekom.Generators.Npm do
          {:ok, json} <- Jason.decode(content) do
       existing = Map.get(json, deps_key, %{})
 
-      Enum.reduce(parsed_deps, igniter, fn {name, version}, acc ->
-        case Map.get(existing, name) do
-          nil ->
-            acc
-
-          ^version ->
-            acc
-
-          other ->
-            Igniter.add_warning(acc, """
-            #{name} is already pinned to "#{other}" in #{@package_json}; overwriting with "#{version}".
-            If your project needs "#{other}", pin it again after this generation.
-            """)
-        end
-      end)
+      Enum.reduce(parsed_deps, igniter, &warn_on_version_conflict(&1, &2, existing))
     else
       _ -> igniter
+    end
+  end
+
+  defp warn_on_version_conflict({name, version}, igniter, existing) do
+    case Map.get(existing, name) do
+      nil ->
+        igniter
+
+      ^version ->
+        igniter
+
+      other ->
+        Igniter.add_warning(igniter, """
+        #{name} is already pinned to "#{other}" in #{@package_json}; overwriting with "#{version}".
+        If your project needs "#{other}", pin it again after this generation.
+        """)
     end
   end
 

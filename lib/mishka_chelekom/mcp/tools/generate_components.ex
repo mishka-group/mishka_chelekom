@@ -66,51 +66,26 @@ defmodule MishkaChelekom.MCP.Tools.GenerateComponents do
   end
 
   defp build_command(params) do
-    parts = ["mix mishka.ui.gen.components"]
-
-    # Add components list (if not all)
-    components = params[:components]
-
-    parts =
-      if components && components != "" && components != "all" do
-        parts ++ [components]
-      else
-        parts
-      end
-
-    # Add flags
-    parts = if params[:import], do: parts ++ ["--import"], else: parts
-    parts = if params[:helpers], do: parts ++ ["--helpers"], else: parts
-    parts = if params[:global], do: parts ++ ["--global"], else: parts
-
-    # Add exclude
-    parts =
-      if params[:exclude] && params[:exclude] != "" do
-        parts ++ ["--exclude", params[:exclude]]
-      else
-        parts
-      end
-
-    # Add prefixes
-    parts =
-      if params[:module_prefix] && params[:module_prefix] != "" do
-        parts ++ ["--module-prefix", params[:module_prefix]]
-      else
-        parts
-      end
-
-    parts =
-      if params[:component_prefix] && params[:component_prefix] != "" do
-        parts ++ ["--component-prefix", params[:component_prefix]]
-      else
-        parts
-      end
-
-    # Always add --yes for non-interactive
-    parts = parts ++ ["--yes"]
-
-    Enum.join(parts, " ")
+    # The components (when not all), the flags and the options given, then --yes for a
+    # non-interactive run.
+    (["mix mishka.ui.gen.components"] ++
+       option(nil, if(params[:components] != "all", do: params[:components])) ++
+       flag(params[:import], "--import") ++
+       flag(params[:helpers], "--helpers") ++
+       flag(params[:global], "--global") ++
+       option("--exclude", params[:exclude]) ++
+       option("--module-prefix", params[:module_prefix]) ++
+       option("--component-prefix", params[:component_prefix]) ++
+       ["--yes"])
+    |> Enum.join(" ")
   end
+
+  defp flag(value, _flag) when value in [nil, false], do: []
+  defp flag(_value, flag), do: [flag]
+
+  defp option(_name, value) when value in [nil, false, ""], do: []
+  defp option(nil, value), do: [value]
+  defp option(name, value), do: [name, value]
 
   defp get_components_list(params) do
     components = params[:components]
