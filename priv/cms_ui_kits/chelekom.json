@@ -145786,7 +145786,7 @@
         ],
         "function": "timeline",
         "furnishing": {
-          "body": "<.component component_name=\"chelekom-timeline-section\" site=\"Global\" title=\"Order placed\" time=\"12 March, 09:14\" description=\"We received your order and reserved every item in the warehouse.\" />\n<.component component_name=\"chelekom-timeline-section\" site=\"Global\" title=\"Packed and labelled\" time=\"12 March, 16:02\" description=\"Your parcel left the packing bench and is waiting for the evening collection.\" />\n<.component component_name=\"chelekom-timeline-section\" site=\"Global\" title=\"Out for delivery\" time=\"13 March, 07:45\" description=\"The courier is on the route and you will get a text two stops before arrival.\" />",
+          "body": "<.component component_name=\"chelekom-timeline-section\" site=\"Global\" title=\"Plan\" time=\"Week 1\" description=\"Agree on the goal, the scope and who does what.\" />\n<.component component_name=\"chelekom-timeline-section\" site=\"Global\" title=\"Build\" time=\"Week 2\" description=\"Make a first version and share it for feedback.\" />\n<.component component_name=\"chelekom-timeline-section\" site=\"Global\" title=\"Launch\" time=\"Week 4\" description=\"Publish the finished version and let people know it is ready.\" />",
           "slots": []
         },
         "module_attributes": [],

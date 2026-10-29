@@ -81,6 +81,37 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
     assert lazy == [], "these labels only repeat the component name: #{inspect(lazy)}"
   end
 
+  # WHAT LANDS ON A DROP IS ANY PAGE'S. An example is browsed and picked; a furnishing is what a page
+  # gets the moment a component is dragged onto it, before the author has chosen anything, so it has
+  # to read as a placeholder any page could keep. The timeline's three steps were a parcel's journey,
+  # "Order placed" to "Out for delivery", on every page a timeline was dropped onto.
+  test "a timeline dropped on a page holds steps any page could use" do
+    body = entry("priv/showcase/chelekom-timeline.json")["furnishing"]["body"]
+
+    for word <- ~w(order parcel courier delivery warehouse) do
+      refute body =~ ~r/\b#{word}/i, "the timeline's drop default mentions #{inspect(word)}"
+    end
+  end
+
+  # AND THE SHIPPED KIT DROPS WHAT THE FILE SAYS. The bundle in `priv/cms_ui_kits/` is what a CMS
+  # installs, and it is regenerated from these files by an export; a furnishing edited here and not
+  # carried into the bundle is a fix no CMS ever sees.
+  test "the shipped kit drops the timeline's showcase furnishing" do
+    [shipped] =
+      for component <-
+            "priv/cms_ui_kits/chelekom.json"
+            |> File.read!()
+            |> Jason.decode!()
+            |> Map.fetch!("components"),
+          component["name"] == "chelekom-timeline",
+          do: component
+
+    [overlaid] =
+      Showcase.overlay([%{"name" => "chelekom-timeline", "extra" => %{}}], "priv/showcase")
+
+    assert shipped["extra"]["furnishing"] == overlaid["extra"]["furnishing"]
+  end
+
   # THE GAP THIS CORPUS ACTUALLY DEVELOPS: a component is added and its showcase file is not.
   test "every component in the catalogue has a showcase file" do
     documented = MapSet.new(@showcase, &(&1 |> Path.basename(".json")))
