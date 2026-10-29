@@ -667,7 +667,11 @@ defmodule <%= @module %> do
     )
     |> transition_show("##{id}-container")
     |> JS.add_class("overflow-hidden", to: "body")
-    |> JS.focus_first(to: "##{id}-content")
+    # `hide_modal/2` pops this to give focus back. `:focus` rather than the default source
+    # element, because opened through `data-pb-open` or `phx-mounted` the source is the modal.
+    |> JS.push_focus(to: ":focus")
+    # The focus wrap holds the close button, so there is always something here to focus.
+    |> JS.focus_first(to: "##{id}-container")
   end
 
   def hide_modal(js \\ %JS{}, id) do
