@@ -87,6 +87,8 @@ defmodule Development.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "assets.setup", "assets.build"],
+      # This app's `.credo.exs` alone, not the library's at the repository root (see the file).
+      credo: "credo --config-file .credo.exs",
       "assets.setup": [
         "mishka.assets.install",
         "tailwind.install --if-missing",
