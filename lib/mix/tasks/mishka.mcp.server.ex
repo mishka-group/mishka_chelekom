@@ -18,6 +18,9 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
 
   * `--transport` or `-t` - Transport to use: `http` (default) or `stdio`
   * `--port` or `-p` - HTTP port to listen on (default: 4003, http transport only)
+  * `--ip` - address to listen on (default: `127.0.0.1`, this machine only; http transport only).
+    `--ip 0.0.0.0` accepts connections from other machines — the server has no authentication,
+    so only on a network you trust.
 
   ## Transports
 
@@ -28,6 +31,7 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
 
       mix mishka.mcp.server
       mix mishka.mcp.server --port 5000
+      mix mishka.mcp.server --ip 0.0.0.0
 
   ### Stdio
 
@@ -113,7 +117,7 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
   @impl Mix.Task
   def run(args) do
     case parse_args(args) do
-      {:ok, {:http, port}} -> run_http(port: port)
+      {:ok, {:http, opts}} -> run_http(opts)
       {:ok, :stdio} -> run_stdio()
       {:error, msg} -> Mix.raise(msg)
     end
@@ -123,28 +127,41 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
   Parses task argv into a transport selection.
 
   Returns:
-    * `{:ok, {:http, port}}` — default, HTTP transport on `port` (default 4003)
+    * `{:ok, {:http, [port: port, ip: ip]}}` — default, HTTP transport on `port` (default 4003)
+      and `ip` (default `{127, 0, 0, 1}`)
     * `{:ok, :stdio}` — stdio transport
-    * `{:error, message}` — unknown `--transport` value
+    * `{:error, message}` — unknown `--transport` value, or an `--ip` that is not an address
 
   Public so it can be unit-tested without running the (blocking) task.
   """
   def parse_args(args) do
     {opts, _, _} =
       OptionParser.parse(args,
-        strict: [port: :integer, transport: :string],
+        strict: [port: :integer, transport: :string, ip: :string],
         aliases: [p: :port, t: :transport]
       )
 
     case Keyword.get(opts, :transport, "http") do
       "http" ->
-        {:ok, {:http, Keyword.get(opts, :port, 4003)}}
+        with {:ok, ip} <- parse_ip(Keyword.get(opts, :ip, "127.0.0.1")) do
+          {:ok, {:http, [port: Keyword.get(opts, :port, 4003), ip: ip]}}
+        end
 
       "stdio" ->
         {:ok, :stdio}
 
       other ->
         {:error, "Unknown --transport #{inspect(other)}. Expected one of: http, stdio"}
+    end
+  end
+
+  defp parse_ip(ip) do
+    case :inet.parse_address(String.to_charlist(ip)) do
+      {:ok, address} ->
+        {:ok, address}
+
+      {:error, :einval} ->
+        {:error, "Invalid --ip #{inspect(ip)}. Expected an address such as 127.0.0.1"}
     end
   end
 
@@ -182,7 +199,7 @@ defmodule Mix.Tasks.Mishka.Mcp.Server do
 
     # Standalone HTTP needs its own Bandit listener — the Application only
     # starts the MCP server process + streamable_http transport handler.
-    {:ok, _pid} = MishkaChelekom.MCP.Supervisor.start_link(port: port)
+    {:ok, _pid} = MishkaChelekom.MCP.Supervisor.start_link(opts)
 
     Mix.shell().info("MCP Server started successfully on port #{port}")
 

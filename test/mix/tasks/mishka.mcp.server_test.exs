@@ -41,6 +41,24 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
       Supervisor.stop(pid, :normal, 1000)
     end
 
+    test "listens on loopback unless told otherwise", %{port: port} do
+      {:ok, pid} = MCPSupervisor.start_link(port: port)
+      [{_id, listener, _type, _modules}] = Supervisor.which_children(pid)
+
+      assert {:ok, {{127, 0, 0, 1}, ^port}} = ThousandIsland.listener_info(listener)
+
+      Supervisor.stop(pid, :normal, 1000)
+    end
+
+    test "listens on the address it is given", %{port: port} do
+      {:ok, pid} = MCPSupervisor.start_link(port: port, ip: {0, 0, 0, 0})
+      [{_id, listener, _type, _modules}] = Supervisor.which_children(pid)
+
+      assert {:ok, {{0, 0, 0, 0}, ^port}} = ThousandIsland.listener_info(listener)
+
+      Supervisor.stop(pid, :normal, 1000)
+    end
+
     test "HTTP server responds on root endpoint", %{port: port} do
       {:ok, pid} = MCPSupervisor.start_link(port: port)
 
@@ -183,18 +201,22 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
     alias Mix.Tasks.Mishka.Mcp.Server, as: ServerTask
 
     test "defaults to http on port 4003 when no args" do
-      assert {:ok, {:http, 4003}} = ServerTask.parse_args([])
+      assert {:ok, {:http, [port: 4003, ip: {127, 0, 0, 1}]}} = ServerTask.parse_args([])
     end
 
     test "--port overrides default http port" do
-      assert {:ok, {:http, 5000}} = ServerTask.parse_args(["--port", "5000"])
-      assert {:ok, {:http, 5000}} = ServerTask.parse_args(["-p", "5000"])
+      assert {:ok, {:http, [port: 5000, ip: {127, 0, 0, 1}]}} =
+               ServerTask.parse_args(["--port", "5000"])
+
+      assert {:ok, {:http, [port: 5000, ip: {127, 0, 0, 1}]}} =
+               ServerTask.parse_args(["-p", "5000"])
     end
 
     test "--transport http is equivalent to default" do
-      assert {:ok, {:http, 4003}} = ServerTask.parse_args(["--transport", "http"])
+      assert {:ok, {:http, [port: 4003, ip: {127, 0, 0, 1}]}} =
+               ServerTask.parse_args(["--transport", "http"])
 
-      assert {:ok, {:http, 5000}} =
+      assert {:ok, {:http, [port: 5000, ip: {127, 0, 0, 1}]}} =
                ServerTask.parse_args(["--transport", "http", "--port", "5000"])
     end
 
@@ -206,6 +228,17 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
     test "--port is ignored under stdio (stdio has no port)" do
       # Not strictly enforced — but the parser must still return :stdio
       assert {:ok, :stdio} = ServerTask.parse_args(["--transport", "stdio", "--port", "9999"])
+    end
+
+    test "--ip overrides the loopback default, and a bad one is an error" do
+      assert {:ok, {:http, [port: 4003, ip: {0, 0, 0, 0}]}} =
+               ServerTask.parse_args(["--ip", "0.0.0.0"])
+
+      assert {:ok, {:http, [port: 4003, ip: {0, 0, 0, 0, 0, 0, 0, 1}]}} =
+               ServerTask.parse_args(["--ip", "::1"])
+
+      assert {:error, msg} = ServerTask.parse_args(["--ip", "not-an-address"])
+      assert msg =~ "Invalid --ip"
     end
 
     test "unknown transport returns an error" do
