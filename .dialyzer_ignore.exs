@@ -7,15 +7,15 @@
   {"lib/mishka_chelekom/cms_bundle/attr_values.ex", :call_with_opaque, 408},
   {"lib/mishka_chelekom/cms_bundle/attr_values.ex", :call_without_opaque, 162},
   {"lib/mishka_chelekom/cms_bundle/attr_values.ex", :call_without_opaque, 406},
-  {"test/support/runtime/demo_harness.ex", :call_without_opaque, 195},
+  {"test/support/runtime/demo_harness.ex", :call_without_opaque, 196},
 
   # Logger documents `:none` for `Logger.configure(level: ...)`, but its `configure_opts` type lists
   # only the severities. The stdio MCP server silences Logger with it, so dialyzer calls the call
   # one that cannot succeed and `run_stdio/0` "without a local return".
-  {"lib/mix/tasks/mishka.mcp.server.ex", :call, 198},
-  {"lib/mix/tasks/mishka.mcp.server.ex", :no_return, 192},
+  {"lib/mix/tasks/mishka.mcp.server.ex", :call, 215},
+  {"lib/mix/tasks/mishka.mcp.server.ex", :no_return, 209},
 
   # A last clause that matches anything, after clauses the current callers already cover. Kept on
   # purpose, as in the MishkaCmsCore compiler this test copy mirrors.
-  {"test/support/runtime/component_compiler.ex", :pattern_match_cov, 1098}
+  {"test/support/runtime/component_compiler.ex", :pattern_match_cov, 1125}
 ]
