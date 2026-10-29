@@ -13,6 +13,10 @@ defmodule MishkaChelekom.SidebarFocusTest do
   `phx-click-away` closes the sidebar on every click outside it, open or closed, so the commands
   that move focus run only for the sidebar that is actually opening or closing, and closing gives
   focus back only when focus is inside the sidebar: a click outside has already put it elsewhere.
+
+  The focus stack is shared by every dialog on the page, and a pop always moves focus, so a sidebar
+  that closes with focus elsewhere could not take an entry off it. The sidebar remembers its opener
+  without the stack, and the stack is the same after any open and close.
   """
   use ExUnit.Case, async: true
 
@@ -137,24 +141,75 @@ defmodule MishkaChelekom.SidebarFocusTest do
     MapSet.new(attrs ++ for(class <- classes(root), do: ".#{class}"))
   end
 
-  # Runs `commands` from `state` the way the browser does for what decides the focus stack: the
-  # attributes and classes they set on the root, and the gates they are run under. `:focus-within`
-  # is in the state while focus is inside the sidebar. Returns the state after them and the focus
-  # commands that ran, in order.
-  defp run(commands, state) do
+  # The rest of the page the commands change: the element that has focus ("opener", the control
+  # that opened the sidebar, "inside", one in the sidebar, "elsewhere", or `nil` when nothing has
+  # focus, as after a page load or in Safari after a click on a button), the attributes set on
+  # elements other than the root, and the focus stack every dialog shares, top first.
+  @page %{focus: "opener", attrs: %{}, stack: []}
+
+  @focus_kinds ["push_focus", "pop_focus", "focus", "focus_first"]
+
+  # Runs `commands` from `state` and `page` the way the browser does for what decides where focus
+  # goes: the attributes and classes they set on the root and on other elements, the gates they
+  # are run under, and the focus commands. The root is `:focus-within` while focus is "inside".
+  # Returns the root's state, without `:focus-within`, and the page after them.
+  defp play(commands, state, page) do
     target = "##{@id}"
 
-    {state, ran} =
-      Enum.reduce(commands, {state, []}, fn {kind, args, gate}, {state, ran} ->
+    {state, page} =
+      Enum.reduce(commands, {state, page}, fn {kind, args, gate}, {state, page} ->
+        state = within(state, page.focus == "inside")
+
         cond do
-          not gate?(gate, state) -> {state, ran}
-          kind in ["push_focus", "focus_first", "pop_focus"] -> {state, [kind | ran]}
-          args["to"] == target -> {change(state, kind, args), ran}
-          true -> {state, ran}
+          not gate?(gate, state) -> {state, page}
+          kind in @focus_kinds -> {state, focus(page, kind, args)}
+          args["to"] == target -> {change(state, kind, args), page}
+          kind in ["set_attr", "remove_attr"] -> {state, attribute(page, kind, args)}
+          true -> {state, page}
         end
       end)
 
-    {state, Enum.reverse(ran)}
+    {within(state, false), page}
+  end
+
+  defp within(state, true), do: MapSet.put(state, ":focus-within")
+  defp within(state, false), do: MapSet.delete(state, ":focus-within")
+
+  # A push adds what its `to:` matches and a pop takes the top entry and focuses it; a focus moves
+  # focus to what its `to:` matches, if anything, and a focus-first into the sidebar.
+  defp focus(page, "push_focus", %{"to" => to}),
+    do: %{page | stack: elements(to, page) ++ page.stack}
+
+  defp focus(%{stack: [top | stack]} = page, "pop_focus", _args),
+    do: %{page | stack: stack, focus: top}
+
+  defp focus(page, "pop_focus", _args), do: page
+  defp focus(page, "focus_first", %{"to" => "#" <> @id}), do: %{page | focus: "inside"}
+
+  defp focus(page, "focus", %{"to" => to}) do
+    case elements(to, page) do
+      [element] -> %{page | focus: element}
+      [] -> page
+    end
+  end
+
+  defp attribute(page, "set_attr", %{"attr" => [name, value], "to" => to}) do
+    set = Map.new(elements(to, page), &{&1, Map.put(Map.get(page.attrs, &1, %{}), name, value)})
+    %{page | attrs: Map.merge(page.attrs, set)}
+  end
+
+  defp attribute(page, "remove_attr", %{"attr" => name, "to" => to}) do
+    removed = Map.new(elements(to, page), &{&1, Map.delete(page.attrs[&1], name)})
+    %{page | attrs: Map.merge(page.attrs, removed)}
+  end
+
+  # The elements other than the root a `to:` matches: `:focus` the one that has focus, and
+  # `[name="value"]` those with that attribute. Any other selector fails the test.
+  defp elements(":focus", page), do: List.wrap(page.focus)
+
+  defp elements(selector, page) do
+    assert [_match, name, value] = Regex.run(~r/^\[([\w-]+)="([^"]*)"\]$/, selector)
+    for {element, attrs} <- page.attrs, attrs[name] == value, do: element
   end
 
   defp change(state, "set_attr", %{"attr" => [name, _value]}), do: MapSet.put(state, "[#{name}]")
@@ -183,10 +238,6 @@ defmodule MishkaChelekom.SidebarFocusTest do
     end)
   end
 
-  defp position(commands, fun), do: Enum.find_index(commands, fun)
-
-  defp kind?(kind), do: &match?({^kind, _args, _gate}, &1)
-
   test "every element the open and close commands name is in the rendered sidebar", context do
     %{html: html, show: show, hide: hide} = context
 
@@ -210,9 +261,9 @@ defmodule MishkaChelekom.SidebarFocusTest do
     assert "md:translate-x-0" in classes(root)
     assert hidden in classes(root)
 
-    {open, _focus} = run(show, closed)
+    {open, _page} = play(show, closed, @page)
     assert MapSet.member?(open, ".translate-none")
-    refute run(hide, open) |> elem(0) |> MapSet.member?(".translate-none")
+    refute play(hide, open, @page) |> elem(0) |> MapSet.member?(".translate-none")
 
     # It is hidden only once it has slid out, not before.
     [transition] = for "transition-[" <> _rest = class <- classes(root), do: class
@@ -237,30 +288,67 @@ defmodule MishkaChelekom.SidebarFocusTest do
   end
 
   test "opening remembers the focused element and closing returns focus to it", context do
-    %{show: show, hide: hide} = context
-
-    assert {"push_focus", %{"to" => ":focus"}, _gate} = Enum.find(show, kind?("push_focus"))
-    assert position(show, kind?("push_focus")) < position(show, kind?("focus_first"))
-    assert Enum.any?(hide, kind?("pop_focus"))
-  end
-
-  test "closing a sidebar that is not open leaves the focus stack alone", context do
-    %{closed: closed, hide: hide} = context
-
-    assert {^closed, []} = run(hide, closed)
-    assert {_closed, []} = run(hide, MapSet.put(closed, ":focus-within"))
-  end
-
-  test "only a real open, and a close with focus inside, touch the focus stack", context do
     %{closed: closed, show: show, hide: hide} = context
 
-    assert {open, ["push_focus", "focus_first"]} = run(show, closed)
-    assert {^open, []} = run(show, open)
+    {open, page} = play(show, closed, @page)
+    assert page.focus == "inside"
 
-    assert {^closed, []} = run(hide, open)
+    assert {^closed, %{focus: "opener"} = page} = play(hide, open, page)
+    assert Enum.all?(page.attrs, fn {_element, attrs} -> attrs == %{} end)
+  end
 
-    focused = MapSet.put(open, ":focus-within")
-    assert {after_close, ["pop_focus"]} = run(hide, focused)
-    assert MapSet.delete(after_close, ":focus-within") == closed
+  test "a click outside that put focus elsewhere keeps it there", context do
+    %{closed: closed, show: show, hide: hide} = context
+
+    {open, page} = play(show, closed, @page)
+
+    assert {^closed, %{focus: "elsewhere"} = page} =
+             play(hide, open, %{page | focus: "elsewhere"})
+
+    assert Enum.all?(page.attrs, fn {_element, attrs} -> attrs == %{} end)
+  end
+
+  test "a sidebar opened with nothing focused moves no focus when it closes", context do
+    %{closed: closed, show: show, hide: hide} = context
+
+    {open, page} = play(show, closed, %{@page | focus: nil})
+    assert page.attrs == %{}
+    assert {^closed, %{focus: "inside"}} = play(hide, open, page)
+  end
+
+  test "a sidebar closed by a click outside leaves no entry on the focus stack", context do
+    %{closed: closed, show: show, hide: hide} = context
+
+    # Another dialog is open and has pushed its opener.
+    {open, page} = play(show, closed, %{@page | stack: ["other-opener"]})
+    {_closed, page} = play(hide, open, %{page | focus: "elsewhere"})
+
+    assert page.stack == ["other-opener"]
+  end
+
+  test "a sidebar opened with nothing focused does not close with another dialog's entry",
+       context do
+    %{closed: closed, show: show, hide: hide} = context
+
+    # Another dialog is open and has pushed its opener; focus is on nothing.
+    {open, page} = play(show, closed, %{@page | focus: nil, stack: ["other-opener"]})
+    {_closed, page} = play(hide, open, page)
+
+    assert page.stack == ["other-opener"]
+    refute page.focus == "other-opener"
+  end
+
+  test "only a real open, and a close with focus inside, move focus", context do
+    %{closed: closed, show: show, hide: hide} = context
+
+    {open, page} = play(show, closed, @page)
+
+    # Opened again, it marks nothing inside it as the opener and keeps focus where it is.
+    assert {^open, ^page} = play(show, open, page)
+
+    # A sidebar that is not open: from `md` up it is in view and can have focus inside.
+    for focused <- ["inside", "elsewhere"] do
+      assert {^closed, %{focus: ^focused}} = play(hide, closed, %{@page | focus: focused})
+    end
   end
 end
