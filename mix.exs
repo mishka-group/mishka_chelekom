@@ -54,12 +54,13 @@ defmodule MishkaChelekom.MixProject do
       "mcp.server": ["mishka.mcp.server"],
       "mcp.setup": ["mishka.mcp.setup"],
       ci: [
+        # First: after `compile`, Mix prunes the code path and the Hex archive's task can no longer be found.
+        "hex.audit",
         "compile --warnings-as-errors",
         "format --check-formatted",
         "credo --strict",
         "sobelow --config",
         "deps.audit",
-        "hex.audit",
         "dialyzer",
         "ex_dna --max-clones 0",
         "test"
