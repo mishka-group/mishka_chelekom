@@ -63,6 +63,8 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
 
   use Igniter.Mix.Task
 
+  alias MishkaChelekom.Generators.Core
+
   @example "mix mishka.mcp.setup"
   @shortdoc "Set up MCP server in your Phoenix router"
 
@@ -97,7 +99,7 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
     options = igniter.args.options
 
     if Mix.env() != :test,
-      do: MishkaChelekom.Generators.Core.banner(IO.ANSI.light_magenta(), "MCP Setup")
+      do: Core.banner(IO.ANSI.light_magenta(), "MCP Setup")
 
     tty? = IO.ANSI.enabled?()
     spin? = Mix.env() != :test and tty?
@@ -110,13 +112,7 @@ defmodule Mix.Tasks.Mishka.Mcp.Setup do
         setup_http(igniter, options)
       end
 
-    if spin? do
-      if Map.get(final, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    final
+    Core.stop_spinner(final, spin?)
   end
 
   defp setup_stdio(igniter) do

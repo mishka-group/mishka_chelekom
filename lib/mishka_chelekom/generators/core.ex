@@ -346,6 +346,21 @@ defmodule MishkaChelekom.Generators.Core do
     IO.puts(color <> art <> IO.ANSI.reset())
   end
 
+  @doc """
+  Stops the "Please wait..." spinner a task started when `spin?` is true: with "Done", or with
+  "Error" when `igniter` carries issues. Returns `igniter`, so a task ends with it.
+  """
+  @spec stop_spinner(Igniter.t(), boolean()) :: Igniter.t()
+  def stop_spinner(igniter, spin?) do
+    if spin? do
+      if Map.get(igniter, :issues, []) == [],
+        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
+        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
+    end
+
+    igniter
+  end
+
   # Center under the widest art line ("Mishka.tools"), anchoring on THAT line's own column span
   # (it is itself indented) rather than column 0 — otherwise longer subtitles drift left.
   defp center_subtitle(art, subtitle) do

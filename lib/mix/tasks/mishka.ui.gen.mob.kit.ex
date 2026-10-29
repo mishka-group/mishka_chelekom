@@ -63,13 +63,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Kit do
       |> assign_requested_modules()
       |> write_kit_modules()
 
-    if spin? do
-      if Map.get(final, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    final
+    Core.stop_spinner(final, spin?)
   end
 
   defp assign_requested_modules(igniter) do

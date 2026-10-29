@@ -275,13 +275,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
           |> create_json_file(name, org)
       end
 
-    if !options[:test] and tty? do
-      if Map.get(final_igniter, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    final_igniter
+    Core.stop_spinner(final_igniter, !options[:test] and tty?)
   end
 
   # --cms output (mishka.ui_kit.bundle.v3)

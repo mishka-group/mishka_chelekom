@@ -1,6 +1,7 @@
 defmodule Mix.Tasks.Mishka.Ui.Css.Config do
   use Igniter.Mix.Task
   alias MishkaChelekom.Config
+  alias MishkaChelekom.Generators.Core
 
   @example "mix mishka.ui.css.config --init"
   @shortdoc "Manages CSS configuration for Mishka Chelekom components"
@@ -72,7 +73,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
     options = igniter.args.options
 
     if Mix.env() != :test,
-      do: MishkaChelekom.Generators.Core.banner(IO.ANSI.light_cyan(), "CSS Config")
+      do: Core.banner(IO.ANSI.light_cyan(), "CSS Config")
 
     tty? = IO.ANSI.enabled?()
     spin? = Mix.env() != :test and tty?
@@ -107,13 +108,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
           """)
       end
 
-    if spin? do
-      if Map.get(final, :issues, []) == [],
-        do: Owl.Spinner.stop(id: :my_spinner, resolution: :ok, label: "Done"),
-        else: Owl.Spinner.stop(id: :my_spinner, resolution: :error, label: "Error")
-    end
-
-    final
+    Core.stop_spinner(final, spin?)
   end
 
   defp init_config(igniter) do
