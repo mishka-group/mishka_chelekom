@@ -94,11 +94,56 @@ const Sidebar = {
     });
   },
 
+  // Adds width to the transitions the sidebar's classes give it. An inline `transition` would
+  // replace them, and after the first toggle the slide and the visibility change of opening and
+  // closing would happen at once. Each list is repeated to the length of the property list, as
+  // CSS repeats it, and width's values are added at the end.
+  addWidthTransition(sidebar) {
+    const style = getComputedStyle(sidebar);
+    const properties = this.splitList(style.transitionProperty).filter(
+      (property) => property !== "none",
+    );
+    if (properties.includes("width") || properties.includes("all")) return;
+
+    const width = {
+      transitionDuration: this.defaults.transitionDuration,
+      transitionTimingFunction: "ease",
+      transitionDelay: "0s",
+      transitionBehavior: "normal",
+    };
+
+    for (const [longhand, value] of Object.entries(width)) {
+      const list = this.splitList(style[longhand]);
+      const repeated = properties.map((_property, i) => list[i % list.length] || value);
+      sidebar.style[longhand] = [...repeated, value].join(", ");
+    }
+    sidebar.style.transitionProperty = [...properties, "width"].join(", ");
+  },
+
+  // A computed list split at its own commas, not at those inside `cubic-bezier(...)`.
+  splitList(value) {
+    const items = [];
+    let depth = 0;
+    let item = "";
+    for (const char of value || "") {
+      if (char === "(") depth++;
+      if (char === ")") depth--;
+      if (char === "," && depth === 0) {
+        items.push(item.trim());
+        item = "";
+      } else {
+        item += char;
+      }
+    }
+    if (item.trim()) items.push(item.trim());
+    return items;
+  },
+
   Sidebar(elements, config) {
     const { sidebar, labels } = elements;
     const { expandedWidth, collapsedWidth, isMinimized } = config;
 
-    sidebar.style.transition = `width ${this.defaults.transitionDuration} ease`;
+    this.addWidthTransition(sidebar);
 
     if (isMinimized) {
       this.expandSidebar(sidebar, labels, expandedWidth);
