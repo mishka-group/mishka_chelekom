@@ -306,32 +306,16 @@ defmodule MishkaChelekom.KitTest do
 
   describe "customize styled — pinning your OWN axis is rejected" do
     test "a `color` rule with a `color:` partner is rejected at compile time" do
-      # The Spark verifier raises a DslError during compilation; Code.eval_string surfaces it as a
-      # compiler diagnostic, so capture it that way (a real `.ex` file hard-fails to compile).
-      # Spark also prints it as a warning, which `mix test --warnings-as-errors` counts against
-      # the whole suite, so stderr is captured too — and holds the same message.
-      stderr =
-        ExUnit.CaptureIO.capture_io(:stderr, fn ->
-          {_, diagnostics} =
-            Code.with_diagnostics(fn ->
-              try do
-                Code.eval_string("""
-                defmodule BadOwnAxisKit#{System.unique_integer([:positive])} do
-                  use MishkaChelekom.Kit
-                  customize :x do
-                    from :button
-                    color :brand, "bg-x!", color: :danger
-                  end
-                end
-                """)
-              rescue
-                _ -> :ok
-              end
-            end)
+      # The Spark verifier raises a DslError during compilation, which surfaces as a compiler
+      # diagnostic (a real `.ex` file hard-fails to compile). Spark also prints it as a warning,
+      # which `mix test --warnings-as-errors` counts against the whole suite, so stderr is
+      # captured too — and holds the same message.
+      {message, stderr} =
+        compile_output(
+          ~s|customize :x do\n  from :button\n  color :brand, "bg-x!", color: :danger\nend|
+        )
 
-          assert Enum.any?(diagnostics, &(to_string(&1.message) =~ "OWN axis"))
-        end)
-
+      assert message =~ "OWN axis"
       assert stderr =~ "OWN axis"
     end
   end
@@ -385,7 +369,8 @@ defmodule MishkaChelekom.KitTest do
 
   describe "customize — `from` resolution" do
     test "from defaults to the name (customize :button → Components.Button)" do
-      assert function_exported?(Kit, :button, 1)
+      out = html(&Page.show_button/1, %{variant: "base", color: "base"})
+      assert out =~ ~s|<button class="btn v-base c-base"|
     end
 
     test "a renamed customize delegates to `from` but is callable under its own name" do
@@ -482,16 +467,20 @@ defmodule MishkaChelekom.KitTest do
     end
 
     test "the catalog check is skipped when a custom namespace is set (NsKit compiled fine)" do
-      assert function_exported?(NsKit, :tag, 1)
+      out = html(&Page.show_tag/1, %{})
+      assert out =~ ~s|<span class="tag t-neutral bg-brand!"|
     end
   end
 
-  defp compile_error(body) do
+  defp compile_error(body), do: body |> compile_output() |> elem(0)
+
+  # The compiler diagnostics `body` produces inside a kit module, and what it printed to stderr.
+  defp compile_output(body) do
     code =
       "defmodule MishkaChelekom.KitTest.Bad#{:erlang.unique_integer([:positive])} do\n" <>
         "  use MishkaChelekom.Kit\n  #{body}\nend"
 
-    {{_, diagnostics}, _stderr} =
+    {{_, diagnostics}, stderr} =
       ExUnit.CaptureIO.with_io(:stderr, fn ->
         Code.with_diagnostics(fn ->
           try do
@@ -502,9 +491,12 @@ defmodule MishkaChelekom.KitTest do
         end)
       end)
 
-    diagnostics
-    |> Enum.map(& &1.message)
-    |> Enum.filter(&is_binary/1)
-    |> Enum.join("\n")
+    messages =
+      diagnostics
+      |> Enum.map(& &1.message)
+      |> Enum.filter(&is_binary/1)
+      |> Enum.join("\n")
+
+    {messages, stderr}
   end
 end

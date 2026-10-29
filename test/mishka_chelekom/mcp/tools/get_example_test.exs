@@ -10,7 +10,7 @@ defmodule MishkaChelekom.MCP.Tools.GetExampleTest do
       schema = GetExample.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+      assert Map.keys(schema["properties"]) == ["name"]
       assert "name" in schema["required"]
     end
   end

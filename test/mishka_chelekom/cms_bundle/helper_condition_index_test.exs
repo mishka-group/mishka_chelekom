@@ -153,7 +153,6 @@ defmodule MishkaChelekom.CmsBundle.Discriminators.IndexTest do
 
   test "tokenization failure returns empty index, not raise" do
     # Unterminated `<%=` — EEx tokenizer rejects it.
-    assert Index.build_index("<%= if x do %>\ndefp f(_), do: nil") == %{} or
-             is_map(Index.build_index("<%= if x do %>\ndefp f(_), do: nil"))
+    assert Index.build_index("defp f(_), do: nil\n<%= if x do") == %{}
   end
 end

@@ -24,8 +24,7 @@ defmodule MishkaChelekom.MCP.Resources.GetConfigTest do
 
       {:reply, response, _frame} = GetConfig.read(%{}, frame)
 
-      assert response.contents != nil
-      text = response.contents["text"]
+      assert %{"text" => text} = response.contents
 
       # Should indicate no config found
       assert text =~ "No configuration file found"

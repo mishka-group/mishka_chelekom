@@ -9,6 +9,9 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
   """
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.Generators.Core
+  alias MishkaChelekom.MCP.ComponentConfig
+
   @catalogs Path.wildcard("priv/{components,headless}/*.exs")
   @templates Path.wildcard("priv/{components,headless}/*.eex")
   @engines Path.wildcard("priv/assets/js/*.js") |> Enum.map(&Path.basename/1)
@@ -49,10 +52,18 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
   end
 
   test "there are catalogs to check" do
+    styled = Enum.map(ComponentConfig.component_names(), &"priv/components/#{&1}.exs")
+
+    headless =
+      Enum.map(Core.all_component_names(Igniter.new(), :headless), &"priv/headless/#{&1}.exs")
+
     assert length(@catalogs) > 50,
            "the wildcard matched nothing — every test here would vacuously pass"
 
     assert length(@templates) > 50
+
+    assert Enum.sort(@catalogs) == Enum.sort(styled ++ headless),
+           "the wildcard and the library disagree about which catalogs ship"
   end
 
   test "every template has a catalog and every catalog has a template" do
@@ -64,6 +75,13 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
 
     assert MapSet.difference(catalogs, templates) |> MapSet.to_list() == [],
            "these .exs catalogs have no sibling .eex template"
+
+    # The generators' own resolver needs both files, so each name it lists must resolve.
+    igniter = Igniter.new()
+
+    for layer <- [:styled, :headless], name <- Core.all_component_names(igniter, layer) do
+      assert {:ok, %{component: ^name}} = Core.fetch_catalog(igniter, name, layer)
+    end
   end
 
   test "every catalog is a keyword list keyed by its own filename" do
@@ -241,11 +259,21 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
 
   describe "docs facts" do
     test "there are options files to check, of all three layers" do
+      igniter = Igniter.new()
+
+      shipped =
+        for layer <- [:styled, :headless, :mob],
+            name <- Core.all_component_names(igniter, layer),
+            do: "priv/#{Path.basename(Core.template_dir(layer))}/#{name}.exs"
+
       assert length(@documented) > 200,
              "the wildcard matched almost nothing — every test here would vacuously pass"
 
       assert @documented |> Enum.map(&Path.dirname/1) |> Enum.uniq() |> Enum.sort() ==
                ~w(priv/components priv/headless priv/mob)
+
+      assert Enum.sort(@documented) == Enum.sort(shipped),
+             "the wildcard and the library disagree about which options files ship"
     end
 
     test "every options file declares exactly the four facts, in order, each true or false" do

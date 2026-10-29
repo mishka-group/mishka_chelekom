@@ -5,20 +5,25 @@ defmodule MishkaChelekom.ConfigSmokeTest do
   @moduletag :igniter
 
   describe "Config.create_sample_config/1" do
-    test "creates sample config with proper structure" do
+    setup do
       igniter = test_project_with_formatter()
       {_igniter, path, content} = Config.create_sample_config(igniter)
 
-      # Verify path
-      assert path == "priv/mishka_chelekom/config.exs"
+      %{path: path, content: content}
+    end
 
-      # Verify content structure
+    test "creates the sample config under priv/mishka_chelekom", %{path: path} do
+      assert path == "priv/mishka_chelekom/config.exs"
+    end
+
+    test "creates sample config with proper structure", %{content: content} do
       assert content =~ "# Mishka Chelekom CSS Configuration"
       assert content =~ "import Config"
       assert content =~ "config :mishka_chelekom,"
       assert content =~ "css_overrides:"
+    end
 
-      # Verify it has all major sections
+    test "has all the major sections", %{content: content} do
       assert content =~ "# === Base Colors ==="
       assert content =~ "# === Primary Theme ==="
       assert content =~ "# === Secondary Theme ==="
@@ -33,24 +38,23 @@ defmodule MishkaChelekom.ConfigSmokeTest do
       assert content =~ "# === Gradients ==="
       assert content =~ "# === Form Elements ==="
       assert content =~ "# === Checkbox Colors ==="
+    end
 
-      # Verify some key variables are present (commented)
+    test "lists the key variables, commented out", %{content: content} do
       assert content =~ "# primary_light:"
       assert content =~ "# secondary_light:"
       assert content =~ "# success_light:"
       assert content =~ "# danger_light:"
       assert content =~ "# base_border_light:"
       assert content =~ "# checkbox_primary_checked:"
+    end
 
-      # Verify merge strategy options
+    test "sets the merge strategy options", %{content: content} do
       assert content =~ "css_merge_strategy: :merge"
       assert content =~ "custom_css_path: nil"
     end
 
-    test "sample config is valid Elixir syntax" do
-      igniter = test_project_with_formatter()
-      {_igniter, _path, content} = Config.create_sample_config(igniter)
-
+    test "sample config is valid Elixir syntax", %{content: content} do
       # Create a temporary file to test syntax
       temp_path = System.tmp_dir!() |> Path.join("test_config_#{:rand.uniform(999_999)}.exs")
 
@@ -58,8 +62,9 @@ defmodule MishkaChelekom.ConfigSmokeTest do
         File.write!(temp_path, content)
         # This will raise if there's a syntax error
         config = Elixir.Config.Reader.read!(temp_path)
-        assert is_list(config)
-        assert Keyword.has_key?(config, :mishka_chelekom)
+
+        assert config[:mishka_chelekom][:css_overrides] == %{}
+        assert config[:mishka_chelekom][:css_merge_strategy] == :merge
       after
         File.rm(temp_path)
       end

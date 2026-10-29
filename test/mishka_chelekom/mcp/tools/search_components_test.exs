@@ -9,7 +9,7 @@ defmodule MishkaChelekom.MCP.Tools.SearchComponentsTest do
       schema = SearchComponents.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+      assert Map.keys(schema["properties"]) == ["query"]
       assert "query" in schema["required"]
     end
   end
@@ -196,8 +196,8 @@ defmodule MishkaChelekom.MCP.Tools.SearchComponentsTest do
       [content | _] = response.content
       data = Jason.decode!(content["text"])
 
-      assert is_binary(data["tip"])
-      assert String.contains?(data["tip"], "get_component_info")
+      assert data["tip"] ==
+               "Use get_component_info to get detailed options for a specific component, or generate_component to create one."
     end
   end
 

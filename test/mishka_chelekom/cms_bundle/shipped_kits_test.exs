@@ -15,6 +15,8 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
   """
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.CmsBundle.Location
+
   @kits Path.wildcard(Path.expand("../../../priv/cms_ui_kits/*.json", __DIR__))
 
   defp registered(kit) do
@@ -116,7 +118,14 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
   end
 
   test "there are kits to check" do
-    refute Enum.empty?(@kits)
+    kits = Enum.map(@kits, &Path.basename(&1, ".json"))
+
+    assert Enum.sort(kits) == ~w(chelekom chelekom_headless)
+
+    # The shipped copy is where the library's own readers look for each kit.
+    for kit <- kits do
+      assert kit |> Location.bundle!() |> Path.basename() == "#{kit}.json"
+    end
   end
 
   for path <- @kits do

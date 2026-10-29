@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.MCP.Resources.ListVariantsTest do
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.Resources.ListVariants
   alias Anubis.Server.Frame
 
@@ -26,8 +27,8 @@ defmodule MishkaChelekom.MCP.Resources.ListVariantsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_list(data["variants"])
-      assert length(data["variants"]) > 0
+      assert data["variants"] != []
+      assert data["variants"] == ComponentConfig.list_variants()
     end
 
     test "includes common style variants" do
@@ -53,10 +54,9 @@ defmodule MishkaChelekom.MCP.Resources.ListVariantsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_list(data["details"])
-      [detail | _] = data["details"]
+      assert [detail | _] = data["details"]
 
-      assert Map.has_key?(detail, "name")
+      assert detail["name"] == hd(data["variants"])
       assert Map.has_key?(detail, "description")
       assert Map.has_key?(detail, "usage")
     end
@@ -68,8 +68,7 @@ defmodule MishkaChelekom.MCP.Resources.ListVariantsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert is_binary(data["note"])
-      assert String.contains?(data["note"], "get_component_info")
+      assert data["note"] =~ "Use get_component_info tool to check available variants"
     end
   end
 end

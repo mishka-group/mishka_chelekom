@@ -9,7 +9,7 @@ defmodule MishkaChelekom.MCP.Tools.UpdateConfigTest do
       schema = UpdateConfig.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+      assert Enum.sort(Map.keys(schema["properties"])) == ~w(setting value values variable)
       assert "setting" in schema["required"]
     end
   end

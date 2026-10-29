@@ -175,7 +175,9 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
         |> Igniter.compose_task(Uninstall, ["non_existent_component", "--yes"])
 
       notices_text = Enum.join(igniter.notices, " ")
-      assert String.contains?(notices_text, "complete") || igniter.issues == []
+      assert String.contains?(notices_text, "Uninstall complete!")
+      assert igniter.issues == []
+      assert igniter.rms == []
     end
   end
 
@@ -824,8 +826,9 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       # The error should mention button, modal, and alert
       error_msg = Enum.join(igniter.issues, " ")
 
-      assert String.contains?(error_msg, "button") or String.contains?(error_msg, "modal") or
-               String.contains?(error_msg, "alert")
+      assert String.contains?(error_msg, "button")
+      assert String.contains?(error_msg, "modal")
+      assert String.contains?(error_msg, "alert")
     end
 
     test "cascade removes dependent components when specified" do
@@ -1027,11 +1030,13 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
         |> Igniter.assign(:user_config, [])
         |> Igniter.assign(:components, [{"icon", :styled}])
 
-      result = Uninstall.apply_cascade_choice(igniter, :cascade, [{"button", :styled}])
+      # icon alone cannot go: button depends on it
+      blocked = Uninstall.apply_cascade_choice(igniter, :cascade, [])
+      assert Enum.any?(blocked.issues, &String.contains?(&1, "Cannot remove components"))
 
-      # Both icon and button should be in removal list
-      assert {"icon", :styled} in result.assigns.components
-      assert {"button", :styled} in result.assigns.components
+      # with button in the removal list too, nothing that stays depends on what goes
+      result = Uninstall.apply_cascade_choice(igniter, :cascade, [{"button", :styled}])
+      assert result.issues == []
     end
   end
 

@@ -2,6 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessTest do
   use ExUnit.Case
   import MishkaChelekom.ComponentTestHelper
   alias Mix.Tasks.Mishka.Ui.Gen.Headless
+  alias MishkaChelekom.Generators.Core
   @moduletag :igniter
 
   setup do
@@ -101,7 +102,9 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.HeadlessTest do
         test_project_with_formatter()
         |> Igniter.compose_task(Headless, ["popover", "--yes"])
 
-      assert igniter.assigns.template_config == Keyword.delete(declared, :docs)
+      # Every generator reads its catalog through `Core.fetch_catalog/3`.
+      assert {:ok, %{config: config}} = Core.fetch_catalog(igniter, "popover", :headless)
+      assert config == Keyword.delete(declared, :docs)
       assert source_content(igniter, "lib/test_web/components/headless/popover.ex")
     end
   end

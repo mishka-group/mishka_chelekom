@@ -17,6 +17,16 @@ defmodule MishkaChelekom.Generators.MobTest do
 
   defp names, do: MapSet.new(@templates, &Path.basename(&1, ".eex"))
 
+  # The template of every component, found the way the generator finds it.
+  defp shipped_templates do
+    igniter = Igniter.new()
+
+    for name <- Core.all_component_names(igniter, :mob) do
+      {:ok, %{path: path}} = Core.fetch_catalog(igniter, name, :mob)
+      path
+    end
+  end
+
   defp config(path) do
     name = Path.basename(path, ".exs")
 
@@ -26,6 +36,9 @@ defmodule MishkaChelekom.Generators.MobTest do
   test "there is a catalog to check at all" do
     assert length(@templates) > 50,
            "the wildcard matched nothing — every test in this file would pass vacuously"
+
+    assert Core.all_component_names(Igniter.new(), :mob) == Enum.sort(names()),
+           "the wildcard and the generator disagree about which components ship"
   end
 
   describe "catalog integrity" do
@@ -192,14 +205,14 @@ defmodule MishkaChelekom.Generators.MobTest do
 
   describe "template hygiene" do
     test "no template mentions the development application" do
-      leaked = Enum.filter(@templates, &(File.read!(&1) =~ "MishkaMob"))
+      leaked = Enum.filter(shipped_templates(), &(File.read!(&1) =~ "MishkaMob"))
 
       assert leaked == [],
              "still name the dev app: #{inspect(Enum.map(leaked, &Path.basename/1))}"
     end
 
     test "every template takes its module from the generator" do
-      for path <- @templates do
+      for path <- shipped_templates() do
         assert File.read!(path) =~ "defmodule <%= @module %> do", "#{Path.basename(path)}"
       end
     end
@@ -207,7 +220,7 @@ defmodule MishkaChelekom.Generators.MobTest do
     test "every cross-component alias goes through the namespace assign" do
       # A hard-coded namespace would resolve to a module the consumer's app does
       # not have.
-      for path <- @templates do
+      for path <- shipped_templates() do
         for [line] <- Regex.scan(~r/^\s*alias .*$/m, File.read!(path)) do
           if line =~ "Components" do
             assert line =~ "<%= @namespace %>", "#{Path.basename(path)}: #{String.trim(line)}"
@@ -220,9 +233,9 @@ defmodule MishkaChelekom.Generators.MobTest do
       # Event and Color are shared, so the modules themselves are never prefixed.
       # Their moduledocs do name components (`<MishkaDrawer />`), and those tags
       # follow the run's prefix like everything else.
-      for path <- Path.wildcard("priv/mob/kit/*.eex") do
+      for name <- Mob.kit_modules() do
+        path = Path.join(Core.template_dir(:mob), "kit/#{name}.eex")
         source = File.read!(path)
-        name = Path.basename(path, ".eex")
 
         assert source =~ "defmodule <%= @namespace %>.#{Macro.camelize(name)} do",
                "#{Path.basename(path)} should define an unprefixed module"

@@ -102,8 +102,8 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       assert {:ok, %{components: cps, scripts: ss}} =
                CmsBundleExporter.convert(e, t, "kit", "1.0")
 
-      assert is_list(cps)
-      assert is_list(ss)
+      assert Enum.map(cps, & &1["name"]) == ["kit-sample-button", "kit-sample-button-link"]
+      assert ss == []
     end
 
     test "every component has the v3 final-form keys", %{button_exs: e, button_eex: t} do
@@ -147,7 +147,7 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
 
       Enum.each(cps, fn c ->
         assert Map.has_key?(c, "type")
-        assert is_list(c["dependencies"])
+        assert c["dependencies"] == ["kit-icon"]
       end)
     end
   end
@@ -982,13 +982,9 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       input = ~s|<input value="<.foo/>"/>|
       siblings = MapSet.new(["foo"])
       out = HeexTagRewriter.rewrite(input, siblings, "kit")
-      # The `<.foo/>` IS in a string literal, but our scanner is
-      # text-mode + `<` initiates tag parse. We don't track double-quoted
-      # context inside an outer tag — but inside `value="..."` the text
-      # is HTML, not HEEx. Phoenix HEEx normally doesn't allow that. We
-      # accept rewriting here as an acceptable limitation; Chelekom
-      # never embeds `<.X/>` in a quoted HTML attribute value.
-      assert out == input or out =~ ~s|component_name="kit-foo"|
+      # The `<.foo/>` sits in the quoted `value="..."` of the enclosing `<input>`, which is HTML
+      # text rather than HEEx, so the rewriter leaves the whole tag as it was.
+      assert out == input
     end
 
     test "EEx interpolation `<%= @foo %>` is left untouched" do

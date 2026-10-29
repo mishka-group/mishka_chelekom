@@ -9,6 +9,8 @@ defmodule MishkaChelekom.ThemeColoursTest do
   """
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.Generators.Core
+
   @templates Path.wildcard("priv/{components,headless}/*.eex")
   @theme File.read!("priv/assets/css/theme.css")
 
@@ -39,7 +41,15 @@ defmodule MishkaChelekom.ThemeColoursTest do
   end
 
   test "there are templates to check" do
+    igniter = Igniter.new()
+
+    shipped =
+      for layer <- [:styled, :headless],
+          name <- Core.all_component_names(igniter, layer),
+          do: "priv/#{Path.basename(Core.template_dir(layer))}/#{name}.eex"
+
     assert length(@templates) > 100
+    assert Enum.sort(@templates) == Enum.sort(shipped)
   end
 
   test "every theme colour a template names is defined" do

@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.MCP.Resources.ListDependenciesTest do
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.Resources.ListDependencies
   alias Anubis.Server.Frame
 
@@ -24,14 +25,14 @@ defmodule MishkaChelekom.MCP.Resources.ListDependenciesTest do
 
       {:reply, response, _frame} = ListDependencies.read(%{}, frame)
 
-      assert response.contents != nil
-
       data = Jason.decode!(response.contents["text"])
+      dependencies = ComponentConfig.list_dependencies()
 
-      assert is_integer(data["total_components_with_dependencies"])
-      assert is_list(data["all_necessary_dependencies"])
-      assert is_list(data["all_optional_dependencies"])
-      assert is_map(data["by_component"])
+      assert data["total_components_with_dependencies"] == map_size(dependencies)
+      assert data["total_components_with_dependencies"] > 0
+      assert data["all_necessary_dependencies"] == ComponentConfig.list_necessary_deps()
+      assert data["all_optional_dependencies"] == ComponentConfig.list_optional_deps()
+      assert Enum.sort(Map.keys(data["by_component"])) == Enum.sort(Map.keys(dependencies))
     end
 
     test "by_component includes necessary and optional fields" do
@@ -41,14 +42,11 @@ defmodule MishkaChelekom.MCP.Resources.ListDependenciesTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      # If there are components with dependencies, verify structure
-      if map_size(data["by_component"]) > 0 do
-        {_component, deps} = Enum.at(data["by_component"], 0)
-        assert Map.has_key?(deps, "necessary")
-        assert Map.has_key?(deps, "optional")
-        assert is_list(deps["necessary"])
-        assert is_list(deps["optional"])
-      end
+      # Carousel needs the image and icon components
+      assert data["by_component"]["carousel"] == %{
+               "necessary" => ["image", "icon"],
+               "optional" => []
+             }
     end
 
     test "includes description and notes" do
@@ -58,10 +56,9 @@ defmodule MishkaChelekom.MCP.Resources.ListDependenciesTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert data["description"] != nil
-      assert is_map(data["note"])
-      assert data["note"]["necessary"] != nil
-      assert data["note"]["optional"] != nil
+      assert data["description"] =~ "necessary deps are auto-installed"
+      assert data["note"]["necessary"] =~ "automatically installed"
+      assert data["note"]["optional"] =~ "optionally added"
     end
 
     test "includes usage example" do
@@ -71,8 +68,7 @@ defmodule MishkaChelekom.MCP.Resources.ListDependenciesTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert data["usage_example"] != nil
-      assert String.contains?(data["usage_example"], "mix mishka.ui.gen.component")
+      assert data["usage_example"] =~ "mix mishka.ui.gen.component modal"
     end
   end
 end

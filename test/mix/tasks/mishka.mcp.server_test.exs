@@ -156,15 +156,18 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
       # Check that the server module has the expected tools and resources
       components = MishkaChelekom.MCP.Server.__components__()
 
-      assert is_list(components)
-      assert length(components) > 0
+      assert [_ | _] = components
+
+      handlers = Enum.map(components, & &1.handler)
+
+      assert MishkaChelekom.MCP.Tools.GenerateComponent in handlers
+      assert MishkaChelekom.MCP.Resources.ListComponents in handlers
     end
 
     test "server module has tools" do
       tools = MishkaChelekom.MCP.Server.__components__(:tool)
 
-      assert is_list(tools)
-      assert length(tools) > 0
+      assert [_ | _] = tools
 
       # Check for expected tools - components return structs with handler field
       tool_handlers = Enum.map(tools, fn tool -> tool.handler end)
@@ -178,8 +181,7 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
     test "server module has resources" do
       resources = MishkaChelekom.MCP.Server.__components__(:resource)
 
-      assert is_list(resources)
-      assert length(resources) > 0
+      assert [_ | _] = resources
 
       # Check for expected resources - components return structs with handler field
       resource_handlers = Enum.map(resources, fn resource -> resource.handler end)
@@ -192,8 +194,15 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
   end
 
   describe "Router" do
-    test "router module exists" do
-      assert Code.ensure_loaded?(MishkaChelekom.MCP.Router)
+    test "router serves the landing page at /" do
+      conn =
+        :get
+        |> Plug.Test.conn("/")
+        |> MishkaChelekom.MCP.Router.call(MishkaChelekom.MCP.Router.init([]))
+
+      assert conn.status == 200
+      assert conn.resp_body =~ "Mishka Chelekom MCP Server"
+      assert conn.resp_body =~ "http://localhost:4003/mcp"
     end
   end
 
@@ -250,24 +259,51 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
   end
 
   describe "Application transport override" do
-    test "Application.start reads :mcp_transport from app env" do
-      # Default: when unset, Application should choose the existing HTTP transport.
-      original = Application.get_env(:mishka_chelekom, :mcp_transport)
+    setup do
+      original = Application.fetch_env(:mishka_chelekom, :mcp_transport)
+
+      on_exit(fn ->
+        Application.stop(:mishka_chelekom)
+
+        case original do
+          {:ok, val} -> Application.put_env(:mishka_chelekom, :mcp_transport, val)
+          :error -> Application.delete_env(:mishka_chelekom, :mcp_transport)
+        end
+
+        {:ok, _} = Application.ensure_all_started(:mishka_chelekom)
+      end)
+
+      Application.stop(:mishka_chelekom)
+      :ok
+    end
+
+    test "Application.start chooses the streamable HTTP transport when :mcp_transport is unset" do
       Application.delete_env(:mishka_chelekom, :mcp_transport)
+      {:ok, sup} = MishkaChelekom.Application.start(:normal, [])
 
       try do
-        default =
-          Application.get_env(:mishka_chelekom, :mcp_transport, {:streamable_http, start: true})
+        assert [{MishkaChelekom.MCP.Server, server, :supervisor, _}] =
+                 Supervisor.which_children(sup)
 
-        assert default == {:streamable_http, start: true}
+        transports = for {id, _pid, _type, _modules} <- Supervisor.which_children(server), do: id
 
-        Application.put_env(:mishka_chelekom, :mcp_transport, :stdio)
-        assert Application.get_env(:mishka_chelekom, :mcp_transport) == :stdio
+        assert Anubis.Server.Transport.StreamableHTTP in transports
       after
-        case original do
-          nil -> Application.delete_env(:mishka_chelekom, :mcp_transport)
-          val -> Application.put_env(:mishka_chelekom, :mcp_transport, val)
-        end
+        Supervisor.stop(sup)
+      end
+    end
+
+    test "Application.start reads :mcp_transport from app env" do
+      Application.put_env(:mishka_chelekom, :mcp_transport, {:streamable_http, start: false})
+      {:ok, sup} = MishkaChelekom.Application.start(:normal, [])
+
+      try do
+        # With `start: false` the transport is left to the host application, so the MCP server
+        # supervisor does not come up at all.
+        assert [{MishkaChelekom.MCP.Server, :undefined, :supervisor, _}] =
+                 Supervisor.which_children(sup)
+      after
+        Supervisor.stop(sup)
       end
     end
   end

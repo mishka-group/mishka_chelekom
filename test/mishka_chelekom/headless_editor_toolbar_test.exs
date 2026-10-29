@@ -8,7 +8,15 @@ defmodule MishkaChelekom.HeadlessEditorToolbarTest do
   """
   use ExUnit.Case, async: true
 
-  @engine Path.expand("../../priv/assets/js/editor_tiptap.js", __DIR__)
+  alias MishkaChelekom.Generators.{Assets, Core}
+
+  # The source of the engine the editor installs by default, found the way the generator finds it.
+  defp engine_source do
+    {:ok, %{config: config}} = Core.fetch_catalog(Igniter.new(), "editor", :headless)
+    [script] = Assets.scripts(config, Assets.resolve_lib(config))
+
+    File.read!(Core.lib_priv("assets/js/#{script.file}"))
+  end
 
   defp function_body(source, name) do
     [_, rest] = String.split(source, "\n  #{name}() {", parts: 2)
@@ -17,14 +25,14 @@ defmodule MishkaChelekom.HeadlessEditorToolbarTest do
   end
 
   test "repaints the toolbar on every transaction" do
-    assert File.read!(@engine) =~ "onTransaction: () => this.render()"
+    assert engine_source() =~ "onTransaction: () => this.render()"
   end
 
   test "repaints once per keystroke: schedule() leaves it to the transaction" do
-    refute @engine |> File.read!() |> function_body("schedule") =~ "this.render()"
+    refute engine_source() |> function_body("schedule") =~ "this.render()"
   end
 
   test "no longer repaints from selection updates alone" do
-    refute File.read!(@engine) =~ "onSelectionUpdate"
+    refute engine_source() =~ "onSelectionUpdate"
   end
 end

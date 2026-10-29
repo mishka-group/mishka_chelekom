@@ -135,8 +135,8 @@ defmodule MishkaChelekom.CmsBundle.DiscriminatorsTest do
     [clause] = D.from_condition(ast)
 
     assert Map.keys(clause) |> Enum.sort() == ["axis", "values"]
-    assert is_binary(clause["axis"])
-    assert is_list(clause["values"])
+    assert clause["axis"] == "variant"
+    assert clause["values"] == ["base"]
   end
 
   test "axis name is the attribute name as a string" do

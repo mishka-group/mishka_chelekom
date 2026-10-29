@@ -9,7 +9,7 @@ defmodule MishkaChelekom.MCP.Tools.GetDocsTest do
       schema = GetDocs.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+      assert Map.keys(schema["properties"]) == ["topic"]
       assert "topic" in schema["required"]
     end
   end
@@ -98,7 +98,8 @@ defmodule MishkaChelekom.MCP.Tools.GetDocsTest do
       text = content["text"]
 
       # Alert has local usage-rules docs
-      assert text =~ "get_example" or text =~ "get_component_info"
+      assert text =~ ~s|get_example(name: "alert")|
+      assert text =~ ~s|get_component_info(name: "alert")|
     end
   end
 

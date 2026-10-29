@@ -1,6 +1,7 @@
 defmodule MishkaChelekom.MCP.Resources.ListScriptsTest do
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.MCP.ComponentConfig
   alias MishkaChelekom.MCP.Resources.ListScripts
   alias Anubis.Server.Frame
 
@@ -24,15 +25,20 @@ defmodule MishkaChelekom.MCP.Resources.ListScriptsTest do
 
       {:reply, response, _frame} = ListScripts.read(%{}, frame)
 
-      assert response.contents != nil
-
       data = Jason.decode!(response.contents["text"])
+      unique_scripts = ComponentConfig.list_unique_scripts()
+      scripts_by_component = ComponentConfig.list_scripts()
 
-      assert is_integer(data["total_scripts"])
-      assert is_integer(data["total_components_with_js"])
-      assert is_list(data["unique_scripts"])
-      assert is_map(data["by_component"])
-      assert is_list(data["components_requiring_js"])
+      assert data["total_scripts"] == length(unique_scripts)
+      assert data["total_scripts"] > 0
+      assert data["total_components_with_js"] == map_size(scripts_by_component)
+      assert length(data["unique_scripts"]) == length(unique_scripts)
+
+      assert Enum.sort(Map.keys(data["by_component"])) ==
+               Enum.sort(Map.keys(scripts_by_component))
+
+      assert Enum.sort(data["components_requiring_js"]) ==
+               Enum.sort(Map.keys(scripts_by_component))
     end
 
     test "unique_scripts include required fields" do
@@ -42,14 +48,16 @@ defmodule MishkaChelekom.MCP.Resources.ListScriptsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      if length(data["unique_scripts"]) > 0 do
-        [script | _] = data["unique_scripts"]
+      [expected | _] = ComponentConfig.list_unique_scripts()
 
-        assert Map.has_key?(script, "file")
-        assert Map.has_key?(script, "module")
-        assert Map.has_key?(script, "imports")
-        assert Map.has_key?(script, "type")
-      end
+      assert [script | _] = data["unique_scripts"]
+
+      assert script == %{
+               "file" => expected.file,
+               "module" => expected.module,
+               "imports" => expected.imports,
+               "type" => expected.type
+             }
     end
 
     test "by_component maps component names to scripts" do
@@ -59,11 +67,9 @@ defmodule MishkaChelekom.MCP.Resources.ListScriptsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      # If there are components with JS, verify structure
-      if map_size(data["by_component"]) > 0 do
-        {_component, scripts} = Enum.at(data["by_component"], 0)
-        assert is_list(scripts)
-      end
+      assert [script] = data["by_component"]["carousel"]
+      assert script["module"] == "Carousel"
+      assert script["file"] == "carousel.js"
     end
 
     test "includes description and note" do
@@ -73,8 +79,10 @@ defmodule MishkaChelekom.MCP.Resources.ListScriptsTest do
 
       data = Jason.decode!(response.contents["text"])
 
-      assert data["description"] != nil
-      assert data["note"] != nil
+      assert data["description"] ==
+               "JavaScript files required by components for interactive behavior"
+
+      assert data["note"] =~ "automatically copied to your project"
     end
   end
 end

@@ -9,14 +9,24 @@ defmodule MishkaChelekom.HeadlessEditorCspTest do
   """
   use ExUnit.Case, async: true
 
+  alias MishkaChelekom.Generators.Core
+
   @js Path.expand("../../priv/assets/js", __DIR__)
-  @stylesheet Path.expand("../../priv/assets/css/mishka_chelekom_headless.css", __DIR__)
   @template Path.expand("../../priv/headless/editor.eex", __DIR__)
   @kit Path.expand("../../priv/cms_ui_kits/chelekom_headless.json", __DIR__)
 
   @engines ~w(editor_tiptap.js editor_code_mirror.js editor_milk_down.js editor_lexical.js)
 
   defp read_js(file), do: @js |> Path.join(file) |> File.read!()
+
+  # The editor's template and the headless stylesheet, found the way the generator finds them.
+  defp template_source do
+    {:ok, %{path: path}} = Core.fetch_catalog(Igniter.new(), "editor", :headless)
+    File.read!(path)
+  end
+
+  defp headless_stylesheet,
+    do: File.read!(Core.lib_priv("assets/css/mishka_chelekom_headless.css"))
 
   defp surface_classes(source) do
     [_, surface] = String.split(source, ~s("chelekom-editor__surface"), parts: 2)
@@ -82,7 +92,7 @@ defmodule MishkaChelekom.HeadlessEditorCspTest do
     end
 
     test "merges them with the caller's surface_class after the component's own classes" do
-      assert File.read!(@template) =~
+      assert template_source() =~
                ~r/class=\{\[\s*"chelekom-editor__surface",.*\[&_\.ProseMirror-hideselection_\*::selection\]:bg-transparent",\s*@surface_class\s*\]\}/s
     end
 
@@ -95,7 +105,7 @@ defmodule MishkaChelekom.HeadlessEditorCspTest do
   end
 
   test "the headless stylesheet gains no ProseMirror base rule" do
-    css = File.read!(@stylesheet)
+    css = headless_stylesheet()
 
     for name <- [
           "gapcursor",

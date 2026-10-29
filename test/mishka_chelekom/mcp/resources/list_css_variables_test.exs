@@ -24,8 +24,7 @@ defmodule MishkaChelekom.MCP.Resources.ListCssVariablesTest do
 
       {:reply, response, _frame} = ListCssVariables.read(%{}, frame)
 
-      assert response.contents != nil
-      text = response.contents["text"]
+      assert %{"text" => text} = response.contents
 
       assert text =~ "Mishka Chelekom CSS Variables"
       assert text =~ "css_overrides"

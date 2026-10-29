@@ -42,43 +42,39 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallMobTest do
       igniter =
         test_project_with_formatter()
         |> Igniter.compose_task(GenMob, ["chip", "--yes"])
-        |> Igniter.compose_task(Uninstall, ["chip", "--mob", "--dry-run", "--yes"])
+        |> Igniter.compose_task(Uninstall, ["chip", "--mob", "--yes"])
 
-      # dry run touches nothing, but resolving the wrong directory would have
-      # produced a "not found" and no plan at all
-      assert igniter.assigns.plan.components == [{"chip", :mob}]
-      assert [{label, path, found?, module}] = igniter.assigns.plan.component_files
-      assert label == "chip (mob)"
-      assert path == "lib/test/components/chip.ex"
-      assert found?
-      assert module == Test.Components.Chip
+      # resolving the wrong directory would have found no file to remove
+      assert rm_planned?(igniter, "lib/test/components/chip.ex")
+      assert Enum.any?(igniter.notices, &(&1 =~ "Components removed: 1"))
     end
 
     test "without --mob the same name resolves to the styled location" do
       igniter =
         test_project_with_formatter()
-        |> Igniter.compose_task(Uninstall, ["chip", "--dry-run", "--yes"])
+        |> Igniter.compose_task(GenMob, ["chip", "--yes"])
+        |> Igniter.compose_task(Uninstall, ["chip", "--yes"])
 
-      assert igniter.assigns.plan.components == [{"chip", :styled}]
-      assert [{"chip", path, _, _}] = igniter.assigns.plan.component_files
-      refute path == "lib/test/components/chip.ex"
+      # the styled chip is the one targeted, so the Mob one is left alone
+      assert still_present?(igniter, "lib/test/components/chip.ex")
     end
 
     test "--mob wins over --headless when both are passed by mistake" do
       igniter =
         test_project_with_formatter()
-        |> Igniter.compose_task(Uninstall, ["chip", "--mob", "--headless", "--dry-run", "--yes"])
+        |> Igniter.compose_task(GenMob, ["chip", "--yes"])
+        |> Igniter.compose_task(Uninstall, ["chip", "--mob", "--headless", "--yes"])
 
-      assert igniter.assigns.plan.components == [{"chip", :mob}]
+      assert rm_planned?(igniter, "lib/test/components/chip.ex")
     end
 
     test "the plan labels mob components so they cannot be confused with styled ones" do
       igniter =
         test_project_with_formatter()
-        |> Igniter.compose_task(GenMob, ["chip", "--yes"])
-        |> Igniter.compose_task(Uninstall, ["chip", "--mob", "--dry-run", "--yes"])
+        |> Igniter.compose_task(GenMobComponents, ["tree_select", "--yes"])
+        |> Igniter.compose_task(Uninstall, ["tree", "--mob", "--yes"])
 
-      assert [{"chip (mob)", _, _, _}] = igniter.assigns.plan.component_files
+      assert Enum.any?(igniter.issues, &(&1 =~ "tree_select (mob) depends on: tree"))
     end
   end
 
@@ -105,13 +101,21 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallMobTest do
       igniter =
         test_project_with_formatter()
         |> Igniter.compose_task(GenMobComponents, ["chip,pill,switch", "--yes"])
-        |> Igniter.compose_task(Uninstall, ["--all", "--mob", "--dry-run", "--yes"])
+        |> Igniter.compose_task(Uninstall, ["--all", "--mob", "--yes"])
 
-      kinds = igniter.assigns.plan.components |> Enum.map(&elem(&1, 1)) |> Enum.uniq()
-      names = igniter.assigns.plan.components |> Enum.map(&elem(&1, 0)) |> Enum.sort()
+      removed =
+        igniter.rms
+        |> Enum.filter(&String.starts_with?(&1, "lib/test/components/"))
+        |> Enum.sort()
 
-      assert kinds == [:mob]
-      assert names == ["chip", "pill", "switch"]
+      assert removed == [
+               "lib/test/components/chip.ex",
+               "lib/test/components/pill.ex",
+               "lib/test/components/switch.ex"
+             ]
+
+      assert still_present?(igniter, "lib/test/components/event.ex")
+      assert Enum.any?(igniter.notices, &(&1 =~ "Components removed: 3"))
     end
   end
 
@@ -189,12 +193,16 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallMobTest do
       igniter =
         test_project_with_formatter()
         |> Igniter.compose_task(GenMob, ["chip", "--yes"])
-        |> Igniter.compose_task(Uninstall, ["chip", "--mob", "--dry-run", "--yes"])
+        |> Igniter.compose_task(Uninstall, ["chip", "--mob", "--yes"])
 
-      plan = igniter.assigns.plan
+      assert Enum.any?(igniter.notices, &(&1 =~ "JS files removed: 0"))
 
-      assert plan.js_to_remove == []
-      assert plan.npm_to_remove == []
+      refute Enum.any?(
+               igniter.rms,
+               &(String.starts_with?(&1, "assets/") or String.ends_with?(&1, ".css"))
+             )
+
+      refute Map.has_key?(igniter.rewrite.sources, "assets/package.json")
     end
 
     test "a mob-only run does not touch the web module" do

@@ -31,7 +31,9 @@ defmodule MishkaChelekom.MCP.Tools.GenerateComponentsTest do
       schema = GenerateComponents.input_schema()
 
       assert schema["type"] == "object"
-      assert is_map(schema["properties"])
+
+      assert Enum.sort(Map.keys(schema["properties"])) ==
+               ~w(component_prefix components exclude global helpers import module_prefix)
 
       for field <- ~w(components import helpers global exclude module_prefix component_prefix) do
         assert Map.has_key?(schema["properties"], field),
