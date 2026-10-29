@@ -9,8 +9,11 @@ defmodule MishkaChelekom.HeadlessEditorSurfaceTest do
   """
   use ExUnit.Case, async: true
 
-  @template Path.expand("../../priv/headless/editor.eex", __DIR__)
-  @stylesheet Path.expand("../../priv/assets/css/mishka_chelekom_headless.css", __DIR__)
+  @template Application.app_dir(:mishka_chelekom, "priv/headless/editor.eex")
+  @stylesheet Application.app_dir(
+                :mishka_chelekom,
+                "priv/assets/css/mishka_chelekom_headless.css"
+              )
 
   @parts [
     {"chelekom-editor", ~w|group/editor|},

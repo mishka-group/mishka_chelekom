@@ -17,7 +17,7 @@ defmodule MishkaChelekom.TemplateFormatStabilityTest do
   @indent 2
 
   defp templates,
-    do: Path.wildcard(Path.expand("../../priv/{components,headless}/*.eex", __DIR__))
+    do: Path.wildcard(Application.app_dir(:mishka_chelekom, "priv/{components,headless}/*.eex"))
 
   test "there are component templates to check" do
     refute Enum.empty?(templates())

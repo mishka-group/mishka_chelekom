@@ -17,7 +17,7 @@ defmodule MishkaChelekom.CmsBundle.ShippedKitsTest do
 
   alias MishkaChelekom.CmsBundle.Location
 
-  @kits Path.wildcard(Path.expand("../../../priv/cms_ui_kits/*.json", __DIR__))
+  @kits Path.wildcard(Application.app_dir(:mishka_chelekom, "priv/cms_ui_kits/*.json"))
 
   defp registered(kit) do
     MapSet.new(kit["js_hooks"] || [], fn hook ->

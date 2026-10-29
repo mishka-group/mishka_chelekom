@@ -11,9 +11,9 @@ defmodule MishkaChelekom.HeadlessEditorCspTest do
 
   alias MishkaChelekom.Generators.Core
 
-  @js Path.expand("../../priv/assets/js", __DIR__)
-  @template Path.expand("../../priv/headless/editor.eex", __DIR__)
-  @kit Path.expand("../../priv/cms_ui_kits/chelekom_headless.json", __DIR__)
+  @js Application.app_dir(:mishka_chelekom, "priv/assets/js")
+  @template Application.app_dir(:mishka_chelekom, "priv/headless/editor.eex")
+  @kit Application.app_dir(:mishka_chelekom, "priv/cms_ui_kits/chelekom_headless.json")
 
   @engines ~w(editor_tiptap.js editor_code_mirror.js editor_milk_down.js editor_lexical.js)
 

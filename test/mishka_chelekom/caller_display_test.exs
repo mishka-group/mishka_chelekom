@@ -11,7 +11,7 @@ defmodule MishkaChelekom.CallerDisplayTest do
   """
   use ExUnit.Case, async: true
 
-  @templates Path.wildcard(Path.expand("../../priv/components/*.eex", __DIR__))
+  @templates Path.wildcard(Application.app_dir(:mishka_chelekom, "priv/components/*.eex"))
 
   @displays ~w(block inline-block inline flex inline-flex table inline-table table-caption
     table-cell table-column table-column-group table-footer-group table-header-group

@@ -73,8 +73,8 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
     # (FunctionClauseError). The exporter must append a true `_, _` total catch-all to every narrowable
     # dispatcher so the component stays renderable even when trimmed.
     test "every narrowable dispatcher of a real component ends in a `_, …` total catch-all" do
-      exs = File.read!(Path.expand("../../priv/components/progress.exs", __DIR__))
-      eex = File.read!(Path.expand("../../priv/components/progress.eex", __DIR__))
+      exs = File.read!(Application.app_dir(:mishka_chelekom, "priv/components/progress.exs"))
+      eex = File.read!(Application.app_dir(:mishka_chelekom, "priv/components/progress.eex"))
 
       {:ok, %{components: cps}} = CmsBundleExporter.convert(exs, eex, "chelekom", "1.0")
 

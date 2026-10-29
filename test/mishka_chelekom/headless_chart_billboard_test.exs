@@ -14,8 +14,8 @@ defmodule MishkaChelekom.HeadlessChartBillboardTest do
   """
   use ExUnit.Case, async: true
 
-  @engine Path.expand("../../priv/assets/js/chart_billboard.js", __DIR__)
-  @catalog Path.expand("../../priv/headless/chart.exs", __DIR__)
+  @engine Application.app_dir(:mishka_chelekom, "priv/assets/js/chart_billboard.js")
+  @catalog Application.app_dir(:mishka_chelekom, "priv/headless/chart.exs")
 
   # billboard.js 4's chart types (its TYPE constant) and the ESM export that registers each one.
   @types [
