@@ -83,15 +83,12 @@
             # You can customize the priority of any check
             # Priority values are: `low, normal, high, higher`
             #
-            {Credo.Check.Design.AliasUsage,
-             [priority: :low, if_nested_deeper_than: 2, if_called_more_often_than: 0]},
             {Credo.Check.Design.TagFIXME, []},
             {Credo.Check.Design.TagTODO, [exit_status: 2]},
 
             #
             ## Readability Checks
             #
-            {Credo.Check.Readability.AliasOrder, []},
             {Credo.Check.Readability.FunctionNames, []},
             {Credo.Check.Readability.LargeNumbers, []},
             {Credo.Check.Readability.MaxLineLength, [priority: :low, max_length: 120]},
@@ -195,8 +192,24 @@
             {Jump.CredoChecks.UnusedLiveViewAssign, []},
             {Jump.CredoChecks.VacuousTest, []},
             {Jump.CredoChecks.WeakAssertion, []}
-          ] ++ Enum.map(ExSlop.recommended_checks(), &{&1, []}),
+          ] ++
+            Enum.map(
+              List.delete(ExSlop.recommended_checks(), ExSlop.Check.Refactor.LengthComparison),
+              &{&1, []}
+            ) ++
+            [
+              # A test states the count it expects with `length/1`, and its failure shows both.
+              {ExSlop.Check.Refactor.LengthComparison, files: %{excluded: [~r"/test/"]}}
+            ],
         disabled: [
+          # Switched off because the project's own convention differs, one reason each.
+          #
+          # Modules are written out in full or aliased as the reader needs (`Igniter.Project.Deps`
+          # reads as Igniter's own docs do); 111 aliases for no change in behaviour.
+          {Credo.Check.Design.AliasUsage, []},
+          # Aliases are grouped by what they belong to (a test's module under test first), not sorted.
+          {Credo.Check.Readability.AliasOrder, []},
+
           #
           # Checks scheduled for next check update (opt-in for now)
           {Credo.Check.Refactor.UtcNowTruncate, []},
