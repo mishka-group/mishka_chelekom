@@ -117,9 +117,12 @@ defmodule DevelopmentWeb.Components.Sidebar do
       phx-remove={hide_sidebar(@id, @hide_position)}
       data-pb-open={show_sidebar(@id, @hide_position)}
       data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
+      data-open-focus={JS.push_focus(to: ":focus") |> JS.focus_first(to: "##{@id}")}
+      data-close-focus={JS.pop_focus()}
       role="complementary"
       class={[
-        "fixed h-screen transition-transform z-10 overflow-x-hidden",
+        "fixed h-screen transition-[transform,translate,scale,rotate,visibility] z-10 overflow-x-hidden",
+        @hide_position in ["left", "right"] && "max-md:[&:not(.translate-none)]:invisible",
         border_class(@border, @position, @variant),
         hide_position(@hide_position),
         color_variant(@variant, @color),
@@ -210,7 +213,15 @@ defmodule DevelopmentWeb.Components.Sidebar do
         js
 
       classes ->
-        JS.remove_class(js, classes, to: "##{id}") |> JS.add_class("translate-none", to: "##{id}")
+        js
+        |> JS.remove_class(classes, to: "##{id}")
+        |> JS.add_class("translate-none", to: "##{id}")
+        # Pushes the focused element, which `hide_sidebar/3` pops to give focus back, and focuses
+        # the first focusable element inside. `:focus` rather than the default source element,
+        # because opened through `data-pb-open` the source is the sidebar. Before `data-open` is
+        # set, so only a sidebar that was closed runs it.
+        |> JS.exec("data-open-focus", to: "##{id}:not([data-open])")
+        |> JS.set_attribute({"data-open", ""}, to: "##{id}")
     end
   end
 
@@ -242,7 +253,14 @@ defmodule DevelopmentWeb.Components.Sidebar do
         js
 
       classes ->
-        JS.remove_class(js, "translate-none", to: "##{id}") |> JS.add_class(classes, to: "##{id}")
+        js
+        # Before `data-open` is removed, so only a sidebar that was open runs it, and only while
+        # focus is inside it, which it could not keep once hidden. Focus a click outside moved
+        # elsewhere stays there.
+        |> JS.exec("data-close-focus", to: "##{id}[data-open]:focus-within")
+        |> JS.remove_attribute("data-open", to: "##{id}")
+        |> JS.remove_class("translate-none", to: "##{id}")
+        |> JS.add_class(classes, to: "##{id}")
     end
   end
 
