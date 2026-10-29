@@ -116,10 +116,11 @@ defmodule <%= @module %> do
             again: `hide_modal/1` serialises to hundreds of bytes of JSON and this element
             would otherwise have shipped it twice. --%>
       data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
-      <%!-- What opening and closing do with focus. `show_modal/2` and `hide_modal/2` run them
-            through `JS.exec/2` on a selector that only a closed (opening) or an open (closing)
-            modal matches: Escape reaches every modal on the page, and a closed one must not
-            give away focus another dialog is holding.
+      <%!-- What opening and closing do with focus and the page's scroll. `show_modal/2` and
+            `hide_modal/2` run them through `JS.exec/2` on a selector that only a closed (opening)
+            or an open (closing) modal matches: Escape reaches every modal on the page, and
+            `phx-remove` runs on a closed modal a patch removes; a closed one must not give away
+            focus another dialog is holding, nor unlock the page's scroll under it.
             The push takes the focused element, or `<body>` when nothing has focus (after a page
             load, when `phx-mounted` opens the modal, or in Safari, where a clicked button does
             not take focus), so there is always one entry for the close to pop, and the pop never
@@ -130,6 +131,7 @@ defmodule <%= @module %> do
         |> JS.focus_first(to: "##{@id}-container")
       }
       data-close-focus={JS.pop_focus()}
+      data-close-scroll={JS.remove_class("overflow-hidden", to: "body")}
       class={["relative z-50 hidden", @class]}
     >
       <div
@@ -698,9 +700,10 @@ defmodule <%= @module %> do
     )
     |> transition_hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
-    |> JS.remove_class("overflow-hidden", to: "body")
-    # Before `data-open` is removed, so only a modal that was open gives focus back.
+    # Before `data-open` is removed, so only a modal that was open gives focus back and unlocks
+    # the page's scroll.
     |> JS.exec("data-close-focus", to: "##{id}[data-open]")
+    |> JS.exec("data-close-scroll", to: "##{id}[data-open]")
     |> JS.remove_attribute("data-open", to: "##{id}")
   end
 

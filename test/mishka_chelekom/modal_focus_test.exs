@@ -9,8 +9,8 @@ defmodule MishkaChelekom.ModalFocusTest do
   who opened it was left on the page behind it.
 
   Escape reaches every modal on the page, open or closed, through `phx-window-keydown`, and
-  `phx-remove` runs on a closed modal that a patch removes, so the commands that move focus run
-  only for the modal that is actually opening or closing.
+  `phx-remove` runs on a closed modal that a patch removes, so the commands that move focus and
+  unlock the page's scroll run only for the modal that is actually opening or closing.
 
   The focus stack is shared by every dialog on the page, so an open pushes one entry whatever has
   focus, nothing included, and the close pops that entry and not one another dialog pushed.
@@ -315,6 +315,18 @@ defmodule MishkaChelekom.ModalFocusTest do
     assert {_closed, ["pop_focus"], page} = play(hide, open, page)
     assert page.stack == ["other-opener"]
     refute page.focus == "other-opener"
+  end
+
+  test "opening locks the page's scroll and only a real close unlocks it", context do
+    %{closed: closed, show: show, hide: hide} = context
+    locked = MapSet.new([".overflow-hidden"])
+
+    assert {open, _ran, %{body: ^locked} = page} = play(show, closed, @page)
+    assert {_closed, _ran, %{body: body}} = play(hide, open, page)
+    assert MapSet.size(body) == 0
+
+    # Another modal is open and locked it; this one is closed, and a patch removes it.
+    assert {_closed, _ran, %{body: ^locked}} = play(hide, closed, %{@page | body: locked})
   end
 
   test "closing a modal that is already closed leaves the focus stack alone", context do
