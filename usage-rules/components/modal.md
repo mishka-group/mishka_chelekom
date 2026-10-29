@@ -65,9 +65,13 @@ later, use the helpers.
 - Escape, a click outside the panel and the close button close the modal.
 - Opening moves focus to the first focusable element in the panel, the close button, and Tab stays
   inside the panel while the modal is open.
-- Closing gives focus back to the element that had it when the modal opened.
-- Opening a modal that is already open, or closing one that is already closed, leaves focus alone,
-  so a closed modal on the page never takes focus from another open dialog.
+- Closing gives focus back to the element that had it when the modal opened. A modal opened while
+  nothing had focus (with `show`, or from a button in Safari, which does not focus a clicked
+  button) moves no focus when it closes.
+- Opening locks the page's scroll (`overflow-hidden` on `<body>`) and closing unlocks it.
+- Opening a modal that is already open, or closing one that is already closed, leaves focus and
+  the page's scroll alone, so a closed modal on the page, or one a patch removes, never takes
+  focus from another open dialog or unlocks the scroll under it.
 
 ## Available Options
 
