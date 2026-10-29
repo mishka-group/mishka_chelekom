@@ -26,29 +26,48 @@ mix mishka.ui.gen.component modal --module MyAppWeb.Components.CustomModal
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `id` | `:string` | **required** | Unique identifier |
+| `id` | `:string` | **required** | Unique identifier; the helpers take it |
+| `title` | `:string` | `nil` | Title, rendered beside the close button and used as the dialog's label |
 | `variant` | `:string` | `"base"` | Style variant |
-| `color` | `:string` | `"base"` | Color theme |
-| `size` | `:string` | `"medium"` | Modal width |
-| `rounded` | `:string` | `"medium"` | Border radius |
-| `padding` | `:string` | `"medium"` | Content padding |
-| `show` | `:boolean` | `false` | Initial visibility |
-| `title` | `:string` | `nil` | Modal title |
-| `hide_close` | `:boolean` | `false` | Hide close button |
-| `on_cancel` | `JS` | `nil` | Cancel action |
-| `on_confirm` | `JS` | `nil` | Confirm action |
-| `class` | `:any` | `nil` | Custom CSS class |
+| `color` | `:string` | `"natural"` | Color theme |
+| `size` | `:string` | `"extra_large"` | Maximum width |
+| `rounded` | `:string` | `"small"` | Border radius |
+| `border` | `:string` | `"extra_small"` | Border width (`base` and `bordered` only) |
+| `padding` | `:string` | `"medium"` | Padding |
+| `show` | `:boolean` | `false` | Open the modal when it mounts |
+| `on_cancel` | `JS` | `%JS{}` | Commands run before the modal closes on Escape, a click outside or the close button |
+| `class` | `:any` | `nil` | Class of the modal root |
+| `title_class` | `:string` | `"text-base md:text-lg xl:text-2xl"` | Class of the title |
+| `icon_class` | `:string` | `"size-5"` | Class of the close button's icon |
+| `close_class` | `:string` | `nil` | Class of the close button |
+| `content_class` | `:string` | `nil` | Class of the content |
+| `focus_wrap_class` | `:string` | `nil` | Class of the panel (the focus wrap) |
+| `inner_wrapper_class` | `:string` | `nil` | Class of the centring wrapper |
+| `wrapper_class` | `:string` | `nil` | Class of the scrolling dialog wrapper |
+| `overlay_class` | `:string` | `nil` | Class of the backdrop |
+
+The close button is always rendered. `show` is read when the modal mounts; to open or close it
+later, use the helpers.
 
 ## Slots
 
-- `inner_block` — modal content.
+- `inner_block` (required) — modal content.
 
 ## Helper Functions
 
-- `show_modal(id)` / `show_modal(js \\ %JS{}, id)` — show a modal programmatically.
-- `hide_modal(id)` / `hide_modal(js \\ %JS{}, id)` — hide a modal programmatically.
-- `show/1`, `show/2` — alternative show function.
-- `hide/1`, `hide/2` — alternative hide function.
+- `show_modal(js \\ %JS{}, id)` — opens the modal.
+- `hide_modal(js \\ %JS{}, id)` — closes it. It does not run `on_cancel`.
+- `show(js \\ %JS{}, selector)` / `hide(js \\ %JS{}, selector)` — the fade and scale transition on any
+  element, kept for Phoenix `CoreComponents` compatibility; they do not open or close a modal.
+
+## Keyboard and Focus
+
+- Escape, a click outside the panel and the close button close the modal.
+- Opening moves focus to the first focusable element in the panel, the close button, and Tab stays
+  inside the panel while the modal is open.
+- Closing gives focus back to the element that had it when the modal opened.
+- Opening a modal that is already open, or closing one that is already closed, leaves focus alone,
+  so a closed modal on the page never takes focus from another open dialog.
 
 ## Available Options
 
@@ -58,7 +77,11 @@ mix mishka.ui.gen.component modal --module MyAppWeb.Components.CustomModal
 | Colors | `base`, `white`, `natural`, `primary`, `secondary`, `dark`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn` |
 | Sizes | `extra_small`, `small`, `medium`, `large`, `extra_large`, `double_large`, `triple_large`, `quadruple_large`, `screen` |
 | Rounded | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+| Border | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
 | Padding | `extra_small`, `small`, `medium`, `large`, `extra_large`, `none` |
+
+The `base` variant ignores `color`. `white` and `dark` are colors of `default` and `bordered`;
+`shadow` and `gradient` take the other colors.
 
 ## Usage Examples
 
@@ -104,10 +127,10 @@ mix mishka.ui.gen.component modal --module MyAppWeb.Components.CustomModal
 </.modal>
 ```
 
-### Without Title/Close (manual close button)
+### Without a Title (own close button)
 
 ```heex
-<.modal id="custom-modal" hide_close={true} padding="none">
+<.modal id="custom-modal" padding="none">
   <div class="p-6">
     <h2 class="text-xl font-bold">Custom Header</h2>
     <p class="mt-4">Custom content with manual close button.</p>
