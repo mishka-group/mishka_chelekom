@@ -1,7 +1,7 @@
 [
   toolbar: [
     name: "toolbar",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/headless/toolbar",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/",
     args: [type: ["toolbar"], only: ["toolbar"], helpers: [], module: ""],

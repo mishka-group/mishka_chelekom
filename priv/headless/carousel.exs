@@ -1,7 +1,7 @@
 [
   carousel: [
     name: "carousel",
-    category: "data-display",
+    category: "data display",
     doc_url: "https://mishka.tools/chelekom/docs/headless/carousel",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/carousel/",
     args: [type: ["carousel"], only: ["carousel"], helpers: [], module: ""],

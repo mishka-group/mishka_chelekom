@@ -1,7 +1,7 @@
 [
   anchor: [
     name: "anchor",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/mob/anchor",
     args: [type: ["anchor"], only: ["anchor"], helpers: [], module: ""],
     optional: [],

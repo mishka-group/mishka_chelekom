@@ -1,7 +1,7 @@
 [
   anchor: [
     name: "anchor",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/headless/anchor",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/",
     args: [type: ["anchor"], only: ["anchor"], helpers: [], module: ""],

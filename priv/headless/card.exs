@@ -1,7 +1,7 @@
 [
   card: [
     name: "card",
-    category: "data-display",
+    category: "data display",
     doc_url: "https://mishka.tools/chelekom/docs/headless/card",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/",
     args: [type: ["card"], only: ["card"], helpers: [], module: ""],

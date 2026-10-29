@@ -330,4 +330,52 @@ defmodule MishkaChelekom.CatalogIntegrityTest do
       assert wrong == [], Enum.join(wrong, "\n")
     end
   end
+
+  # A CMS files its palette and its installer's picker by `category`, so two spellings of one word
+  # are two headings: the headless kit wrote `data display` and `data-display`, and `navigation`
+  # where the styled kit writes `navigations`, and both halves showed side by side.
+  defp category(path) do
+    {_name, cfg} = config(path)
+    if is_list(cfg), do: Keyword.get(cfg, :category)
+  end
+
+  # Case, spaces, hyphens and underscores are one spelling, and a word is its own plural.
+  defp category_word(category) do
+    category
+    |> String.downcase()
+    |> String.split(~r/[\s_-]+/u, trim: true)
+    |> Enum.join(" ")
+    |> String.replace_suffix("s", "")
+  end
+
+  describe "categories" do
+    test "every layer spells a category the same way" do
+      spellings =
+        for path <- @documented,
+            category = category(path),
+            is_binary(category),
+            reduce: %{} do
+          acc -> Map.update(acc, category_word(category), [category], &[category | &1])
+        end
+
+      wrong =
+        for {_word, written} <- spellings,
+            length(Enum.uniq(written)) > 1,
+            do: written |> Enum.frequencies() |> inspect()
+
+      assert map_size(spellings) > 5
+      assert wrong == [], "one category, several spellings:\n" <> Enum.join(wrong, "\n")
+    end
+
+    test "a Mob component carries its headless counterpart's category" do
+      wrong =
+        for path <- Path.wildcard("priv/mob/*.exs"),
+            headless = "priv/headless/" <> Path.basename(path),
+            File.exists?(headless),
+            category(path) != category(headless),
+            do: "#{path}: #{inspect(category(path))}, headless #{inspect(category(headless))}"
+
+      assert wrong == [], Enum.join(wrong, "\n")
+    end
+  end
 end

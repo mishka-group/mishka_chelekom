@@ -1,7 +1,7 @@
 [
   dock: [
     name: "dock",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/headless/dock",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/",
     args: [type: ["dock"], only: ["dock"], helpers: [], module: ""],

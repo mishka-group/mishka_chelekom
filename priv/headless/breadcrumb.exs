@@ -1,7 +1,7 @@
 [
   breadcrumb: [
     name: "breadcrumb",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/headless/breadcrumb",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/",
     args: [type: ["breadcrumb"], only: ["breadcrumb"], helpers: [], module: ""],

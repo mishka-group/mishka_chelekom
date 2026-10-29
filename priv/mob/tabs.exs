@@ -1,7 +1,7 @@
 [
   tabs: [
     name: "tabs",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/mob/tabs",
     args: [type: ["tabs"], only: ["tabs"], helpers: [], module: ""],
     optional: [],
