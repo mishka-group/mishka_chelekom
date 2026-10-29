@@ -107,9 +107,12 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
 
   @type report :: %{
           passed: non_neg_integer(),
+          skipped: [failure()],
           failed: [failure()],
           components_with_examples: non_neg_integer(),
-          components_total: non_neg_integer()
+          components_total: non_neg_integer(),
+          components_exercised: non_neg_integer(),
+          uncovered: [String.t()]
         }
 
   @doc """

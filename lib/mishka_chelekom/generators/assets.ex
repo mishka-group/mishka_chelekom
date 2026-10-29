@@ -104,7 +104,7 @@ defmodule MishkaChelekom.Generators.Assets do
   Reads the top-level `:npm` key, falling back to the default entry of `:libs` (the multi-engine
   shape, where each library pins its own packages but they all share one hook name).
   """
-  @spec npm_packages(keyword(), {atom(), keyword()} | nil) :: [String.t()]
+  @spec npm_packages(keyword(), {atom(), keyword()} | nil | :__default__) :: [String.t()]
   def npm_packages(config, lib \\ :__default__)
 
   def npm_packages(config, :__default__), do: npm_packages(config, resolve_lib(config, []))

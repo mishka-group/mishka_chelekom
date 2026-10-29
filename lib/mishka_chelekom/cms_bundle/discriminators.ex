@@ -72,8 +72,7 @@ defmodule MishkaChelekom.CmsBundle.Discriminators do
   def build_index(eex_source) when is_binary(eex_source) do
     case EEx.tokenize(eex_source, []) do
       {:ok, tokens} -> walk_index(tokens, [], %{})
-      {:error, _, _, _} -> %{}
-      {:error, _} -> %{}
+      {:error, _message, _meta} -> %{}
     end
   rescue
     _ -> %{}

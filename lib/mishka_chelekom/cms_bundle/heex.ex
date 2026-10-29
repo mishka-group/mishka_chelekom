@@ -81,9 +81,11 @@ defmodule MishkaChelekom.CmsBundle.Heex do
 
   defp safe_eex_tokenize(source) do
     case EEx.tokenize(source, []) do
-      {:ok, tokens} -> {:ok, tokens}
-      {:error, line, col, msg} -> {:error, "EEx parse error at #{line}:#{col} — #{msg}"}
-      {:error, msg} -> {:error, "EEx parse error — #{inspect(msg)}"}
+      {:ok, tokens} ->
+        {:ok, tokens}
+
+      {:error, msg, %{line: line, column: col}} ->
+        {:error, "EEx parse error at #{line}:#{col} — #{msg}"}
     end
   rescue
     e -> {:error, Exception.message(e)}
