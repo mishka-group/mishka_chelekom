@@ -84,7 +84,6 @@
             # Priority values are: `low, normal, high, higher`
             #
             {Credo.Check.Design.TagFIXME, []},
-            {Credo.Check.Design.TagTODO, [exit_status: 2]},
 
             #
             ## Readability Checks
@@ -204,11 +203,13 @@
         disabled: [
           # Switched off because the project's own convention differs, one reason each.
           #
-          # Modules are written out in full or aliased as the reader needs (`Igniter.Project.Deps`
-          # reads as Igniter's own docs do); 111 aliases for no change in behaviour.
+          # Modules are written out in full or aliased as the reader needs; about 1,100 aliases for no
+          # change in behaviour.
           {Credo.Check.Design.AliasUsage, []},
-          # Aliases are grouped by what they belong to (a test's module under test first), not sorted.
+          # Aliases are grouped by what they belong to, not sorted.
           {Credo.Check.Readability.AliasOrder, []},
+          # TODOs are tracked in the issue tracker, not by the build.
+          {Credo.Check.Design.TagTODO, []},
 
           #
           # Checks scheduled for next check update (opt-in for now)
