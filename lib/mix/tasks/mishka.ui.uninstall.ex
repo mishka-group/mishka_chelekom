@@ -189,8 +189,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       igniter.rewrite
       |> Rewrite.sources()
       |> Enum.map(&Rewrite.Source.get(&1, :path))
-      |> Enum.filter(&(Path.dirname(&1) == components_dir))
-      |> Enum.filter(&String.ends_with?(&1, ".ex"))
+      |> Enum.filter(&(Path.dirname(&1) == components_dir and String.ends_with?(&1, ".ex")))
 
     (real_files ++ virtual_files)
     |> Enum.uniq()
@@ -685,7 +684,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
         Igniter.add_notice(igniter, """
         These npm packages are no longer used by any installed component:
 
-            #{candidates |> Enum.map(fn {name, version} -> "#{name}@#{version}" end) |> Enum.join(", ")}
+            #{Enum.map_join(candidates, ", ", fn {name, version} -> "#{name}@#{version}" end)}
 
         They were left in assets/package.json. Remove them with --include-npm, or by hand.
         """)
@@ -706,7 +705,7 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     Left these in assets/package.json — the pinned version no longer matches the one this
     component declared, so the project depends on them for another reason:
 
-        #{kept |> Enum.map(fn {name, version} -> "#{name} (expected #{version})" end) |> Enum.join(", ")}
+        #{Enum.map_join(kept, ", ", fn {name, version} -> "#{name} (expected #{version})" end)}
     """)
   end
 
@@ -1151,5 +1150,5 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp verbose_log(_, _), do: :ok
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 end

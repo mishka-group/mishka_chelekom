@@ -48,7 +48,7 @@ defmodule Mix.Tasks.Mishka.Mob.Sync do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     igniter

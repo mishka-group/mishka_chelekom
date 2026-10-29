@@ -153,7 +153,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
 
     lines =
       if config.scripts != [] do
-        scripts_list = config.scripts |> Enum.map(&(&1[:module] || &1.module)) |> Enum.join(", ")
+        scripts_list = Enum.map_join(config.scripts, ", ", &(&1[:module] || &1.module))
         lines ++ ["**JavaScript Hooks:** #{scripts_list}\n"]
       else
         lines
@@ -166,7 +166,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
         lines
       end
 
-    Enum.join(lines, "")
+    Enum.join(lines)
   end
 
   defp add_if_not_empty(lines, list, label) do
@@ -200,8 +200,7 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
   defp format_name(name) do
     name
     |> String.split("_")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join("")
+    |> Enum.map_join(&String.capitalize/1)
   end
 
   defp format_helpers(helpers) when is_list(helpers) do

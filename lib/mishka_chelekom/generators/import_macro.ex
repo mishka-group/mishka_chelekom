@@ -89,7 +89,9 @@ defmodule MishkaChelekom.Generators.ImportMacro do
     |> Igniter.Project.Module.find_and_update_module!(web_module_name, fn zipper ->
       case Igniter.Code.Function.move_to_defp(zipper, :html_helpers, 0) do
         {:ok, zipper} ->
-          if !has_use?(zipper, import_module) do
+          if has_use?(zipper, import_module) do
+            {:ok, zipper}
+          else
             new_node =
               case zipper.node do
                 {:quote, _, [[{_, {:__block__, _, _args}}]]} = zip ->
@@ -131,8 +133,6 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
               {:ok, Igniter.Code.Common.replace_code(zipper, new_node)}
             end
-          else
-            {:ok, zipper}
           end
 
         :error ->

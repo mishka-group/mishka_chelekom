@@ -115,7 +115,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     # Owl's widget supervisor is not running under a bare `mix` invocation, so

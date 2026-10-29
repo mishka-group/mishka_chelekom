@@ -115,15 +115,13 @@ defmodule MishkaChelekom.MCP.Tools.GenerateComponents do
   defp get_components_list(params) do
     components = params[:components]
 
-    cond do
-      components == nil || components == "" || components == "all" ->
-        # Get all available components
-        ComponentConfig.list_components()
-        |> Enum.map(& &1.name)
-
-      true ->
-        String.split(components, ",")
-        |> Enum.map(&String.trim/1)
+    if components == nil || components == "" || components == "all" do
+      # Get all available components
+      ComponentConfig.list_components()
+      |> Enum.map(& &1.name)
+    else
+      String.split(components, ",")
+      |> Enum.map(&String.trim/1)
     end
   end
 

@@ -200,12 +200,10 @@ defmodule MishkaChelekom.MCP.Resources.GetConfig do
   end
 
   defp parse_config(config_path) do
-    try do
-      config = Config.Reader.read!(config_path)
-      Keyword.get(config, :mishka_chelekom, []) |> Map.new()
-    rescue
-      _ -> %{}
-    end
+    config = Config.Reader.read!(config_path)
+    Keyword.get(config, :mishka_chelekom, []) |> Map.new()
+  rescue
+    _ -> %{}
   end
 
   defp format_list(nil), do: "(all - no filter)"
@@ -227,8 +225,7 @@ defmodule MishkaChelekom.MCP.Resources.GetConfig do
   defp format_active_overrides(map) when is_map(map) do
     overrides =
       map
-      |> Enum.map(fn {key, value} -> "| `#{key}` | `#{value}` |" end)
-      |> Enum.join("\n")
+      |> Enum.map_join("\n", fn {key, value} -> "| `#{key}` | `#{value}` |" end)
 
     """
 

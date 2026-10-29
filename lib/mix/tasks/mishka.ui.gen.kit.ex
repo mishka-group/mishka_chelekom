@@ -105,7 +105,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Kit do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     Application.ensure_all_started(:owl)

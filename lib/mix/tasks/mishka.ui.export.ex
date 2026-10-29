@@ -243,12 +243,12 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     org = Keyword.get(options, :org, "component")
 
     org =
-      if org not in ["component", "preset", "template", "javascript"], do: "component", else: org
+      if org in ["component", "preset", "template", "javascript"], do: org, else: "component"
 
     igniter =
-      if !File.dir?(dir),
-        do: Igniter.add_issue(igniter, "The entered directory does not exist."),
-        else: igniter
+      if File.dir?(dir),
+        do: igniter,
+        else: Igniter.add_issue(igniter, "The entered directory does not exist.")
 
     base64 = Keyword.get(options, :base64, false)
 
@@ -459,7 +459,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   # final shape — direct create-params for `Runtime.JsHook`.
   defp aggregate_js_hooks(script_dir_pairs, kit_name, kit_version, base64?) do
     script_dir_pairs
-    |> Enum.uniq_by(fn {s, _dir, _exs_path} -> s[:module] || s["module"] end)
+    |> Enum.uniq_by(fn {s, _dir, _exs_path} -> s[:module] end)
     |> Enum.map(fn {s, dir, exs_path} ->
       pascal_name = stringify_script_field(s, :module)
       # MishkaCMS stores hook rows in DB by lowercase kebab name and
@@ -553,7 +553,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
       hook,
       "modules",
       Enum.map(user_files, fn item ->
-        file = item[:file] || item["file"]
+        file = item[:file]
         %{"file" => file, "content" => File.read!(Core.lib_priv("assets/js/#{file}"))}
       end)
     )

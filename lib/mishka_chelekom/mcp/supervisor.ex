@@ -62,7 +62,7 @@ defmodule MishkaChelekom.MCP.Supervisor do
          scheme: :http, plug: MishkaChelekom.MCP.Router, options: [port: port, ip: ip]}
 
       true ->
-        raise "No HTTP server available. Please add {:bandit, \"~> 1.0\"} or {:plug_cowboy, \"~> 2.7\"} to your dependencies."
+        raise ~s(No HTTP server available. Please add {:bandit, "~> 1.0"} or {:plug_cowboy, "~> 2.7"} to your dependencies.)
     end
   end
 end

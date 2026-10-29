@@ -16,6 +16,8 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
   alias MishkaChelekom.CmsBundleExporter
   alias MishkaChelekom.CmsBundle.Heex, as: HeexTagRewriter
 
+  doctest MishkaChelekom.CmsBundleExporter
+
   @moduletag :unit
 
   @fixture_dir Path.expand("../fixtures/cms_bundle", __DIR__)

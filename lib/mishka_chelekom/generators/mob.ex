@@ -51,7 +51,7 @@ defmodule MishkaChelekom.Generators.Mob do
   @spec source_dir() :: String.t()
   def source_dir, do: "development/mob/lib/mishka_mob/components"
 
-  @doc "The kit module basenames (`[\"anchored\", \"color\", \"event\"]`)."
+  @doc ~s{The kit module basenames (`["anchored", "color", "event"]`).}
   @spec kit_modules() :: [String.t()]
   def kit_modules, do: @kit_modules
 

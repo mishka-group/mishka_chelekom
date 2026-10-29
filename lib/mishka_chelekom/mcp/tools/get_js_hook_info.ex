@@ -74,7 +74,7 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
     scripts_by_component = ComponentConfig.list_scripts()
 
     hooks_info =
-      Enum.map(hooks, fn hook ->
+      Enum.map_join(hooks, "\n", fn hook ->
         # Find which components use this hook
         using_components =
           scripts_by_component
@@ -95,7 +95,6 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
 
         "- **#{hook.module}** (`#{hook.file}`) - Used by: #{components_str}"
       end)
-      |> Enum.join("\n")
 
     """
     # ⚡ JavaScript Hooks
@@ -141,7 +140,7 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
 
   defp fallback_response(name) do
     hooks = ComponentConfig.list_js_hooks()
-    hook_names = Enum.map(hooks, & &1.name) |> Enum.join(", ")
+    hook_names = Enum.map_join(hooks, ", ", & &1.name)
 
     """
     # #{format_name(name)} Hook
@@ -172,7 +171,6 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
   defp format_name(name) do
     name
     |> String.split("_")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join("")
+    |> Enum.map_join(&String.capitalize/1)
   end
 end

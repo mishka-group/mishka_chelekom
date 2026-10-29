@@ -134,8 +134,7 @@ defmodule MishkaChelekom.CmsBundle.Examples do
   defp unpack(block) when is_binary(block), do: {block, nil, nil, %{}}
 
   defp unpack(%{} = b) do
-    {b[:source] || b["source"], b[:section] || b["section"], b[:label] || b["label"],
-     b[:assigns] || b["assigns"] || %{}}
+    {b[:source], b[:section], b[:label], b[:assigns] || %{}}
   end
 
   # `requires` comes from the snippet's real attrs, never the section id:

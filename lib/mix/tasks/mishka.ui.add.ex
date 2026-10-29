@@ -261,7 +261,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
       show_errors(igniter, errors)
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def uniq_components?(name, value) do
     names = Enum.map(value, & &1[:name]) |> Enum.uniq() |> length()
@@ -309,8 +309,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
   def format_errors(errors) do
     errors
-    |> Enum.map(&process_error(&1, ""))
-    |> Enum.join("\n")
+    |> Enum.map_join("\n", &process_error(&1, ""))
   end
 
   defp process_error(%{errors: nested_errors} = error, indent) do
@@ -339,8 +338,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
 
   defp format_nested_errors(nested_errors, indent) do
     nested_errors
-    |> Enum.map(&process_error(&1, indent))
-    |> Enum.join("\n")
+    |> Enum.map_join("\n", &process_error(&1, indent))
   end
 
   defp repo_url("component_" <> name, igniter, _github?) do
@@ -427,7 +425,7 @@ defmodule Mix.Tasks.Mishka.Ui.Add do
     end
   end
 
-  defp external_call_warning() do
+  defp external_call_warning do
     """
     #{IO.ANSI.red()}#{IO.ANSI.bright()}#{IO.ANSI.underline()}This is a security message, please pay attention to it!!!#{IO.ANSI.reset()}
 

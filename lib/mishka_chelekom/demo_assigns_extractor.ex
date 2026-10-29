@@ -90,7 +90,7 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
 
   defp find_mount_in_block(stmts) do
     Enum.find_value(stmts, fn
-      {:def, _, [{:mount, _, args}, [do: body]]} when length(args) == 3 -> body
+      {:def, _, [{:mount, _, [_params, _session, _socket]}, [do: body]]} -> body
       _ -> nil
     end)
   end
@@ -145,21 +145,19 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
   defp to_atom_key(_), do: nil
 
   defp eval_value(ast) do
-    cond do
-      contains_unsafe?(ast) ->
-        {:error, :unsafe_call}
+    if contains_unsafe?(ast) do
+      {:error, :unsafe_call}
+    else
+      try do
+        {value, _bindings} =
+          Code.eval_quoted(ast, [], file: "demo_assigns_extractor", line: 1)
 
-      true ->
-        try do
-          {value, _bindings} =
-            Code.eval_quoted(ast, [], file: "demo_assigns_extractor", line: 1)
-
-          if serializable?(value), do: {:ok, value}, else: {:error, :unsupported_expression}
-        rescue
-          _ -> {:error, :raised}
-        catch
-          _, _ -> {:error, :raised}
-        end
+        if serializable?(value), do: {:ok, value}, else: {:error, :unsupported_expression}
+      rescue
+        _ -> {:error, :raised}
+      catch
+        _, _ -> {:error, :raised}
+      end
     end
   end
 

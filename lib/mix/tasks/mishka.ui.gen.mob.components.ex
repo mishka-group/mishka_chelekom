@@ -59,7 +59,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Mob.Components do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     # See mishka.ui.gen.mob — Owl.Spinner needs its supervisor started.

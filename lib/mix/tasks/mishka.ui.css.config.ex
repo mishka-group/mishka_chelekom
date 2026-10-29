@@ -273,8 +273,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
       invalid_values =
         values
         |> Enum.reject(&is_binary/1)
-        |> Enum.map(&inspect/1)
-        |> Enum.join(", ")
+        |> Enum.map_join(", ", &inspect/1)
 
       ["#{label} must contain only strings. Invalid values: #{invalid_values}" | issues]
     end
@@ -293,8 +292,7 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
     overrides_display =
       if map_size(config.css_overrides) > 0 do
         config.css_overrides
-        |> Enum.map(fn {k, v} -> "* #{k}: #{inspect(v)}" end)
-        |> Enum.join("\n")
+        |> Enum.map_join("\n", fn {k, v} -> "* #{k}: #{inspect(v)}" end)
       else
         "* (none)"
       end
@@ -313,12 +311,11 @@ defmodule Mix.Tasks.Mishka.Ui.Css.Config do
 
     filters_display =
       component_filters
-      |> Enum.map(fn {label, values} ->
+      |> Enum.map_join("\n", fn {label, values} ->
         dif = if(label == "Excluded components", do: "(none)", else: "(all)")
         value_str = if values == [], do: dif, else: inspect(values)
         "* #{label}: #{value_str}"
       end)
-      |> Enum.join("\n")
 
     igniter
     |> Igniter.add_notice("""

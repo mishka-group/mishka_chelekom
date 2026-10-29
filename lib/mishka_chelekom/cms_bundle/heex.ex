@@ -208,26 +208,24 @@ defmodule MishkaChelekom.CmsBundle.Heex do
        when kind in [:local_component, :remote_component, :tag, :slot] do
     case pop_matching(stack, kind, name) do
       {{^kind, ^name, _attrs, open_meta}, rest_stack} ->
-        cond do
-          kind == :local_component and MapSet.member?(kit, name) and
-              emit?(rest_stack, kit, nested?) ->
-            from = %{line: open_meta.line, column: open_meta.column}
-            to = close_end(close_meta)
-            base = slice!(src, table, from: from, to: to)
-            snippet = wrap_with_ancestors(base, rest_stack)
+        if kind == :local_component and MapSet.member?(kit, name) and
+             emit?(rest_stack, kit, nested?) do
+          from = %{line: open_meta.line, column: open_meta.column}
+          to = close_end(close_meta)
+          base = slice!(src, table, from: from, to: to)
+          snippet = wrap_with_ancestors(base, rest_stack)
 
-            walk_extract(
-              rest,
-              src,
-              table,
-              kit,
-              rest_stack,
-              [%{component: name, source: snippet, line: open_meta.line} | acc],
-              nested?
-            )
-
-          true ->
-            walk_extract(rest, src, table, kit, rest_stack, acc, nested?)
+          walk_extract(
+            rest,
+            src,
+            table,
+            kit,
+            rest_stack,
+            [%{component: name, source: snippet, line: open_meta.line} | acc],
+            nested?
+          )
+        else
+          walk_extract(rest, src, table, kit, rest_stack, acc, nested?)
         end
 
       :no_match ->

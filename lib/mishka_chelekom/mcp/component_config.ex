@@ -25,11 +25,20 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
     |> Enum.map(fn name ->
       file_path = Path.join(path, name <> ".exs")
 
+      # A config that does not read, or is not one `name: [...]` entry, is left out.
       try do
         {[{name, config}], _} = Code.eval_file(file_path)
         {name, config}
       rescue
-        _ -> nil
+        _ in [
+          CompileError,
+          SyntaxError,
+          TokenMissingError,
+          MismatchedDelimiterError,
+          MatchError,
+          File.Error
+        ] ->
+          nil
       end
     end)
     |> Enum.reject(&is_nil/1)
@@ -112,11 +121,10 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
   """
   def list_doc_urls do
     load_all()
-    |> Enum.map(fn {name, config} ->
+    |> Map.new(fn {name, config} ->
       name_str = to_string(name)
       {name_str, Keyword.get(config, :doc_url, default_doc_url(name_str))}
     end)
-    |> Enum.into(%{})
   end
 
   @doc """

@@ -97,7 +97,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
     }
   end
 
-  def supports_umbrella?(), do: false
+  def supports_umbrella?, do: false
 
   def igniter(igniter) do
     Application.ensure_all_started(:owl)
@@ -220,10 +220,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
         args when is_list(args) ->
           splited_args = Core.convert_options(value)
 
-          if !Enum.all?(splited_args, &(&1 in args)) do
-            {[{key, args} | bad_acc], data_acc}
-          else
+          if Enum.all?(splited_args, &(&1 in args)) do
             {bad_acc, [{key, splited_args} | data_acc]}
+          else
+            {[{key, args} | bad_acc], data_acc}
           end
 
         _ ->
@@ -376,10 +376,10 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Component do
           end
 
         component_acc =
-          if !is_nil(options[:module]) do
-            [{item, Core.module_atom(options[:module])}]
-          else
+          if is_nil(options[:module]) do
             []
+          else
+            [{item, Core.module_atom(options[:module])}]
           end
 
         {module_coms ++ component_acc, Igniter.compose_task(acc, "mishka.ui.gen.component", args)}

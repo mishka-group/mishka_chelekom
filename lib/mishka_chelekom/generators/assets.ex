@@ -276,7 +276,10 @@ defmodule MishkaChelekom.Generators.Assets do
           # a stale file that still imports the packages we just removed.
           installed = Map.get(item, :as, item.file)
 
-          if !is_nil(content) do
+          if is_nil(content) do
+            acc
+            |> Igniter.add_issue("The requested JavaScript file does not exist.")
+          else
             # `create_or_update_file/4` only uses this when the file is absent, and it reads an
             # existing one through the rewrite — so never touch the real filesystem here, or the
             # whole wiring step becomes untestable (and wrong under `Igniter.Test`).
@@ -287,9 +290,6 @@ defmodule MishkaChelekom.Generators.Assets do
               Rewrite.Source.update(source, :content, content)
             end)
             |> register_hook(item, caller_js)
-          else
-            acc
-            |> Igniter.add_issue("The requested JavaScript file does not exist.")
           end
         end)
 

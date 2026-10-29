@@ -408,14 +408,13 @@ defmodule MishkaChelekom.MCP.Resources.ListCssVariables do
 
     categories =
       sections
-      |> Enum.map(fn {category, variables} ->
+      |> Enum.map_join("\n", fn {category, variables} ->
         vars =
           variables
           |> Enum.filter(fn {name, _desc} -> Map.has_key?(defaults, name) end)
-          |> Enum.map(fn {name, desc} ->
+          |> Enum.map_join("\n", fn {name, desc} ->
             "| `#{name}` | `#{Map.fetch!(defaults, name)}` | #{desc} |"
           end)
-          |> Enum.join("\n")
 
         """
         ### #{category}
@@ -425,7 +424,6 @@ defmodule MishkaChelekom.MCP.Resources.ListCssVariables do
         #{vars}
         """
       end)
-      |> Enum.join("\n")
 
     """
     # Mishka Chelekom CSS Variables

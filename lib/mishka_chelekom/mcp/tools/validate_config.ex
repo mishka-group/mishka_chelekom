@@ -52,17 +52,15 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
   end
 
   defp parse_config_safely(config_path) do
-    try do
-      config = Config.Reader.read!(config_path)
-      mishka_config = Keyword.get(config, :mishka_chelekom, [])
-      {:ok, mishka_config}
-    rescue
-      e in [CompileError, SyntaxError] ->
-        {:error, Exception.message(e)}
+    config = Config.Reader.read!(config_path)
+    mishka_config = Keyword.get(config, :mishka_chelekom, [])
+    {:ok, mishka_config}
+  rescue
+    e in [CompileError, SyntaxError] ->
+      {:error, Exception.message(e)}
 
-      e ->
-        {:error, inspect(e)}
-    end
+    e ->
+      {:error, inspect(e)}
   end
 
   defp validate_configuration(config, config_path) do
@@ -165,7 +163,7 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
           if Enum.all?(list, &is_binary/1) do
             acc
           else
-            invalid = list |> Enum.reject(&is_binary/1) |> Enum.map(&inspect/1) |> Enum.join(", ")
+            invalid = list |> Enum.reject(&is_binary/1) |> Enum.map_join(", ", &inspect/1)
             ["#{field} must contain only strings, invalid values: #{invalid}" | acc]
           end
 
@@ -236,7 +234,7 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
     | Module Prefix | #{if module_prefix, do: "`#{module_prefix}`", else: "(none)"} |
     | Excluded Components | #{if excluded == [], do: "(none)", else: "#{length(excluded)} components"} |
 
-    #{if filters != [], do: "### Active Filters\n\n#{Enum.map(filters, &"- #{&1}") |> Enum.join("\n")}", else: ""}
+    #{if filters != [], do: "### Active Filters\n\n#{Enum.map_join(filters, "\n", &"- #{&1}")}", else: ""}
 
     ---
 
@@ -259,8 +257,7 @@ defmodule MishkaChelekom.MCP.Tools.ValidateConfig do
     issue_list =
       issues
       |> Enum.with_index(1)
-      |> Enum.map(fn {issue, i} -> "#{i}. #{issue}" end)
-      |> Enum.join("\n")
+      |> Enum.map_join("\n", fn {issue, i} -> "#{i}. #{issue}" end)
 
     """
     # Configuration Invalid

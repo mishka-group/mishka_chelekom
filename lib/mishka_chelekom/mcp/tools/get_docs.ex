@@ -187,8 +187,7 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
   defp format_topic_name(topic) do
     topic
     |> String.split("-")
-    |> Enum.map(&String.capitalize/1)
-    |> Enum.join(" ")
+    |> Enum.map_join(" ", &String.capitalize/1)
   end
 
   defp quick_reference(topic) when topic in ["cli", "mix-tasks", "commands"] do

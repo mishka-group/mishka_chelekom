@@ -48,12 +48,10 @@ defmodule MishkaChelekom.Config do
 
   # Load config from a file path
   defp load_config_from_file(config_path) do
-    try do
-      config = Elixir.Config.Reader.read!(config_path)
-      extract_mishka_config(config)
-    rescue
-      _ -> default_config()
-    end
+    config = Elixir.Config.Reader.read!(config_path)
+    extract_mishka_config(config)
+  rescue
+    _ -> default_config()
   end
 
   # Parse config content from string (for test environments)
@@ -77,8 +75,8 @@ defmodule MishkaChelekom.Config do
     mishka_config = Keyword.get(config, :mishka_chelekom, [])
 
     # Build the config map by extracting each key with its default
-    Enum.reduce(@config_mappings, %{}, fn {key, default}, acc ->
-      Map.put(acc, key, Keyword.get(mishka_config, key, default))
+    Map.new(@config_mappings, fn {key, default} ->
+      {key, Keyword.get(mishka_config, key, default)}
     end)
   end
 

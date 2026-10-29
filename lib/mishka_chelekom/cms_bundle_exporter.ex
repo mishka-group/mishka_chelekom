@@ -307,7 +307,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp total_catch_all(_signature, _clauses, false), do: []
 
   defp total_catch_all({name, arity}, clauses, true) do
-    if is_integer(arity) and length(clauses) > 1 and dispatcher_group?(clauses) and
+    if is_integer(arity) and match?([_, _ | _], clauses) and dispatcher_group?(clauses) and
          not already_total?(clauses) do
       [
         %{
@@ -691,18 +691,14 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp classify_import(full, _line) when full in @tier1_import_modules, do: {:tier1, full}
 
   defp classify_import(full, line) do
-    cond do
-      String.contains?(full, ".Components.") -> {:icon_companion, full}
-      true -> {:line, line}
-    end
+    if String.contains?(full, ".Components."), do: {:icon_companion, full}, else: {:line, line}
   end
 
   defp format_only_kw(nil), do: nil
 
   defp format_only_kw(only) when is_list(only) do
     only
-    |> Enum.map(fn {name, arity} -> "#{name}: #{arity}" end)
-    |> Enum.join(", ")
+    |> Enum.map_join(", ", fn {name, arity} -> "#{name}: #{arity}" end)
   end
 
   defp parse_use([{:__aliases__, _, parts}]) do
@@ -916,11 +912,9 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp opt_value({fun, _, args}) when is_atom(fun) and is_list(args), do: :__drop__
 
   defp opt_value(ast) do
-    try do
-      Macro.to_string(ast)
-    rescue
-      _ -> inspect(ast)
-    end
+    Macro.to_string(ast)
+  rescue
+    _ -> inspect(ast)
   end
 
   # Encode each map entry. Returns `{:ok, list}` of `{encoded_k,
@@ -1027,7 +1021,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
   defp head_to_helper_entry(head, body, _visibility, attrs, slots) do
     {name, args, guard} = decompose_head(head)
 
-    args_str = args |> Enum.map(&Macro.to_string/1) |> Enum.join(", ")
+    args_str = Enum.map_join(args, ", ", &Macro.to_string/1)
 
     full_args =
       if guard, do: "#{args_str} when #{Macro.to_string(guard)}", else: args_str
@@ -1389,7 +1383,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
     script_deps =
       (scripts || [])
-      |> Enum.map(fn s -> s[:file] || s["file"] end)
+      |> Enum.map(& &1[:file])
       |> Enum.reject(&(is_nil(&1) or &1 == ""))
       |> Enum.map(&to_string/1)
 

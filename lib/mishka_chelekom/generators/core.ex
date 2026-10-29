@@ -54,9 +54,8 @@ defmodule MishkaChelekom.Generators.Core do
   @type layer :: :styled | :headless | :mob
 
   @doc """
-  Joins a sub-path onto the library `priv/` dir.
-
-      iex> MishkaChelekom.Generators.Core.lib_priv("components/button.eex")
+  Joins a sub-path onto the library `priv/` dir, for example
+  `lib_priv("components/button.eex")` for the button template.
   """
   @spec lib_priv(String.t()) :: String.t()
   def lib_priv(sub), do: Path.join(lib_priv_dir(), sub)
@@ -313,8 +312,7 @@ defmodule MishkaChelekom.Generators.Core do
   def module_atom(field) do
     field
     |> String.split(".", trim: true)
-    |> Enum.map(&Macro.camelize/1)
-    |> Enum.join(".")
+    |> Enum.map_join(".", &Macro.camelize/1)
     |> String.to_atom()
   end
 
