@@ -1,4 +1,9 @@
 defmodule MishkaChelekom.Test.Runtime.LiveViewHelpers do
+  @moduledoc """
+  The `component/1` dispatcher the demo harness renders through: it finds the runtime-compiled
+  module for a component name and site and renders it, or a visible error when the module is not
+  loaded or a runtime slot is malformed.
+  """
   import Phoenix.Component
   alias MishkaChelekom.Test.Runtime.Compilers.Helpers
 
@@ -48,7 +53,7 @@ defmodule MishkaChelekom.Test.Runtime.LiveViewHelpers do
         is_nil(slot[:for_slot]) || slot[:for_slot] == ""
       end)
 
-    if length(invalid_slots) > 0 do
+    if invalid_slots != [] do
       {:error, "Missing for_slot attribute in #{length(invalid_slots)} slot(s)"}
     else
       processed_slots =

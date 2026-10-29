@@ -3,6 +3,7 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
 
   @moduletag :mcp_server
 
+  alias Mix.Tasks.Mishka.Mcp.Server, as: ServerTask
   alias MishkaChelekom.MCP.Supervisor, as: MCPSupervisor
 
   describe "MCP Server" do
@@ -207,8 +208,6 @@ defmodule Mix.Tasks.Mishka.Mcp.ServerTest do
   end
 
   describe "parse_args/1 (transport selection)" do
-    alias Mix.Tasks.Mishka.Mcp.Server, as: ServerTask
-
     test "defaults to http on port 4003 when no args" do
       assert {:ok, {:http, [port: 4003, ip: {127, 0, 0, 1}]}} = ServerTask.parse_args([])
     end

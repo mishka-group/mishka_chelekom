@@ -329,6 +329,16 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ModuleCompiler do
     end
   end
 
+  # Installs one compiled module, purging an already-loaded copy first.
+  defp load_compiled({module, binary}, file) do
+    if :code.is_loaded(module) != false, do: :code.purge(module)
+
+    case :code.load_binary(module, String.to_charlist(file), binary) do
+      {:module, ^module} -> :ok
+      {:error, reason} -> throw({:load_failed, module, reason})
+    end
+  end
+
   # Performs the actual compilation and loading.
   #
   # `:elixir_compiler.quoted/3` returns `[{module, binary}]` but does not
@@ -342,14 +352,7 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ModuleCompiler do
 
     case results do
       [_ | _] = mods ->
-        Enum.each(mods, fn {module, binary} ->
-          if :code.is_loaded(module) != false, do: :code.purge(module)
-
-          case :code.load_binary(module, String.to_charlist(file), binary) do
-            {:module, ^module} -> :ok
-            {:error, reason} -> throw({:load_failed, module, reason})
-          end
-        end)
+        Enum.each(mods, &load_compiled(&1, file))
 
         # Return the LAST module (the user-facing component module — its
         # related Version/PaperTrail modules come earlier in the list).

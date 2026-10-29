@@ -145,7 +145,7 @@ defmodule MishkaChelekom.CmsBundle.Discriminators.IndexTest do
   ## ── argument normalisation ────────────────────────────────────────
 
   test "normalize_args/1 collapses whitespace + trims" do
-    assert Index.normalize_args("  \"a\" ,    \"b\"  ") == "\"a\" , \"b\""
+    assert Index.normalize_args(~S|  "a" ,    "b"  |) == ~S|"a" , "b"|
     assert Index.normalize_args("foo\n  bar") == "foo bar"
   end
 

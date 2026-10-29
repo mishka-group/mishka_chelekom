@@ -10,6 +10,7 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
   import Phoenix.Component
   import MishkaChelekom.Test.Runtime.DemoHarness.DocsStubs
   alias Phoenix.LiveView.JS
+  require Logger
   _ = &component/1
   _ = &assign_new/3
   _ = &cp/1
@@ -247,33 +248,31 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
   # whole report — the snippet itself will fail at compile/render and
   # be classified there.
   defp tokenize_heex(source) do
-    try do
-      state =
-        Phoenix.LiveView.TagEngine.Tokenizer.init(
-          0,
-          "demo_harness",
-          source,
-          Phoenix.LiveView.HTMLEngine
-        )
+    state =
+      Phoenix.LiveView.TagEngine.Tokenizer.init(
+        0,
+        "demo_harness",
+        source,
+        Phoenix.LiveView.HTMLEngine
+      )
 
-      {tokens, _cont} =
-        Phoenix.LiveView.TagEngine.Tokenizer.tokenize(
-          source,
-          [line: 1, column: 1],
-          [],
-          {:text, :enabled},
-          state
-        )
+    {tokens, _cont} =
+      Phoenix.LiveView.TagEngine.Tokenizer.tokenize(
+        source,
+        [line: 1, column: 1],
+        [],
+        {:text, :enabled},
+        state
+      )
 
-      # Tokenizer returns tokens REVERSE-prepended; reverse for source
-      # order. (Optional for our use here since we just check membership,
-      # but keeps the contract consistent.)
-      {:ok, Enum.reverse(tokens)}
-    rescue
-      _ -> :error
-    catch
-      _, _ -> :error
-    end
+    # Tokenizer returns tokens REVERSE-prepended; reverse for source
+    # order. (Optional for our use here since we just check membership,
+    # but keeps the contract consistent.)
+    {:ok, Enum.reverse(tokens)}
+  rescue
+    _ -> :error
+  catch
+    _, _ -> :error
   end
 
   # A component "directly tested" iff at least one of its examples
@@ -334,13 +333,10 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
               :ok
 
             {:error, _, _} = err ->
-              require Logger
               Logger.warning("[DemoHarness] compile failed for #{params[:name]}: #{inspect(err)}")
           end
         rescue
           e ->
-            require Logger
-
             Logger.warning(
               "[DemoHarness] component compile raised for #{params[:name]}: #{Exception.message(e)}"
             )
@@ -381,10 +377,12 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
   # FIRST clause's template for every call regardless of its guard.
   # `build_module/1` atomizes recursively, so string keys are fine here.
   defp derive_extra_params(%{extra: extra} = params) when is_map(extra) do
+    extra = Map.new(extra, fn {k, v} -> {if(is_binary(k), do: String.to_atom(k), else: k), v} end)
+
     params
-    |> Map.put(:prelude, extra["prelude"] || extra[:prelude])
-    |> Map.put(:module_attributes, extra["module_attributes"] || extra[:module_attributes] || [])
-    |> Map.put(:clauses, extra["clauses"] || extra[:clauses] || [])
+    |> Map.put(:prelude, extra[:prelude])
+    |> Map.put(:module_attributes, extra[:module_attributes] || [])
+    |> Map.put(:clauses, extra[:clauses] || [])
   end
 
   defp derive_extra_params(params), do: params
@@ -458,56 +456,61 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
           {p + 1, s, f}
 
         {:error, reason} ->
-          record = build_failure(component, ex, reason)
-
-          case classify(reason) do
-            :skip -> {p, [record | s], f}
-            :fail -> {p, s, [record | f]}
-          end
+          tally_error(classify(reason), build_failure(component, ex, reason), {p, s, f})
       end
     end)
   end
+
+  defp tally_error(:skip, record, {p, s, f}), do: {p, [record | s], f}
+  defp tally_error(:fail, record, {p, s, f}), do: {p, s, [record | f]}
+
+  # The reasons that are skip-worthy structural limitations. A reason matches an entry when it
+  # contains EVERY fragment of it.
+  #
+  # The set of skip patterns is deliberately small — we want most
+  # failures to surface. Add new patterns here only with a comment
+  # explaining why the case is structurally untestable in isolation.
+  @skip_patterns [
+    # Snippet references a variable bound by a parent comprehension.
+    ["undefined variable"],
+    # Form-input components need a `<.form>` parent + FormField struct.
+    ["key :form not found"],
+    # Chelekom helper module functions (e.g. `Drawer.show_drawer/2`)
+    # aren't shipped in the runtime CMS — the runtime only ships the
+    # functional component modules, not the kit's static source.
+    ["is undefined (module", "is not available"],
+    # Demos that reference runtime list/map assigns we don't supply
+    # (e.g. `@items` populated only via `handle_event/3`). The body's
+    # `Enum.<foo>(@items, …)` raises when `@items` is `nil`. This is
+    # structural — the harness renders single invocations in isolation
+    # and can't simulate the demo's host LiveView event flow.
+    ["Enumerable not implemented", "value:"],
+    # Map/list access on a value that's nil because the demo expected
+    # a fixture from `mount/3` we couldn't extract (computed values).
+    ["no function clause matching", "nil"],
+    ["key :", "not found in:", "nil"],
+    # `:erlang.++(nil, …)` and similar arithmetic-on-nil errors —
+    # a kit helper expected an attr we couldn't supply with a
+    # meaningful default (e.g. `assigns.rest` being a list when the
+    # demo passed only literals). Mark as structural skip.
+    ["argument error", "nil"],
+    # Non-chelekom helpers referenced from inside extracted blocks
+    # that aren't stubbed (e.g. `<.custom_component_list>` from
+    # mishka.tools' docs site). We stub the common ones in
+    # `DocsStubs`; the rest are best-effort skips.
+    ["is undefined (there is no such import)"]
+  ]
 
   # Classify a reason as a skip-worthy structural limitation (the
   # demo's invocation depends on something we can't supply in
   # isolation: an outer `:for={s <- …}`, a `<.form>` parent, or a
   # module-qualified helper function defined only in chelekom's source
   # tree) versus a real failure that should fail the test.
-  #
-  # The set of skip patterns is deliberately small — we want most
-  # failures to surface. Add new patterns here only with a comment
-  # explaining why the case is structurally untestable in isolation.
   defp classify(reason) when is_binary(reason) do
-    cond do
-      # Snippet references a variable bound by a parent comprehension.
-      reason =~ "undefined variable" -> :skip
-      # Form-input components need a `<.form>` parent + FormField struct.
-      reason =~ "key :form not found" -> :skip
-      # Chelekom helper module functions (e.g. `Drawer.show_drawer/2`)
-      # aren't shipped in the runtime CMS — the runtime only ships the
-      # functional component modules, not the kit's static source.
-      reason =~ "is undefined (module" and reason =~ "is not available" -> :skip
-      # Demos that reference runtime list/map assigns we don't supply
-      # (e.g. `@items` populated only via `handle_event/3`). The body's
-      # `Enum.<foo>(@items, …)` raises when `@items` is `nil`. This is
-      # structural — the harness renders single invocations in isolation
-      # and can't simulate the demo's host LiveView event flow.
-      reason =~ "Enumerable not implemented" and reason =~ "value:" -> :skip
-      # Map/list access on a value that's nil because the demo expected
-      # a fixture from `mount/3` we couldn't extract (computed values).
-      reason =~ "no function clause matching" and reason =~ "nil" -> :skip
-      reason =~ "key :" and reason =~ "not found in:" and reason =~ "nil" -> :skip
-      # `:erlang.++(nil, …)` and similar arithmetic-on-nil errors —
-      # a kit helper expected an attr we couldn't supply with a
-      # meaningful default (e.g. `assigns.rest` being a list when the
-      # demo passed only literals). Mark as structural skip.
-      reason =~ "argument error" and reason =~ "nil" -> :skip
-      # Non-chelekom helpers referenced from inside extracted blocks
-      # that aren't stubbed (e.g. `<.custom_component_list>` from
-      # mishka.tools' docs site). We stub the common ones in
-      # `DocsStubs`; the rest are best-effort skips.
-      reason =~ "is undefined (there is no such import)" -> :skip
-      true -> :fail
+    if Enum.any?(@skip_patterns, fn needles -> Enum.all?(needles, &(reason =~ &1)) end) do
+      :skip
+    else
+      :fail
     end
   end
 
@@ -627,12 +630,10 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
         # variable s"), surface that instead of the wrapper. Both
         # classify pipelines (skip vs fail) read the resulting string,
         # so this directly affects the verdict.
-        cond do
-          captured_stderr != "" and reason =~ "errors have been logged" ->
-            {:error, captured_stderr <> "\n" <> reason}
-
-          true ->
-            {:error, reason}
+        if captured_stderr != "" and reason =~ "errors have been logged" do
+          {:error, captured_stderr <> "\n" <> reason}
+        else
+          {:error, reason}
         end
     end
   end

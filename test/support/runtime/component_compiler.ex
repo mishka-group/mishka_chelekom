@@ -73,6 +73,8 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
   import Kernel, except: [def: 2, defp: 2]
   import Phoenix.Component.Declarative
 
+  require Logger
+
   @supported_attr_types ~w(any string atom boolean integer float list map global)
 
   ####################################################################################
@@ -119,12 +121,14 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
       ast = build_module(params)
   """
   def build_module(params) do
+    params = MishkaChelekom.Test.Runtime.Compilers.Helpers.atomize_keys(params)
+
     :telemetry.span(
       [:mishka_cms, :runtime, :compilers, :component],
-      %{name: params[:title] || params["title"], site: params[:site] || params["site"]},
+      %{name: params[:title], site: params[:site]},
       fn ->
         result =
-          MishkaChelekom.Test.Runtime.Compilers.Helpers.atomize_keys(params)
+          params
           |> build_component_information()
           |> build_module_attributes()
           |> build_attributes()
@@ -167,46 +171,57 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
   def build_component_information(params) do
     component_info_ast =
       quote do
-        def __component_information__() do
-          %{
-            component: %{
-              name: unquote(params[:title]),
-              timestamp: unquote(Macro.escape(params[:timestamp])),
-              attrs: unquote(Macro.escape(params[:attrs] || [])),
-              slots: unquote(Macro.escape(params[:slots] || []))
-            },
-            private: %{
-              id: unquote(params[:id]),
-              priority: unquote(params[:priority] || 0),
-              component_module: unquote(params[:component_module]),
-              site: unquote(params[:site]),
-              site_id: unquote(params[:site_id]),
-              host: unquote(params[:host]),
-              format: unquote(params[:format]) || :heex
-            },
-            acl: %{permissions: unquote(Macro.escape(params[:permissions] || []))},
-            extra: unquote(Macro.escape(params[:extra]))
-          }
-        end
-
-        def __component_information__(key) when is_atom(key) do
-          get_in(__component_information__(), [key])
-        end
-
-        def __component_information__(keys) when is_list(keys) do
-          get_in(__component_information__(), keys)
-        end
-
-        def __component_information__(key) when is_binary(key) do
-          String.split(key, ".")
-          |> Enum.map(&String.to_existing_atom/1)
-          |> then(&get_in(__component_information__(), &1))
-        rescue
-          _ -> nil
-        end
+        unquote(component_information_ast(params))
+        unquote(component_information_accessors_ast())
       end
 
     {params, [component_info_ast]}
+  end
+
+  defp component_information_ast(params) do
+    quote do
+      def __component_information__ do
+        %{
+          component: %{
+            name: unquote(params[:title]),
+            timestamp: unquote(Macro.escape(params[:timestamp])),
+            attrs: unquote(Macro.escape(params[:attrs] || [])),
+            slots: unquote(Macro.escape(params[:slots] || []))
+          },
+          private: %{
+            id: unquote(params[:id]),
+            priority: unquote(params[:priority] || 0),
+            component_module: unquote(params[:component_module]),
+            site: unquote(params[:site]),
+            site_id: unquote(params[:site_id]),
+            host: unquote(params[:host]),
+            format: unquote(params[:format]) || :heex
+          },
+          acl: %{permissions: unquote(Macro.escape(params[:permissions] || []))},
+          extra: unquote(Macro.escape(params[:extra]))
+        }
+      end
+    end
+  end
+
+  defp component_information_accessors_ast do
+    quote do
+      def __component_information__(key) when is_atom(key) do
+        get_in(__component_information__(), [key])
+      end
+
+      def __component_information__(keys) when is_list(keys) do
+        get_in(__component_information__(), keys)
+      end
+
+      def __component_information__(key) when is_binary(key) do
+        String.split(key, ".")
+        |> Enum.map(&String.to_existing_atom/1)
+        |> then(&get_in(__component_information__(), &1))
+      rescue
+        _ -> nil
+      end
+    end
   end
 
   @doc """
@@ -726,21 +741,34 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
   # Helper attr/slot maps may have string OR atom keys depending on
   # whether they came straight from the converter (atom-keyed) or
   # round-tripped through Ash (`:map`-typed nested values stay
-  # string-keyed). Normalize the top-level keys we use.
+  # string-keyed). Normalize the top-level keys once, then read the ones we use.
   defp normalize_attr_map(%{} = a) do
+    a = atomize_top_keys(a)
+
     %{
-      name: Map.get(a, :name) || Map.get(a, "name"),
-      type: Map.get(a, :type) || Map.get(a, "type") || "any",
-      opts: Map.get(a, :opts) || Map.get(a, "opts") || %{},
-      struct_name: Map.get(a, :struct_name) || Map.get(a, "struct_name")
+      name: a[:name],
+      type: a[:type] || "any",
+      opts: a[:opts] || %{},
+      struct_name: a[:struct_name]
     }
   end
 
   defp normalize_slot_map(%{} = s) do
+    s = atomize_top_keys(s)
+
     %{
-      name: Map.get(s, :name) || Map.get(s, "name"),
-      opts: Map.get(s, :opts) || Map.get(s, "opts") || %{}
+      name: s[:name],
+      opts: s[:opts] || %{}
     }
+  end
+
+  # Re-key the top-level string keys of `map` to atoms. Only atoms that already exist are used
+  # (`safe_atomize/1`); any other string key is left as it is.
+  defp atomize_top_keys(map) do
+    Map.new(map, fn
+      {key, value} when is_binary(key) -> {safe_atomize(key) || key, value}
+      pair -> pair
+    end)
   end
 
   defp split_args_and_guard(args) when is_binary(args) do
@@ -874,7 +902,7 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
 
   # Safely extract default value from opts, handling maps, keyword lists, and empty values
   defp get_default_from_opts(opts, attr) when is_map(opts) do
-    Map.get(opts, :default) || Map.get(opts, "default") ||
+    atomize_top_keys(opts)[:default] ||
       (attr.type == "global" && attr.name == "rest" && %{})
   end
 
@@ -955,7 +983,7 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
   Failed imports are logged but don't stop the compilation process, ensuring robustness
   even when some modules aren't available.
   """
-  def make_env() do
+  def make_env do
     imports = [
       Phoenix.HTML,
       Phoenix.Component,
@@ -968,7 +996,6 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
         env
       else
         {:error, error} ->
-          require Logger
           Logger.warning("failed to import #{module}: #{error}")
           env
 
@@ -1138,28 +1165,22 @@ defmodule MishkaChelekom.Test.Runtime.Compilers.ComponentCompiler do
   defp ignore_invalid_attr_opts(opts) when is_map(opts) do
     opts
     |> Enum.flat_map(fn {k, v} ->
-      key = if is_atom(k), do: k, else: safe_atomize(k)
-      if key in @valid_attr_opt_keys, do: [{key, v}], else: []
+      valid_attr_opt(if(is_atom(k), do: k, else: safe_atomize(k)), v)
     end)
   end
 
   defp ignore_invalid_attr_opts(opts) when is_list(opts) do
     Enum.flat_map(opts, fn
-      {k, v} when is_atom(k) ->
-        if k in @valid_attr_opt_keys, do: [{k, v}], else: []
-
-      {k, v} when is_binary(k) ->
-        case safe_atomize(k) do
-          nil -> []
-          atom -> if atom in @valid_attr_opt_keys, do: [{atom, v}], else: []
-        end
-
-      _ ->
-        []
+      {k, v} when is_atom(k) -> valid_attr_opt(k, v)
+      {k, v} when is_binary(k) -> valid_attr_opt(safe_atomize(k), v)
+      _ -> []
     end)
   end
 
   defp ignore_invalid_attr_opts(_opts), do: []
+
+  defp valid_attr_opt(key, value) when key in @valid_attr_opt_keys, do: [{key, value}]
+  defp valid_attr_opt(_key, _value), do: []
 
   # `String.to_existing_atom/1` won't crash on unknown strings — but
   # @valid_attr_opt_keys atoms exist at this point (they're literal

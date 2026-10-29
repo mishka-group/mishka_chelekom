@@ -407,9 +407,9 @@ defmodule MishkaChelekom.CmsBundleExporterTest do
       cv = Enum.filter(btn["helpers"], &(&1["name"] == "color_variant"))
 
       args = Enum.map(cv, & &1["args"])
-      assert "\"default\", \"primary\"" in args
-      assert "\"default\", \"danger\"" in args
-      assert "\"outline\", \"primary\"" in args
+      assert ~S|"default", "primary"| in args
+      assert ~S|"default", "danger"| in args
+      assert ~S|"outline", "primary"| in args
       assert "%{a: 1} = _multi_line_pattern_match" in args
       assert "_, _" in args
     end

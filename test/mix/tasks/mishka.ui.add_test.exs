@@ -254,24 +254,22 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
     test "download from actual community URL - component_alert_001" do
       # Mock the GitHub API request for community components
       Req.Test.stub(Req, fn conn ->
-        cond do
-          conn.host == "api.github.com" and
-              String.contains?(
-                conn.request_path,
-                "/repos/mishka-group/mishka_chelekom_community/contents/components/component_alert_001.json"
-              ) ->
-            # GitHub API returns content wrapped in a JSON object with base64 encoded content
-            github_response = %{
-              "content" => Base.encode64(Jason.encode!(@valid_component_json)),
-              "encoding" => "base64"
-            }
+        if conn.host == "api.github.com" and
+             String.contains?(
+               conn.request_path,
+               "/repos/mishka-group/mishka_chelekom_community/contents/components/component_alert_001.json"
+             ) do
+          # GitHub API returns content wrapped in a JSON object with base64 encoded content
+          github_response = %{
+            "content" => Base.encode64(Jason.encode!(@valid_component_json)),
+            "encoding" => "base64"
+          }
 
-            conn
-            |> put_resp_header("content-type", "application/json")
-            |> resp(200, Jason.encode!(github_response))
-
-          true ->
-            resp(conn, 404, "Not found")
+          conn
+          |> put_resp_header("content-type", "application/json")
+          |> resp(200, Jason.encode!(github_response))
+        else
+          resp(conn, 404, "Not found")
         end
       end)
 
@@ -298,17 +296,15 @@ defmodule Mix.Tasks.Mishka.Ui.AddTest do
       # Mock the HTTP request to avoid network dependency
       Req.Test.stub(Req, fn conn ->
         # The stub receives a Plug.Conn struct
-        cond do
-          conn.host == "raw.githubusercontent.com" and
-              String.contains?(conn.request_path, "component_alert_001.json") ->
-            # Return the mock response with proper headers
-            conn
-            |> put_resp_header("content-type", "text/plain; charset=utf-8")
-            |> resp(200, Jason.encode!(@valid_component_json))
-
-          true ->
-            # Return 404 for any other requests
-            resp(conn, 404, "Not found")
+        if conn.host == "raw.githubusercontent.com" and
+             String.contains?(conn.request_path, "component_alert_001.json") do
+          # Return the mock response with proper headers
+          conn
+          |> put_resp_header("content-type", "text/plain; charset=utf-8")
+          |> resp(200, Jason.encode!(@valid_component_json))
+        else
+          # Return 404 for any other requests
+          resp(conn, 404, "Not found")
         end
       end)
 
