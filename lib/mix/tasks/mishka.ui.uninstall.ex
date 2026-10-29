@@ -325,6 +325,9 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
 
   defp execute_or_cancel(%{issues: issues} = igniter) when issues != [], do: igniter
 
+  defp execute_or_cancel(%{assigns: %{plan: %{components: [], missing: missing}}} = igniter),
+    do: Igniter.add_notice(igniter, "Nothing to uninstall.\n\n#{not_installed_line(missing)}")
+
   defp execute_or_cancel(igniter) do
     if should_proceed?(igniter.assigns.opts) do
       igniter
@@ -357,9 +360,22 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp build_removal_plan(igniter) do
-    %{components: components, user_config: user_config} = igniter.assigns
+    %{components: requested, user_config: user_config} = igniter.assigns
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     module_prefix = user_config[:module_prefix]
+
+    {igniter, resolved} = resolve_component_files(igniter, requested, web_module, module_prefix)
+
+    # A requested name the project does not have is reported, never planned. Planned, it
+    # was counted as removed and, with nothing else installed, read as "everything is
+    # gone", which also cleared the shared JS and the import macro.
+    {installed, missing} =
+      requested
+      |> Enum.zip(resolved)
+      |> Enum.split_with(fn {_, {_, _, exists?, _}} -> exists? end)
+
+    components = Enum.map(installed, &elem(&1, 0))
+    component_files = Enum.map(installed, &elem(&1, 1))
 
     all_configs = load_all_configs()
     # Everything installed across both kinds — so JS/CSS/config shared by a component of
@@ -380,12 +396,10 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     npm_to_consider = extract_npm_deps(configs_to_remove)
     npm_to_remove = npm_to_consider -- extract_npm_deps(configs_remaining)
 
-    {igniter, component_files} =
-      resolve_component_files(igniter, components, web_module, module_prefix)
-
     plan = %{
       components: components,
       component_files: component_files,
+      missing: Enum.map(missing, fn {component, _} -> label(component) end),
       configs: configs_to_remove,
       js_to_remove: js_to_remove,
       js_preserved: js_to_consider -- js_to_remove,
@@ -623,16 +637,19 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     IO.puts("\n#{IO.ANSI.bright()}Components to remove:#{IO.ANSI.reset()}")
     Enum.each(plan.component_files, &print_component_status/1)
 
+    Enum.each(
+      plan.missing,
+      &IO.puts("  #{IO.ANSI.red()}✗ #{&1} (not installed)#{IO.ANSI.reset()}")
+    )
+
     print_js_section("JavaScript files to remove:", plan.js_to_remove, IO.ANSI.red())
     print_js_section("JavaScript files preserved:", plan.js_preserved, IO.ANSI.green())
     print_warnings(plan.warnings)
     IO.puts("")
   end
 
-  defp print_component_status({component, path, exists?, _module}) do
-    status = if exists?, do: IO.ANSI.green() <> "✓", else: IO.ANSI.red() <> "✗ (not found)"
-    IO.puts("  #{status} #{component}#{IO.ANSI.reset()} - #{path || "unknown"}")
-  end
+  defp print_component_status({component, path, true, _module}),
+    do: IO.puts("  #{IO.ANSI.green()}✓ #{component}#{IO.ANSI.reset()} - #{path}")
 
   defp print_js_section(_, [], _), do: :ok
 
@@ -659,14 +676,9 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     Enum.reduce(igniter.assigns.plan.component_files, igniter, &do_remove_component/2)
   end
 
-  defp do_remove_component({_, path, true, module}, igniter) when not is_nil(path) do
+  defp do_remove_component({_, path, true, module}, igniter) do
     verbose_log(igniter, "  Removing: #{path} (#{inspect(module)})")
     Igniter.rm(igniter, path)
-  end
-
-  defp do_remove_component({_, path, false, module}, igniter) do
-    verbose_log(igniter, "  Skipping (not found): #{path || "unknown"} (#{inspect(module)})")
-    igniter
   end
 
   # assets/package.json belongs to the user: they may have added the same package themselves, or
@@ -1127,6 +1139,8 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     igniter
   end
 
+  defp not_installed_line(missing), do: "Not installed: #{Enum.join(missing, ", ")}"
+
   defp add_completion_notice(igniter) do
     %{plan: plan, opts: opts} = igniter.assigns
     all_removed = plan.remaining == []
@@ -1137,14 +1151,15 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
       preserved: if(plan.js_preserved != [], do: "\nJS preserved: #{length(plan.js_preserved)}"),
       css: if(also_removed?(all_removed, opts, :include_css), do: "\nCSS removed"),
       config: if(also_removed?(all_removed, opts, :include_config), do: "\nConfig removed"),
-      remaining: if(!all_removed, do: "\nRemaining: #{length(plan.remaining)}")
+      remaining: if(!all_removed, do: "\nRemaining: #{length(plan.remaining)}"),
+      missing: if(plan.missing != [], do: "\n#{not_installed_line(plan.missing)}")
     }
 
     Igniter.add_notice(igniter, """
     Uninstall complete!
 
     Components removed: #{stats.removed}
-    JS files removed: #{stats.js_removed}#{stats.preserved}#{stats.css}#{stats.config}#{stats.remaining}
+    JS files removed: #{stats.js_removed}#{stats.preserved}#{stats.css}#{stats.config}#{stats.remaining}#{stats.missing}
 
     #{if all_removed, do: "All Mishka components removed.", else: "Run --all to remove everything."}
     """)

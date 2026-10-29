@@ -169,15 +169,37 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       assert "lib/test_web/components/alert.ex" in igniter.rms
     end
 
-    test "handles non-existent component gracefully" do
+    test "a component that is not installed is reported, not counted as removed" do
       igniter =
         test_project_with_formatter()
+        |> Igniter.create_new_file("assets/vendor/mishka_components.js", "export default {}\n")
         |> Igniter.compose_task(Uninstall, ["non_existent_component", "--yes"])
 
       notices_text = Enum.join(igniter.notices, " ")
-      assert String.contains?(notices_text, "Uninstall complete!")
+      assert notices_text =~ "Nothing to uninstall"
+      assert notices_text =~ "Not installed: non_existent_component"
+      refute notices_text =~ "Components removed"
+      refute notices_text =~ "All Mishka components removed"
       assert igniter.issues == []
-      assert igniter.rms == []
+      assert igniter.rms == [], "nothing was installed, so the shared JS must stay"
+      assert Igniter.exists?(igniter, "assets/vendor/mishka_components.js")
+    end
+
+    test "removes what is installed and names what is not" do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.create_new_file("lib/test_web/components/button.ex", """
+        defmodule TestWeb.Components.Button do
+          use Phoenix.Component
+          def button(assigns), do: ~H"<button>Button</button>"
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button,non_existent_component", "--yes"])
+
+      notices_text = Enum.join(igniter.notices, " ")
+      assert igniter.rms == ["lib/test_web/components/button.ex"]
+      assert notices_text =~ "Components removed: 1"
+      assert notices_text =~ "Not installed: non_existent_component"
     end
   end
 
