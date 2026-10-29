@@ -119,8 +119,16 @@ defmodule <%= @module %> do
       <%!-- What opening and closing do with focus. `show_modal/2` and `hide_modal/2` run them
             through `JS.exec/2` on a selector that only a closed (opening) or an open (closing)
             modal matches: Escape reaches every modal on the page, and a closed one must not
-            give away focus another dialog is holding. --%>
-      data-open-focus={JS.push_focus(to: ":focus") |> JS.focus_first(to: "##{@id}-container")}
+            give away focus another dialog is holding.
+            The push takes the focused element, or `<body>` when nothing has focus (after a page
+            load, when `phx-mounted` opens the modal, or in Safari, where a clicked button does
+            not take focus), so there is always one entry for the close to pop, and the pop never
+            takes another dialog's. Popping `<body>` moves no focus. `:focus-within`, not
+            `:has(:focus)`: a browser without `:has()` would reject the whole selector. --%>
+      data-open-focus={
+        JS.push_focus(to: ":focus, body:not(:focus-within)")
+        |> JS.focus_first(to: "##{@id}-container")
+      }
       data-close-focus={JS.pop_focus()}
       class={["relative z-50 hidden", @class]}
     >
@@ -673,10 +681,11 @@ defmodule <%= @module %> do
     )
     |> transition_show("##{id}-container")
     |> JS.add_class("overflow-hidden", to: "body")
-    # Pushes the focused element, which `hide_modal/2` pops to give focus back, and focuses the
-    # first element of the focus wrap, which holds the close button. `:focus` rather than the
-    # default source element, because opened through `data-pb-open` or `phx-mounted` the source
-    # is the modal. Before `data-open` is set, so only a modal that was closed runs it.
+    # Pushes the focused element (`<body>` when nothing has focus), which `hide_modal/2` pops to
+    # give focus back, and focuses the first element of the focus wrap, which holds the close
+    # button. A selector rather than the default source element, because opened through
+    # `data-pb-open` or `phx-mounted` the source is the modal. Before `data-open` is set, so only
+    # a modal that was closed runs it.
     |> JS.exec("data-open-focus", to: "##{id}:not([data-open])")
     |> JS.set_attribute({"data-open", ""}, to: "##{id}")
   end

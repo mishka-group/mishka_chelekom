@@ -11,6 +11,9 @@ defmodule MishkaChelekom.ModalFocusTest do
   Escape reaches every modal on the page, open or closed, through `phx-window-keydown`, and
   `phx-remove` runs on a closed modal that a patch removes, so the commands that move focus run
   only for the modal that is actually opening or closing.
+
+  The focus stack is shared by every dialog on the page, so an open pushes one entry whatever has
+  focus, nothing included, and the close pops that entry and not one another dialog pushed.
   """
   use ExUnit.Case, async: true
 
@@ -126,23 +129,114 @@ defmodule MishkaChelekom.ModalFocusTest do
     MapSet.new(attrs ++ for(class <- String.split(classes), do: ".#{class}"))
   end
 
+  # The rest of the page the commands change: `<body>`'s classes, the element that has focus
+  # ("opener", the control that opened the modal, or `nil` when nothing has focus, as after a page
+  # load or in Safari after a click on a button) and the focus stack, top first.
+  @page %{body: MapSet.new(), focus: "opener", stack: []}
+
   # Runs `commands` from `state` the way the browser does for what decides the focus stack: the
   # attributes and classes they set on the root, and the gates they are run under. Returns the
   # state after them and the focus commands that ran, in order.
   defp run(commands, state) do
+    {state, ran, _page} = play(commands, state, @page)
+    {state, ran}
+  end
+
+  # `run/2` on `page`, which the focus commands and the classes set on `<body>` change. Returns the
+  # page after them as well.
+  defp play(commands, state, page) do
     target = "##{@id}"
 
-    {state, ran} =
-      Enum.reduce(commands, {state, []}, fn {kind, args, gate}, {state, ran} ->
+    {state, ran, page} =
+      Enum.reduce(commands, {state, [], page}, fn {kind, args, gate}, {state, ran, page} ->
         cond do
-          not gate?(gate, state) -> {state, ran}
-          kind in ["push_focus", "focus_first", "pop_focus"] -> {state, [kind | ran]}
-          args["to"] == target -> {change(state, kind, args), ran}
-          true -> {state, ran}
+          not gate?(gate, state) ->
+            {state, ran, page}
+
+          kind in ["push_focus", "focus_first", "pop_focus"] ->
+            {state, [kind | ran], focus(page, kind, args)}
+
+          args["to"] == "body" ->
+            {state, ran, %{page | body: change(page.body, kind, args)}}
+
+          args["to"] == target ->
+            {change(state, kind, args), ran, page}
+
+          true ->
+            {state, ran, page}
         end
       end)
 
-    {state, Enum.reverse(ran)}
+    {state, Enum.reverse(ran), page}
+  end
+
+  # A push adds what its `to:` matches, a focus-first moves focus into the dialog, and a pop takes
+  # the top entry and focuses it. `<body>` cannot take focus, so popping it moves none.
+  defp focus(page, "push_focus", %{"to" => to}),
+    do: %{page | stack: matched(to, page.focus) ++ page.stack}
+
+  defp focus(page, "focus_first", _args), do: %{page | focus: "inside"}
+  defp focus(%{stack: ["body" | stack]} = page, "pop_focus", _args), do: %{page | stack: stack}
+
+  defp focus(%{stack: [top | stack]} = page, "pop_focus", _args),
+    do: %{page | stack: stack, focus: top}
+
+  defp focus(page, "pop_focus", _args), do: page
+
+  # The elements of the page a focus `to:` matches while `focused` has focus: `<body>`, which holds
+  # the opener and "inside", the first control of the dialog. The selector is a list of compounds
+  # of `body`, `:focus`, `:focus-within`, `:not()` and `:has()`; anything else fails the test.
+  defp matched(selector, focused) do
+    for element <- ["body", "opener", "inside"], matches?(selector, element, focused), do: element
+  end
+
+  defp matches?(list, element, focused) do
+    list |> split_list() |> Enum.any?(&compound?(String.trim(&1), element, focused))
+  end
+
+  defp compound?("", _element, _focused), do: true
+
+  defp compound?("body" <> rest, element, focused),
+    do: element == "body" and compound?(rest, element, focused)
+
+  defp compound?(":focus-within" <> rest, element, focused),
+    do:
+      (element == focused or (element == "body" and focused != nil)) and
+        compound?(rest, element, focused)
+
+  defp compound?(":focus" <> rest, element, focused),
+    do: element == focused and compound?(rest, element, focused)
+
+  defp compound?(":not(" <> rest, element, focused) do
+    {inner, rest} = group(rest, 0, "")
+    not matches?(inner, element, focused) and compound?(rest, element, focused)
+  end
+
+  defp compound?(":has(" <> rest, element, focused) do
+    {inner, rest} = group(rest, 0, "")
+    descendants = if element == "body", do: ["opener", "inside"], else: []
+    Enum.any?(descendants, &matches?(inner, &1, focused)) and compound?(rest, element, focused)
+  end
+
+  # The text up to the `)` that closes a `(` already read, and the text after it.
+  defp group(")" <> rest, 0, inner), do: {inner, rest}
+  defp group("(" <> rest, depth, inner), do: group(rest, depth + 1, inner <> "(")
+  defp group(")" <> rest, depth, inner), do: group(rest, depth - 1, inner <> ")")
+
+  defp group(<<char::utf8, rest::binary>>, depth, inner),
+    do: group(rest, depth, inner <> <<char::utf8>>)
+
+  # A selector list split at its own commas, not at those inside `()`.
+  defp split_list(list) do
+    {parts, last, 0} =
+      for <<char::utf8 <- list>>, reduce: {[], "", 0} do
+        {parts, part, 0} when char == ?, -> {[part | parts], "", 0}
+        {parts, part, depth} when char == ?( -> {parts, part <> "(", depth + 1}
+        {parts, part, depth} when char == ?) -> {parts, part <> ")", depth - 1}
+        {parts, part, depth} -> {parts, part <> <<char::utf8>>, depth}
+      end
+
+    Enum.reverse([last | parts])
   end
 
   defp change(state, "set_attr", %{"attr" => [name, _value]}), do: MapSet.put(state, "[#{name}]")
@@ -195,11 +289,32 @@ defmodule MishkaChelekom.ModalFocusTest do
   end
 
   test "opening remembers the focused element and closing returns focus to it", context do
-    %{show: show, hide: hide} = context
+    %{closed: closed, show: show, hide: hide} = context
 
-    assert {"push_focus", %{"to" => ":focus"}, _gate} = Enum.find(show, kind?("push_focus"))
     assert position(show, kind?("push_focus")) < position(show, kind?("focus_first"))
-    assert Enum.any?(hide, kind?("pop_focus"))
+
+    assert {open, _ran, %{focus: "inside", stack: ["opener"]} = page} = play(show, closed, @page)
+    assert {_closed, _ran, %{focus: "opener", stack: []}} = play(hide, open, page)
+  end
+
+  test "opening pushes one focus entry whether or not anything has focus", context do
+    %{closed: closed, show: show} = context
+
+    assert {_open, _ran, %{stack: ["opener"]}} = play(show, closed, @page)
+    assert {_open, _ran, %{stack: ["body"]}} = play(show, closed, %{@page | focus: nil})
+  end
+
+  test "a modal opened with nothing focused does not close with another dialog's entry",
+       context do
+    %{closed: closed, show: show, hide: hide} = context
+
+    # Another dialog is open and has pushed its opener; focus is on nothing.
+    page = %{@page | focus: nil, stack: ["other-opener"]}
+
+    {open, _ran, page} = play(show, closed, page)
+    assert {_closed, ["pop_focus"], page} = play(hide, open, page)
+    assert page.stack == ["other-opener"]
+    refute page.focus == "other-opener"
   end
 
   test "closing a modal that is already closed leaves the focus stack alone", context do
