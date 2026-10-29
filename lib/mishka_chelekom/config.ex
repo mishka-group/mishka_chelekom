@@ -55,6 +55,8 @@ defmodule MishkaChelekom.Config do
   end
 
   # Parse config content from string (for test environments)
+  # A temporary file of this call's own, a random name under System.tmp_dir!/0.
+  # sobelow_skip ["Traversal.FileModule"]
   defp load_config_from_string(content) do
     # Write to a temporary file and use Elixir.Config.Reader
     temp_path = Path.join(System.tmp_dir!(), "mishka_config_#{:rand.uniform(999_999)}.exs")
@@ -109,6 +111,8 @@ defmodule MishkaChelekom.Config do
     Path.join(["priv", "mishka_chelekom", "config.exs"])
   end
 
+  # The stylesheet the project's own config names.
+  # sobelow_skip ["Traversal.FileModule"]
   defp read_custom_css(path, _igniter) do
     full_path =
       if Path.type(path) == :absolute do
@@ -137,6 +141,8 @@ defmodule MishkaChelekom.Config do
     end
   end
 
+  # The library's own stylesheet, in its priv or deps directory.
+  # sobelow_skip ["Traversal.FileModule"]
   defp read_default_css do
     # Get the path from the library's priv directory
     css_path = Path.join(:code.priv_dir(:mishka_chelekom), "assets/css/mishka_chelekom.css")
@@ -571,6 +577,8 @@ defmodule MishkaChelekom.Config do
 
   # Rewrites the user's config file with `update`, reading it from the pending Igniter change, the
   # file system or, when there is none yet, the sample config.
+  # The project's own config file.
+  # sobelow_skip ["Traversal.FileModule"]
   defp update_user_config(igniter, update) do
     config_path = user_config_path(igniter)
 

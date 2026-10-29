@@ -8,7 +8,7 @@
   out: nil,
   private: true,
   router: nil,
-  skip: false,
+  skip: true,
   summary: false,
   threshold: :low,
   verbose: false

@@ -14,6 +14,8 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   `:module_prefix`.
   """
   @spec create(Igniter.t(), [String.t()], keyword()) :: Igniter.t()
+  # The project's own web module.
+  # sobelow_skip ["DOS.ModuleConcat"]
   def create(igniter, list, opts) do
     if opts[:import] && Map.get(igniter, :issues, []) == [] do
       web_module = Igniter.Libs.Phoenix.web_module(igniter)
@@ -59,6 +61,8 @@ defmodule MishkaChelekom.Generators.ImportMacro do
     end
   end
 
+  # The project's own web module.
+  # sobelow_skip ["DOS.ModuleConcat"]
   defp new_phoenix(igniter, true) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
     module_name = Module.concat(web_module, "Layouts")
@@ -76,6 +80,8 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
   defp flash_group_def?(node), do: match?({:def, _, [{:flash_group, _, [_]}, _]}, node)
 
+  # The project's own web module.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp globalize_components(igniter, import_module, true) do
     web_module_name = Igniter.Libs.Phoenix.web_module(igniter)
 
@@ -138,6 +144,8 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
   defp append_use(zip, _import_module), do: zip
 
+  # The import module this task generates.
+  # sobelow_skip ["DOS.ModuleConcat"]
   defp has_use?(new_zipper, import_module) do
     with {:ok, zipper} <- Igniter.Code.Common.move_to_do_block(new_zipper),
          {:ok, zipper} <-
@@ -184,6 +192,8 @@ defmodule MishkaChelekom.Generators.ImportMacro do
     end
   end
 
+  # Function names from the kit's own configs, with the prefix given on the command line.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp child_imports(component, ctx) do
     config =
       case Core.fetch_catalog(ctx.igniter, component, :styled) do

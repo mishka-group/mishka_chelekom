@@ -68,6 +68,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
 
   def decode_atom_map(value), do: value
 
+  # The atoms come from a kit bundle this library wrote (see decode_atom_map/1), not from a request.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp decode_term(":" <> atom), do: String.to_atom(atom)
   defp decode_term(list) when is_list(list), do: Enum.map(list, &decode_term/1)
   defp decode_term(term), do: term
@@ -374,6 +376,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
     end
   end
 
+  # Evaluates the kit's own `.exs` config, from the directory the export task is given.
+  # sobelow_skip ["RCE.CodeModule"]
   defp read_exs(exs_source) when is_binary(exs_source) do
     {value, _binding} = Code.eval_string(exs_source)
 
@@ -385,6 +389,8 @@ defmodule MishkaChelekom.CmsBundleExporter do
     e -> {:error, {:exs_eval_failed, Exception.message(e)}}
   end
 
+  # Renders the kit's own `.eex` with the attr names of its own `.exs`, at export time.
+  # sobelow_skip ["DOS.StringToAtom", "RCE.EEx"]
   defp render_maximal(eex_source, _config) do
     referenced =
       ~r/@([a-z_][a-zA-Z0-9_]*)/

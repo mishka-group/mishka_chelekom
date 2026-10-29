@@ -18,6 +18,8 @@ defmodule MishkaChelekom.Kit.Catalog do
     Enum.find(names(kind), &(String.jaro_distance(to_string(name), to_string(&1)) > 0.8))
   end
 
+  # The file names of the library's own priv catalogs.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp list(dir) do
     [:code.priv_dir(:mishka_chelekom), dir, "*.exs"]
     |> Path.join()

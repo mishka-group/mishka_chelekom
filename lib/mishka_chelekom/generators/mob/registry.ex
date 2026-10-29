@@ -251,6 +251,8 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
   # which can collide with a composite the app already registered under that
   # name — Mob.Composite's table is global. That is the trade the flag exists
   # for: prefix your components and the tags are namespaced with them.
+  # A tag from the component name and the prefix given on the command line.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp tag(component, prefix), do: String.to_atom("#{prefix}#{component}")
 
   defp pending(igniter, dir) do
@@ -322,6 +324,8 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
   reported as a notice instead.
   """
   @spec wire_boot(Igniter.t()) :: Igniter.t()
+  # The project's own modules.
+  # sobelow_skip ["DOS.ModuleConcat"]
   def wire_boot(igniter) do
     module = Module.concat([Locations.base_module(igniter), "App"])
     # Interpolated, not inspected: the namespace is a plain atom rather than an
@@ -335,6 +339,8 @@ defmodule MishkaChelekom.Generators.Mob.Registry do
     end
   end
 
+  # The project's own modules.
+  # sobelow_skip ["DOS.ModuleConcat"]
   defp update_on_start(igniter, module, call) do
     # Module.concat/1 turns the namespace into a real alias — the assign is a
     # plain `:"MyApp.Components"`, which no `__aliases__` node would match.

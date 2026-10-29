@@ -69,6 +69,8 @@ defmodule MishkaChelekom.MCP.Resources.ListHeadlessComponents do
     |> Enum.reject(&is_nil/1)
   end
 
+  # Evaluates the library's own priv/headless configs, named by their files.
+  # sobelow_skip ["RCE.CodeModule", "DOS.StringToAtom"]
   defp load(path) do
     name = Path.basename(path, ".exs")
     {term, _} = Code.eval_file(path)

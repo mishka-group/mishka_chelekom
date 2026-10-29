@@ -137,6 +137,8 @@ defmodule MishkaChelekom.MCP.Tools.GetDocs do
     if File.exists?(docs_path), do: read_lib_doc(docs_path), else: local_doc_pointer(filename)
   end
 
+  # A path from @local_docs_map, never from the topic as given.
+  # sobelow_skip ["Traversal.FileModule"]
   defp read_lib_doc(docs_path) do
     case File.read(docs_path) do
       {:ok, content} ->

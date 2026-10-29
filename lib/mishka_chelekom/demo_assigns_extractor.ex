@@ -60,6 +60,8 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
   Missing files yield `{%{}, []}`.
   """
   @spec extract_from_file(Path.t()) :: extraction_result()
+  # Reads the kit's own demo files.
+  # sobelow_skip ["Traversal.FileModule"]
   def extract_from_file(path) do
     case File.read(path) do
       {:ok, source} -> extract_from_source(source)
@@ -140,10 +142,14 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
   end
 
   defp to_atom_key(k) when is_atom(k), do: k
+  # Assign names from the kit's own demo files.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp to_atom_key(k) when is_binary(k), do: String.to_atom(k)
   defp to_atom_key({:__aliases__, _, _}), do: nil
   defp to_atom_key(_), do: nil
 
+  # Evaluates a value from the kit's own demo file, once contains_unsafe?/1 found no call outside @safe_modules.
+  # sobelow_skip ["RCE.CodeModule"]
   defp eval_value(ast) do
     if contains_unsafe?(ast) do
       {:error, :unsafe_call}
@@ -161,6 +167,8 @@ defmodule MishkaChelekom.DemoAssignsExtractor do
     end
   end
 
+  # Joins the alias parts of the kit's own demo source only to compare them with @safe_modules.
+  # sobelow_skip ["DOS.ModuleConcat"]
   defp contains_unsafe?(ast) do
     {_, found?} =
       Macro.prewalk(ast, false, fn

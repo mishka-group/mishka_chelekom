@@ -50,6 +50,8 @@ defmodule MishkaChelekom.MCP.Resources.GetConfig do
     {:reply, response, frame}
   end
 
+  # The project's own config file, at a fixed path.
+  # sobelow_skip ["Traversal.FileModule"]
   defp format_existing_config(config_path) do
     case File.read(config_path) do
       {:ok, raw_content} ->

@@ -35,6 +35,8 @@ defmodule MishkaChelekom.MCP.Tools.GetExample do
     {:reply, response, frame}
   end
 
+  # The path is built only once ComponentConfig.known_component?/1 accepted the name.
+  # sobelow_skip ["Traversal.FileModule"]
   defp read_usage_rules(name) do
     # Read usage-rules/components/{name}.md, with the path built only from a component this kit
     # ships, never from the name as given.

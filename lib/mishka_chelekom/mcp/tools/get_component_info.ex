@@ -42,6 +42,8 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
   end
 
   # Read from priv/components/{name}.exs
+  # Reached only for a name ComponentConfig.known_component?/1 accepted.
+  # sobelow_skip ["RCE.CodeModule"]
   defp get_config_info(name) do
     config_path =
       :code.priv_dir(:mishka_chelekom)
@@ -76,6 +78,8 @@ defmodule MishkaChelekom.MCP.Tools.GetComponentInfo do
   end
 
   # Read from priv/usage-rules/components/{name}.md
+  # Reached only for a name ComponentConfig.known_component?/1 accepted.
+  # sobelow_skip ["Traversal.FileModule"]
   defp get_usage_rules_info(name) do
     usage_rules_path = PathHelper.component_doc_path(name)
 

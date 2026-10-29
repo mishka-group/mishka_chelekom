@@ -69,6 +69,8 @@ defmodule MishkaChelekom.CmsBundle.Icons do
     end
   end
 
+  # Reads the SVGs of the dev-only heroicons dep, at export time.
+  # sobelow_skip ["Traversal.FileModule"]
   defp build(dir) do
     glyphs =
       for {suffix, source, _label} <- @variants,

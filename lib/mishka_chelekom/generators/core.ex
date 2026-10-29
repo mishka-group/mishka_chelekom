@@ -309,6 +309,8 @@ defmodule MishkaChelekom.Generators.Core do
   Turns a dotted, lower-case string into a module atom (`"a_b.c" -> :"AB.C"`).
   """
   @spec module_atom(String.t()) :: atom()
+  # Module names given on the command line or in the project's config.
+  # sobelow_skip ["DOS.StringToAtom"]
   def module_atom(field) do
     field
     |> String.split(".", trim: true)
@@ -320,6 +322,8 @@ defmodule MishkaChelekom.Generators.Core do
   Like `module_atom/1` but keeps only the last segment (`"a.b.c" -> :C`).
   """
   @spec module_atom(String.t(), :last) :: atom()
+  # Module names given on the command line or in the project's config.
+  # sobelow_skip ["DOS.StringToAtom"]
   def module_atom(field, :last) do
     field
     |> String.split(".", trim: true)
@@ -332,6 +336,8 @@ defmodule MishkaChelekom.Generators.Core do
   Turns a component name string into an atom (used to index a catalog `.exs`).
   """
   @spec component_atom(String.t()) :: atom()
+  # Component names given on the command line or in the project's config.
+  # sobelow_skip ["DOS.StringToAtom"]
   def component_atom(component_str), do: String.to_atom(component_str)
 
   @doc """

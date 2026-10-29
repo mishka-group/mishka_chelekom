@@ -228,6 +228,8 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
     |> Map.new()
   end
 
+  # Reads the kit's own showcase files, from the directory the export is given.
+  # sobelow_skip ["Traversal.FileModule"]
   defp read(path) do
     with {:ok, raw} <- File.read(path),
          {:ok, json} <- Jason.decode(raw),
@@ -296,6 +298,8 @@ defmodule MishkaChelekom.CmsBundle.Showcase do
 
   defp extra(other, _samples), do: other
 
+  # Reads the kit's own showcase files, from the directory the export is given.
+  # sobelow_skip ["Traversal.FileModule"]
   defp samples(dir) do
     files = Path.wildcard(Path.join(dir, "*"))
 

@@ -18,6 +18,8 @@ defmodule MishkaChelekom.MCP.ComponentConfig do
 
   Returns a list of `{name, config}` tuples where config is a keyword list.
   """
+  # Evaluates the library's own priv/components configs.
+  # sobelow_skip ["RCE.CodeModule"]
   def load_all do
     path = components_path()
 

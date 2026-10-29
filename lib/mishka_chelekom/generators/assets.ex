@@ -82,6 +82,8 @@ defmodule MishkaChelekom.Generators.Assets do
   # Files the component needs but the DEVELOPER owns: written once, never touched again, so
   # configuration survives regeneration. The engine beside them is regenerated every time, which is
   # exactly why user config cannot live in it.
+  # The library's own priv assets, by the file names of the kit's own configs.
+  # sobelow_skip ["Traversal.FileModule"]
   defp copy_user_files(igniter, config) do
     config
     |> Keyword.get(:user_files, [])
@@ -261,6 +263,8 @@ defmodule MishkaChelekom.Generators.Assets do
     end
   end
 
+  # The library's own priv assets or the project's priv, by the file names of the kit's own configs.
+  # sobelow_skip ["Traversal.FileModule"]
   defp copy_js_file(item, acc, igniter) do
     core_path = Core.lib_priv("assets/js/#{item.file}")
 
@@ -402,6 +406,8 @@ defmodule MishkaChelekom.Generators.Assets do
   back, leaving the project's own.
   """
   @spec theme_declarations() :: {:ok, String.t()} | {:error, String.t()}
+  # The library's own priv theme stylesheet.
+  # sobelow_skip ["Traversal.FileModule"]
   def theme_declarations do
     theme_path = Core.lib_priv("assets/css/theme.css")
 
@@ -426,6 +432,8 @@ defmodule MishkaChelekom.Generators.Assets do
   `app.css`. No-op for sub generations (`--sub`).
   """
   @spec setup_headless_css(Igniter.t(), keyword()) :: Igniter.t()
+  # The library's own priv headless stylesheet.
+  # sobelow_skip ["Traversal.FileModule"]
   def setup_headless_css(igniter, options \\ []) do
     if options[:sub] do
       igniter

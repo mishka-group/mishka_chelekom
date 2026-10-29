@@ -82,6 +82,8 @@ defmodule MishkaChelekom.Generators.Mob do
   module the component's public API refers to has to travel with it.
   """
   @spec companions(String.t(), String.t()) :: [String.t()]
+  # Reads the mob component sources this library ships.
+  # sobelow_skip ["Traversal.FileModule"]
   def companions(component, dir \\ source_dir()) do
     prefix = "#{@source_namespace}.Mishka#{Macro.camelize(component)}."
 
@@ -92,6 +94,8 @@ defmodule MishkaChelekom.Generators.Mob do
     |> Enum.sort()
   end
 
+  # Reads the mob component sources this library ships.
+  # sobelow_skip ["Traversal.FileModule"]
   defp nested_module?(name, path) do
     # `mishka_toast_queue.ex` declares `...MishkaToast.Queue`, so its declared
     # module does not match the name its filename implies.
@@ -336,6 +340,8 @@ defmodule MishkaChelekom.Generators.Mob do
   such catalog yet or it declares none.
   """
   @spec declared_docs(String.t()) :: keyword()
+  # A component name given on the command line, made an atom only once its catalog file exists in the library's priv.
+  # sobelow_skip ["DOS.StringToAtom"]
   def declared_docs(component) do
     path = Core.lib_priv("mob/#{component}.exs")
 
@@ -414,6 +420,8 @@ defmodule MishkaChelekom.Generators.Mob do
   # Core.lib_priv/1 resolves via :code.priv_dir/1, which is correct for a hex
   # dep, a path dep and an umbrella alike; File.cwd!() is only right when the
   # task happens to be run from the library root.
+  # A component name given on the command line, made an atom only once its catalog file exists in the library's priv.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp headless_config(component) do
     path = Core.lib_priv("headless/#{component}.exs")
 

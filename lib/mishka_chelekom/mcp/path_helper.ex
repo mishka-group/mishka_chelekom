@@ -111,6 +111,8 @@ defmodule MishkaChelekom.MCP.PathHelper do
   @doc """
   Reads a file, returning {:ok, content} or {:error, reason}.
   """
+  # Reads the path its caller built; nothing in the library calls it with a client's input.
+  # sobelow_skip ["Traversal.FileModule"]
   def read_file(path) do
     File.read(path)
   end

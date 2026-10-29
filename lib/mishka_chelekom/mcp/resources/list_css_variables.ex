@@ -387,6 +387,8 @@ defmodule MishkaChelekom.MCP.Resources.ListCssVariables do
     end)
   end
 
+  # The library's own CSS variable names.
+  # sobelow_skip ["DOS.StringToAtom"]
   defp variables do
     Enum.map(MishkaChelekom.Config.default_variables(), fn {"--" <> name, default} ->
       {String.to_atom(String.replace(name, "-", "_")), default}

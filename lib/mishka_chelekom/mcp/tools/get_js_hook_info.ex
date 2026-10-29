@@ -54,6 +54,8 @@ defmodule MishkaChelekom.MCP.Tools.GetJsHookInfo do
     {:reply, response, frame}
   end
 
+  # The path is built only once ComponentConfig.known_js_hook?/1 accepted the name.
+  # sobelow_skip ["Traversal.FileModule"]
   defp get_hook_info(name) do
     # Normalize name (handle both "collapsible" and "Collapsible")
     normalized_name = name |> String.downcase() |> String.replace(" ", "_")
