@@ -106,8 +106,16 @@ defmodule <%= @module %> do
       <%!-- What opening and closing do with focus. `show_drawer/3` and `hide_drawer/3` run them
             through `JS.exec/2` on a selector that only a closed (opening) or an open (closing)
             drawer matches: Escape reaches every drawer on the page, and a closed one must not
-            give away focus another dialog is holding. --%>
-      data-open-focus={JS.push_focus(to: ":focus") |> JS.focus_first(to: "##{@id}-container")}
+            give away focus another dialog is holding.
+            The push takes the focused element, or `<body>` when nothing has focus (after a page
+            load, when `phx-mounted` opens the drawer, or in Safari, where a clicked button does
+            not take focus), so there is always one entry for the close to pop, and the pop never
+            takes another dialog's. Popping `<body>` moves no focus. `:focus-within`, not
+            `:has(:focus)`: a browser without `:has()` would reject the whole selector. --%>
+      data-open-focus={
+        JS.push_focus(to: ":focus, body:not(:focus-within)")
+        |> JS.focus_first(to: "##{@id}-container")
+      }
       data-close-focus={JS.pop_focus()}
       class={[
         "fixed z-50 transition-transform",
