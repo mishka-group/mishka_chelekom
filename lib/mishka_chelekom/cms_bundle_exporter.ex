@@ -617,7 +617,7 @@ defmodule MishkaChelekom.CmsBundleExporter do
   #
   # So it ships as a real clause instead, in source order, with no template and its trailing
   # self-call removed: the body's value IS the normalised assigns, and re-dispatching them is the
-  # consumer's job. Anything else — a genuine public helper like `convert_to_mb/1` — is unchanged.
+  # consumer's job. Anything else — a genuine public helper like `rating_select/2` — is unchanged.
   defp accumulate_bodiless_def(acc, head, body, fn_name, args_ast, guard) do
     case delegating_clause?(args_ast, body, fn_name) do
       true ->

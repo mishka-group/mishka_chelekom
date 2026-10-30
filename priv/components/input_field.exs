@@ -5,7 +5,7 @@
     doc_url: "https://mishka.tools/chelekom/docs/forms/input-field",
     args: [
       only: ["input", "error"],
-      helpers: [],
+      helpers: [label: 1],
       module: ""
     ],
     optional: [],
