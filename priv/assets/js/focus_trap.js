@@ -44,32 +44,37 @@ function refreshNested() {
   });
 }
 
-// Shared scroll-lock (ref-counted so stacked modals don't unlock prematurely).
-let scrollLocks = 0;
-let savedOverflow = "";
-let savedPadRight = "";
+// Page scroll lock, counted on <body> itself. The headless drawer (drawer.js) and dialog
+// (focus_trap.js) each carry this same block and find the count under one registered symbol, so
+// every modal drawer and dialog locking that body shares it: two drawers, or a drawer over a dialog,
+// keep the page locked until the last of them closes, in whatever order they close. The first lock
+// saves the body's inline overflow and padding-right, then pads it by the scrollbar's width so
+// neither the page nor a fixed popup shifts when the scrollbar goes; the last unlock restores both.
+const SCROLL_LOCK = Symbol.for("mishka_chelekom.scroll_lock");
 
-function lockScrollGlobal() {
-  if (scrollLocks === 0) {
-    const body = document.body;
+function lockBodyScroll(body) {
+  let lock = body[SCROLL_LOCK];
+  if (!lock) {
     const sbw = window.innerWidth - document.documentElement.clientWidth;
-    savedOverflow = body.style.overflow;
-    savedPadRight = body.style.paddingRight;
+    lock = { count: 0, overflow: body.style.overflow, paddingRight: body.style.paddingRight };
+    body[SCROLL_LOCK] = lock;
     body.style.overflow = "hidden";
     if (sbw > 0) {
       const cur = parseFloat(getComputedStyle(body).paddingRight) || 0;
       body.style.paddingRight = `${cur + sbw}px`;
     }
   }
-  scrollLocks += 1;
+  lock.count += 1;
 }
 
-function unlockScrollGlobal() {
-  scrollLocks = Math.max(0, scrollLocks - 1);
-  if (scrollLocks === 0) {
-    document.body.style.overflow = savedOverflow;
-    document.body.style.paddingRight = savedPadRight;
-  }
+function unlockBodyScroll(body) {
+  const lock = body[SCROLL_LOCK];
+  if (!lock) return;
+  lock.count -= 1;
+  if (lock.count > 0) return;
+  delete body[SCROLL_LOCK];
+  body.style.overflow = lock.overflow;
+  body.style.paddingRight = lock.paddingRight;
 }
 
 const FocusTrap = {
@@ -205,16 +210,17 @@ const FocusTrap = {
     refreshNested();
   },
 
+  // Unlocks the body it locked, even when document.body has been replaced since.
   lockScroll() {
-    if (this._locked) return;
-    lockScrollGlobal();
-    this._locked = true;
+    if (this._lockedBody) return;
+    this._lockedBody = document.body;
+    lockBodyScroll(this._lockedBody);
   },
 
   unlockScroll() {
-    if (!this._locked) return;
-    unlockScrollGlobal();
-    this._locked = false;
+    if (!this._lockedBody) return;
+    unlockBodyScroll(this._lockedBody);
+    this._lockedBody = null;
   },
 
   initialFocusEl() {

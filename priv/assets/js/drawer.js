@@ -74,6 +74,39 @@ const indent = {
   },
 };
 
+// Page scroll lock, counted on <body> itself. The headless drawer (drawer.js) and dialog
+// (focus_trap.js) each carry this same block and find the count under one registered symbol, so
+// every modal drawer and dialog locking that body shares it: two drawers, or a drawer over a dialog,
+// keep the page locked until the last of them closes, in whatever order they close. The first lock
+// saves the body's inline overflow and padding-right, then pads it by the scrollbar's width so
+// neither the page nor a fixed popup shifts when the scrollbar goes; the last unlock restores both.
+const SCROLL_LOCK = Symbol.for("mishka_chelekom.scroll_lock");
+
+function lockBodyScroll(body) {
+  let lock = body[SCROLL_LOCK];
+  if (!lock) {
+    const sbw = window.innerWidth - document.documentElement.clientWidth;
+    lock = { count: 0, overflow: body.style.overflow, paddingRight: body.style.paddingRight };
+    body[SCROLL_LOCK] = lock;
+    body.style.overflow = "hidden";
+    if (sbw > 0) {
+      const cur = parseFloat(getComputedStyle(body).paddingRight) || 0;
+      body.style.paddingRight = `${cur + sbw}px`;
+    }
+  }
+  lock.count += 1;
+}
+
+function unlockBodyScroll(body) {
+  const lock = body[SCROLL_LOCK];
+  if (!lock) return;
+  lock.count -= 1;
+  if (lock.count > 0) return;
+  delete body[SCROLL_LOCK];
+  body.style.overflow = lock.overflow;
+  body.style.paddingRight = lock.paddingRight;
+}
+
 const damp = (v) => (v < 0 ? -Math.sqrt(-v) : Math.sqrt(v));
 const num = (px) => parseFloat(px) || 0;
 
@@ -218,28 +251,19 @@ const Drawer = {
     if (this.trapFocus && this.opener && this.opener.focus) this.opener.focus();
   },
 
-  // Lock background scroll for modal drawers. Removing the scrollbar would shift the
-  // (fixed) drawer flush to the window edge AND reflow the page; pad the body by the
-  // scrollbar width to compensate, so nothing jumps. Done synchronously → no transient.
+  // Lock background scroll for modal drawers, through the body's shared count (see
+  // lockBodyScroll). Done synchronously, so the padding lands with the overflow: no transient.
+  // Unlocks the body it locked, even when document.body has been replaced since.
   lockScroll() {
-    if (this._locked) return;
-    const sbw = window.innerWidth - document.documentElement.clientWidth;
-    const body = document.body;
-    this._prevOverflow = body.style.overflow;
-    this._prevPadRight = body.style.paddingRight;
-    body.style.overflow = "hidden";
-    if (sbw > 0) {
-      const cur = parseFloat(getComputedStyle(body).paddingRight) || 0;
-      body.style.paddingRight = `${cur + sbw}px`;
-    }
-    this._locked = true;
+    if (this._lockedBody) return;
+    this._lockedBody = document.body;
+    lockBodyScroll(this._lockedBody);
   },
 
   unlockScroll() {
-    if (!this._locked) return;
-    document.body.style.overflow = this._prevOverflow || "";
-    document.body.style.paddingRight = this._prevPadRight || "";
-    this._locked = false;
+    if (!this._lockedBody) return;
+    unlockBodyScroll(this._lockedBody);
+    this._lockedBody = null;
   },
 
   focusables() {
