@@ -44,12 +44,13 @@ function refreshNested() {
   });
 }
 
-// Page scroll lock, counted on <body> itself. The headless drawer (drawer.js) and dialog
-// (focus_trap.js) each carry this same block and find the count under one registered symbol, so
-// every modal drawer and dialog locking that body shares it: two drawers, or a drawer over a dialog,
-// keep the page locked until the last of them closes, in whatever order they close. The first lock
-// saves the body's inline overflow and padding-right, then pads it by the scrollbar's width so
-// neither the page nor a fixed popup shifts when the scrollbar goes; the last unlock restores both.
+// Page scroll lock, counted on <body> itself. The headless drawer (drawer.js), dialog
+// (focus_trap.js) and popover (popover.js) each carry this same block and find the count under one
+// registered symbol, so every modal drawer, dialog and popover locking that body shares it: two
+// drawers, a drawer over a dialog, or a popover over either keep the page locked until the last of
+// them closes, in whatever order they close. The first lock saves the body's inline overflow and
+// padding-right, then pads it by the scrollbar's width so neither the page nor a fixed popup shifts
+// when the scrollbar goes; the last unlock restores both.
 const SCROLL_LOCK = Symbol.for("mishka_chelekom.scroll_lock");
 
 function lockBodyScroll(body) {
