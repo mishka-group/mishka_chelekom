@@ -146,6 +146,52 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
            "the shipped kit drops something other than these showcase furnishings: #{inspect(stale)}"
   end
 
+  # A HEADLESS COMPONENT SHIPS NO STYLING, so dropped bare a slider, a splitter, a tree, a chart and an
+  # editor draw nothing at all: a track with no height, panels with no size, a tree with no nodes, a
+  # chart with no data, an editor with no edge. Their furnishings give a plain drop neutral Tailwind
+  # utilities and sample content, and the headless bundle has to carry them, as the styled one does.
+  @headless_showcase Path.wildcard("priv/showcase_headless/*.json")
+
+  @drawn_by_furnishing ~w(
+    chelekom-headless-alpha-slider chelekom-headless-hue-slider chelekom-headless-splitter
+    chelekom-headless-tree chelekom-headless-chart chelekom-headless-editor
+  )
+
+  test "a headless component that draws nothing bare arrives with something to draw" do
+    furnished =
+      for path <- @headless_showcase,
+          entry = entry(path),
+          map_size(get_in(entry, ["furnishing", "attrs"]) || %{}) > 0,
+          do: entry["name"]
+
+    assert @drawn_by_furnishing -- furnished == []
+
+    for path <- @headless_showcase, entry = entry(path) do
+      assert length(entry["examples"] || []) >= 2, "#{entry["name"]} ships too few examples"
+
+      refute inspect(entry) =~ "style=",
+             "#{entry["name"]}: plain Tailwind utilities only, the CMS compiles them from markup"
+    end
+  end
+
+  test "the shipped headless kit drops every headless showcase furnishing" do
+    shipped =
+      "priv/cms_ui_kits/chelekom_headless.json"
+      |> File.read!()
+      |> Jason.decode!()
+      |> Map.fetch!("components")
+      |> Map.new(&{&1["name"], get_in(&1, ["extra", "furnishing"])})
+
+    stale =
+      for path <- @headless_showcase,
+          entry = entry(path),
+          shipped[entry["name"]] != entry["furnishing"],
+          do: entry["name"]
+
+    assert @headless_showcase != [], "no headless showcase file to compare"
+    assert stale == [], "the shipped headless kit drops something else for: #{inspect(stale)}"
+  end
+
   # THE GAP THIS CORPUS ACTUALLY DEVELOPS: a component is added and its showcase file is not.
   test "every component in the catalogue has a showcase file" do
     documented = MapSet.new(@showcase, &(&1 |> Path.basename(".json")))

@@ -2022,13 +2022,50 @@
       "dependencies": [
         "splitter.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\" default_size=\"30\"><:first><p class=\"font-medium\">Folders</p></:first><:second><p class=\"font-medium\">Files</p></:second></.component>",
+        "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\"><:first><p class=\"font-medium\">Original</p></:first><:second><p class=\"font-medium\">Revised</p></:second></.component>"
+      ],
       "extra": {
         "clauses": null,
         "component": "splitter",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/splitter",
+        "examples": [
+          {
+            "base": true,
+            "label": "Sidebar and content, resizable",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\" default_size=\"30\"><:first><p class=\"font-medium\">Folders</p></:first><:second><p class=\"font-medium\">Files</p></:second></.component>"
+          },
+          {
+            "base": false,
+            "label": "Two editors side by side",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\"><:first><p class=\"font-medium\">Original</p></:first><:second><p class=\"font-medium\">Revised</p></:second></.component>"
+          }
+        ],
         "function": "splitter",
+        "furnishing": {
+          "attrs": {
+            "class": "flex h-48 w-full overflow-hidden rounded-xl border border-current/15",
+            "panel_class": "min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1",
+            "resizer_class": "w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25"
+          },
+          "body": "",
+          "slots": [
+            {
+              "body": "<p class=\"font-medium\">First panel</p><p class=\"mt-1 opacity-70\">Drag the bar to resize.</p>",
+              "name": "first"
+            },
+            {
+              "body": "<p class=\"font-medium\">Second panel</p><p class=\"mt-1 opacity-70\">Content goes here.</p>",
+              "name": "second"
+            }
+          ]
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -2192,13 +2229,44 @@
       "dependencies": [
         "slider.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" class=\"w-full max-w-sm py-2\" color=\"#2563eb\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"60\" label=\"Layer opacity\" />",
+        "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Overlay</span><.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" class=\"w-full max-w-sm py-2\" color=\"#111827\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"35\" label=\"Overlay strength\" /></div>"
+      ],
       "extra": {
         "clauses": null,
         "component": "alpha_slider",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/alpha-slider",
+        "examples": [
+          {
+            "base": true,
+            "label": "Opacity picker with a checkered track",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" class=\"w-full max-w-sm py-2\" color=\"#2563eb\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"60\" label=\"Layer opacity\" />"
+          },
+          {
+            "base": false,
+            "label": "Overlay strength in a settings row",
+            "requires": {},
+            "section": null,
+            "source": "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Overlay</span><.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" class=\"w-full max-w-sm py-2\" color=\"#111827\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"35\" label=\"Overlay strength\" /></div>"
+          }
+        ],
         "function": "alpha_slider",
+        "furnishing": {
+          "attrs": {
+            "class": "w-full max-w-sm py-2",
+            "color": "#2563eb",
+            "control_class": "relative flex h-5 w-full touch-none items-center",
+            "indicator_class": "absolute inset-y-0 left-0 rounded-full",
+            "thumb_class": "block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40",
+            "track_class": "relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -2938,13 +3006,43 @@
       "dependencies": [
         "slider.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"210\" label=\"Accent hue\" />",
+        "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Theme</span><.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"140\" label=\"Theme hue\" /></div>"
+      ],
       "extra": {
         "clauses": null,
         "component": "hue_slider",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/hue-slider",
+        "examples": [
+          {
+            "base": true,
+            "label": "Hue picker over a rainbow track",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"210\" label=\"Accent hue\" />"
+          },
+          {
+            "base": false,
+            "label": "Theme hue in a settings row",
+            "requires": {},
+            "section": null,
+            "source": "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Theme</span><.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"140\" label=\"Theme hue\" /></div>"
+          }
+        ],
         "function": "hue_slider",
+        "furnishing": {
+          "attrs": {
+            "class": "w-full max-w-sm py-2",
+            "control_class": "relative flex h-5 w-full touch-none items-center",
+            "indicator_class": "absolute inset-y-0 left-0 rounded-full",
+            "thumb_class": "block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40",
+            "track_class": "relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -7483,13 +7581,81 @@
       "dependencies": [
         "chart_echarts.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" height=\"16rem\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />",
+        "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" height=\"16rem\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
+      ],
       "extra": {
         "clauses": null,
         "component": "chart",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/chart",
+        "examples": [
+          {
+            "base": true,
+            "label": "Visits per day as bars",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" height=\"16rem\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />"
+          },
+          {
+            "base": false,
+            "label": "Sign-ups over a month as a line",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" height=\"16rem\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
+          }
+        ],
         "function": "chart",
+        "furnishing": {
+          "attrs": {
+            "aria_label": "Visits per day this week",
+            "class": "w-full max-w-2xl",
+            "height": "16rem",
+            "option": {
+              "grid": {
+                "bottom": 28,
+                "left": 32,
+                "right": 16,
+                "top": 16
+              },
+              "series": [
+                {
+                  "data": [
+                    12,
+                    18,
+                    9,
+                    22,
+                    16,
+                    7,
+                    11
+                  ],
+                  "type": "bar"
+                }
+              ],
+              "tooltip": {
+                "trigger": "axis"
+              },
+              "xAxis": {
+                "data": [
+                  "Mon",
+                  "Tue",
+                  "Wed",
+                  "Thu",
+                  "Fri",
+                  "Sat",
+                  "Sun"
+                ],
+                "type": "category"
+              },
+              "yAxis": {
+                "type": "value"
+              }
+            }
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -7717,13 +7883,42 @@
       "dependencies": [
         "editor_tiptap.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-32 p-4 text-sm leading-6 outline-hidden\" />",
+        "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" placeholder=\"Add a comment…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-20 p-3 text-sm leading-6 outline-hidden\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "editor",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/editor",
+        "examples": [
+          {
+            "base": true,
+            "label": "Note editor with a border",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-32 p-4 text-sm leading-6 outline-hidden\" />"
+          },
+          {
+            "base": false,
+            "label": "Comment box",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" placeholder=\"Add a comment…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-20 p-3 text-sm leading-6 outline-hidden\" />"
+          }
+        ],
         "function": "editor",
+        "furnishing": {
+          "attrs": {
+            "class": "w-full max-w-2xl overflow-hidden rounded-xl border border-current/15",
+            "placeholder": "Start writing…",
+            "surface_class": "min-h-32 p-4 text-sm leading-6 outline-hidden",
+            "toolbar_class": "flex flex-wrap gap-1 border-b border-current/15 p-2"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -13013,13 +13208,76 @@
       "dependencies": [
         "tree.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" class=\"w-full max-w-xs text-sm\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />",
+        "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" class=\"w-full max-w-xs text-sm\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
+      ],
       "extra": {
         "clauses": null,
         "component": "tree",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/tree",
+        "examples": [
+          {
+            "base": true,
+            "label": "Documentation outline",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" class=\"w-full max-w-xs text-sm\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />"
+          },
+          {
+            "base": false,
+            "label": "Project files with checkboxes",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" class=\"w-full max-w-xs text-sm\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
+          }
+        ],
         "function": "tree",
+        "furnishing": {
+          "attrs": {
+            "class": "w-full max-w-xs text-sm",
+            "expanded": [
+              "start"
+            ],
+            "nodes": [
+              {
+                ":children": [
+                  {
+                    ":label": "Installation",
+                    ":value": "install"
+                  },
+                  {
+                    ":label": "First page",
+                    ":value": "first-page"
+                  }
+                ],
+                ":label": "Getting started",
+                ":value": "start"
+              },
+              {
+                ":children": [
+                  {
+                    ":label": "Layouts",
+                    ":value": "layouts"
+                  },
+                  {
+                    ":label": "Components",
+                    ":value": "components"
+                  }
+                ],
+                ":label": "Guides",
+                ":value": "guides"
+              },
+              {
+                ":label": "Reference",
+                ":value": "reference"
+              }
+            ]
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
