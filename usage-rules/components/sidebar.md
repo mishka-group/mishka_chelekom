@@ -62,8 +62,9 @@ With a `hide_position`, the sidebar is a menu that slides in below `md` and a fi
 - `hide_sidebar(js \\ %JS{}, id, hide_position)` — slides it out.
 
 Pass the sidebar's own `hide_position`. With `nil` both helpers do nothing. The close button and a
-click outside the sidebar close it. The helpers are not in the catalog's import list, so call them
-on the module, e.g. `MyAppWeb.Components.Sidebar.show_sidebar("menu", "left")`.
+click outside the sidebar close it. `mix mishka.ui.gen.components --import --helpers` imports both
+helpers; without `--helpers`, call them on the module, e.g.
+`MyAppWeb.Components.Sidebar.show_sidebar("menu", "left")`.
 
 ## Keyboard and Focus
 
@@ -72,7 +73,12 @@ on the module, e.g. `MyAppWeb.Components.Sidebar.show_sidebar("menu", "left")`.
 - Opening moves focus to the first focusable element inside: the minimize button when there is
   one, otherwise the close button below `md`.
 - Closing gives focus back to the element that had it when the sidebar opened, if focus is still
-  inside the sidebar. Focus a click outside moved elsewhere stays there.
+  inside the sidebar. Focus a click outside moved elsewhere stays there. A sidebar opened while
+  nothing had focus (from a button in Safari, which does not focus a clicked button) moves no focus
+  when it closes.
+- The sidebar remembers that element by marking it with `data-sidebar-opener="<id>"` until it
+  closes, not on LiveView's focus stack, so opening and closing it never changes where a modal or
+  a drawer gives focus back.
 - The sidebar is not modal: Tab can leave it, and Escape does not close it.
 
 ## Available Options

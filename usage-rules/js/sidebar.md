@@ -32,7 +32,10 @@ On the sidebar:
 ## Features
 
 - **Minimize/Expand**: each click on the button sets the sidebar's inline `width` to the collapsed or
-  the expanded width, with a 0.3s width transition
+  the expanded width. The hook adds a 0.3s `width` transition to the transitions the sidebar already
+  has, so its slide in and out keeps animating; a sidebar that already transitions `width` or `all`
+  keeps its own
+- **Cleanup**: `destroyed()` removes the button's click listener
 - **Labels**: the `[data-item-label]` elements are hidden while minimized and fade back in on expand
 - **Icon Rotation**: the button's `.minimize-icon` toggles `rotate-180`
 
