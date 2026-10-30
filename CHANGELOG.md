@@ -111,10 +111,15 @@
   `phoenix_live_view` 1.2.13, `spark` 2.7.9, `usage_rules` 1.3.0 and `websock_adapter` 0.7.0.
   `mix hex.audit` reports nothing in all three projects, and `mix deps.audit` nothing in the
   library
+- Dependencies and security: the library requires `igniter_js` 0.5.2 and `igniter_css` 1.1.1, and
+  the `development/web` harness requires `tailwind` 0.5.2. `phoenix_html` 4.4.0 replaces 4.3.0,
+  which fixes advisory EEF-CVE-2026-117645, in the library, `development/web` and
+  `development/mob`. `sobelow` 0.18.1, `usage_rules` 1.3.1 and `image` 0.73.0 follow, so every
+  dependency of all three projects is at its latest release
 
 ### Refactors:
 - Both CMS bundles in `priv/cms_ui_kits` are exported again from the merged sources with
-  `--bundle-version 0.0.11-alpha.1`, so each bundle and each component says that version. They carry
+  `--bundle-version 0.0.11-alpha.2`, so each bundle and each component says that version. They carry
   the modal, drawer, sidebar, flash group and headless drawer, dialog and popover above, the
   headless categories and the neutral drops
 - The library passes `mix ci`: `hex.audit` first, then compile with warnings as errors, format,
@@ -129,6 +134,9 @@
   Hex dependencies and the Actions every week
 - The Mob usage rules link each component's page on mishka.tools and describe
   `config :mob, :extra_tags`
+- The test, release, hex-audit and dependency-submission workflows and the Mob app's
+  `.tool-versions` run on Erlang 29.1.2 and Elixir 1.20.5. The temporary OTP 29.0.5 pin is
+  removed, because the download libraries now pass `max_header_size` to `:httpc`
 
 # Changelog for MishkaChelekom 0.0.10
 

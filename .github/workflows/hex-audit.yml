@@ -27,8 +27,8 @@ jobs:
 
       - uses: erlef/setup-beam@v1.24.1
         with:
-          otp-version: "29.0.5"
-          elixir-version: "1.20.4"
+          otp-version: "29.1.2"
+          elixir-version: "1.20.5-otp-29"
       # The audit reads mix.lock and the Hex registry; fetching is enough, nothing is compiled.
       - run: mix deps.get
 
