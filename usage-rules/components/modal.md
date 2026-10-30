@@ -68,7 +68,12 @@ later, use the helpers.
 - Closing gives focus back to the element that had it when the modal opened. A modal opened while
   nothing had focus (with `show`, or from a button in Safari, which does not focus a clicked
   button) moves no focus when it closes.
-- Opening locks the page's scroll (`overflow-hidden` on `<body>`) and closing unlocks it.
+- Opening locks the page's scroll: `overflow-hidden` on `<body>`, and `scrollbar-gutter: stable` on
+  `<html>`, so the page keeps the room its scrollbar took and its content does not shift. On a page
+  that does not scroll, a classic scrollbar's gutter appears while it is locked.
+- Closing unlocks it unless another modal or drawer is still open: the close runs the lock of
+  every other open element with `data-open-scroll` again, and the drawer carries the same
+  attribute, so the page stays locked until the last of them closes.
 - Opening a modal that is already open, or closing one that is already closed, leaves focus and
   the page's scroll alone, so a closed modal on the page, or one a patch removes, never takes
   focus from another open dialog or unlocks the scroll under it.
