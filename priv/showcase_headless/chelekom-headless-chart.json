@@ -44,19 +44,17 @@
           }
         ]
       },
-      "height": "16rem",
-      "aria_label": "Visits per day this week",
-      "class": "w-full max-w-2xl"
+      "aria_label": "Visits per day this week"
     }
   },
   "examples": [
     {
       "label": "Visits per day as bars",
-      "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" height=\"16rem\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />"
+      "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />"
     },
     {
       "label": "Sign-ups over a month as a line",
-      "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" height=\"16rem\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
+      "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
     }
   ]
 }

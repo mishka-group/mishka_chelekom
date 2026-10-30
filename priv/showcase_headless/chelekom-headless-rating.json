@@ -5,19 +5,17 @@
     "slots": [],
     "attrs": {
       "value": 3,
-      "label": "Rating",
-      "class": "flex gap-1",
-      "item_class": "size-6 bg-current/20 data-[checked]:bg-current [&:has(~[aria-checked=true])]:bg-current [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]"
+      "label": "Rating"
     }
   },
   "examples": [
     {
       "label": "Three of five stars",
-      "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" class=\"flex gap-1\" item_class=\"size-6 bg-current/20 data-[checked]:bg-current [&:has(~[aria-checked=true])]:bg-current [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]\" />"
+      "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" />"
     },
     {
       "label": "Read-only score of four",
-      "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly class=\"flex gap-1\" item_class=\"size-6 bg-current/20 data-[checked]:bg-current [&:has(~[aria-checked=true])]:bg-current [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]\" />"
+      "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly />"
     }
   ]
 }

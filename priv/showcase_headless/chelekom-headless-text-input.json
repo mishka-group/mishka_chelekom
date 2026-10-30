@@ -4,19 +4,17 @@
     "body": "",
     "slots": [],
     "attrs": {
-      "placeholder": "Your name",
-      "class": "flex w-full max-w-sm items-center rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15",
-      "input_class": "w-full bg-transparent px-3 py-2 outline-hidden"
+      "placeholder": "Your name"
     }
   },
   "examples": [
     {
       "label": "Email field",
-      "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" class=\"flex w-full max-w-sm items-center rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"w-full bg-transparent px-3 py-2 outline-hidden\" />"
+      "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" />"
     },
     {
       "label": "Web address with a fixed prefix",
-      "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\" class=\"flex w-full max-w-sm items-center rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"w-full bg-transparent px-3 py-2 outline-hidden\" start_section_class=\"pl-3 opacity-60\"><:start_section>https://</:start_section></.component>"
+      "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\"><:start_section>https://</:start_section></.component>"
     }
   ]
 }

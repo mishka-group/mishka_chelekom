@@ -24,21 +24,17 @@
     ],
     "attrs": {
       "label": "Actions",
-      "contained": true,
-      "class": "relative inline-flex flex-col items-end gap-2",
-      "trigger_class": "grid size-12 place-items-center rounded-full border border-current/20 bg-current/10 text-xl shadow-sm",
-      "popup_class": "flex flex-col items-end gap-2",
-      "action_class": "inline-flex size-10 items-center justify-center rounded-full border border-current/20 text-sm"
+      "contained": true
     }
   },
   "examples": [
     {
-      "label": "Round button with three actions",
-      "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained class=\"relative inline-flex flex-col items-end gap-2\" trigger_class=\"grid size-12 place-items-center rounded-full border border-current/20 bg-current/10 text-xl shadow-sm\" popup_class=\"flex flex-col items-end gap-2\" action_class=\"inline-flex size-10 items-center justify-center rounded-full border border-current/20 text-sm\"><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>"
+      "label": "Button with three actions",
+      "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>"
     },
     {
       "label": "Single action that opens nothing",
-      "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained class=\"relative inline-flex flex-col items-end gap-2\" trigger_class=\"grid size-12 place-items-center rounded-full border border-current/20 bg-current/10 text-xl shadow-sm\" popup_class=\"flex flex-col items-end gap-2\" action_class=\"inline-flex size-10 items-center justify-center rounded-full border border-current/20 text-sm\"><:icon>+</:icon></.component>"
+      "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained><:icon>+</:icon></.component>"
     }
   ]
 }

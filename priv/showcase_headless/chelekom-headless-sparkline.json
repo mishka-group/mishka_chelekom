@@ -15,18 +15,17 @@
         14
       ],
       "last_point": true,
-      "aria_label": "Visits this week",
-      "class": "h-10 w-40"
+      "aria_label": "Visits this week"
     }
   },
   "examples": [
     {
       "label": "Trend line ending on a point",
-      "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[4, 7, 5, 9, 8, 12, 10, 14]} last_point aria_label=\"Visits this week\" class=\"h-10 w-40\" />"
+      "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[4, 7, 5, 9, 8, 12, 10, 14]} last_point aria_label=\"Visits this week\" />"
     },
     {
       "label": "Week of visits as bars",
-      "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[3, 5, 2, 8, 6, 9, 4]} type=\"bar\" aria_label=\"Visits per day\" class=\"h-10 w-40\" />"
+      "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[3, 5, 2, 8, 6, 9, 4]} type=\"bar\" aria_label=\"Visits per day\" />"
     }
   ]
 }

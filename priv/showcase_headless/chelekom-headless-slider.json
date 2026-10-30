@@ -6,24 +6,17 @@
     "attrs": {
       "value": 40,
       "label": "Volume",
-      "show_value": true,
-      "class": "grid w-full max-w-sm grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 text-sm",
-      "label_class": "font-medium",
-      "value_class": "tabular-nums opacity-70",
-      "control_class": "relative col-span-2 flex h-5 w-full touch-none items-center",
-      "track_class": "relative h-1.5 w-full rounded-full bg-current/15",
-      "indicator_class": "rounded-full bg-current",
-      "thumb_class": "block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40"
+      "show_value": true
     }
   },
   "examples": [
     {
       "label": "Volume with its value beside the label",
-      "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value class=\"grid w-full max-w-sm grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 text-sm\" label_class=\"font-medium\" value_class=\"tabular-nums opacity-70\" control_class=\"relative col-span-2 flex h-5 w-full touch-none items-center\" track_class=\"relative h-1.5 w-full rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" />"
+      "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value />"
     },
     {
       "label": "Range with two thumbs",
-      "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value class=\"grid w-full max-w-sm grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 text-sm\" label_class=\"font-medium\" value_class=\"tabular-nums opacity-70\" control_class=\"relative col-span-2 flex h-5 w-full touch-none items-center\" track_class=\"relative h-1.5 w-full rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" />"
+      "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value />"
     }
   ]
 }

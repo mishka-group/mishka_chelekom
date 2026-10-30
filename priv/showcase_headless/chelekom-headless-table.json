@@ -27,23 +27,17 @@
       }
     ],
     "attrs": {
-      "rows": [],
-      "class": "w-full max-w-xl text-left text-sm",
-      "head_class": "border-b border-current/15",
-      "header_class": "px-3 py-2 font-medium",
-      "body_class": "divide-y divide-current/10",
-      "cell_class": "px-3 py-2",
-      "empty_class": "px-3 py-6 text-center opacity-70"
+      "rows": []
     }
   },
   "examples": [
     {
       "label": "People with their role",
-      "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"people-table\" rows={[%{name: \"Ada Lovelace\", role: \"Engineer\"}, %{name: \"Grace Hopper\", role: \"Admiral\"}, %{name: \"Alan Turing\", role: \"Researcher\"}]} class=\"w-full max-w-xl text-left text-sm\" head_class=\"border-b border-current/15\" header_class=\"px-3 py-2 font-medium\" body_class=\"divide-y divide-current/10\" cell_class=\"px-3 py-2\"><:col :let={person} label=\"Name\">{person.name}</:col><:col :let={person} label=\"Role\">{person.role}</:col></.component>"
+      "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"people-table\" rows={[%{name: \"Ada Lovelace\", role: \"Engineer\"}, %{name: \"Grace Hopper\", role: \"Admiral\"}, %{name: \"Alan Turing\", role: \"Researcher\"}]}><:col :let={person} label=\"Name\">{person.name}</:col><:col :let={person} label=\"Role\">{person.role}</:col></.component>"
     },
     {
       "label": "Team with a caption and no members yet",
-      "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"empty-table\" rows={[]} caption=\"Team\" show_caption caption_class=\"pb-2 text-left font-medium\" class=\"w-full max-w-xl text-left text-sm\" head_class=\"border-b border-current/15\" header_class=\"px-3 py-2 font-medium\" body_class=\"divide-y divide-current/10\" cell_class=\"px-3 py-2\" empty_class=\"px-3 py-6 text-center opacity-70\"><:col label=\"Name\"></:col><:col label=\"Role\"></:col><:empty>Nobody here yet.</:empty></.component>"
+      "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"empty-table\" rows={[]} caption=\"Team\" show_caption><:col label=\"Name\"></:col><:col label=\"Role\"></:col><:empty>Nobody here yet.</:empty></.component>"
     }
   ]
 }

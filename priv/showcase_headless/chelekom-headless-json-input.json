@@ -5,18 +5,17 @@
     "slots": [],
     "attrs": {
       "placeholder": "Paste JSON here",
-      "rows": 6,
-      "class": "w-full max-w-md rounded-lg border border-current/20 bg-transparent p-3 font-mono text-sm outline-hidden focus:ring-2 focus:ring-current/15"
+      "rows": 6
     }
   },
   "examples": [
     {
       "label": "Settings written as JSON",
-      "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"settings-json\" name=\"settings\" rows={4} value={~s({\"theme\": \"light\", \"compact\": true})} class=\"w-full max-w-md rounded-lg border border-current/20 bg-transparent p-3 font-mono text-sm outline-hidden focus:ring-2 focus:ring-current/15\" />"
+      "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"settings-json\" name=\"settings\" rows={4} value={~s({\"theme\": \"light\", \"compact\": true})} />"
     },
     {
       "label": "Empty box with a hint",
-      "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"payload-json\" name=\"payload\" rows={6} placeholder=\"Paste JSON here\" class=\"w-full max-w-md rounded-lg border border-current/20 bg-transparent p-3 font-mono text-sm outline-hidden focus:ring-2 focus:ring-current/15\" />"
+      "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"payload-json\" name=\"payload\" rows={6} placeholder=\"Paste JSON here\" />"
     }
   ]
 }

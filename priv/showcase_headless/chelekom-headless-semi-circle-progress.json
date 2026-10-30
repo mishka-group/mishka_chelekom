@@ -1,26 +1,21 @@
 {
   "name": "chelekom-headless-semi-circle-progress",
   "furnishing": {
-    "body": "<span class=\"text-2xl font-semibold\">72</span><span class=\"text-xs opacity-70\">out of 100</span>",
+    "body": "<span>72</span> <span>out of 100</span>",
     "slots": [],
     "attrs": {
       "value": 72,
-      "label": "Score",
-      "class": "relative inline-block w-48",
-      "svg_class": "w-full",
-      "track_class": "stroke-current/15 [stroke-width:12]",
-      "indicator_class": "stroke-current [stroke-width:12]",
-      "label_class": "absolute inset-x-0 bottom-1 flex flex-col items-center"
+      "label": "Score"
     }
   },
   "examples": [
     {
-      "label": "Score gauge with the number inside",
-      "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\" class=\"relative inline-block w-48\" svg_class=\"w-full\" track_class=\"stroke-current/15 [stroke-width:12]\" indicator_class=\"stroke-current [stroke-width:12]\" label_class=\"absolute inset-x-0 bottom-1 flex flex-col items-center\"><span class=\"text-2xl font-semibold\">72</span><span class=\"text-xs opacity-70\">out of 100</span></.component>"
+      "label": "Score out of a hundred",
+      "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\"><span>72</span> <span>out of 100</span></.component>"
     },
     {
       "label": "Full ring with a percentage",
-      "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\" class=\"relative inline-block w-32\" svg_class=\"w-full\" track_class=\"stroke-current/15 [stroke-width:10]\" indicator_class=\"stroke-current [stroke-width:10]\" label_class=\"absolute inset-0 grid place-items-center text-xl font-semibold\">45%</.component>"
+      "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\">45%</.component>"
     }
   ]
 }

@@ -11,20 +11,17 @@
       ],
       "value": "Week",
       "name": "period",
-      "label": "Period",
-      "class": "inline-flex rounded-lg bg-current/10 p-1 text-sm",
-      "item_class": "cursor-pointer rounded-md px-3 py-1 opacity-70 transition has-checked:bg-current/15 has-checked:font-medium has-checked:opacity-100 has-disabled:cursor-not-allowed has-disabled:opacity-40",
-      "input_class": "sr-only"
+      "label": "Period"
     }
   },
   "examples": [
     {
       "label": "Day, week or month switch",
-      "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} class=\"inline-flex rounded-lg bg-current/10 p-1 text-sm\" item_class=\"cursor-pointer rounded-md px-3 py-1 opacity-70 transition has-checked:bg-current/15 has-checked:font-medium has-checked:opacity-100 has-disabled:cursor-not-allowed has-disabled:opacity-40\" input_class=\"sr-only\" />"
+      "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} />"
     },
     {
       "label": "View switch with one option turned off",
-      "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} class=\"inline-flex rounded-lg bg-current/10 p-1 text-sm\" item_class=\"cursor-pointer rounded-md px-3 py-1 opacity-70 transition has-checked:bg-current/15 has-checked:font-medium has-checked:opacity-100 has-disabled:cursor-not-allowed has-disabled:opacity-40\" input_class=\"sr-only\" />"
+      "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} />"
     }
   ]
 }

@@ -1,29 +1,32 @@
 defmodule MishkaChelekom.CmsBundle.HeadlessDropTest do
   @moduledoc """
-  Every component of the shipped headless kit draws something the moment it is dropped on a page.
+  Every component of the shipped headless kit renders sample content the moment it is dropped on a
+  page.
 
-  The headless components ship no styling, so a plain drag gave a page a separator with no line, a
-  meter with no track, a segmented control with no segments and a stepper with no steps: an empty
-  box on the canvas and on the published page. A furnishing in `priv/showcase_headless/` is what a
-  drop arrives with, and this renders each component's drop through the runtime dispatcher and
-  looks for something a reader would see.
+  The headless components ship no styling, and neither do their furnishings: a headless component
+  carries no Tailwind class and no inline style, so a drop is bare markup and may well be zero-size
+  (a slider, a splitter and a meter have no extent until the page styles them). What a drop must
+  not be is empty markup: a segmented control with no options, a stepper with no steps, a table with
+  no column headings. A furnishing in `priv/showcase_headless/` is the neutral sample content a drop
+  arrives with, and this renders each component's drop through the runtime dispatcher and looks for
+  it. The CMS editor gives such a node a floor on its canvas, so being small is the editor's concern,
+  not the kit's.
 
   ## The drop
 
   What the CMS palette (`MishkaCmsBuilder.PaletteEntry.template/3`) writes, reduced to what decides
-  whether anything is drawn. A declared furnishing wins outright: its attributes, its slot entries
+  whether anything is rendered. A declared furnishing wins outright: its attributes, its slot entries
   and its body. A component with none gets a line of text inside its `inner_block` (none for a
   progress, spinner or skeleton), two sample entries in a list slot the palette knows by name, an
   empty entry in any other required slot, and a placeholder for each required attribute.
 
-  ## Drawn
+  ## Content
 
-  Read off the HTML the way a page with Tailwind's preflight shows it, outside anything `hidden`,
-  `display: none`, `sr-only` or clipped to a pixel: text; an input or a textarea showing a value or
-  a placeholder; a control the browser draws itself (a checkbox, a radio, a range, a file picker, a
-  select, an image); an SVG shape with a stroke or a fill; an element carrying a utility that paints
-  it (`bg-*`, `border`, `ring-*`, `shadow-*`, `stroke-*`, `fill-*`); or a chart's surface handed a
-  series to draw.
+  Read off the HTML, outside anything `hidden`, `display: none`, `sr-only` or clipped to a pixel:
+  text; a control (an input, a textarea, a select, a button, a checkbox, a range, a file picker, an
+  element that names itself a slider, a separator, a meter or a tree by its `role`); an image; an
+  SVG shape with a stroke or a fill; or a chart's surface handed a series to draw. A class on an
+  element is never content, and neither is a bare `div`.
   """
   use ExUnit.Case, async: false
 
@@ -33,8 +36,8 @@ defmodule MishkaChelekom.CmsBundle.HeadlessDropTest do
 
   @bundle "priv/cms_ui_kits/chelekom_headless.json"
 
-  # Drawing nothing is the whole point of this one.
-  @meant_to_draw_nothing ~w(chelekom-headless-visually-hidden)
+  # Holding nothing is the whole point of this one.
+  @meant_to_hold_nothing ~w(chelekom-headless-visually-hidden)
 
   setup_all do
     components = @bundle |> File.read!() |> Jason.decode!() |> Map.fetch!("components")
@@ -44,19 +47,21 @@ defmodule MishkaChelekom.CmsBundle.HeadlessDropTest do
     %{components: components}
   end
 
-  test "every headless component dropped on a page draws something", %{components: components} do
+  test "every headless component dropped on a page renders its sample content", %{
+    components: components
+  } do
     assert length(components) > 100, "the headless bundle holds too few components to check"
 
     empty =
       for component <- components,
-          component["name"] not in @meant_to_draw_nothing,
+          component["name"] not in @meant_to_hold_nothing,
           source = drop(component),
-          not drawn_html?(DemoHarness.render(source)),
+          not content_html?(DemoHarness.render(source)),
           do: component["name"]
 
     assert empty == [],
-           "these drop as an empty box; give each a furnishing in priv/showcase_headless: " <>
-             inspect(empty)
+           "these drop as an empty box; give each sample content (text, options, a placeholder) in " <>
+             "a furnishing in priv/showcase_headless, never a class: " <> inspect(empty)
   end
 
   test "a furnished drop renders the component, not an error", %{components: components} do
@@ -69,16 +74,20 @@ defmodule MishkaChelekom.CmsBundle.HeadlessDropTest do
     assert failed == []
   end
 
-  test "the check tells a drawn component from an empty one" do
-    assert drawn?(~s(<div><span>Volume</span></div>))
-    assert drawn?(~s(<div class="h-px w-full bg-current/15"></div>))
-    assert drawn?(~s(<input type="text" placeholder="Your name">))
-    assert drawn?(~s(<svg fill="none"><path d="M0 0" stroke="currentColor"></path></svg>))
+  test "the check tells sample content from an empty box" do
+    assert content?(~s(<div><span>Volume</span></div>))
+    assert content?(~s(<input type="text" placeholder="Your name">))
+    assert content?(~s(<input type="text" maxlength="1" aria-label="Character 1 of 6">))
+    assert content?(~s(<input type="radio" name="period" value="Week">))
+    assert content?(~s(<div role="separator" class="chelekom-menu__separator "></div>))
+    assert content?(~s(<div><span role="slider" aria-valuenow="40"></span></div>))
+    assert content?(~s(<svg fill="none"><path d="M0 0" stroke="currentColor"></path></svg>))
 
-    refute drawn?(~s(<div role="separator" class="chelekom-menu__separator "></div>))
-    refute drawn?(~s(<div><input type="text" class="hover:bg-current/10"></div>))
-    refute drawn?(~s(<svg fill="none"><path d="M0 0"></path></svg>))
-    refute drawn?(~s(<div hidden>Closed</div><span class="sr-only">Label</span>))
+    refute content?(~s(<div class="h-px w-full bg-current/15"></div>))
+    refute content?(~s(<div class="chelekom-track"><div class="w-1/2 bg-current"></div></div>))
+    refute content?(~s(<div><input type="hidden" name="period" value="Week"></div>))
+    refute content?(~s(<svg fill="none"><path d="M0 0"></path></svg>))
+    refute content?(~s(<div hidden>Closed</div><span class="sr-only">Label</span>))
   end
 
   ## The drop
@@ -237,33 +246,32 @@ defmodule MishkaChelekom.CmsBundle.HeadlessDropTest do
   defp key(":" <> name), do: String.to_atom(name)
   defp key(name), do: name
 
-  ## Drawn
+  ## Content
 
-  defp drawn_html?({:ok, html}), do: drawn?(html)
-  defp drawn_html?({:error, _reason}), do: false
+  defp content_html?({:ok, html}), do: content?(html)
+  defp content_html?({:error, _reason}), do: false
 
-  defp drawn?(html) do
+  defp content?(html) do
     {"div", _attrs, nodes} = :mochiweb_html.parse("<div>" <> html <> "</div>")
-    Enum.any?(nodes, &drawn_node?/1)
+    Enum.any?(nodes, &content_node?/1)
   end
 
-  defp drawn_node?(text) when is_binary(text), do: String.trim(text) != ""
+  defp content_node?(text) when is_binary(text), do: String.trim(text) != ""
 
-  defp drawn_node?({tag, attrs, children}) when is_binary(tag) do
+  defp content_node?({tag, attrs, children}) when is_binary(tag) do
     attrs = Map.new(attrs)
 
     cond do
       hidden?(tag, attrs) -> false
-      native?(tag, attrs) or painted?(attrs) or charted?(attrs) -> true
-      true -> Enum.any?(children, &drawn_node?/1)
+      native?(tag, attrs) or control?(attrs) or charted?(attrs) -> true
+      true -> Enum.any?(children, &content_node?/1)
     end
   end
 
-  defp drawn_node?(_comment_or_doctype), do: false
+  defp content_node?(_comment_or_doctype), do: false
 
   @boxes ~w(script style template)
-  @native ~w(select img video iframe progress meter hr)
-  @drawn_inputs ~w(checkbox radio range color file date time datetime-local month week)
+  @native ~w(input textarea select img video iframe progress meter hr button)
   @shapes ~w(path rect circle ellipse line polyline polygon)
 
   defp hidden?(tag, attrs) do
@@ -274,10 +282,6 @@ defmodule MishkaChelekom.CmsBundle.HeadlessDropTest do
       Enum.any?(classes(attrs), &(&1 in ~w(sr-only chelekom-sr-only hidden)))
   end
 
-  defp native?("input", attrs),
-    do: attrs["type"] in @drawn_inputs or shows_words?(attrs)
-
-  defp native?("textarea", attrs), do: shows_words?(attrs)
   defp native?(tag, _attrs) when tag in @native, do: true
 
   defp native?(tag, attrs) when tag in @shapes,
@@ -285,17 +289,12 @@ defmodule MishkaChelekom.CmsBundle.HeadlessDropTest do
 
   defp native?(_tag, _attrs), do: false
 
-  defp shows_words?(attrs),
-    do: Enum.any?(["placeholder", "value"], &(String.trim(attrs[&1] || "") != ""))
+  # An element that names itself a control, which is what a headless slider, splitter, meter or
+  # separator is until the page styles it: markup with a role, however small it draws.
+  @roles ~w(slider separator meter progressbar scrollbar spinbutton switch checkbox radio textbox
+            searchbox combobox listbox option tab tablist tree treeitem menuitem button link img)
 
-  # Only a utility with no variant in front of it: `hover:bg-*` paints nothing until the pointer
-  # comes.
-  @paint ~r/\A(?:bg|border|ring|shadow|stroke|fill|divide)(?:-|\z)/
-  @unpainted ~w(bg-transparent bg-none border-0 border-none border-transparent ring-0 shadow-none
-                stroke-none fill-none)
-
-  defp painted?(attrs),
-    do: Enum.any?(classes(attrs), &(&1 =~ @paint and &1 not in @unpainted))
+  defp control?(attrs), do: attrs["role"] in @roles
 
   defp classes(attrs), do: String.split(attrs["class"] || "")
 

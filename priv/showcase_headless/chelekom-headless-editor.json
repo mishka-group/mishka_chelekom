@@ -4,20 +4,17 @@
     "body": "",
     "slots": [],
     "attrs": {
-      "placeholder": "Start writing…",
-      "class": "w-full max-w-2xl overflow-hidden rounded-xl border border-current/15",
-      "toolbar_class": "flex flex-wrap gap-1 border-b border-current/15 p-2",
-      "surface_class": "min-h-32 p-4 text-sm leading-6 outline-hidden"
+      "placeholder": "Start writing…"
     }
   },
   "examples": [
     {
-      "label": "Note editor with a border",
-      "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-32 p-4 text-sm leading-6 outline-hidden\" />"
+      "label": "Note editor",
+      "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" />"
     },
     {
-      "label": "Comment box",
-      "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" placeholder=\"Add a comment…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-20 p-3 text-sm leading-6 outline-hidden\" />"
+      "label": "Comment box that posts with a form",
+      "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" name=\"comment\" placeholder=\"Add a comment…\" />"
     }
   ]
 }

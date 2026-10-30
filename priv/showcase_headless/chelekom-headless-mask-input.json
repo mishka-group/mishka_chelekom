@@ -6,18 +6,17 @@
     "attrs": {
       "mask": "(999) 999-9999",
       "placeholder": "(___) ___-____",
-      "inputmode": "numeric",
-      "class": "w-full max-w-xs rounded-lg border border-current/20 bg-transparent px-3 py-2 text-sm outline-hidden focus:border-current/40 focus:ring-2 focus:ring-current/15"
+      "inputmode": "numeric"
     }
   },
   "examples": [
     {
       "label": "Phone number",
-      "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" class=\"w-full max-w-xs rounded-lg border border-current/20 bg-transparent px-3 py-2 text-sm outline-hidden focus:border-current/40 focus:ring-2 focus:ring-current/15\" />"
+      "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" />"
     },
     {
       "label": "Date as day, month and year",
-      "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" class=\"w-full max-w-xs rounded-lg border border-current/20 bg-transparent px-3 py-2 text-sm outline-hidden focus:border-current/40 focus:ring-2 focus:ring-current/15\" />"
+      "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" />"
     }
   ]
 }

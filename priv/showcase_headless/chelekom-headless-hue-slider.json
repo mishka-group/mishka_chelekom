@@ -1,24 +1,13 @@
 {
   "name": "chelekom-headless-hue-slider",
-  "furnishing": {
-    "body": "",
-    "slots": [],
-    "attrs": {
-      "class": "w-full max-w-sm py-2",
-      "track_class": "relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15",
-      "control_class": "relative flex h-5 w-full touch-none items-center",
-      "indicator_class": "absolute inset-y-0 left-0 rounded-full",
-      "thumb_class": "block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40"
-    }
-  },
   "examples": [
     {
-      "label": "Hue picker over a rainbow track",
-      "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"210\" label=\"Accent hue\" />"
+      "label": "Hue picker",
+      "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" value=\"210\" label=\"Accent hue\" />"
     },
     {
-      "label": "Theme hue in a settings row",
-      "source": "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Theme</span><.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"140\" label=\"Theme hue\" /></div>"
+      "label": "Theme hue set to green",
+      "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" value=\"140\" label=\"Theme hue\" />"
     }
   ]
 }

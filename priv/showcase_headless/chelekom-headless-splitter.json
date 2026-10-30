@@ -2,30 +2,25 @@
   "name": "chelekom-headless-splitter",
   "furnishing": {
     "body": "",
-    "attrs": {
-      "class": "flex h-48 w-full overflow-hidden rounded-xl border border-current/15",
-      "panel_class": "min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1",
-      "resizer_class": "w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25"
-    },
     "slots": [
       {
         "name": "first",
-        "body": "<p class=\"font-medium\">First panel</p><p class=\"mt-1 opacity-70\">Drag the bar to resize.</p>"
+        "body": "<p>First panel</p><p>Drag the bar to resize.</p>"
       },
       {
         "name": "second",
-        "body": "<p class=\"font-medium\">Second panel</p><p class=\"mt-1 opacity-70\">Content goes here.</p>"
+        "body": "<p>Second panel</p><p>Content goes here.</p>"
       }
     ]
   },
   "examples": [
     {
       "label": "Sidebar and content, resizable",
-      "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\" default_size=\"30\"><:first><p class=\"font-medium\">Folders</p></:first><:second><p class=\"font-medium\">Files</p></:second></.component>"
+      "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" default_size=\"30\"><:first><p>Folders</p></:first><:second><p>Files</p></:second></.component>"
     },
     {
-      "label": "Two editors side by side",
-      "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\"><:first><p class=\"font-medium\">Original</p></:first><:second><p class=\"font-medium\">Revised</p></:second></.component>"
+      "label": "Original and revised text to compare",
+      "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\"><:first><p>Original</p></:first><:second><p>Revised</p></:second></.component>"
     }
   ]
 }

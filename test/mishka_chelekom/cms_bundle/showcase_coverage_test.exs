@@ -146,25 +146,72 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
            "the shipped kit drops something other than these showcase furnishings: #{inspect(stale)}"
   end
 
-  # A HEADLESS COMPONENT SHIPS NO STYLING, so dropped bare a slider, a separator, a meter, a stepper or
-  # a text input draws nothing at all. Their furnishings give a plain drop neutral Tailwind utilities
-  # and sample content, and the headless bundle has to carry them, as the styled one does. Which
-  # components need one is `MishkaChelekom.CmsBundle.HeadlessDropTest`'s question: it renders every
-  # drop and looks for something to see.
+  # A HEADLESS COMPONENT SHIPS NO STYLING, and so do its furnishings. Styling belongs to the styled
+  # components alone: a headless drop carries sample content (text, items, nodes, options, values,
+  # labels) and no `class`, no `*_class` and no inline `style`, in the furnishing or in an example.
+  # A slider or a splitter dropped bare may be zero-size until the page styles it, and the CMS
+  # editor gives such a node a floor on its canvas. Which components need sample content is
+  # `MishkaChelekom.CmsBundle.HeadlessDropTest`'s question: it renders every drop and looks for it.
   @headless_showcase Path.wildcard("priv/showcase_headless/*.json")
 
-  test "every headless furnishing ships examples, plain utilities and neutral copy" do
+  # `class="…"`, `track_class="…"` or `style="…"` written in markup or in a component's call.
+  @styling_attribute ~r/(?:^|[\s<])(?:[a-z][a-z0-9]*[_-])*(?:class|style)\s*=/
+
+  defp styled?(text), do: Regex.match?(@styling_attribute, text)
+
+  test "every headless furnishing ships examples and neutral copy" do
     assert length(@headless_showcase) > 20, "the headless showcase wildcard matched too little"
 
     for path <- @headless_showcase, entry = entry(path) do
       assert length(entry["examples"] || []) >= 2, "#{entry["name"]} ships too few examples"
 
-      refute inspect(entry) =~ "style=",
-             "#{entry["name"]}: plain Tailwind utilities only, the CMS compiles them from markup"
-
-      for text <- furnishing_text(entry["furnishing"]), is_binary(text) do
+      for text <- furnishing_text(entry["furnishing"] || %{}), is_binary(text) do
         refute Regex.match?(@shop_copy, text), "#{entry["name"]} drops a shop's copy: #{text}"
       end
+    end
+  end
+
+  test "no headless furnishing or example carries a class or a style" do
+    for path <- @headless_showcase, entry = entry(path) do
+      furnishing = entry["furnishing"] || %{}
+      slots = furnishing["slots"] || []
+
+      names =
+        Map.keys(furnishing["attrs"] || %{}) ++
+          Enum.flat_map(slots, &Map.keys(&1["attrs"] || %{}))
+
+      styled =
+        Enum.filter(names, &(&1 == "style" or &1 == "class" or String.ends_with?(&1, "_class")))
+
+      assert styled == [],
+             "#{entry["name"]}: a headless furnishing carries no styling, only content: #{inspect(styled)}"
+
+      markup = furnishing_text(furnishing) ++ Enum.map(entry["examples"], & &1["source"])
+
+      for text <- markup, is_binary(text) do
+        refute styled?(text),
+               "#{entry["name"]} carries a class or a style, styling belongs to the styled kit: #{text}"
+      end
+    end
+  end
+
+  test "the headless styling check tells content from a class" do
+    for styled <- [
+          ~s(<span class="font-medium">Ada</span>),
+          ~s(<.component track_class="h-2" />),
+          ~s(<.component class="w-full" />),
+          ~s(<p style="margin: 0">Ada</p>),
+          ~s(<.component data-class="x" />)
+        ] do
+      assert styled?(styled), "should be caught: #{styled}"
+    end
+
+    for plain <- [
+          ~s(<span>Ada</span> <span>Grace</span>),
+          ~s(<.component aria_label="Visits" option={%{"xAxis" => %{}}} />),
+          ~s(<.component label="Classes and styles" />)
+        ] do
+      refute styled?(plain), "should pass: #{plain}"
     end
   end
 

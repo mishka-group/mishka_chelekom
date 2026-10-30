@@ -1,20 +1,13 @@
 {
   "name": "chelekom-headless-context-menu-separator",
-  "furnishing": {
-    "body": "",
-    "slots": [],
-    "attrs": {
-      "class": "my-1 h-px w-full bg-current/15"
-    }
-  },
   "examples": [
     {
       "label": "Line between two groups of actions",
-      "source": "<div class=\"flex w-48 flex-col text-sm\"><span class=\"px-2 py-1.5\">Edit</span><span class=\"px-2 py-1.5\">Duplicate</span><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" class=\"my-1 h-px w-full bg-current/15\" /><span class=\"px-2 py-1.5\">Archive</span></div>"
+      "source": "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" /><p>Archive</p></div>"
     },
     {
-      "label": "Upright line in a row of actions",
-      "source": "<div class=\"flex items-center gap-2 text-sm\"><span>Bold</span><span>Italic</span><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" class=\"mx-1 h-5 w-px bg-current/15\" /><span>Link</span></div>"
+      "label": "Separator marked as vertical",
+      "source": "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
     }
   ]
 }

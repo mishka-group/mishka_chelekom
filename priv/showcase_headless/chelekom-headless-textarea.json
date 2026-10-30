@@ -5,19 +5,17 @@
     "slots": [],
     "attrs": {
       "placeholder": "Write a message…",
-      "rows": 4,
-      "class": "w-full max-w-md rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15",
-      "textarea_class": "block w-full resize-y bg-transparent p-3 outline-hidden"
+      "rows": 4
     }
   },
   "examples": [
     {
       "label": "Message box",
-      "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" class=\"w-full max-w-md rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" textarea_class=\"block w-full resize-y bg-transparent p-3 outline-hidden\" />"
+      "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" />"
     },
     {
       "label": "Notes that grow as you type",
-      "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" class=\"w-full max-w-md rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" textarea_class=\"block w-full resize-y bg-transparent p-3 outline-hidden\" />"
+      "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" />"
     }
   ]
 }

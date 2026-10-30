@@ -321,8 +321,8 @@
         "slider.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value class=\"grid w-full max-w-sm grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 text-sm\" label_class=\"font-medium\" value_class=\"tabular-nums opacity-70\" control_class=\"relative col-span-2 flex h-5 w-full touch-none items-center\" track_class=\"relative h-1.5 w-full rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" />",
-        "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value class=\"grid w-full max-w-sm grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 text-sm\" label_class=\"font-medium\" value_class=\"tabular-nums opacity-70\" control_class=\"relative col-span-2 flex h-5 w-full touch-none items-center\" track_class=\"relative h-1.5 w-full rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" />"
+        "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value />",
+        "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value />"
       ],
       "extra": {
         "clauses": null,
@@ -335,29 +335,22 @@
             "label": "Volume with its value beside the label",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value class=\"grid w-full max-w-sm grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 text-sm\" label_class=\"font-medium\" value_class=\"tabular-nums opacity-70\" control_class=\"relative col-span-2 flex h-5 w-full touch-none items-center\" track_class=\"relative h-1.5 w-full rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" />"
+            "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value />"
           },
           {
             "base": false,
             "label": "Range with two thumbs",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value class=\"grid w-full max-w-sm grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 text-sm\" label_class=\"font-medium\" value_class=\"tabular-nums opacity-70\" control_class=\"relative col-span-2 flex h-5 w-full touch-none items-center\" track_class=\"relative h-1.5 w-full rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" />"
+            "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value />"
           }
         ],
         "function": "slider",
         "furnishing": {
           "attrs": {
-            "class": "grid w-full max-w-sm grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1 text-sm",
-            "control_class": "relative col-span-2 flex h-5 w-full touch-none items-center",
-            "indicator_class": "rounded-full bg-current",
             "label": "Volume",
-            "label_class": "font-medium",
             "show_value": true,
-            "thumb_class": "block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40",
-            "track_class": "relative h-1.5 w-full rounded-full bg-current/15",
-            "value": 40,
-            "value_class": "tabular-nums opacity-70"
+            "value": 40
           },
           "body": "",
           "slots": []
@@ -1516,8 +1509,8 @@
       "body": null,
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"recipients\" placeholder=\"Add a name…\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\"><:pills><span class=\"rounded-md bg-current/10 px-2 py-0.5\">Ada</span><span class=\"rounded-md bg-current/10 px-2 py-0.5\">Grace</span></:pills></.component>",
-        "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"labels\" placeholder=\"Add a label…\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\" />"
+        "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"recipients\" placeholder=\"Add a name…\"><:pills><span>Ada</span> <span>Grace</span></:pills></.component>",
+        "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"labels\" placeholder=\"Add a label…\" />"
       ],
       "extra": {
         "clauses": null,
@@ -1530,27 +1523,25 @@
             "label": "Recipients with room for more",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"recipients\" placeholder=\"Add a name…\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\"><:pills><span class=\"rounded-md bg-current/10 px-2 py-0.5\">Ada</span><span class=\"rounded-md bg-current/10 px-2 py-0.5\">Grace</span></:pills></.component>"
+            "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"recipients\" placeholder=\"Add a name…\"><:pills><span>Ada</span> <span>Grace</span></:pills></.component>"
           },
           {
             "base": false,
             "label": "Empty field waiting for its first pill",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"labels\" placeholder=\"Add a label…\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\" />"
+            "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"labels\" placeholder=\"Add a label…\" />"
           }
         ],
         "function": "pills_input",
         "furnishing": {
           "attrs": {
-            "class": "flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15",
-            "input_class": "min-w-24 flex-1 bg-transparent p-0.5 outline-hidden",
             "placeholder": "Add a name…"
           },
           "body": "",
           "slots": [
             {
-              "body": "<span class=\"rounded-md bg-current/10 px-2 py-0.5\">Ada</span><span class=\"rounded-md bg-current/10 px-2 py-0.5\">Grace</span>",
+              "body": "<span>Ada</span> <span>Grace</span>",
               "name": "pills"
             }
           ]
@@ -1683,8 +1674,8 @@
       "body": "lo = assigns.min\nhi = assigns.max\n\n{value, ratio, status} =\n  case assigns.value do\n    nil ->\n      {nil, nil, \"indeterminate\"}\n\n    v ->\n      c = v |> Kernel.max(lo) |> Kernel.min(hi)\n\n      r =\n        if hi > lo do\n          (c - lo) / (hi - lo)\n        else\n          0.0\n        end\n\n      {c, r,\n       if c >= hi do\n         \"complete\"\n       else\n         \"progressing\"\n       end}\n  end\n\nassigns =\n  assigns\n  |> assign(:value, value)\n  |> assign(:ratio, ratio)\n  |> assign(:status, status)\n  |> assign(\n    :value_text,\n    assigns.value_text ||\n      if status == \"indeterminate\" do\n        \"Indeterminate\"\n      else\n        \"#{round(ratio * 100)}%\"\n      end\n  )",
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"upload-progress\" value={40} label=\"Uploading files\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current transition-[width] duration-500\" />",
-        "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"loading-progress\" label=\"Loading\" class=\"grid w-full max-w-sm gap-y-2 text-sm\" label_class=\"font-medium\" track_class=\"h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"h-full w-1/3 animate-pulse rounded-full bg-current\" />"
+        "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"upload-progress\" value={40} label=\"Uploading files\" show_value />",
+        "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"loading-progress\" label=\"Loading\" />"
       ],
       "extra": {
         "clauses": null,
@@ -1697,27 +1688,22 @@
             "label": "Upload with a percentage readout",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"upload-progress\" value={40} label=\"Uploading files\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current transition-[width] duration-500\" />"
+            "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"upload-progress\" value={40} label=\"Uploading files\" show_value />"
           },
           {
             "base": false,
             "label": "Loading bar with no known end",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"loading-progress\" label=\"Loading\" class=\"grid w-full max-w-sm gap-y-2 text-sm\" label_class=\"font-medium\" track_class=\"h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"h-full w-1/3 animate-pulse rounded-full bg-current\" />"
+            "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"loading-progress\" label=\"Loading\" />"
           }
         ],
         "function": "progress",
         "furnishing": {
           "attrs": {
-            "class": "grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm",
-            "indicator_class": "rounded-full bg-current transition-[width] duration-500",
             "label": "Uploading files",
-            "label_class": "font-medium",
             "show_value": true,
-            "track_class": "col-span-2 h-2 overflow-hidden rounded-full bg-current/15",
-            "value": 40,
-            "value_class": "text-right tabular-nums opacity-70"
+            "value": 40
           },
           "body": "",
           "slots": []
@@ -2124,8 +2110,8 @@
         "splitter.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\" default_size=\"30\"><:first><p class=\"font-medium\">Folders</p></:first><:second><p class=\"font-medium\">Files</p></:second></.component>",
-        "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\"><:first><p class=\"font-medium\">Original</p></:first><:second><p class=\"font-medium\">Revised</p></:second></.component>"
+        "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" default_size=\"30\"><:first><p>Folders</p></:first><:second><p>Files</p></:second></.component>",
+        "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\"><:first><p>Original</p></:first><:second><p>Revised</p></:second></.component>"
       ],
       "extra": {
         "clauses": null,
@@ -2138,31 +2124,26 @@
             "label": "Sidebar and content, resizable",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\" default_size=\"30\"><:first><p class=\"font-medium\">Folders</p></:first><:second><p class=\"font-medium\">Files</p></:second></.component>"
+            "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" default_size=\"30\"><:first><p>Folders</p></:first><:second><p>Files</p></:second></.component>"
           },
           {
             "base": false,
-            "label": "Two editors side by side",
+            "label": "Original and revised text to compare",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\" class=\"flex h-48 w-full overflow-hidden rounded-xl border border-current/15\" panel_class=\"min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1\" resizer_class=\"w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25\"><:first><p class=\"font-medium\">Original</p></:first><:second><p class=\"font-medium\">Revised</p></:second></.component>"
+            "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\"><:first><p>Original</p></:first><:second><p>Revised</p></:second></.component>"
           }
         ],
         "function": "splitter",
         "furnishing": {
-          "attrs": {
-            "class": "flex h-48 w-full overflow-hidden rounded-xl border border-current/15",
-            "panel_class": "min-w-0 overflow-auto p-4 text-sm first:basis-[var(--chelekom-splitter-pos)] first:shrink-0 last:flex-1",
-            "resizer_class": "w-1.5 shrink-0 cursor-col-resize bg-current/15 transition-colors hover:bg-current/25"
-          },
           "body": "",
           "slots": [
             {
-              "body": "<p class=\"font-medium\">First panel</p><p class=\"mt-1 opacity-70\">Drag the bar to resize.</p>",
+              "body": "<p>First panel</p><p>Drag the bar to resize.</p>",
               "name": "first"
             },
             {
-              "body": "<p class=\"font-medium\">Second panel</p><p class=\"mt-1 opacity-70\">Content goes here.</p>",
+              "body": "<p>Second panel</p><p>Content goes here.</p>",
               "name": "second"
             }
           ]
@@ -2331,8 +2312,8 @@
         "slider.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" class=\"w-full max-w-sm py-2\" color=\"#2563eb\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"60\" label=\"Layer opacity\" />",
-        "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Overlay</span><.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" class=\"w-full max-w-sm py-2\" color=\"#111827\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"35\" label=\"Overlay strength\" /></div>"
+        "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" color=\"#2563eb\" value=\"60\" label=\"Layer opacity\" />",
+        "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" color=\"#111827\" value=\"35\" label=\"Overlay strength\" />"
       ],
       "extra": {
         "clauses": null,
@@ -2342,28 +2323,23 @@
         "examples": [
           {
             "base": true,
-            "label": "Opacity picker with a checkered track",
+            "label": "Opacity picker",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" class=\"w-full max-w-sm py-2\" color=\"#2563eb\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"60\" label=\"Layer opacity\" />"
+            "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" color=\"#2563eb\" value=\"60\" label=\"Layer opacity\" />"
           },
           {
             "base": false,
-            "label": "Overlay strength in a settings row",
+            "label": "Dark overlay strength",
             "requires": {},
             "section": null,
-            "source": "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Overlay</span><.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" class=\"w-full max-w-sm py-2\" color=\"#111827\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"35\" label=\"Overlay strength\" /></div>"
+            "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" color=\"#111827\" value=\"35\" label=\"Overlay strength\" />"
           }
         ],
         "function": "alpha_slider",
         "furnishing": {
           "attrs": {
-            "class": "w-full max-w-sm py-2",
-            "color": "#2563eb",
-            "control_class": "relative flex h-5 w-full touch-none items-center",
-            "indicator_class": "absolute inset-y-0 left-0 rounded-full",
-            "thumb_class": "block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40",
-            "track_class": "relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15"
+            "color": "#2563eb"
           },
           "body": "",
           "slots": []
@@ -3108,8 +3084,8 @@
         "slider.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"210\" label=\"Accent hue\" />",
-        "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Theme</span><.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"140\" label=\"Theme hue\" /></div>"
+        "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" value=\"210\" label=\"Accent hue\" />",
+        "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" value=\"140\" label=\"Theme hue\" />"
       ],
       "extra": {
         "clauses": null,
@@ -3119,31 +3095,20 @@
         "examples": [
           {
             "base": true,
-            "label": "Hue picker over a rainbow track",
+            "label": "Hue picker",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"210\" label=\"Accent hue\" />"
+            "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" value=\"210\" label=\"Accent hue\" />"
           },
           {
             "base": false,
-            "label": "Theme hue in a settings row",
+            "label": "Theme hue set to green",
             "requires": {},
             "section": null,
-            "source": "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Theme</span><.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" class=\"w-full max-w-sm py-2\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"140\" label=\"Theme hue\" /></div>"
+            "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" value=\"140\" label=\"Theme hue\" />"
           }
         ],
         "function": "hue_slider",
-        "furnishing": {
-          "attrs": {
-            "class": "w-full max-w-sm py-2",
-            "control_class": "relative flex h-5 w-full touch-none items-center",
-            "indicator_class": "absolute inset-y-0 left-0 rounded-full",
-            "thumb_class": "block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40",
-            "track_class": "relative h-2 w-full rounded-full bg-[linear-gradient(to_right,#ef4444,#eab308,#22c55e,#06b6d4,#3b82f6,#a855f7,#ef4444)] ring-1 ring-inset ring-current/15"
-          },
-          "body": "",
-          "slots": []
-        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -4332,8 +4297,8 @@
         "context_menu.js"
       ],
       "examples": [
-        "<div class=\"flex w-48 flex-col text-sm\"><span class=\"px-2 py-1.5\">Edit</span><span class=\"px-2 py-1.5\">Duplicate</span><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" class=\"my-1 h-px w-full bg-current/15\" /><span class=\"px-2 py-1.5\">Archive</span></div>",
-        "<div class=\"flex items-center gap-2 text-sm\"><span>Bold</span><span>Italic</span><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" class=\"mx-1 h-5 w-px bg-current/15\" /><span>Link</span></div>"
+        "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" /><p>Archive</p></div>",
+        "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
       ],
       "extra": {
         "clauses": null,
@@ -4346,24 +4311,17 @@
             "label": "Line between two groups of actions",
             "requires": {},
             "section": null,
-            "source": "<div class=\"flex w-48 flex-col text-sm\"><span class=\"px-2 py-1.5\">Edit</span><span class=\"px-2 py-1.5\">Duplicate</span><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" class=\"my-1 h-px w-full bg-current/15\" /><span class=\"px-2 py-1.5\">Archive</span></div>"
+            "source": "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" /><p>Archive</p></div>"
           },
           {
             "base": false,
-            "label": "Upright line in a row of actions",
+            "label": "Separator marked as vertical",
             "requires": {},
             "section": null,
-            "source": "<div class=\"flex items-center gap-2 text-sm\"><span>Bold</span><span>Italic</span><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" class=\"mx-1 h-5 w-px bg-current/15\" /><span>Link</span></div>"
+            "source": "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
           }
         ],
         "function": "context_menu_separator",
-        "furnishing": {
-          "attrs": {
-            "class": "my-1 h-px w-full bg-current/15"
-          },
-          "body": "",
-          "slots": []
-        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -5010,8 +4968,8 @@
       "body": "value = to_num(assigns.value)\nspan = max(assigns.max - assigns.min, 1)\nfrac = min(max(value - assigns.min, 0), span) / span\nfull? = assigns.shape == \"full\"\ncirc = Float.round(:math.pi() * 90 * ((full? && 2) || 1), 3)\n\nassigns =\n  assign(assigns,\n    value: value,\n    circ: circ,\n    offset: Float.round(circ * (1 - frac), 3),\n    view_box: (full? && \"0 0 200 200\") || \"0 0 200 108\",\n    arc: (full? && \"M 100 10 A 90 90 0 1 1 99.99 10\") || \"M 10 100 A 90 90 0 0 1 190 100\"\n  )",
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\" class=\"relative inline-block w-48\" svg_class=\"w-full\" track_class=\"stroke-current/15 [stroke-width:12]\" indicator_class=\"stroke-current [stroke-width:12]\" label_class=\"absolute inset-x-0 bottom-1 flex flex-col items-center\"><span class=\"text-2xl font-semibold\">72</span><span class=\"text-xs opacity-70\">out of 100</span></.component>",
-        "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\" class=\"relative inline-block w-32\" svg_class=\"w-full\" track_class=\"stroke-current/15 [stroke-width:10]\" indicator_class=\"stroke-current [stroke-width:10]\" label_class=\"absolute inset-0 grid place-items-center text-xl font-semibold\">45%</.component>"
+        "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\"><span>72</span> <span>out of 100</span></.component>",
+        "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\">45%</.component>"
       ],
       "extra": {
         "clauses": null,
@@ -5021,31 +4979,26 @@
         "examples": [
           {
             "base": true,
-            "label": "Score gauge with the number inside",
+            "label": "Score out of a hundred",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\" class=\"relative inline-block w-48\" svg_class=\"w-full\" track_class=\"stroke-current/15 [stroke-width:12]\" indicator_class=\"stroke-current [stroke-width:12]\" label_class=\"absolute inset-x-0 bottom-1 flex flex-col items-center\"><span class=\"text-2xl font-semibold\">72</span><span class=\"text-xs opacity-70\">out of 100</span></.component>"
+            "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\"><span>72</span> <span>out of 100</span></.component>"
           },
           {
             "base": false,
             "label": "Full ring with a percentage",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\" class=\"relative inline-block w-32\" svg_class=\"w-full\" track_class=\"stroke-current/15 [stroke-width:10]\" indicator_class=\"stroke-current [stroke-width:10]\" label_class=\"absolute inset-0 grid place-items-center text-xl font-semibold\">45%</.component>"
+            "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\">45%</.component>"
           }
         ],
         "function": "semi_circle_progress",
         "furnishing": {
           "attrs": {
-            "class": "relative inline-block w-48",
-            "indicator_class": "stroke-current [stroke-width:12]",
             "label": "Score",
-            "label_class": "absolute inset-x-0 bottom-1 flex flex-col items-center",
-            "svg_class": "w-full",
-            "track_class": "stroke-current/15 [stroke-width:12]",
             "value": 72
           },
-          "body": "<span class=\"text-2xl font-semibold\">72</span><span class=\"text-xs opacity-70\">out of 100</span>",
+          "body": "<span>72</span> <span>out of 100</span>",
           "slots": []
         },
         "module_attributes": [],
@@ -5190,8 +5143,8 @@
       "body": null,
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} class=\"inline-flex rounded-lg bg-current/10 p-1 text-sm\" item_class=\"cursor-pointer rounded-md px-3 py-1 opacity-70 transition has-checked:bg-current/15 has-checked:font-medium has-checked:opacity-100 has-disabled:cursor-not-allowed has-disabled:opacity-40\" input_class=\"sr-only\" />",
-        "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} class=\"inline-flex rounded-lg bg-current/10 p-1 text-sm\" item_class=\"cursor-pointer rounded-md px-3 py-1 opacity-70 transition has-checked:bg-current/15 has-checked:font-medium has-checked:opacity-100 has-disabled:cursor-not-allowed has-disabled:opacity-40\" input_class=\"sr-only\" />"
+        "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} />",
+        "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} />"
       ],
       "extra": {
         "clauses": null,
@@ -5204,22 +5157,19 @@
             "label": "Day, week or month switch",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} class=\"inline-flex rounded-lg bg-current/10 p-1 text-sm\" item_class=\"cursor-pointer rounded-md px-3 py-1 opacity-70 transition has-checked:bg-current/15 has-checked:font-medium has-checked:opacity-100 has-disabled:cursor-not-allowed has-disabled:opacity-40\" input_class=\"sr-only\" />"
+            "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} />"
           },
           {
             "base": false,
             "label": "View switch with one option turned off",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} class=\"inline-flex rounded-lg bg-current/10 p-1 text-sm\" item_class=\"cursor-pointer rounded-md px-3 py-1 opacity-70 transition has-checked:bg-current/15 has-checked:font-medium has-checked:opacity-100 has-disabled:cursor-not-allowed has-disabled:opacity-40\" input_class=\"sr-only\" />"
+            "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} />"
           }
         ],
         "function": "segmented_control",
         "furnishing": {
           "attrs": {
-            "class": "inline-flex rounded-lg bg-current/10 p-1 text-sm",
-            "input_class": "sr-only",
-            "item_class": "cursor-pointer rounded-md px-3 py-1 opacity-70 transition has-checked:bg-current/15 has-checked:font-medium has-checked:opacity-100 has-disabled:cursor-not-allowed has-disabled:opacity-40",
             "label": "Period",
             "name": "period",
             "options": [
@@ -7777,8 +7727,8 @@
         "chart_echarts.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" height=\"16rem\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />",
-        "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" height=\"16rem\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
+        "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />",
+        "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
       ],
       "extra": {
         "clauses": null,
@@ -7791,22 +7741,20 @@
             "label": "Visits per day as bars",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" height=\"16rem\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />"
+            "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />"
           },
           {
             "base": false,
             "label": "Sign-ups over a month as a line",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" height=\"16rem\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
+            "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
           }
         ],
         "function": "chart",
         "furnishing": {
           "attrs": {
             "aria_label": "Visits per day this week",
-            "class": "w-full max-w-2xl",
-            "height": "16rem",
             "option": {
               "grid": {
                 "bottom": 28,
@@ -8079,8 +8027,8 @@
         "editor_tiptap.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-32 p-4 text-sm leading-6 outline-hidden\" />",
-        "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" placeholder=\"Add a comment…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-20 p-3 text-sm leading-6 outline-hidden\" />"
+        "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" />",
+        "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" name=\"comment\" placeholder=\"Add a comment…\" />"
       ],
       "extra": {
         "clauses": null,
@@ -8090,26 +8038,23 @@
         "examples": [
           {
             "base": true,
-            "label": "Note editor with a border",
+            "label": "Note editor",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-32 p-4 text-sm leading-6 outline-hidden\" />"
+            "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" />"
           },
           {
             "base": false,
-            "label": "Comment box",
+            "label": "Comment box that posts with a form",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" placeholder=\"Add a comment…\" class=\"w-full max-w-2xl overflow-hidden rounded-xl border border-current/15\" toolbar_class=\"flex flex-wrap gap-1 border-b border-current/15 p-2\" surface_class=\"min-h-20 p-3 text-sm leading-6 outline-hidden\" />"
+            "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" name=\"comment\" placeholder=\"Add a comment…\" />"
           }
         ],
         "function": "editor",
         "furnishing": {
           "attrs": {
-            "class": "w-full max-w-2xl overflow-hidden rounded-xl border border-current/15",
-            "placeholder": "Start writing…",
-            "surface_class": "min-h-32 p-4 text-sm leading-6 outline-hidden",
-            "toolbar_class": "flex flex-wrap gap-1 border-b border-current/15 p-2"
+            "placeholder": "Start writing…"
           },
           "body": "",
           "slots": []
@@ -8242,8 +8187,8 @@
       "body": "lo = assigns.min\nhi = assigns.max\nclamped = assigns.value |> Kernel.max(lo) |> Kernel.min(hi)\n\nratio =\n  if hi > lo do\n    (clamped - lo) / (hi - lo)\n  else\n    0.0\n  end\n\nassigns =\n  assigns\n  |> assign(:value, clamped)\n  |> assign(:ratio, ratio)\n  |> assign(:value_text, assigns.value_text || \"#{round(ratio * 100)}%\")",
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" />",
-        "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" />"
+        "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value />",
+        "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value />"
       ],
       "extra": {
         "clauses": null,
@@ -8256,27 +8201,22 @@
             "label": "Storage used with a percentage",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" />"
+            "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value />"
           },
           {
             "base": false,
             "label": "Battery level with its own words",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" />"
+            "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value />"
           }
         ],
         "function": "meter",
         "furnishing": {
           "attrs": {
-            "class": "grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm",
-            "indicator_class": "rounded-full bg-current",
             "label": "Storage used",
-            "label_class": "font-medium",
             "show_value": true,
-            "track_class": "col-span-2 h-2 overflow-hidden rounded-full bg-current/15",
-            "value": 72,
-            "value_class": "text-right tabular-nums opacity-70"
+            "value": 72
           },
           "body": "",
           "slots": []
@@ -8779,8 +8719,8 @@
         "mask_input.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" class=\"w-full max-w-xs rounded-lg border border-current/20 bg-transparent px-3 py-2 text-sm outline-hidden focus:border-current/40 focus:ring-2 focus:ring-current/15\" />",
-        "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" class=\"w-full max-w-xs rounded-lg border border-current/20 bg-transparent px-3 py-2 text-sm outline-hidden focus:border-current/40 focus:ring-2 focus:ring-current/15\" />"
+        "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" />",
+        "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" />"
       ],
       "extra": {
         "clauses": null,
@@ -8793,20 +8733,19 @@
             "label": "Phone number",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" class=\"w-full max-w-xs rounded-lg border border-current/20 bg-transparent px-3 py-2 text-sm outline-hidden focus:border-current/40 focus:ring-2 focus:ring-current/15\" />"
+            "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" />"
           },
           {
             "base": false,
             "label": "Date as day, month and year",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" class=\"w-full max-w-xs rounded-lg border border-current/20 bg-transparent px-3 py-2 text-sm outline-hidden focus:border-current/40 focus:ring-2 focus:ring-current/15\" />"
+            "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" />"
           }
         ],
         "function": "mask_input",
         "furnishing": {
           "attrs": {
-            "class": "w-full max-w-xs rounded-lg border border-current/20 bg-transparent px-3 py-2 text-sm outline-hidden focus:border-current/40 focus:ring-2 focus:ring-current/15",
             "inputmode": "numeric",
             "mask": "(999) 999-9999",
             "placeholder": "(___) ___-____"
@@ -9135,8 +9074,8 @@
       "body": "assigns = assign(assigns, :invalid?, assigns.errors != [])",
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" class=\"flex w-full max-w-sm items-center rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"w-full bg-transparent px-3 py-2 outline-hidden\" />",
-        "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\" class=\"flex w-full max-w-sm items-center rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"w-full bg-transparent px-3 py-2 outline-hidden\" start_section_class=\"pl-3 opacity-60\"><:start_section>https://</:start_section></.component>"
+        "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" />",
+        "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\"><:start_section>https://</:start_section></.component>"
       ],
       "extra": {
         "clauses": [
@@ -9164,21 +9103,19 @@
             "label": "Email field",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" class=\"flex w-full max-w-sm items-center rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"w-full bg-transparent px-3 py-2 outline-hidden\" />"
+            "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" />"
           },
           {
             "base": false,
             "label": "Web address with a fixed prefix",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\" class=\"flex w-full max-w-sm items-center rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"w-full bg-transparent px-3 py-2 outline-hidden\" start_section_class=\"pl-3 opacity-60\"><:start_section>https://</:start_section></.component>"
+            "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\"><:start_section>https://</:start_section></.component>"
           }
         ],
         "function": "text_input",
         "furnishing": {
           "attrs": {
-            "class": "flex w-full max-w-sm items-center rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15",
-            "input_class": "w-full bg-transparent px-3 py-2 outline-hidden",
             "placeholder": "Your name"
           },
           "body": "",
@@ -10562,8 +10499,8 @@
         "menu.js"
       ],
       "examples": [
-        "<div class=\"flex w-48 flex-col text-sm\"><span class=\"px-2 py-1.5\">Edit</span><span class=\"px-2 py-1.5\">Duplicate</span><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" class=\"my-1 h-px w-full bg-current/15\" /><span class=\"px-2 py-1.5\">Archive</span></div>",
-        "<div class=\"flex items-center gap-2 text-sm\"><span>Bold</span><span>Italic</span><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" orientation=\"vertical\" class=\"mx-1 h-5 w-px bg-current/15\" /><span>Link</span></div>"
+        "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" /><p>Archive</p></div>",
+        "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
       ],
       "extra": {
         "clauses": null,
@@ -10576,24 +10513,17 @@
             "label": "Line between two groups of actions",
             "requires": {},
             "section": null,
-            "source": "<div class=\"flex w-48 flex-col text-sm\"><span class=\"px-2 py-1.5\">Edit</span><span class=\"px-2 py-1.5\">Duplicate</span><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" class=\"my-1 h-px w-full bg-current/15\" /><span class=\"px-2 py-1.5\">Archive</span></div>"
+            "source": "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" /><p>Archive</p></div>"
           },
           {
             "base": false,
-            "label": "Upright line in a row of actions",
+            "label": "Separator marked as vertical",
             "requires": {},
             "section": null,
-            "source": "<div class=\"flex items-center gap-2 text-sm\"><span>Bold</span><span>Italic</span><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" orientation=\"vertical\" class=\"mx-1 h-5 w-px bg-current/15\" /><span>Link</span></div>"
+            "source": "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
           }
         ],
         "function": "menu_separator",
-        "furnishing": {
-          "attrs": {
-            "class": "my-1 h-px w-full bg-current/15"
-          },
-          "body": "",
-          "slots": []
-        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -12680,8 +12610,8 @@
       "body": "assigns = assign_geometry(assigns)",
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[4, 7, 5, 9, 8, 12, 10, 14]} last_point aria_label=\"Visits this week\" class=\"h-10 w-40\" />",
-        "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[3, 5, 2, 8, 6, 9, 4]} type=\"bar\" aria_label=\"Visits per day\" class=\"h-10 w-40\" />"
+        "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[4, 7, 5, 9, 8, 12, 10, 14]} last_point aria_label=\"Visits this week\" />",
+        "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[3, 5, 2, 8, 6, 9, 4]} type=\"bar\" aria_label=\"Visits per day\" />"
       ],
       "extra": {
         "clauses": null,
@@ -12694,21 +12624,20 @@
             "label": "Trend line ending on a point",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[4, 7, 5, 9, 8, 12, 10, 14]} last_point aria_label=\"Visits this week\" class=\"h-10 w-40\" />"
+            "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[4, 7, 5, 9, 8, 12, 10, 14]} last_point aria_label=\"Visits this week\" />"
           },
           {
             "base": false,
             "label": "Week of visits as bars",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[3, 5, 2, 8, 6, 9, 4]} type=\"bar\" aria_label=\"Visits per day\" class=\"h-10 w-40\" />"
+            "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[3, 5, 2, 8, 6, 9, 4]} type=\"bar\" aria_label=\"Visits per day\" />"
           }
         ],
         "function": "sparkline",
         "furnishing": {
           "attrs": {
             "aria_label": "Visits this week",
-            "class": "h-10 w-40",
             "last_point": true,
             "values": [
               4,
@@ -13558,8 +13487,8 @@
         "tree.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" class=\"w-full max-w-xs text-sm\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />",
-        "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" class=\"w-full max-w-xs text-sm\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
+        "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />",
+        "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
       ],
       "extra": {
         "clauses": null,
@@ -13572,20 +13501,19 @@
             "label": "Documentation outline",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" class=\"w-full max-w-xs text-sm\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />"
+            "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />"
           },
           {
             "base": false,
             "label": "Project files with checkboxes",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" class=\"w-full max-w-xs text-sm\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
+            "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
           }
         ],
         "function": "tree",
         "furnishing": {
           "attrs": {
-            "class": "w-full max-w-xs text-sm",
             "expanded": [
               "start"
             ],
@@ -14077,8 +14005,8 @@
       "body": null,
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"settings-json\" name=\"settings\" rows={4} value={~s({\"theme\": \"light\", \"compact\": true})} class=\"w-full max-w-md rounded-lg border border-current/20 bg-transparent p-3 font-mono text-sm outline-hidden focus:ring-2 focus:ring-current/15\" />",
-        "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"payload-json\" name=\"payload\" rows={6} placeholder=\"Paste JSON here\" class=\"w-full max-w-md rounded-lg border border-current/20 bg-transparent p-3 font-mono text-sm outline-hidden focus:ring-2 focus:ring-current/15\" />"
+        "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"settings-json\" name=\"settings\" rows={4} value={~s({\"theme\": \"light\", \"compact\": true})} />",
+        "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"payload-json\" name=\"payload\" rows={6} placeholder=\"Paste JSON here\" />"
       ],
       "extra": {
         "clauses": null,
@@ -14091,20 +14019,19 @@
             "label": "Settings written as JSON",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"settings-json\" name=\"settings\" rows={4} value={~s({\"theme\": \"light\", \"compact\": true})} class=\"w-full max-w-md rounded-lg border border-current/20 bg-transparent p-3 font-mono text-sm outline-hidden focus:ring-2 focus:ring-current/15\" />"
+            "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"settings-json\" name=\"settings\" rows={4} value={~s({\"theme\": \"light\", \"compact\": true})} />"
           },
           {
             "base": false,
             "label": "Empty box with a hint",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"payload-json\" name=\"payload\" rows={6} placeholder=\"Paste JSON here\" class=\"w-full max-w-md rounded-lg border border-current/20 bg-transparent p-3 font-mono text-sm outline-hidden focus:ring-2 focus:ring-current/15\" />"
+            "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"payload-json\" name=\"payload\" rows={6} placeholder=\"Paste JSON here\" />"
           }
         ],
         "function": "json_input",
         "furnishing": {
           "attrs": {
-            "class": "w-full max-w-md rounded-lg border border-current/20 bg-transparent p-3 font-mono text-sm outline-hidden focus:ring-2 focus:ring-current/15",
             "placeholder": "Paste JSON here",
             "rows": 6
           },
@@ -15284,8 +15211,8 @@
       "body": null,
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"topics\" tags={[\"Design\", \"Writing\", \"Research\"]} placeholder=\"Add a tag…\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" tag_class=\"inline-flex items-center gap-1 rounded-md bg-current/10 py-0.5 pr-1 pl-2\" remove_class=\"inline-flex size-4 items-center justify-center rounded-full opacity-60 hover:opacity-100\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\" />",
-        "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"keywords\" placeholder=\"Type a keyword and press Enter\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" tag_class=\"inline-flex items-center gap-1 rounded-md bg-current/10 py-0.5 pr-1 pl-2\" remove_class=\"inline-flex size-4 items-center justify-center rounded-full opacity-60 hover:opacity-100\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\" />"
+        "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"topics\" tags={[\"Design\", \"Writing\", \"Research\"]} placeholder=\"Add a tag…\" />",
+        "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"keywords\" placeholder=\"Type a keyword and press Enter\" />"
       ],
       "extra": {
         "clauses": null,
@@ -15298,24 +15225,20 @@
             "label": "Topics with room for one more",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"topics\" tags={[\"Design\", \"Writing\", \"Research\"]} placeholder=\"Add a tag…\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" tag_class=\"inline-flex items-center gap-1 rounded-md bg-current/10 py-0.5 pr-1 pl-2\" remove_class=\"inline-flex size-4 items-center justify-center rounded-full opacity-60 hover:opacity-100\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\" />"
+            "source": "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"topics\" tags={[\"Design\", \"Writing\", \"Research\"]} placeholder=\"Add a tag…\" />"
           },
           {
             "base": false,
             "label": "Empty list waiting for its first tag",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"keywords\" placeholder=\"Type a keyword and press Enter\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" tag_class=\"inline-flex items-center gap-1 rounded-md bg-current/10 py-0.5 pr-1 pl-2\" remove_class=\"inline-flex size-4 items-center justify-center rounded-full opacity-60 hover:opacity-100\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\" />"
+            "source": "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"keywords\" placeholder=\"Type a keyword and press Enter\" />"
           }
         ],
         "function": "tags_input",
         "furnishing": {
           "attrs": {
-            "class": "flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15",
-            "input_class": "min-w-24 flex-1 bg-transparent p-0.5 outline-hidden",
             "placeholder": "Add a tag…",
-            "remove_class": "inline-flex size-4 items-center justify-center rounded-full opacity-60 hover:opacity-100",
-            "tag_class": "inline-flex items-center gap-1 rounded-md bg-current/10 py-0.5 pr-1 pl-2",
             "tags": [
               "Design",
               "Writing",
@@ -15518,8 +15441,8 @@
         "autosize.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" class=\"w-full max-w-md rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" textarea_class=\"block w-full resize-y bg-transparent p-3 outline-hidden\" />",
-        "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" class=\"w-full max-w-md rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" textarea_class=\"block w-full resize-y bg-transparent p-3 outline-hidden\" />"
+        "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" />",
+        "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" />"
       ],
       "extra": {
         "clauses": [
@@ -15547,23 +15470,21 @@
             "label": "Message box",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" class=\"w-full max-w-md rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" textarea_class=\"block w-full resize-y bg-transparent p-3 outline-hidden\" />"
+            "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" />"
           },
           {
             "base": false,
             "label": "Notes that grow as you type",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" class=\"w-full max-w-md rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15\" textarea_class=\"block w-full resize-y bg-transparent p-3 outline-hidden\" />"
+            "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" />"
           }
         ],
         "function": "textarea",
         "furnishing": {
           "attrs": {
-            "class": "w-full max-w-md rounded-lg border border-current/20 text-sm focus-within:ring-2 focus-within:ring-current/15",
             "placeholder": "Write a message…",
-            "rows": 4,
-            "textarea_class": "block w-full resize-y bg-transparent p-3 outline-hidden"
+            "rows": 4
           },
           "body": "",
           "slots": []
@@ -16702,8 +16623,8 @@
       "body": null,
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"signup-steps\" label=\"Steps\" active={1} class=\"flex w-full max-w-xl gap-4 text-sm\" step_class=\"group flex flex-1 items-center gap-2\" indicator_class=\"grid size-7 shrink-0 place-items-center rounded-full border border-current/25 text-xs font-medium group-data-[state=current]:border-current group-data-[state=complete]:bg-current/10\" content_class=\"flex flex-col\" label_class=\"font-medium\" description_class=\"text-xs opacity-70\"><:step label=\"Account\" description=\"Your details\">1</:step><:step label=\"Profile\" description=\"About you\">2</:step><:step label=\"Finish\" description=\"All set\">3</:step></.component>",
-        "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"setup-steps\" label=\"Setup\" active={2} orientation=\"vertical\" class=\"flex flex-col gap-4 text-sm\" step_class=\"group flex flex-1 items-center gap-2\" indicator_class=\"grid size-7 shrink-0 place-items-center rounded-full border border-current/25 text-xs font-medium group-data-[state=current]:border-current group-data-[state=complete]:bg-current/10\" content_class=\"flex flex-col\" label_class=\"font-medium\" description_class=\"text-xs opacity-70\"><:step label=\"Connect\">1</:step><:step label=\"Configure\">2</:step><:step label=\"Publish\">3</:step></.component>"
+        "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"signup-steps\" label=\"Steps\" active={1}><:step label=\"Account\" description=\"Your details\">1</:step><:step label=\"Profile\" description=\"About you\">2</:step><:step label=\"Finish\" description=\"All set\">3</:step></.component>",
+        "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"setup-steps\" label=\"Setup\" active={2} orientation=\"vertical\"><:step label=\"Connect\">1</:step><:step label=\"Configure\">2</:step><:step label=\"Publish\">3</:step></.component>"
       ],
       "extra": {
         "clauses": null,
@@ -16713,30 +16634,24 @@
         "examples": [
           {
             "base": true,
-            "label": "Three steps across, the second current",
+            "label": "Three steps, the second current",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"signup-steps\" label=\"Steps\" active={1} class=\"flex w-full max-w-xl gap-4 text-sm\" step_class=\"group flex flex-1 items-center gap-2\" indicator_class=\"grid size-7 shrink-0 place-items-center rounded-full border border-current/25 text-xs font-medium group-data-[state=current]:border-current group-data-[state=complete]:bg-current/10\" content_class=\"flex flex-col\" label_class=\"font-medium\" description_class=\"text-xs opacity-70\"><:step label=\"Account\" description=\"Your details\">1</:step><:step label=\"Profile\" description=\"About you\">2</:step><:step label=\"Finish\" description=\"All set\">3</:step></.component>"
+            "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"signup-steps\" label=\"Steps\" active={1}><:step label=\"Account\" description=\"Your details\">1</:step><:step label=\"Profile\" description=\"About you\">2</:step><:step label=\"Finish\" description=\"All set\">3</:step></.component>"
           },
           {
             "base": false,
-            "label": "Steps stacked down the page",
+            "label": "Vertical stepper, the third step current",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"setup-steps\" label=\"Setup\" active={2} orientation=\"vertical\" class=\"flex flex-col gap-4 text-sm\" step_class=\"group flex flex-1 items-center gap-2\" indicator_class=\"grid size-7 shrink-0 place-items-center rounded-full border border-current/25 text-xs font-medium group-data-[state=current]:border-current group-data-[state=complete]:bg-current/10\" content_class=\"flex flex-col\" label_class=\"font-medium\" description_class=\"text-xs opacity-70\"><:step label=\"Connect\">1</:step><:step label=\"Configure\">2</:step><:step label=\"Publish\">3</:step></.component>"
+            "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"setup-steps\" label=\"Setup\" active={2} orientation=\"vertical\"><:step label=\"Connect\">1</:step><:step label=\"Configure\">2</:step><:step label=\"Publish\">3</:step></.component>"
           }
         ],
         "function": "stepper",
         "furnishing": {
           "attrs": {
             "active": 1,
-            "class": "flex w-full max-w-xl gap-4 text-sm",
-            "content_class": "flex flex-col",
-            "description_class": "text-xs opacity-70",
-            "indicator_class": "grid size-7 shrink-0 place-items-center rounded-full border border-current/25 text-xs font-medium group-data-[state=current]:border-current group-data-[state=complete]:bg-current/10",
-            "label": "Steps",
-            "label_class": "font-medium",
-            "step_class": "group flex flex-1 items-center gap-2"
+            "label": "Steps"
           },
           "body": "",
           "slots": [
@@ -17141,8 +17056,8 @@
         "otp.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"verify-code\" length={6} label=\"Verification code\" class=\"flex gap-2\" input_class=\"size-10 rounded-md border border-current/25 bg-transparent text-center text-base outline-hidden focus:border-current/60 focus:ring-2 focus:ring-current/20\" />",
-        "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"pair-code\" length={4} group={2} separator=\"–\" validation_type=\"alphanumeric\" label=\"Pairing code\" class=\"flex items-center gap-2\" input_class=\"size-10 rounded-md border border-current/25 bg-transparent text-center text-base outline-hidden focus:border-current/60 focus:ring-2 focus:ring-current/20\" separator_class=\"opacity-50\" />"
+        "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"verify-code\" length={6} label=\"Verification code\" />",
+        "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"pair-code\" length={4} group={2} separator=\"–\" validation_type=\"alphanumeric\" label=\"Pairing code\" />"
       ],
       "extra": {
         "clauses": null,
@@ -17155,21 +17070,19 @@
             "label": "Six-digit code",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"verify-code\" length={6} label=\"Verification code\" class=\"flex gap-2\" input_class=\"size-10 rounded-md border border-current/25 bg-transparent text-center text-base outline-hidden focus:border-current/60 focus:ring-2 focus:ring-current/20\" />"
+            "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"verify-code\" length={6} label=\"Verification code\" />"
           },
           {
             "base": false,
             "label": "Four characters in two groups",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"pair-code\" length={4} group={2} separator=\"–\" validation_type=\"alphanumeric\" label=\"Pairing code\" class=\"flex items-center gap-2\" input_class=\"size-10 rounded-md border border-current/25 bg-transparent text-center text-base outline-hidden focus:border-current/60 focus:ring-2 focus:ring-current/20\" separator_class=\"opacity-50\" />"
+            "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"pair-code\" length={4} group={2} separator=\"–\" validation_type=\"alphanumeric\" label=\"Pairing code\" />"
           }
         ],
         "function": "otp_field",
         "furnishing": {
           "attrs": {
-            "class": "flex gap-2",
-            "input_class": "size-10 rounded-md border border-current/25 bg-transparent text-center text-base outline-hidden focus:border-current/60 focus:ring-2 focus:ring-current/20",
             "label": "Verification code",
             "length": 6
           },
@@ -18626,8 +18539,8 @@
         "indeterminate.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"people-table\" rows={[%{name: \"Ada Lovelace\", role: \"Engineer\"}, %{name: \"Grace Hopper\", role: \"Admiral\"}, %{name: \"Alan Turing\", role: \"Researcher\"}]} class=\"w-full max-w-xl text-left text-sm\" head_class=\"border-b border-current/15\" header_class=\"px-3 py-2 font-medium\" body_class=\"divide-y divide-current/10\" cell_class=\"px-3 py-2\"><:col :let={person} label=\"Name\">{person.name}</:col><:col :let={person} label=\"Role\">{person.role}</:col></.component>",
-        "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"empty-table\" rows={[]} caption=\"Team\" show_caption caption_class=\"pb-2 text-left font-medium\" class=\"w-full max-w-xl text-left text-sm\" head_class=\"border-b border-current/15\" header_class=\"px-3 py-2 font-medium\" body_class=\"divide-y divide-current/10\" cell_class=\"px-3 py-2\" empty_class=\"px-3 py-6 text-center opacity-70\"><:col label=\"Name\"></:col><:col label=\"Role\"></:col><:empty>Nobody here yet.</:empty></.component>"
+        "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"people-table\" rows={[%{name: \"Ada Lovelace\", role: \"Engineer\"}, %{name: \"Grace Hopper\", role: \"Admiral\"}, %{name: \"Alan Turing\", role: \"Researcher\"}]}><:col :let={person} label=\"Name\">{person.name}</:col><:col :let={person} label=\"Role\">{person.role}</:col></.component>",
+        "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"empty-table\" rows={[]} caption=\"Team\" show_caption><:col label=\"Name\"></:col><:col label=\"Role\"></:col><:empty>Nobody here yet.</:empty></.component>"
       ],
       "extra": {
         "clauses": null,
@@ -18640,25 +18553,19 @@
             "label": "People with their role",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"people-table\" rows={[%{name: \"Ada Lovelace\", role: \"Engineer\"}, %{name: \"Grace Hopper\", role: \"Admiral\"}, %{name: \"Alan Turing\", role: \"Researcher\"}]} class=\"w-full max-w-xl text-left text-sm\" head_class=\"border-b border-current/15\" header_class=\"px-3 py-2 font-medium\" body_class=\"divide-y divide-current/10\" cell_class=\"px-3 py-2\"><:col :let={person} label=\"Name\">{person.name}</:col><:col :let={person} label=\"Role\">{person.role}</:col></.component>"
+            "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"people-table\" rows={[%{name: \"Ada Lovelace\", role: \"Engineer\"}, %{name: \"Grace Hopper\", role: \"Admiral\"}, %{name: \"Alan Turing\", role: \"Researcher\"}]}><:col :let={person} label=\"Name\">{person.name}</:col><:col :let={person} label=\"Role\">{person.role}</:col></.component>"
           },
           {
             "base": false,
             "label": "Team with a caption and no members yet",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"empty-table\" rows={[]} caption=\"Team\" show_caption caption_class=\"pb-2 text-left font-medium\" class=\"w-full max-w-xl text-left text-sm\" head_class=\"border-b border-current/15\" header_class=\"px-3 py-2 font-medium\" body_class=\"divide-y divide-current/10\" cell_class=\"px-3 py-2\" empty_class=\"px-3 py-6 text-center opacity-70\"><:col label=\"Name\"></:col><:col label=\"Role\"></:col><:empty>Nobody here yet.</:empty></.component>"
+            "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"empty-table\" rows={[]} caption=\"Team\" show_caption><:col label=\"Name\"></:col><:col label=\"Role\"></:col><:empty>Nobody here yet.</:empty></.component>"
           }
         ],
         "function": "table",
         "furnishing": {
           "attrs": {
-            "body_class": "divide-y divide-current/10",
-            "cell_class": "px-3 py-2",
-            "class": "w-full max-w-xl text-left text-sm",
-            "empty_class": "px-3 py-6 text-center opacity-70",
-            "head_class": "border-b border-current/15",
-            "header_class": "px-3 py-2 font-medium",
             "rows": []
           },
           "body": "",
@@ -19138,8 +19045,8 @@
         "radio_group.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" class=\"flex gap-1\" item_class=\"size-6 bg-current/20 data-[checked]:bg-current [&:has(~[aria-checked=true])]:bg-current [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]\" />",
-        "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly class=\"flex gap-1\" item_class=\"size-6 bg-current/20 data-[checked]:bg-current [&:has(~[aria-checked=true])]:bg-current [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]\" />"
+        "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" />",
+        "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly />"
       ],
       "extra": {
         "clauses": null,
@@ -19152,21 +19059,19 @@
             "label": "Three of five stars",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" class=\"flex gap-1\" item_class=\"size-6 bg-current/20 data-[checked]:bg-current [&:has(~[aria-checked=true])]:bg-current [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]\" />"
+            "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" />"
           },
           {
             "base": false,
             "label": "Read-only score of four",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly class=\"flex gap-1\" item_class=\"size-6 bg-current/20 data-[checked]:bg-current [&:has(~[aria-checked=true])]:bg-current [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]\" />"
+            "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly />"
           }
         ],
         "function": "rating",
         "furnishing": {
           "attrs": {
-            "class": "flex gap-1",
-            "item_class": "size-6 bg-current/20 data-[checked]:bg-current [&:has(~[aria-checked=true])]:bg-current [mask-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2024%2024%27%3E%3Cpath%20d%3D%27M12%202l3%206.5%207%20.9-5%204.8%201.3%207-6.3-3.4L5.7%2021%207%2014.2%202%209.4l7-.9z%27%2F%3E%3C%2Fsvg%3E)] [mask-size:contain] [mask-repeat:no-repeat] [mask-position:center]",
             "label": "Rating",
             "value": 3
           },
@@ -19406,8 +19311,8 @@
         "popup.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained class=\"relative inline-flex flex-col items-end gap-2\" trigger_class=\"grid size-12 place-items-center rounded-full border border-current/20 bg-current/10 text-xl shadow-sm\" popup_class=\"flex flex-col items-end gap-2\" action_class=\"inline-flex size-10 items-center justify-center rounded-full border border-current/20 text-sm\"><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>",
-        "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained class=\"relative inline-flex flex-col items-end gap-2\" trigger_class=\"grid size-12 place-items-center rounded-full border border-current/20 bg-current/10 text-xl shadow-sm\" popup_class=\"flex flex-col items-end gap-2\" action_class=\"inline-flex size-10 items-center justify-center rounded-full border border-current/20 text-sm\"><:icon>+</:icon></.component>"
+        "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>",
+        "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained><:icon>+</:icon></.component>"
       ],
       "extra": {
         "clauses": null,
@@ -19417,28 +19322,24 @@
         "examples": [
           {
             "base": true,
-            "label": "Round button with three actions",
+            "label": "Button with three actions",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained class=\"relative inline-flex flex-col items-end gap-2\" trigger_class=\"grid size-12 place-items-center rounded-full border border-current/20 bg-current/10 text-xl shadow-sm\" popup_class=\"flex flex-col items-end gap-2\" action_class=\"inline-flex size-10 items-center justify-center rounded-full border border-current/20 text-sm\"><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>"
+            "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>"
           },
           {
             "base": false,
             "label": "Single action that opens nothing",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained class=\"relative inline-flex flex-col items-end gap-2\" trigger_class=\"grid size-12 place-items-center rounded-full border border-current/20 bg-current/10 text-xl shadow-sm\" popup_class=\"flex flex-col items-end gap-2\" action_class=\"inline-flex size-10 items-center justify-center rounded-full border border-current/20 text-sm\"><:icon>+</:icon></.component>"
+            "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained><:icon>+</:icon></.component>"
           }
         ],
         "function": "fab",
         "furnishing": {
           "attrs": {
-            "action_class": "inline-flex size-10 items-center justify-center rounded-full border border-current/20 text-sm",
-            "class": "relative inline-flex flex-col items-end gap-2",
             "contained": true,
-            "label": "Actions",
-            "popup_class": "flex flex-col items-end gap-2",
-            "trigger_class": "grid size-12 place-items-center rounded-full border border-current/20 bg-current/10 text-xl shadow-sm"
+            "label": "Actions"
           },
           "body": "",
           "slots": [
@@ -19764,8 +19665,8 @@
         "floating_indicator.js"
       ],
       "examples": [
-        "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"range-picker\" active=\"week\" label=\"Range\" class=\"relative inline-flex gap-1 rounded-lg bg-current/10 p-1 text-sm\" indicator_class=\"absolute top-0 left-0 rounded-md bg-current/15 transition-all duration-200\" target_class=\"relative z-10 rounded-md px-3 py-1.5 font-medium opacity-70 aria-pressed:opacity-100\"><:target value=\"day\">Day</:target><:target value=\"week\">Week</:target><:target value=\"month\">Month</:target></.component>",
-        "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"theme-picker\" active=\"light\" label=\"Theme\" class=\"relative inline-flex gap-1 rounded-lg bg-current/10 p-1 text-sm\" indicator_class=\"absolute top-0 left-0 rounded-md bg-current/15 transition-all duration-200\" target_class=\"relative z-10 rounded-md px-3 py-1.5 font-medium opacity-70 aria-pressed:opacity-100\"><:target value=\"light\">Light</:target><:target value=\"dark\">Dark</:target></.component>"
+        "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"range-picker\" active=\"week\" label=\"Range\"><:target value=\"day\">Day</:target><:target value=\"week\">Week</:target><:target value=\"month\">Month</:target></.component>",
+        "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"theme-picker\" active=\"light\" label=\"Theme\"><:target value=\"light\">Light</:target><:target value=\"dark\">Dark</:target></.component>"
       ],
       "extra": {
         "clauses": null,
@@ -19775,27 +19676,24 @@
         "examples": [
           {
             "base": true,
-            "label": "Day, week or month with a sliding highlight",
+            "label": "Day, week or month picker",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"range-picker\" active=\"week\" label=\"Range\" class=\"relative inline-flex gap-1 rounded-lg bg-current/10 p-1 text-sm\" indicator_class=\"absolute top-0 left-0 rounded-md bg-current/15 transition-all duration-200\" target_class=\"relative z-10 rounded-md px-3 py-1.5 font-medium opacity-70 aria-pressed:opacity-100\"><:target value=\"day\">Day</:target><:target value=\"week\">Week</:target><:target value=\"month\">Month</:target></.component>"
+            "source": "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"range-picker\" active=\"week\" label=\"Range\"><:target value=\"day\">Day</:target><:target value=\"week\">Week</:target><:target value=\"month\">Month</:target></.component>"
           },
           {
             "base": false,
             "label": "Two-way toggle",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"theme-picker\" active=\"light\" label=\"Theme\" class=\"relative inline-flex gap-1 rounded-lg bg-current/10 p-1 text-sm\" indicator_class=\"absolute top-0 left-0 rounded-md bg-current/15 transition-all duration-200\" target_class=\"relative z-10 rounded-md px-3 py-1.5 font-medium opacity-70 aria-pressed:opacity-100\"><:target value=\"light\">Light</:target><:target value=\"dark\">Dark</:target></.component>"
+            "source": "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"theme-picker\" active=\"light\" label=\"Theme\"><:target value=\"light\">Light</:target><:target value=\"dark\">Dark</:target></.component>"
           }
         ],
         "function": "floating_indicator",
         "furnishing": {
           "attrs": {
             "active": "day",
-            "class": "relative inline-flex gap-1 rounded-lg bg-current/10 p-1 text-sm",
-            "indicator_class": "absolute top-0 left-0 rounded-md bg-current/15 transition-all duration-200",
-            "label": "Range",
-            "target_class": "relative z-10 rounded-md px-3 py-1.5 font-medium opacity-70 aria-pressed:opacity-100"
+            "label": "Range"
           },
           "body": "",
           "slots": [
@@ -20090,8 +19988,8 @@
       "body": null,
       "dependencies": [],
       "examples": [
-        "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button\" label=\"Open menu\" controls=\"site-menu\" class=\"relative inline-flex size-9 items-center justify-center rounded-md hover:bg-current/10 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45\" line_class=\"absolute h-0.5 w-5 rounded-full bg-current transition-all duration-200 first:-translate-y-1.5 last:translate-y-1.5\" />",
-        "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button-open\" label=\"Close menu\" opened controls=\"site-menu\" class=\"relative inline-flex size-9 items-center justify-center rounded-md hover:bg-current/10 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45\" line_class=\"absolute h-0.5 w-5 rounded-full bg-current transition-all duration-200 first:-translate-y-1.5 last:translate-y-1.5\" />"
+        "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button\" label=\"Open menu\" controls=\"site-menu\" />",
+        "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button-open\" label=\"Close menu\" opened controls=\"site-menu\" />"
       ],
       "extra": {
         "clauses": null,
@@ -20104,22 +20002,20 @@
             "label": "Menu button, closed",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button\" label=\"Open menu\" controls=\"site-menu\" class=\"relative inline-flex size-9 items-center justify-center rounded-md hover:bg-current/10 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45\" line_class=\"absolute h-0.5 w-5 rounded-full bg-current transition-all duration-200 first:-translate-y-1.5 last:translate-y-1.5\" />"
+            "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button\" label=\"Open menu\" controls=\"site-menu\" />"
           },
           {
             "base": false,
             "label": "Menu button, open",
             "requires": {},
             "section": null,
-            "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button-open\" label=\"Close menu\" opened controls=\"site-menu\" class=\"relative inline-flex size-9 items-center justify-center rounded-md hover:bg-current/10 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45\" line_class=\"absolute h-0.5 w-5 rounded-full bg-current transition-all duration-200 first:-translate-y-1.5 last:translate-y-1.5\" />"
+            "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button-open\" label=\"Close menu\" opened controls=\"site-menu\" />"
           }
         ],
         "function": "burger",
         "furnishing": {
           "attrs": {
-            "class": "relative inline-flex size-9 items-center justify-center rounded-md hover:bg-current/10 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45",
-            "label": "Open menu",
-            "line_class": "absolute h-0.5 w-5 rounded-full bg-current transition-all duration-200 first:-translate-y-1.5 last:translate-y-1.5"
+            "label": "Open menu"
           },
           "body": "",
           "slots": []

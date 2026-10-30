@@ -6,22 +6,17 @@
     "attrs": {
       "value": 72,
       "label": "Storage used",
-      "show_value": true,
-      "class": "grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm",
-      "label_class": "font-medium",
-      "value_class": "text-right tabular-nums opacity-70",
-      "track_class": "col-span-2 h-2 overflow-hidden rounded-full bg-current/15",
-      "indicator_class": "rounded-full bg-current"
+      "show_value": true
     }
   },
   "examples": [
     {
       "label": "Storage used with a percentage",
-      "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" />"
+      "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value />"
     },
     {
       "label": "Battery level with its own words",
-      "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current\" />"
+      "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value />"
     }
   ]
 }

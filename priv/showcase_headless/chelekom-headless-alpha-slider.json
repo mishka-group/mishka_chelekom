@@ -4,22 +4,17 @@
     "body": "",
     "slots": [],
     "attrs": {
-      "class": "w-full max-w-sm py-2",
-      "color": "#2563eb",
-      "track_class": "relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15",
-      "control_class": "relative flex h-5 w-full touch-none items-center",
-      "indicator_class": "absolute inset-y-0 left-0 rounded-full",
-      "thumb_class": "block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40"
+      "color": "#2563eb"
     }
   },
   "examples": [
     {
-      "label": "Opacity picker with a checkered track",
-      "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" class=\"w-full max-w-sm py-2\" color=\"#2563eb\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"60\" label=\"Layer opacity\" />"
+      "label": "Opacity picker",
+      "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" color=\"#2563eb\" value=\"60\" label=\"Layer opacity\" />"
     },
     {
-      "label": "Overlay strength in a settings row",
-      "source": "<div class=\"flex w-full max-w-md items-center gap-4\"><span class=\"w-24 text-sm opacity-70\">Overlay</span><.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" class=\"w-full max-w-sm py-2\" color=\"#111827\" track_class=\"relative h-2 w-full rounded-full bg-[linear-gradient(to_right,transparent,var(--chelekom-alpha-color))] ring-1 ring-inset ring-current/15\" control_class=\"relative flex h-5 w-full touch-none items-center\" indicator_class=\"absolute inset-y-0 left-0 rounded-full\" thumb_class=\"block size-4 rounded-full border border-current/30 bg-white shadow-sm outline-hidden focus-visible:ring-2 focus-visible:ring-current/40\" value=\"35\" label=\"Overlay strength\" /></div>"
+      "label": "Dark overlay strength",
+      "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" color=\"#111827\" value=\"35\" label=\"Overlay strength\" />"
     }
   ]
 }

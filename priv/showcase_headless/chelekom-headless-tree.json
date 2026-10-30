@@ -44,18 +44,17 @@
       ],
       "expanded": [
         "start"
-      ],
-      "class": "w-full max-w-xs text-sm"
+      ]
     }
   },
   "examples": [
     {
       "label": "Documentation outline",
-      "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" class=\"w-full max-w-xs text-sm\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />"
+      "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />"
     },
     {
       "label": "Project files with checkboxes",
-      "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" class=\"w-full max-w-xs text-sm\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
+      "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
     }
   ]
 }
