@@ -1,7 +1,7 @@
 [
   pagination: [
     name: "pagination",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/headless/pagination",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/",
     args: [type: ["pagination"], only: ["pagination"], helpers: [], module: ""],

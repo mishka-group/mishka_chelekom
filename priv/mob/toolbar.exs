@@ -1,7 +1,7 @@
 [
   toolbar: [
     name: "toolbar",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/mob/toolbar",
     args: [type: ["toolbar"], only: ["toolbar"], helpers: [], module: ""],
     optional: [],

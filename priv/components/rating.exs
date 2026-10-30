@@ -30,7 +30,7 @@
         "quadruple_large"
       ],
       only: ["rating"],
-      helpers: [],
+      helpers: [rating_select: 2],
       module: ""
     ],
     optional: [],

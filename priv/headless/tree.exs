@@ -1,7 +1,7 @@
 [
   tree: [
     name: "tree",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/headless/tree",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/treeview/",
     args: [type: ["tree"], only: ["tree"], helpers: [], module: ""],

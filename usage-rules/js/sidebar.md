@@ -10,44 +10,63 @@ Sidebar
 
 ## Used By Components
 
-- `sidebar`
+- `sidebar` (on its minimize button, rendered with `minimize={true}`)
 
 ## Data Attributes
 
+On the minimize button, where the hook is mounted:
+
 | Attribute | Type | Description |
 |-----------|------|-------------|
-| `data-original-width` | `string` | Original sidebar width class |
-| `data-sidebar-selector` | `string` | CSS selector for sidebar element |
+| `data-sidebar-selector` | `string` | CSS selector of the sidebar; required |
+| `data-original-width` | `string` | The sidebar's width class; rendered by the component, not read by the hook |
+
+On the sidebar:
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `data-expanded-width` | `string` | Width when expanded, e.g. `16rem` (`px`, `em`, `rem`, `%`, `vh`, `vw`); default `250px` |
+| `data-collapsed-width` | `string` | Width when minimized; default `60px` |
+| `data-minimized` | `"true"` / `"false"` | The state; the hook writes it on every toggle |
 
 ## Features
 
-- **Minimize/Expand**: Toggle sidebar width
-- **Icon Rotation**: Chevron icon rotates on state change
-- **Text Hiding**: Labels hide when minimized
-- **Persistent State**: Remembers minimized state
-- **Smooth Animation**: CSS transitions for width changes
-- **Mobile Support**: Full close on mobile devices
+- **Minimize/Expand**: each click on the button sets the sidebar's inline `width` to the collapsed or
+  the expanded width. The hook adds a 0.3s `width` transition to the transitions the sidebar already
+  has, so its slide in and out keeps animating; a sidebar that already transitions `width` or `all`
+  keeps its own
+- **Cleanup**: `destroyed()` removes the button's click listener
+- **Labels**: the `[data-item-label]` elements are hidden while minimized and fade back in on expand
+- **Icon Rotation**: the button's `.minimize-icon` toggles `rotate-180`
+
+Opening and closing the sidebar on small screens is not the hook: it is the component's
+`show_sidebar/3` and `hide_sidebar/3` (see `components/sidebar.md`).
 
 ## Element Structure
 
 The hook is attached to the minimize button:
 
 ```html
-<aside id="main-sidebar" class="w-64">
-  <button class="cursor-pointer"
+<aside id="main-sidebar" class="w-80">
+  <button
+    type="button"
+    class="cursor-pointer"
+    id="toggle-button-main-sidebar"
     phx-hook="Sidebar"
-    data-original-width="w-64"
+    data-original-width="w-80"
     data-sidebar-selector="#main-sidebar"
   >
-    <span class="minimize-icon">→</span>
+    <span class="minimize-icon hero-chevron-right"></span>
   </button>
 
-  <nav>
-    <a href="/" class="sidebar-item-link">
-      <span class="icon">🏠</span>
-      <span class="sidebar-text">Home</span>
-    </a>
-  </nav>
+  <ul role="list">
+    <li>
+      <a href="/" class="sidebar-item-link">
+        <span class="hero-home"></span>
+        <span class="sidebar-text" data-item-label>Home</span>
+      </a>
+    </li>
+  </ul>
 </aside>
 ```
 
@@ -62,59 +81,47 @@ The hook is attached to the minimize button:
   <:item icon="hero-cog-6-tooth" label="Settings" link={~p"/settings"} />
 </.sidebar>
 
-<!-- minimize={true} enables the minimize/expand toggle -->
+<!-- minimize={true} renders the minimize/expand button -->
 <.sidebar id="main-sidebar" minimize={true}>
   <:item icon="hero-home" label="Home" link={~p"/"} />
   <:item icon="hero-document" label="Documents" link={~p"/docs"} />
 </.sidebar>
 
-<!-- size accepts e.g. "small" / "large" -->
-<.sidebar id="small-sidebar" size="small" minimize={true}>
+<!-- the widths the hook switches between -->
+<.sidebar id="small-sidebar" size="small" minimize={true} data-expanded-width="16rem" data-collapsed-width="4rem">
   <:item icon="hero-home" label="Home" link={~p"/"} />
 </.sidebar>
 ```
 
-### Header, Footer, Groups
+### Header and Footer Content
+
+The sidebar has no header or footer slot; put them in its content, after the items:
 
 ```heex
 <.sidebar id="branded-sidebar" minimize={true}>
-  <:header>
-    <div class="flex items-center gap-2 p-4">
-      <img src="/logo.svg" class="h-8" />
-      <span class="sidebar-text font-bold">MyApp</span>
+  <:item icon="hero-home" label="Home" link={~p"/"} />
+  <:item icon="hero-inbox" label="Inbox" link={~p"/inbox"} />
+  <:item icon="hero-users" label="Users" link={~p"/users"} />
+
+  <div class="p-4 border-t">
+    <div class="flex items-center gap-2">
+      <.avatar src={@current_user.avatar} size="small" />
+      <span class="sidebar-text" data-item-label>{@current_user.name}</span>
     </div>
-  </:header>
-
-  <:group title="Main">
-    <:item icon="hero-home" label="Home" link={~p"/"} />
-    <:item icon="hero-inbox" label="Inbox" link={~p"/inbox"} />
-  </:group>
-
-  <:group title="Management">
-    <:item icon="hero-users" label="Users" link={~p"/users"} />
-    <:item icon="hero-building-office" label="Teams" link={~p"/teams"} />
-  </:group>
-
-  <:footer>
-    <div class="p-4 border-t">
-      <div class="flex items-center gap-2">
-        <.avatar src={@current_user.avatar} size="small" />
-        <span class="sidebar-text">{@current_user.name}</span>
-      </div>
-    </div>
-  </:footer>
+  </div>
 </.sidebar>
 ```
 
 ### Custom Item Content
 
+The slot's content replaces `label`:
+
 ```heex
 <.sidebar id="custom-sidebar" minimize={true}>
   <:item icon="hero-home" label="Home" link={~p"/"} />
-  <:item icon="hero-bell" label="Notifications" link={~p"/notifications"}>
-    <span class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
-      3
-    </span>
+  <:item icon="hero-bell" link={~p"/notifications"}>
+    Notifications
+    <span class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">3</span>
   </:item>
 </.sidebar>
 ```
@@ -123,19 +130,15 @@ The hook is attached to the minimize button:
 
 ```heex
 <div>
-  <!-- Mobile toggle button -->
   <button
+    type="button"
     class="md:hidden cursor-pointer"
-    phx-click={JS.toggle(to: "#mobile-sidebar")}
+    phx-click={Sidebar.show_sidebar("mobile-sidebar", "left")}
   >
     <.icon name="hero-bars-3" class="size-6" />
   </button>
 
-  <.sidebar
-    id="mobile-sidebar"
-    class="hidden md:block"
-    minimize={true}
-  >
+  <.sidebar id="mobile-sidebar" hide_position="left" minimize={true}>
     <:item icon="hero-home" label="Home" link={~p"/"} />
     <:item icon="hero-folder" label="Files" link={~p"/files"} />
   </.sidebar>
@@ -146,33 +149,17 @@ The hook is attached to the minimize button:
 
 | Class | Description |
 |-------|-------------|
-| `.sidebar-text` | Text that hides when minimized |
+| `.sidebar-text` | The label of an item (the element also carries `data-item-label`) |
 | `.sidebar-item-link` | Navigation item link |
 | `.minimize-icon` | Icon that rotates on toggle |
-| `.dismiss-sidebar-button` | Mobile close button |
+| `.dismiss-sidebar-button` | Close button, shown below `md` |
 
 ## Minimized State
 
 When minimized:
-- Sidebar width reduces (typically to icon-only width)
-- `.sidebar-text` elements are hidden
-- `.minimize-icon` rotates 180 degrees
-- Tooltips can show on hover (optional)
-
-```css
-/* Minimized sidebar */
-.sidebar.minimized {
-  width: 4rem; /* Icon-only width */
-}
-
-.sidebar.minimized .sidebar-text {
-  display: none;
-}
-
-.sidebar.minimized .minimize-icon {
-  transform: rotate(180deg);
-}
-```
+- the sidebar's inline `width` is `data-collapsed-width` and `data-minimized` is `"true"`
+- every `[data-item-label]` element has `hidden`
+- `.minimize-icon` has `rotate-180`
 
 ## JavaScript Integration
 

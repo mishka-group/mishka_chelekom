@@ -1,7 +1,7 @@
 [
   tree: [
     name: "tree",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/mob/tree",
     args: [type: ["tree"], only: ["tree"], helpers: [], module: ""],
     optional: [],
