@@ -157,7 +157,7 @@ defmodule DevelopmentWeb.Components.Alert do
   @doc type: :component
   attr :id, :string,
     default: "flash-group",
-    doc: "A unique identifier is used to manage state and interaction"
+    doc: "A unique identifier, and the prefix of the id of each flash in the group"
 
   attr :variant, :string, default: "bordered", doc: "Determines the style"
   attr :position, :string, default: "top_right", doc: "Position of flashes"
@@ -177,6 +177,7 @@ defmodule DevelopmentWeb.Components.Alert do
       {@rest}
     >
       <.flash
+        id={"#{@id}-info"}
         kind={:info}
         title={gettext("Success!")}
         flash={@flash}
@@ -184,6 +185,7 @@ defmodule DevelopmentWeb.Components.Alert do
         width="medium"
       />
       <.flash
+        id={"#{@id}-error"}
         kind={:error}
         title={gettext("Error!")}
         flash={@flash}
@@ -191,12 +193,12 @@ defmodule DevelopmentWeb.Components.Alert do
         width="medium"
       />
       <.flash
-        id="client-error"
+        id={"#{@id}-client-error"}
         kind={:error}
         variant={@variant}
         title={gettext("We can't find the internet")}
-        phx-disconnected={show_alert(".phx-client-error #client-error")}
-        phx-connected={hide_alert("#client-error")}
+        phx-disconnected={show_alert(".phx-client-error ##{@id}-client-error")}
+        phx-connected={hide_alert("##{@id}-client-error")}
         width="medium"
         hidden
       >
@@ -205,12 +207,12 @@ defmodule DevelopmentWeb.Components.Alert do
       </.flash>
 
       <.flash
-        id="server-error"
+        id={"#{@id}-server-error"}
         kind={:error}
         variant={@variant}
         title={gettext("Something went wrong!")}
-        phx-disconnected={show_alert(".phx-server-error #server-error")}
-        phx-connected={hide_alert("#server-error")}
+        phx-disconnected={show_alert(".phx-server-error ##{@id}-server-error")}
+        phx-connected={hide_alert("##{@id}-server-error")}
         width="medium"
         hidden
       >
