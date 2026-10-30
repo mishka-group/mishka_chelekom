@@ -90,28 +90,28 @@ defmodule MishkaChelekom.DrawerFocusTest do
     }
   end
 
-  # `{kind, args, gate}` for each command a `JS` value runs. A `JS.exec/2` is replaced by the
+  # `{kind, args, gates}` for each command a `JS` value runs. A `JS.exec/2` is replaced by the
   # commands of the root attribute it names, each tagged with the exec's `to:`, the selector that
-  # decides whether they run at all. A `JS` value and an attribute both decode from the JSON the
-  # page carries, so either way the args have string keys.
+  # decides whether they run at all, after the gates of the execs around it. A `JS` value and an
+  # attribute both decode from the JSON the page carries, so either way the args have string keys.
   defp commands(%JS{} = js, root) do
     js
     |> Phoenix.HTML.Safe.to_iodata()
     |> IO.iodata_to_binary()
-    |> commands(root, nil)
+    |> commands(root, [])
   end
 
-  defp commands(encoded, root, gate) do
+  defp commands(encoded, root, gates) do
     encoded
     |> unescape()
     |> Jason.decode!()
     |> Enum.flat_map(fn
       ["exec", %{"attr" => attr, "to" => to}] ->
         assert [_match, value] = Regex.run(~r/\s#{attr}="([^"]*)"/, root)
-        commands(value, root, to)
+        commands(value, root, gates ++ [to])
 
       [kind, args] ->
-        [{kind, args, gate}]
+        [{kind, args, gates}]
     end)
   end
 
@@ -147,9 +147,9 @@ defmodule MishkaChelekom.DrawerFocusTest do
   defp play(commands, state, page) do
     target = "##{@id}"
 
-    Enum.reduce(commands, {state, page}, fn {kind, args, gate}, {state, page} ->
+    Enum.reduce(commands, {state, page}, fn {kind, args, gates}, {state, page} ->
       cond do
-        not gate?(gate, state) -> {state, page}
+        not Enum.all?(gates, &gate?(&1, state)) -> {state, page}
         kind in ["push_focus", "focus_first", "pop_focus"] -> {state, focus(page, kind, args)}
         args["to"] == "body" -> {state, %{page | body: change(page.body, kind, args)}}
         args["to"] == target -> {change(state, kind, args), page}
@@ -169,12 +169,16 @@ defmodule MishkaChelekom.DrawerFocusTest do
 
   defp change(state, _kind, _args), do: state
 
-  # A gate is `#<id>`, `#<id>X` or `#<id>:not(X)`, where X is one `[attr]` or `.class`.
-  defp gate?(nil, _state), do: true
-
+  # A gate is `#<id>`, `#<id>X` or `#<id>:not(X)`, where X is one `[attr]` or `.class`. Any other
+  # selector names other dialogs, and this page has none.
   defp gate?(gate, state) do
-    [_match, rest] = Regex.run(~r/^##{@id}(.*)$/, gate)
+    case Regex.run(~r/^##{@id}(.*)$/, gate) do
+      [_match, rest] -> own_gate?(rest, state)
+      nil -> false
+    end
+  end
 
+  defp own_gate?(rest, state) do
     case Regex.run(~r/^:not\((.+)\)$/, rest) do
       [_match, token] -> not MapSet.member?(state, token)
       nil -> rest == "" or MapSet.member?(state, rest)
@@ -267,9 +271,9 @@ defmodule MishkaChelekom.DrawerFocusTest do
     %{root: root, show: show, hide: hide} = context
 
     assert root =~ ~r/\sinert[\s>=]/
-    assert {"set_attr", %{"attr" => ["inert", ""], "to" => "##{@id}"}, nil} in hide
+    assert {"set_attr", %{"attr" => ["inert", ""], "to" => "##{@id}"}, []} in hide
 
-    removes_inert = &match?({"remove_attr", %{"attr" => "inert", "to" => "#" <> @id}, nil}, &1)
+    removes_inert = &match?({"remove_attr", %{"attr" => "inert", "to" => "#" <> @id}, []}, &1)
     assert position(show, removes_inert) < position(show, kind?("focus_first"))
   end
 
@@ -321,15 +325,15 @@ defmodule MishkaChelekom.DrawerFocusTest do
   end
 
   test "only the drawer that opens or closes touches the focus stack", %{show: show, hide: hide} do
-    shown = &match?({"add_class", %{"names" => ["drawer-showed"]}, nil}, &1)
-    hidden = &match?({"remove_class", %{"names" => ["drawer-showed"]}, nil}, &1)
+    shown = &match?({"set_attr", %{"attr" => ["data-open", ""]}, []}, &1)
+    hidden = &match?({"remove_attr", %{"attr" => "data-open"}, []}, &1)
 
     for kind <- ["push_focus", "focus_first"] do
-      assert {^kind, _args, "##{@id}:not(.drawer-showed)"} = Enum.find(show, kind?(kind))
+      assert {^kind, _args, ["##{@id}:not([data-open])"]} = Enum.find(show, kind?(kind))
       assert position(show, kind?(kind)) < position(show, shown)
     end
 
-    assert {"pop_focus", _args, "##{@id}.drawer-showed"} = Enum.find(hide, kind?("pop_focus"))
+    assert {"pop_focus", _args, ["##{@id}[data-open]"]} = Enum.find(hide, kind?("pop_focus"))
     assert position(hide, kind?("pop_focus")) < position(hide, hidden)
   end
 
