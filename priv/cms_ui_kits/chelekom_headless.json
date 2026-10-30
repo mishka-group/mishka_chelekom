@@ -74,7 +74,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -358,7 +358,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -542,7 +542,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -898,7 +898,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -1096,7 +1096,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -1242,7 +1242,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -1340,7 +1340,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -1409,7 +1409,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -1549,7 +1549,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -1711,7 +1711,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -1846,7 +1846,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -1971,7 +1971,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -2151,7 +2151,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -2347,7 +2347,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -2505,7 +2505,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -2753,7 +2753,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -3112,7 +3112,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -3403,7 +3403,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -3678,7 +3678,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -3879,7 +3879,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -3975,7 +3975,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -4056,7 +4056,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -4167,7 +4167,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -4242,7 +4242,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -4325,7 +4325,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -4391,7 +4391,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -4489,7 +4489,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -4573,7 +4573,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -4745,7 +4745,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -5004,7 +5004,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -5185,7 +5185,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -5368,7 +5368,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -5487,7 +5487,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -5779,7 +5779,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -6060,7 +6060,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -6333,7 +6333,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -6570,7 +6570,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -6745,7 +6745,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -6975,7 +6975,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -7184,7 +7184,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -7414,7 +7414,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -7596,7 +7596,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -7802,7 +7802,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -8062,7 +8062,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -8224,7 +8224,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -8356,7 +8356,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -8512,7 +8512,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -8609,7 +8609,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -8756,7 +8756,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -8867,7 +8867,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -9124,7 +9124,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -9249,7 +9249,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -9401,7 +9401,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -9615,7 +9615,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -9877,7 +9877,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10078,7 +10078,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10175,7 +10175,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10257,7 +10257,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10369,7 +10369,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10444,7 +10444,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10527,7 +10527,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10594,7 +10594,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10693,7 +10693,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10832,7 +10832,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -10963,7 +10963,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -11099,7 +11099,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -11231,7 +11231,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -11539,7 +11539,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -11790,7 +11790,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -12233,7 +12233,7 @@
         ],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -12656,7 +12656,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -13110,7 +13110,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -13562,7 +13562,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -14041,7 +14041,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -14141,7 +14141,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -14210,7 +14210,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -14372,7 +14372,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -14494,7 +14494,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -14580,7 +14580,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -14694,7 +14694,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -14955,7 +14955,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -15251,7 +15251,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -15492,7 +15492,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -15586,7 +15586,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -15663,7 +15663,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -15997,7 +15997,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -16143,7 +16143,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -16327,7 +16327,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -16470,7 +16470,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -16684,7 +16684,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -17092,7 +17092,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -17286,7 +17286,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -17367,7 +17367,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -17594,7 +17594,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -17757,7 +17757,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -17962,7 +17962,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -18205,7 +18205,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -18308,7 +18308,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -18597,7 +18597,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -18839,7 +18839,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -18917,7 +18917,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -19081,7 +19081,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -19366,7 +19366,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [
@@ -19723,7 +19723,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -19866,7 +19866,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -20023,7 +20023,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -20140,7 +20140,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -20356,7 +20356,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -20465,7 +20465,7 @@
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "heex",
       "helpers": [],
@@ -21822,7 +21822,7 @@
         "module": "Slider",
         "replaces": "slider",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-slider",
@@ -21837,7 +21837,7 @@
         "module": "Popover",
         "replaces": "popover",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-popover",
@@ -21852,7 +21852,7 @@
         "module": "Tabs",
         "replaces": "tabs",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-tabs",
@@ -21867,7 +21867,7 @@
         "module": "Radio",
         "replaces": "radio",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-radio",
@@ -21882,7 +21882,7 @@
         "module": "Splitter",
         "replaces": "splitter",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-splitter",
@@ -21897,7 +21897,7 @@
         "module": "FocusTrap",
         "replaces": "focus-trap",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-focus-trap",
@@ -21912,7 +21912,7 @@
         "module": "Drawer",
         "replaces": "drawer",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-drawer",
@@ -21927,7 +21927,7 @@
         "module": "ContextMenu",
         "replaces": "context-menu",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-context-menu",
@@ -21942,7 +21942,7 @@
         "module": "Disclosure",
         "replaces": "disclosure",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-disclosure",
@@ -21957,7 +21957,7 @@
         "module": "ColorPicker",
         "replaces": "color-picker",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-color-picker",
@@ -21972,7 +21972,7 @@
         "module": "HeadlessCombobox",
         "replaces": "headless-combobox",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-headless-combobox",
@@ -21987,7 +21987,7 @@
         "module": "Tooltip",
         "replaces": "tooltip",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-tooltip",
@@ -22002,7 +22002,7 @@
         "module": "Countdown",
         "replaces": "countdown",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-countdown",
@@ -22017,7 +22017,7 @@
         "module": "Toolbar",
         "replaces": "toolbar",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-toolbar",
@@ -22032,7 +22032,7 @@
         "module": "Field",
         "replaces": "field",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-field",
@@ -22047,7 +22047,7 @@
         "module": "Chart",
         "replaces": "chart",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "modules": [
@@ -22088,7 +22088,7 @@
         "module": "Editor",
         "replaces": "editor",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "modules": [
@@ -22363,7 +22363,7 @@
         "module": "AngleSlider",
         "replaces": "angle-slider",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-angle-slider",
@@ -22378,7 +22378,7 @@
         "module": "MaskInput",
         "replaces": "mask-input",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-mask-input",
@@ -22393,7 +22393,7 @@
         "module": "Menubar",
         "replaces": "menubar",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-menubar",
@@ -22408,7 +22408,7 @@
         "module": "FloatingWindow",
         "replaces": "floating-window",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-floating-window",
@@ -22423,7 +22423,7 @@
         "module": "Avatar",
         "replaces": "avatar",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-avatar",
@@ -22438,7 +22438,7 @@
         "module": "Menu",
         "replaces": "menu",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-menu",
@@ -22453,7 +22453,7 @@
         "module": "ToggleGroup",
         "replaces": "toggle-group",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-toggle-group",
@@ -22468,7 +22468,7 @@
         "module": "OverflowList",
         "replaces": "overflow-list",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-overflow-list",
@@ -22483,7 +22483,7 @@
         "module": "RadioGroup",
         "replaces": "radio-group",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-radio-group",
@@ -22498,7 +22498,7 @@
         "module": "Toggle",
         "replaces": "toggle",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-toggle",
@@ -22513,7 +22513,7 @@
         "module": "CheckboxGroup",
         "replaces": "checkbox-group",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-checkbox-group",
@@ -22528,7 +22528,7 @@
         "module": "Calendar",
         "replaces": "calendar",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-calendar",
@@ -22543,7 +22543,7 @@
         "module": "Tree",
         "replaces": "tree",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-tree",
@@ -22558,7 +22558,7 @@
         "module": "ThemeController",
         "replaces": "theme-controller",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-theme-controller",
@@ -22573,7 +22573,7 @@
         "module": "Select",
         "replaces": "select",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-select",
@@ -22588,7 +22588,7 @@
         "module": "Autosize",
         "replaces": "autosize",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-autosize",
@@ -22603,7 +22603,7 @@
         "module": "Scroller",
         "replaces": "scroller",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-scroller",
@@ -22618,7 +22618,7 @@
         "module": "NumberField",
         "replaces": "number-field",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-number-field",
@@ -22633,7 +22633,7 @@
         "module": "Otp",
         "replaces": "otp",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-otp",
@@ -22648,7 +22648,7 @@
         "module": "HeadlessCarousel",
         "replaces": "headless-carousel",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-headless-carousel",
@@ -22663,7 +22663,7 @@
         "module": "NavigationMenu",
         "replaces": "navigation-menu",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-navigation-menu",
@@ -22678,7 +22678,7 @@
         "module": "ScrollArea",
         "replaces": "scroll-area",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-scroll-area",
@@ -22693,7 +22693,7 @@
         "module": "PreviewCard",
         "replaces": "preview-card",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-preview-card",
@@ -22708,7 +22708,7 @@
         "module": "Indeterminate",
         "replaces": "indeterminate",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-indeterminate",
@@ -22723,7 +22723,7 @@
         "module": "RollingNumber",
         "replaces": "rolling-number",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-rolling-number",
@@ -22738,7 +22738,7 @@
         "module": "Popup",
         "replaces": "popup",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-popup",
@@ -22753,7 +22753,7 @@
         "module": "FloatingIndicator",
         "replaces": "floating-indicator",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-floating-indicator",
@@ -22768,7 +22768,7 @@
         "module": "ToastRegion",
         "replaces": "toast-region",
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "js",
       "name": "chelekom-headless-toast-region",
@@ -22785,7 +22785,7 @@
       "description": "chelekom_headless theme — CSS variables and @theme color tokens",
       "extra": {
         "ui_kit": "chelekom_headless",
-        "ui_kit_version": "0.0.11-alpha.1"
+        "ui_kit_version": "0.0.11-alpha.2"
       },
       "format": "css",
       "kind": "theme",
@@ -22795,5 +22795,5 @@
       "site_id": null
     }
   ],
-  "version": "0.0.11-alpha.1"
+  "version": "0.0.11-alpha.2"
 }
