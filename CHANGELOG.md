@@ -46,6 +46,12 @@
   swapping one element for another
 
 ### Bug fixes:
+- `flash_group/1` names each of its flashes after its own `id`: `flash-group-info`,
+  `flash-group-error`, `flash-group-client-error` and `flash-group-server-error` by default. The
+  connection flashes were always `client-error` and `server-error`, the ids Phoenix's layout gives
+  its own flash group, so a group inside a page whose layout has one, or two groups on one page,
+  put each id in the document twice and LiveView logged "Multiple IDs detected". The commands that
+  show and hide them name the new ids; a page that has two groups gives each its own `id`
 - The headless `chart` keeps its styling with `--lib billboard` under a Content Security Policy
   that allows no inline style. The engine wrote billboard's stylesheet into a `<style>` element,
   which a `style-src` without `'unsafe-inline'` or a nonce refuses, so lines filled in black and

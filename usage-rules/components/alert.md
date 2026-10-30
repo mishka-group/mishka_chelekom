@@ -83,7 +83,7 @@ mix mishka.ui.gen.component alert --module MyAppWeb.Components.CustomAlert
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `id` | `:string` | `"flash-group"` | Unique identifier |
+| `id` | `:string` | `"flash-group"` | Unique identifier, and the prefix of each flash's id |
 | `flash` | `:map` | **required** | Map of flash messages |
 | `variant` | `:string` | `"bordered"` | Style variant |
 | `position` | `:string` | `"top_right"` | Position on screen |
@@ -166,7 +166,7 @@ mix mishka.ui.gen.component alert --module MyAppWeb.Components.CustomAlert
 <.flash_group flash={@flash} position="bottom_right" variant="shadow" />
 ```
 
-`flash_group/1` also auto-handles LiveView disconnection/reconnection: shows a client-error flash on disconnect and a server-error flash on server error, both auto-hiding on reconnection.
+`flash_group/1` also auto-handles LiveView disconnection/reconnection: shows a client-error flash on disconnect and a server-error flash on server error, both auto-hiding on reconnection. Each flash in the group is named after the group's `id` (`flash-group-info`, `flash-group-error`, `flash-group-client-error`, `flash-group-server-error` by default), so a group in a page never shares an id with the layout's group or with another one; give each group its own `id`.
 
 ### Helper functions (show/hide)
 
