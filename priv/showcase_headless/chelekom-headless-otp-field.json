@@ -1,0 +1,23 @@
+{
+  "name": "chelekom-headless-otp-field",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "length": 6,
+      "label": "Verification code",
+      "class": "flex gap-2",
+      "input_class": "size-10 rounded-md border border-current/25 bg-transparent text-center text-base outline-hidden focus:border-current/60 focus:ring-2 focus:ring-current/20"
+    }
+  },
+  "examples": [
+    {
+      "label": "Six-digit code",
+      "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"verify-code\" length={6} label=\"Verification code\" class=\"flex gap-2\" input_class=\"size-10 rounded-md border border-current/25 bg-transparent text-center text-base outline-hidden focus:border-current/60 focus:ring-2 focus:ring-current/20\" />"
+    },
+    {
+      "label": "Four characters in two groups",
+      "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"pair-code\" length={4} group={2} separator=\"–\" validation_type=\"alphanumeric\" label=\"Pairing code\" class=\"flex items-center gap-2\" input_class=\"size-10 rounded-md border border-current/25 bg-transparent text-center text-base outline-hidden focus:border-current/60 focus:ring-2 focus:ring-current/20\" separator_class=\"opacity-50\" />"
+    }
+  ]
+}

@@ -146,31 +146,25 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
            "the shipped kit drops something other than these showcase furnishings: #{inspect(stale)}"
   end
 
-  # A HEADLESS COMPONENT SHIPS NO STYLING, so dropped bare a slider, a splitter, a tree, a chart and an
-  # editor draw nothing at all: a track with no height, panels with no size, a tree with no nodes, a
-  # chart with no data, an editor with no edge. Their furnishings give a plain drop neutral Tailwind
-  # utilities and sample content, and the headless bundle has to carry them, as the styled one does.
+  # A HEADLESS COMPONENT SHIPS NO STYLING, so dropped bare a slider, a separator, a meter, a stepper or
+  # a text input draws nothing at all. Their furnishings give a plain drop neutral Tailwind utilities
+  # and sample content, and the headless bundle has to carry them, as the styled one does. Which
+  # components need one is `MishkaChelekom.CmsBundle.HeadlessDropTest`'s question: it renders every
+  # drop and looks for something to see.
   @headless_showcase Path.wildcard("priv/showcase_headless/*.json")
 
-  @drawn_by_furnishing ~w(
-    chelekom-headless-alpha-slider chelekom-headless-hue-slider chelekom-headless-splitter
-    chelekom-headless-tree chelekom-headless-chart chelekom-headless-editor
-  )
-
-  test "a headless component that draws nothing bare arrives with something to draw" do
-    furnished =
-      for path <- @headless_showcase,
-          entry = entry(path),
-          map_size(get_in(entry, ["furnishing", "attrs"]) || %{}) > 0,
-          do: entry["name"]
-
-    assert @drawn_by_furnishing -- furnished == []
+  test "every headless furnishing ships examples, plain utilities and neutral copy" do
+    assert length(@headless_showcase) > 20, "the headless showcase wildcard matched too little"
 
     for path <- @headless_showcase, entry = entry(path) do
       assert length(entry["examples"] || []) >= 2, "#{entry["name"]} ships too few examples"
 
       refute inspect(entry) =~ "style=",
              "#{entry["name"]}: plain Tailwind utilities only, the CMS compiles them from markup"
+
+      for text <- furnishing_text(entry["furnishing"]), is_binary(text) do
+        refute Regex.match?(@shop_copy, text), "#{entry["name"]} drops a shop's copy: #{text}"
+      end
     end
   end
 

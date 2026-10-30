@@ -1,0 +1,52 @@
+{
+  "name": "chelekom-headless-stepper",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "step",
+        "attrs": {
+          "label": "Account",
+          "description": "Your details"
+        },
+        "body": "1"
+      },
+      {
+        "name": "step",
+        "attrs": {
+          "label": "Profile",
+          "description": "About you"
+        },
+        "body": "2"
+      },
+      {
+        "name": "step",
+        "attrs": {
+          "label": "Finish",
+          "description": "All set"
+        },
+        "body": "3"
+      }
+    ],
+    "attrs": {
+      "active": 1,
+      "label": "Steps",
+      "class": "flex w-full max-w-xl gap-4 text-sm",
+      "step_class": "group flex flex-1 items-center gap-2",
+      "indicator_class": "grid size-7 shrink-0 place-items-center rounded-full border border-current/25 text-xs font-medium group-data-[state=current]:border-current group-data-[state=complete]:bg-current/10",
+      "content_class": "flex flex-col",
+      "label_class": "font-medium",
+      "description_class": "text-xs opacity-70"
+    }
+  },
+  "examples": [
+    {
+      "label": "Three steps across, the second current",
+      "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"signup-steps\" label=\"Steps\" active={1} class=\"flex w-full max-w-xl gap-4 text-sm\" step_class=\"group flex flex-1 items-center gap-2\" indicator_class=\"grid size-7 shrink-0 place-items-center rounded-full border border-current/25 text-xs font-medium group-data-[state=current]:border-current group-data-[state=complete]:bg-current/10\" content_class=\"flex flex-col\" label_class=\"font-medium\" description_class=\"text-xs opacity-70\"><:step label=\"Account\" description=\"Your details\">1</:step><:step label=\"Profile\" description=\"About you\">2</:step><:step label=\"Finish\" description=\"All set\">3</:step></.component>"
+    },
+    {
+      "label": "Steps stacked down the page",
+      "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"setup-steps\" label=\"Setup\" active={2} orientation=\"vertical\" class=\"flex flex-col gap-4 text-sm\" step_class=\"group flex flex-1 items-center gap-2\" indicator_class=\"grid size-7 shrink-0 place-items-center rounded-full border border-current/25 text-xs font-medium group-data-[state=current]:border-current group-data-[state=complete]:bg-current/10\" content_class=\"flex flex-col\" label_class=\"font-medium\" description_class=\"text-xs opacity-70\"><:step label=\"Connect\">1</:step><:step label=\"Configure\">2</:step><:step label=\"Publish\">3</:step></.component>"
+    }
+  ]
+}

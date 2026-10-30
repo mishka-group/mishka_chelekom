@@ -1,0 +1,46 @@
+{
+  "name": "chelekom-headless-floating-indicator",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "target",
+        "attrs": {
+          "value": "day"
+        },
+        "body": "Day"
+      },
+      {
+        "name": "target",
+        "attrs": {
+          "value": "week"
+        },
+        "body": "Week"
+      },
+      {
+        "name": "target",
+        "attrs": {
+          "value": "month"
+        },
+        "body": "Month"
+      }
+    ],
+    "attrs": {
+      "active": "day",
+      "label": "Range",
+      "class": "relative inline-flex gap-1 rounded-lg bg-current/10 p-1 text-sm",
+      "indicator_class": "absolute top-0 left-0 rounded-md bg-current/15 transition-all duration-200",
+      "target_class": "relative z-10 rounded-md px-3 py-1.5 font-medium opacity-70 aria-pressed:opacity-100"
+    }
+  },
+  "examples": [
+    {
+      "label": "Day, week or month with a sliding highlight",
+      "source": "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"range-picker\" active=\"week\" label=\"Range\" class=\"relative inline-flex gap-1 rounded-lg bg-current/10 p-1 text-sm\" indicator_class=\"absolute top-0 left-0 rounded-md bg-current/15 transition-all duration-200\" target_class=\"relative z-10 rounded-md px-3 py-1.5 font-medium opacity-70 aria-pressed:opacity-100\"><:target value=\"day\">Day</:target><:target value=\"week\">Week</:target><:target value=\"month\">Month</:target></.component>"
+    },
+    {
+      "label": "Two-way toggle",
+      "source": "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"theme-picker\" active=\"light\" label=\"Theme\" class=\"relative inline-flex gap-1 rounded-lg bg-current/10 p-1 text-sm\" indicator_class=\"absolute top-0 left-0 rounded-md bg-current/15 transition-all duration-200\" target_class=\"relative z-10 rounded-md px-3 py-1.5 font-medium opacity-70 aria-pressed:opacity-100\"><:target value=\"light\">Light</:target><:target value=\"dark\">Dark</:target></.component>"
+    }
+  ]
+}

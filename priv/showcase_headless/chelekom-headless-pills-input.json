@@ -1,0 +1,27 @@
+{
+  "name": "chelekom-headless-pills-input",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "pills",
+        "body": "<span class=\"rounded-md bg-current/10 px-2 py-0.5\">Ada</span><span class=\"rounded-md bg-current/10 px-2 py-0.5\">Grace</span>"
+      }
+    ],
+    "attrs": {
+      "placeholder": "Add a name…",
+      "class": "flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15",
+      "input_class": "min-w-24 flex-1 bg-transparent p-0.5 outline-hidden"
+    }
+  },
+  "examples": [
+    {
+      "label": "Recipients with room for more",
+      "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"recipients\" placeholder=\"Add a name…\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\"><:pills><span class=\"rounded-md bg-current/10 px-2 py-0.5\">Ada</span><span class=\"rounded-md bg-current/10 px-2 py-0.5\">Grace</span></:pills></.component>"
+    },
+    {
+      "label": "Empty field waiting for its first pill",
+      "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"labels\" placeholder=\"Add a label…\" class=\"flex w-full max-w-sm cursor-text flex-wrap items-center gap-1.5 rounded-lg border border-current/20 px-2 py-1.5 text-sm focus-within:ring-2 focus-within:ring-current/15\" input_class=\"min-w-24 flex-1 bg-transparent p-0.5 outline-hidden\" />"
+    }
+  ]
+}

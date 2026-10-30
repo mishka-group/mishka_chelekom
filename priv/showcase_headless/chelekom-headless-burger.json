@@ -1,0 +1,22 @@
+{
+  "name": "chelekom-headless-burger",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "label": "Open menu",
+      "class": "relative inline-flex size-9 items-center justify-center rounded-md hover:bg-current/10 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45",
+      "line_class": "absolute h-0.5 w-5 rounded-full bg-current transition-all duration-200 first:-translate-y-1.5 last:translate-y-1.5"
+    }
+  },
+  "examples": [
+    {
+      "label": "Menu button, closed",
+      "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button\" label=\"Open menu\" controls=\"site-menu\" class=\"relative inline-flex size-9 items-center justify-center rounded-md hover:bg-current/10 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45\" line_class=\"absolute h-0.5 w-5 rounded-full bg-current transition-all duration-200 first:-translate-y-1.5 last:translate-y-1.5\" />"
+    },
+    {
+      "label": "Menu button, open",
+      "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button-open\" label=\"Close menu\" opened controls=\"site-menu\" class=\"relative inline-flex size-9 items-center justify-center rounded-md hover:bg-current/10 [&[data-opened]_[data-part=line]:nth-child(1)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(1)]:rotate-45 [&[data-opened]_[data-part=line]:nth-child(2)]:opacity-0 [&[data-opened]_[data-part=line]:nth-child(3)]:translate-y-0 [&[data-opened]_[data-part=line]:nth-child(3)]:-rotate-45\" line_class=\"absolute h-0.5 w-5 rounded-full bg-current transition-all duration-200 first:-translate-y-1.5 last:translate-y-1.5\" />"
+    }
+  ]
+}

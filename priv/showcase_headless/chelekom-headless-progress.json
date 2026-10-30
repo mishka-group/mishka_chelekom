@@ -1,0 +1,27 @@
+{
+  "name": "chelekom-headless-progress",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "value": 40,
+      "label": "Uploading files",
+      "show_value": true,
+      "class": "grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm",
+      "label_class": "font-medium",
+      "value_class": "text-right tabular-nums opacity-70",
+      "track_class": "col-span-2 h-2 overflow-hidden rounded-full bg-current/15",
+      "indicator_class": "rounded-full bg-current transition-[width] duration-500"
+    }
+  },
+  "examples": [
+    {
+      "label": "Upload with a percentage readout",
+      "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"upload-progress\" value={40} label=\"Uploading files\" show_value class=\"grid w-full max-w-sm grid-cols-2 gap-y-2 text-sm\" label_class=\"font-medium\" value_class=\"text-right tabular-nums opacity-70\" track_class=\"col-span-2 h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"rounded-full bg-current transition-[width] duration-500\" />"
+    },
+    {
+      "label": "Loading bar with no known end",
+      "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"loading-progress\" label=\"Loading\" class=\"grid w-full max-w-sm gap-y-2 text-sm\" label_class=\"font-medium\" track_class=\"h-2 overflow-hidden rounded-full bg-current/15\" indicator_class=\"h-full w-1/3 animate-pulse rounded-full bg-current\" />"
+    }
+  ]
+}

@@ -293,6 +293,21 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
     get_in(component, ["extra", "demo_examples"]) || []
   end
 
+  @doc """
+  Compiles every component of a decoded bundle into a loaded module, as `run/2` does before it
+  renders anything, so `render/2` can dispatch to them.
+  """
+  @spec compile_bundle([map()]) :: :ok
+  def compile_bundle(components) when is_list(components), do: compile_bundle_modules(components)
+
+  @doc """
+  Renders one HEEx snippet through the runtime dispatcher, exactly as `run/2` renders each example,
+  and answers the HTML it drew. `assigns` has string keys, as an example's do.
+  """
+  @spec render(String.t(), map()) :: {:ok, String.t()} | {:error, String.t()}
+  def render(source, assigns \\ %{}) when is_binary(source),
+    do: render_html(%{"source" => source, "assigns" => assigns})
+
   ## ─── private ───────────────────────────────────────────────────────
 
   defp default_bundle_path(kit_name), do: MishkaChelekom.CmsBundle.Location.bundle!(kit_name)
@@ -568,7 +583,14 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
       )
   }
 
-  defp render_one(%{"source" => source, "assigns" => raw_assigns}) do
+  defp render_one(example) do
+    case render_html(example) do
+      {:ok, _html} -> :ok
+      {:error, reason} -> {:error, reason}
+    end
+  end
+
+  defp render_html(%{"source" => source, "assigns" => raw_assigns}) do
     assigns =
       raw_assigns
       |> atomize_assigns()
@@ -611,9 +633,7 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
           ]
 
           {rendered, _} = Code.eval_quoted(compiled, bindings, __ENV__)
-          _html = rendered |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()
-
-          :ok
+          {:ok, rendered |> Phoenix.HTML.Safe.to_iodata() |> IO.iodata_to_binary()}
         rescue
           e -> {:error, format_error(e, __STACKTRACE__)}
         catch
@@ -622,8 +642,8 @@ defmodule MishkaChelekom.Test.Runtime.DemoHarness do
       end)
 
     case result do
-      :ok ->
-        :ok
+      {:ok, html} ->
+        {:ok, html}
 
       {:error, reason} when is_binary(reason) ->
         # If captured stderr is more informative (e.g. "undefined
