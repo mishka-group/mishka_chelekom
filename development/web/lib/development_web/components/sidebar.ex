@@ -117,9 +117,15 @@ defmodule DevelopmentWeb.Components.Sidebar do
       phx-remove={hide_sidebar(@id, @hide_position)}
       data-pb-open={show_sidebar(@id, @hide_position)}
       data-pb-close={JS.exec("phx-remove", to: "##{@id}")}
+      data-open-focus={
+        JS.set_attribute({"data-sidebar-opener", @id}, to: ":focus")
+        |> JS.focus_first(to: "##{@id}")
+      }
+      data-close-focus={JS.focus(to: opener(@id))}
       role="complementary"
       class={[
-        "fixed h-screen transition-transform z-10 overflow-x-hidden",
+        "fixed h-screen transition-[transform,translate,scale,rotate,visibility] z-10 overflow-x-hidden",
+        @hide_position in ["left", "right"] && "max-md:[&:not(.translate-none)]:invisible",
         border_class(@border, @position, @variant),
         hide_position(@hide_position),
         color_variant(@variant, @color),
@@ -210,7 +216,15 @@ defmodule DevelopmentWeb.Components.Sidebar do
         js
 
       classes ->
-        JS.remove_class(js, classes, to: "##{id}") |> JS.add_class("translate-none", to: "##{id}")
+        js
+        |> JS.remove_class(classes, to: "##{id}")
+        |> JS.add_class("translate-none", to: "##{id}")
+        # Marks the focused element, which `hide_sidebar/3` gives focus back to, and focuses the
+        # first focusable element inside. `:focus` rather than the default source element,
+        # because opened through `data-pb-open` the source is the sidebar. Before `data-open` is
+        # set, so only a sidebar that was closed runs it: an open one has focus inside.
+        |> JS.exec("data-open-focus", to: "##{id}:not([data-open])")
+        |> JS.set_attribute({"data-open", ""}, to: "##{id}")
     end
   end
 
@@ -242,9 +256,21 @@ defmodule DevelopmentWeb.Components.Sidebar do
         js
 
       classes ->
-        JS.remove_class(js, "translate-none", to: "##{id}") |> JS.add_class(classes, to: "##{id}")
+        js
+        # Before `data-open` is removed, so only a sidebar that was open runs it, and only while
+        # focus is inside it, which it could not keep once hidden. Focus a click outside moved
+        # elsewhere stays there.
+        |> JS.exec("data-close-focus", to: "##{id}[data-open]:focus-within")
+        # Either way the opener is forgotten; only an open sidebar has one.
+        |> JS.remove_attribute("data-sidebar-opener", to: opener(id))
+        |> JS.remove_attribute("data-open", to: "##{id}")
+        |> JS.remove_class("translate-none", to: "##{id}")
+        |> JS.add_class(classes, to: "##{id}")
     end
   end
+
+  # The element that had focus when the sidebar `id` opened, which `show_sidebar/3` marks.
+  defp opener(id), do: "[data-sidebar-opener=\"#{id}\"]"
 
   defp hide_position("left"), do: "-translate-x-full md:translate-x-0"
   defp hide_position("right"), do: "translate-x-full md:translate-x-0"

@@ -22,7 +22,7 @@
       ],
       size: ["extra_small", "small", "medium", "large", "extra_large"],
       only: ["sidebar"],
-      helpers: [],
+      helpers: [hide_sidebar: 2, hide_sidebar: 3, show_sidebar: 2, show_sidebar: 3],
       module: ""
     ],
     optional: [],
