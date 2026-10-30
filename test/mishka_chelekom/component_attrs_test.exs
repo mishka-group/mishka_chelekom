@@ -108,6 +108,26 @@ defmodule MishkaChelekom.ComponentAttrsTest do
      MapSet.new(classes) |> MapSet.delete(nil)}
   end
 
+  # `{name, arity}` of every public function the generated module defines, one per arity a default
+  # argument gives it.
+  defp public_functions(path) do
+    {_ast, functions} =
+      Macro.prewalk(source(path), [], fn
+        {:def, _meta, [head | _body]} = node, acc -> {node, arities(head) ++ acc}
+        node, acc -> {node, acc}
+      end)
+
+    functions |> Enum.uniq() |> Enum.sort()
+  end
+
+  defp arities({:when, _meta, [head | _guards]}), do: arities(head)
+
+  defp arities({name, _meta, args}) do
+    args = args || []
+    defaults = Enum.count(args, &match?({:\\, _meta, _default}, &1))
+    for arity <- (length(args) - defaults)..length(args), do: {name, arity}
+  end
+
   # Pairs of clauses of one function that differ in one size.
   defp size_pairs(path) do
     clauses = helpers(path)
@@ -252,6 +272,27 @@ defmodule MishkaChelekom.ComponentAttrsTest do
             do: "#{Path.basename(path)}: #{name}"
 
       assert shadowed == []
+    end
+  end
+
+  describe "catalog" do
+    # `mix mishka.ui.gen.components --import` imports the components a catalog's `only` names, and
+    # with `--helpers` the functions its `helpers` lists as well, so a public function the catalog
+    # leaves out is one the caller has to call by its full module name. Only the styled catalogs:
+    # the import list reads no other.
+    test "a catalog's helpers are the public functions its module defines besides the components" do
+      mismatched =
+        for path <- @catalogs,
+            name = Path.basename(path, ".exs"),
+            args = Config.Reader.read!(path)[String.to_atom(name)][:args],
+            components = Enum.map(args[:only], &{String.to_atom(&1), 1}),
+            defined = public_functions(Path.rootname(path) <> ".eex") -- components,
+            helpers = Enum.sort(args[:helpers] || []),
+            defined != helpers,
+            do: "#{name}: defines #{inspect(defined)}, the catalog lists #{inspect(helpers)}"
+
+      assert length(@catalogs) > 50
+      assert mismatched == []
     end
   end
 

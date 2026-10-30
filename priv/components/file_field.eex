@@ -366,7 +366,7 @@ defmodule <%= @module %> do
     """
   end
 
-  def convert_to_mb(size_in_bytes) when is_integer(size_in_bytes) do
+  defp convert_to_mb(size_in_bytes) when is_integer(size_in_bytes) do
     Float.round(size_in_bytes / (1024 * 1024), 2)
   end
 

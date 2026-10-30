@@ -30,6 +30,7 @@ mix mishka.ui.gen.component input_field --module MyAppWeb.Components.CustomInput
 |-----------|-------------|
 | `input/1` | Generic input element |
 | `error/1` | Error message display |
+| `label/1` | A field's label (`for`, inner block); imported with `--helpers` |
 
 ## Attributes
 
