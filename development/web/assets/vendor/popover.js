@@ -14,26 +14,38 @@ const FOCUSABLE =
   'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
 const PAD = 8;
 
-let scrollLocks = 0;
-let savedOverflow = "";
-let savedPadRight = "";
-function lockScrollGlobal() {
-  if (scrollLocks === 0) {
-    const body = document.body;
+// Page scroll lock, counted on <body> itself. The headless drawer (drawer.js), dialog
+// (focus_trap.js) and popover (popover.js) each carry this same block and find the count under one
+// registered symbol, so every modal drawer, dialog and popover locking that body shares it: two
+// drawers, a drawer over a dialog, or a popover over either keep the page locked until the last of
+// them closes, in whatever order they close. The first lock saves the body's inline overflow and
+// padding-right, then pads it by the scrollbar's width so neither the page nor a fixed popup shifts
+// when the scrollbar goes; the last unlock restores both.
+const SCROLL_LOCK = Symbol.for("mishka_chelekom.scroll_lock");
+
+function lockBodyScroll(body) {
+  let lock = body[SCROLL_LOCK];
+  if (!lock) {
     const sbw = window.innerWidth - document.documentElement.clientWidth;
-    savedOverflow = body.style.overflow;
-    savedPadRight = body.style.paddingRight;
+    lock = { count: 0, overflow: body.style.overflow, paddingRight: body.style.paddingRight };
+    body[SCROLL_LOCK] = lock;
     body.style.overflow = "hidden";
-    if (sbw > 0) body.style.paddingRight = `${(parseFloat(getComputedStyle(body).paddingRight) || 0) + sbw}px`;
+    if (sbw > 0) {
+      const cur = parseFloat(getComputedStyle(body).paddingRight) || 0;
+      body.style.paddingRight = `${cur + sbw}px`;
+    }
   }
-  scrollLocks += 1;
+  lock.count += 1;
 }
-function unlockScrollGlobal() {
-  scrollLocks = Math.max(0, scrollLocks - 1);
-  if (scrollLocks === 0) {
-    document.body.style.overflow = savedOverflow;
-    document.body.style.paddingRight = savedPadRight;
-  }
+
+function unlockBodyScroll(body) {
+  const lock = body[SCROLL_LOCK];
+  if (!lock) return;
+  lock.count -= 1;
+  if (lock.count > 0) return;
+  delete body[SCROLL_LOCK];
+  body.style.overflow = lock.overflow;
+  body.style.paddingRight = lock.paddingRight;
 }
 
 const Popover = {
@@ -121,9 +133,10 @@ const Popover = {
       this.trigger.toggleAttribute("data-popup-open", true);
       this.trigger.toggleAttribute("data-pressed", true);
     }
-    if (this.modal === "true") {
-      lockScrollGlobal();
-      this._locked = true;
+    // Unlocks, in teardown, the body it locked, even when document.body has been replaced since.
+    if (this.modal === "true" && !this._lockedBody) {
+      this._lockedBody = document.body;
+      lockBodyScroll(this._lockedBody);
     }
     document.addEventListener("keydown", this.boundKeydown, true);
     window.addEventListener("scroll", this.boundReposition, true);
@@ -162,9 +175,9 @@ const Popover = {
     document.removeEventListener("pointerdown", this.boundOutside, true);
     window.removeEventListener("scroll", this.boundReposition, true);
     window.removeEventListener("resize", this.boundReposition);
-    if (this._locked) {
-      unlockScrollGlobal();
-      this._locked = false;
+    if (this._lockedBody) {
+      unlockBodyScroll(this._lockedBody);
+      this._lockedBody = null;
     }
   },
 
