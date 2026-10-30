@@ -1,7 +1,7 @@
 [
   stepper: [
     name: "stepper",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/headless/stepper",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/",
     args: [type: ["stepper"], only: ["stepper"], helpers: [], module: ""],

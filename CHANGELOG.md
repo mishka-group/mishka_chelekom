@@ -46,6 +46,12 @@
   swapping one element for another
 
 ### Bug fixes:
+- The headless kit spells each category one way, and the styled kit's way where it has one. Its
+  twelve navigation components wrote `navigation` where the styled kit writes `navigations`, and
+  four of its twelve data display components wrote `data-display`. A CMS groups its palette and its
+  installer's picker by category, so each was drawn as two headings holding half the components.
+  They now write `navigations` and `data display`, the Mob components that take their category
+  from the headless ones follow, and a test fails on two spellings of one category in any layer
 - The headless `chart` keeps its styling with `--lib billboard` under a Content Security Policy
   that allows no inline style. The engine wrote billboard's stylesheet into a `<style>` element,
   which a `style-src` without `'unsafe-inline'` or a nonce refuses, so lines filled in black and

@@ -1,7 +1,7 @@
 [
   tabs: [
     name: "tabs",
-    category: "navigation",
+    category: "navigations",
     doc_url: "https://mishka.tools/chelekom/docs/headless/tabs",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/",
     args: [type: ["tabs"], only: ["tabs"], helpers: [], module: ""],

@@ -1,7 +1,7 @@
 [
   table: [
     name: "table",
-    category: "data-display",
+    category: "data display",
     doc_url: "https://mishka.tools/chelekom/docs/headless/table",
     spec_url: "https://www.w3.org/WAI/ARIA/apg/patterns/table/",
     args: [type: ["table"], only: ["table"], helpers: [], module: ""],

@@ -1,7 +1,7 @@
 [
   countdown: [
     name: "countdown",
-    category: "data-display",
+    category: "data display",
     doc_url: "https://mishka.tools/chelekom/docs/headless/countdown",
     spec_url: "https://www.w3.org/TR/wai-aria-1.2/#timer",
     args: [type: ["countdown"], only: ["countdown"], helpers: [], module: ""],
