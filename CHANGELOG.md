@@ -46,6 +46,12 @@
   swapping one element for another
 
 ### Bug fixes:
+- `flash_group/1` names each of its flashes after its own `id`: `flash-group-info`,
+  `flash-group-error`, `flash-group-client-error` and `flash-group-server-error` by default. The
+  connection flashes were always `client-error` and `server-error`, the ids Phoenix's layout gives
+  its own flash group, so a group inside a page whose layout has one, or two groups on one page,
+  put each id in the document twice and LiveView logged "Multiple IDs detected". The commands that
+  show and hide them name the new ids; a page that has two groups gives each its own `id`
 - The headless kit spells each category one way, and the styled kit's way where it has one. Its
   twelve navigation components wrote `navigation` where the styled kit writes `navigations`, and
   four of its twelve data display components wrote `data-display`. A CMS groups its palette and its
