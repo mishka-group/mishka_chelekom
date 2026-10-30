@@ -195,8 +195,10 @@ const Drawer = {
   },
 
   close() {
+    // Read before setState makes the popup inert, which drops focus inside it to <body>.
+    const focusInside = !!this.popup && this.popup.contains(document.activeElement);
     this.setState(false);
-    this.deactivate();
+    this.deactivate(focusInside);
     indent.setOpen(this.id(), false, this.provider);
     this.emitOpenChange(false);
   },
@@ -207,6 +209,9 @@ const Drawer = {
     if (this.popup) {
       this.popup.toggleAttribute("data-open", open);
       this.popup.toggleAttribute("data-closed", !open);
+      // A closed popup is only translated off-screen; inert keeps its controls out of the Tab
+      // order and away from screen readers. The template renders it the same way.
+      this.popup.toggleAttribute("inert", !open);
       if (open) {
         this.popup.setAttribute("data-starting-style", "");
         requestAnimationFrame(() =>
@@ -244,12 +249,14 @@ const Drawer = {
     }
   },
 
-  deactivate() {
+  // focusInside: focus was in the popup when it closed. A non-modal drawer gives it back too,
+  // since the now-inert popup can no longer hold it.
+  deactivate(focusInside = false) {
     if (!this.active) return;
     this.active = false;
     document.removeEventListener("keydown", this.boundKeydown, true);
     this.unlockScroll();
-    if (this.trapFocus && this.opener && this.opener.focus) this.opener.focus();
+    if ((this.trapFocus || focusInside) && this.opener && this.opener.focus) this.opener.focus();
   },
 
   // Lock background scroll for modal drawers, through the body's shared count (see
