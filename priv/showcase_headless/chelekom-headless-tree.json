@@ -6,6 +6,10 @@
     "attrs": {
       "nodes": [
         {
+          ":label": "Overview",
+          ":value": "overview"
+        },
+        {
           ":label": "Getting started",
           ":value": "start",
           ":children": [

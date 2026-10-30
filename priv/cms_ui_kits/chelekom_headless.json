@@ -13591,6 +13591,10 @@
             ],
             "nodes": [
               {
+                ":label": "Overview",
+                ":value": "overview"
+              },
+              {
                 ":children": [
                   {
                     ":label": "Installation",
