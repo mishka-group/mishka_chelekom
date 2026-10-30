@@ -177,6 +177,7 @@ defmodule DevelopmentWeb.Components.Headless.Drawer do
           tabindex="-1"
           data-open={@open}
           data-closed={!@open}
+          inert={!@open}
         >
           <div
             :if={@handle != []}

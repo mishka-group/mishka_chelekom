@@ -279,27 +279,28 @@ defmodule DevelopmentWeb.BorderColourTest do
     html
     |> doc()
     |> LazyHTML.to_tree()
-    |> Enum.flat_map(fn root ->
-      walk(root, [], fn element, ancestors ->
-        effective = effective(element, ancestors)
-
-        coloured =
-          for {key, utility} <- effective,
-              colour?(utility),
-              into: MapSet.new(),
-              do: {family(utility), key}
-
-        own =
-          for {key, utility} <- effective,
-              width?(utility),
-              not zero?(utility),
-              not MapSet.member?(coloured, {family(utility), key}),
-              do: Enum.join(key ++ [utility], ":")
-
-        own ++ aimed_widths(element)
-      end)
-    end)
+    |> Enum.flat_map(fn root -> walk(root, [], &bare_widths/2) end)
     |> Enum.uniq()
+  end
+
+  # The widths one element draws, on itself or aimed at its descendants, with no colour for them.
+  defp bare_widths(element, ancestors) do
+    effective = effective(element, ancestors)
+
+    coloured =
+      for {key, utility} <- effective,
+          colour?(utility),
+          into: MapSet.new(),
+          do: {family(utility), key}
+
+    own =
+      for {key, utility} <- effective,
+          width?(utility),
+          not zero?(utility),
+          not MapSet.member?(coloured, {family(utility), key}),
+          do: Enum.join(key ++ [utility], ":")
+
+    own ++ aimed_widths(element)
   end
 
   test "no component draws a border or divider without a colour" do

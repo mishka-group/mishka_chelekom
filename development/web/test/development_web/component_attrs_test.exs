@@ -34,8 +34,8 @@ defmodule DevelopmentWeb.ComponentAttrsTest do
     RangeField,
     SearchField,
     TelField,
-    TextField,
     TextareaField,
+    TextField,
     ToggleField,
     UrlField
   }

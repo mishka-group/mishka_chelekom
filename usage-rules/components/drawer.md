@@ -26,34 +26,104 @@ mix mishka.ui.gen.component drawer --module MyAppWeb.Components.CustomDrawer
 
 | Attribute | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `id` | `:string` | **required** | Unique identifier |
-| `variant` | `:string` | `"base"` | Style variant — see Variants |
-| `color` | `:string` | `"base"` | Color theme — see Colors |
-| `size` | `:string` | `"medium"` | Drawer width/height — see Sizes |
+| `id` | `:string` | **required** | Unique identifier; the helpers take it |
+| `title` | `:string` | `nil` | Title in the header, and the dialog's name; the `header` slot is used when it is `nil` |
+| `description` | `:string` | `nil` | What screen readers announce as the drawer's description; the drawer has none when `nil` |
 | `position` | `:string` | `"left"` | `left`, `right`, `top`, `bottom` |
-| `rounded` | `:string` | `"none"` | Border radius |
-| `border` | `:string` | `"none"` | Border style |
-| `padding` | `:string` | `"medium"` | Content padding |
-| `show` | `:boolean` | `false` | Initial visibility |
-| `hide_close` | `:boolean` | `false` | Hide close button |
-| `title_class` | `:string` | `nil` | Header title styling |
-| `class` | `:any` | `nil` | Custom CSS class |
+| `variant` | `:string` | `"base"` | Style variant — see Variants |
+| `color` | `:string` | `"natural"` | Color theme — see Colors |
+| `size` | `:string` | `"large"` | Width (`left`, `right`) or minimum height (`top`, `bottom`) — see Sizes |
+| `border` | `:string` | `"extra_small"` | Border on the inner edge (`base`, `outline` and `bordered` only) |
+| `show` | `:boolean` | `false` | Open the drawer when it mounts |
+| `on_show` | `JS` | `%JS{}` | Commands run before the drawer opens on mount (`show`) |
+| `on_hide` | `JS` | `%JS{}` | Commands run before Escape or the close button closes it |
+| `on_hide_away` | `JS` | `%JS{}` | Commands run before a click outside closes it |
+| `class` | `:any` | `nil` | Class of the drawer root |
+| `title_class` | `:string` | `nil` | Class of the title (default `text-lg font-semibold`) |
+| `wrapper_class` | `:string` | `nil` | Class of the panel |
+| `content_class` | `:string` | `nil` | Class of the content |
+| `close_class` | `:string` | `nil` | Class of the close button |
+| `overlay_class` | `:string` | `nil` | Class of the backdrop |
+
+Global attributes are passed to the root. The close button is always rendered.
+
+The title or the `header` slot names the dialog (`aria-labelledby`). A drawer with neither has no
+name unless you pass one with `aria-label`, a global attribute the root takes:
+`<.drawer id="filters" aria-label="Filters">`.
 
 ## Slots
 
-- `header` — custom header content
+- `header` — header content, used when `title` is not set
 - `inner_block` — main drawer content
 
 ## Helper Functions
 
-Show/hide a drawer programmatically (both accept an optional leading `%JS{}` and optional trailing `options`):
+Both take the drawer's `position`, which decides which way it slides:
 
 ```elixir
-show_drawer(js \\ %JS{}, id)
-show_drawer(js \\ %JS{}, id, options)
+show_drawer(js \\ %JS{}, id, position)
+hide_drawer(js \\ %JS{}, id, position)
+```
 
-hide_drawer(js \\ %JS{}, id)
-hide_drawer(js \\ %JS{}, id, options)
+`hide_drawer/2,3` called directly does not run `on_hide`.
+
+## Keyboard and Focus
+
+- Escape, a click outside the panel and the close button close the drawer.
+- A closed drawer is `inert`: it is only moved off-screen, and `inert` keeps its controls out of
+  the Tab order and away from screen readers.
+- Opening moves focus to the first focusable element in the drawer (the close button), and Tab
+  stays inside the drawer while it is open.
+- Closing gives focus back to the element that had it when the drawer opened. A drawer opened
+  while nothing had focus (with `show`, or from a button in Safari, which does not focus a clicked
+  button) moves no focus when it closes.
+- Opening locks the page's scroll: `overflow-hidden` on `<body>`, and `scrollbar-gutter: stable` on
+  `<html>`, so the page keeps the room its scrollbar took and its content does not shift. On a page
+  that does not scroll, a classic scrollbar's gutter appears while it is locked.
+- Closing unlocks it unless another drawer or modal is still open: the close runs the lock of
+  every other open element with `data-open-scroll` again, and the modal carries the same
+  attribute, so the page stays locked until the last of them closes.
+- Opening a drawer that is already open, or closing one that is already closed, leaves focus and
+  the page's scroll alone, so a closed drawer never takes focus from another open dialog or unlocks
+  the scroll under it.
+
+## The Trigger
+
+The drawer cannot reach the button that opens it, so the button's state is yours to keep. Give it
+`aria-haspopup="dialog"`, `aria-controls` with the drawer's id, and an `aria-expanded` that the
+open sets to `"true"` and every way of closing sets back to `"false"`: `on_hide` runs on Escape and
+the close button, `on_hide_away` on a click outside, and a `hide_drawer/3` you call yourself runs
+neither, so chain the same command to it.
+
+```heex
+<.button
+  id="cart-trigger"
+  aria-haspopup="dialog"
+  aria-controls="cart-drawer"
+  aria-expanded="false"
+  phx-click={
+    show_drawer("cart-drawer", "right")
+    |> JS.set_attribute({"aria-expanded", "true"}, to: "#cart-trigger")
+  }
+>
+  Cart
+</.button>
+
+<.drawer
+  id="cart-drawer"
+  position="right"
+  title="Cart"
+  on_hide={JS.set_attribute({"aria-expanded", "false"}, to: "#cart-trigger")}
+  on_hide_away={JS.set_attribute({"aria-expanded", "false"}, to: "#cart-trigger")}
+>
+  <p>Content...</p>
+  <.button phx-click={
+    hide_drawer("cart-drawer", "right")
+    |> JS.set_attribute({"aria-expanded", "false"}, to: "#cart-trigger")
+  }>
+    Keep shopping
+  </.button>
+</.drawer>
 ```
 
 ## Available Options
@@ -61,14 +131,17 @@ hide_drawer(js \\ %JS{}, id, options)
 - **Variants**: `base`, `default`, `outline`, `transparent`, `bordered`, `gradient`
 - **Colors**: `base`, `natural`, `white`, `dark`, `primary`, `secondary`, `success`, `warning`, `danger`, `info`, `silver`, `misc`, `dawn`
 - **Sizes**: `extra_small`, `small`, `medium`, `large`, `extra_large`
+- **Borders**: `extra_small`, `small`, `medium`, `large`, `extra_large`
 - **Position**: `left`, `right`, `top`, `bottom`
+
+The `base` variant ignores `color`. `white` and `dark` are colors of `default` and `bordered`.
 
 ## Usage Examples
 
 ### Positions
 
 ```heex
-<.button phx-click={show_drawer("left-drawer")}>Open Drawer</.button>
+<.button phx-click={show_drawer("left-drawer", "left")}>Open Drawer</.button>
 
 <.drawer id="left-drawer">
   <:header>Navigation</:header>
@@ -111,15 +184,12 @@ hide_drawer(js \\ %JS{}, id, options)
 </.drawer>
 ```
 
-### Without Close Button
-
-Use `hide_close={true}` and close manually via `hide_drawer/1,2`:
+### Closing From Inside
 
 ```heex
-<.drawer id="no-close-drawer" hide_close={true}>
-  <:header>Manual Close Only</:header>
+<.drawer id="confirm-drawer" position="bottom" title="Discard changes?">
   <p>Content...</p>
-  <.button phx-click={hide_drawer("no-close-drawer")}>Close</.button>
+  <.button phx-click={hide_drawer("confirm-drawer", "bottom")}>Keep editing</.button>
 </.drawer>
 ```
 
@@ -128,14 +198,14 @@ Use `hide_close={true}` and close manually via `hide_drawer/1,2`:
 ### Mobile Navigation
 
 ```heex
-<.button phx-click={show_drawer("mobile-nav")} class="md:hidden">
+<.button phx-click={show_drawer("mobile-nav", "left")} class="md:hidden">
   <.icon name="hero-bars-3" />
 </.button>
 
 <.drawer id="mobile-nav" position="left" size="large">
   <:header>
     <div class="flex items-center gap-2">
-      <img src="/logo.svg" class="h-8" />
+      <img src="/logo.svg" alt="" class="h-8" />
       <span class="font-bold">MyApp</span>
     </div>
   </:header>
@@ -150,7 +220,7 @@ Use `hide_close={true}` and close manually via `hide_drawer/1,2`:
 ### Shopping Cart
 
 ```heex
-<.button phx-click={show_drawer("cart-drawer")} class="relative">
+<.button phx-click={show_drawer("cart-drawer", "right")} class="relative">
   <.icon name="hero-shopping-cart" />
   <.badge :if={@cart_count > 0} class="absolute -top-2 -right-2">{@cart_count}</.badge>
 </.button>
@@ -159,7 +229,7 @@ Use `hide_close={true}` and close manually via `hide_drawer/1,2`:
   <:header>Shopping Cart ({@cart_count})</:header>
   <div class="space-y-4">
     <div :for={item <- @cart_items} class="flex gap-4 border-b pb-4">
-      <img src={item.image} class="w-16 h-16 object-cover rounded-sm" />
+      <img src={item.image} alt={item.name} class="w-16 h-16 object-cover rounded-sm" />
       <div class="flex-1">
         <p class="font-medium">{item.name}</p>
         <p class="text-gray-500">${item.price}</p>
@@ -179,7 +249,7 @@ Use `hide_close={true}` and close manually via `hide_drawer/1,2`:
 ### Filter Panel
 
 ```heex
-<.button phx-click={show_drawer("filters")}>
+<.button phx-click={show_drawer("filters", "right")}>
   <.icon name="hero-funnel" /> Filters
 </.button>
 
