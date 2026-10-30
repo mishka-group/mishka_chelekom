@@ -131,7 +131,15 @@ defmodule <%= @module %> do
         |> JS.focus_first(to: "##{@id}-container")
       }
       data-close-focus={JS.pop_focus()}
-      data-close-scroll={JS.remove_class("overflow-hidden", to: "body")}
+      <%!-- Every open modal or drawer puts the same lock on `<body>`, so a close takes it off and
+            runs `data-open-scroll` again on every other element that has it and is open
+            (`data-open`): the page stays locked until the last of them closes, whichever closes
+            first. The drawer carries the same two attributes. --%>
+      data-open-scroll={JS.add_class("overflow-hidden", to: "body")}
+      data-close-scroll={
+        JS.remove_class("overflow-hidden", to: "body")
+        |> JS.exec("data-open-scroll", to: "[data-open-scroll][data-open]:not(##{@id})")
+      }
       class={["relative z-50 hidden", @class]}
     >
       <div
@@ -682,7 +690,8 @@ defmodule <%= @module %> do
       transition: {"transition-all transform ease-out duration-300", "opacity-0", "opacity-100"}
     )
     |> transition_show("##{id}-container")
-    |> JS.add_class("overflow-hidden", to: "body")
+    # Locks the page's scroll.
+    |> JS.exec("data-open-scroll", to: "##{id}:not([data-open])")
     # Pushes the focused element (`<body>` when nothing has focus), which `hide_modal/2` pops to
     # give focus back, and focuses the first element of the focus wrap, which holds the close
     # button. A selector rather than the default source element, because opened through
@@ -701,7 +710,7 @@ defmodule <%= @module %> do
     |> transition_hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     # Before `data-open` is removed, so only a modal that was open gives focus back and unlocks
-    # the page's scroll.
+    # the page's scroll, which stays locked while another modal or drawer is open.
     |> JS.exec("data-close-focus", to: "##{id}[data-open]")
     |> JS.exec("data-close-scroll", to: "##{id}[data-open]")
     |> JS.remove_attribute("data-open", to: "##{id}")

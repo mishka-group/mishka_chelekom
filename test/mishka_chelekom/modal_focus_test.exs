@@ -88,28 +88,28 @@ defmodule MishkaChelekom.ModalFocusTest do
     }
   end
 
-  # `{kind, args, gate}` for each command a `JS` value runs. A `JS.exec/2` is replaced by the
+  # `{kind, args, gates}` for each command a `JS` value runs. A `JS.exec/2` is replaced by the
   # commands of the root attribute it names, each tagged with the exec's `to:`, the selector that
-  # decides whether they run at all. A `JS` value and an attribute both decode from the JSON the
-  # page carries, so either way the args have string keys.
+  # decides whether they run at all, after the gates of the execs around it. A `JS` value and an
+  # attribute both decode from the JSON the page carries, so either way the args have string keys.
   defp commands(%JS{} = js, root) do
     js
     |> Phoenix.HTML.Safe.to_iodata()
     |> IO.iodata_to_binary()
-    |> commands(root, nil)
+    |> commands(root, [])
   end
 
-  defp commands(encoded, root, gate) do
+  defp commands(encoded, root, gates) do
     encoded
     |> unescape()
     |> Jason.decode!()
     |> Enum.flat_map(fn
       ["exec", %{"attr" => attr, "to" => to}] ->
         assert [_match, value] = Regex.run(~r/\s#{attr}="([^"]*)"/, root)
-        commands(value, root, to)
+        commands(value, root, gates ++ [to])
 
       [kind, args] ->
-        [{kind, args, gate}]
+        [{kind, args, gates}]
     end)
   end
 
@@ -148,9 +148,9 @@ defmodule MishkaChelekom.ModalFocusTest do
     target = "##{@id}"
 
     {state, ran, page} =
-      Enum.reduce(commands, {state, [], page}, fn {kind, args, gate}, {state, ran, page} ->
+      Enum.reduce(commands, {state, [], page}, fn {kind, args, gates}, {state, ran, page} ->
         cond do
-          not gate?(gate, state) ->
+          not Enum.all?(gates, &gate?(&1, state)) ->
             {state, ran, page}
 
           kind in ["push_focus", "focus_first", "pop_focus"] ->
@@ -250,12 +250,16 @@ defmodule MishkaChelekom.ModalFocusTest do
 
   defp change(state, _kind, _args), do: state
 
-  # A gate is `#<id>`, `#<id>X` or `#<id>:not(X)`, where X is one `[attr]` or `.class`.
-  defp gate?(nil, _state), do: true
-
+  # A gate is `#<id>`, `#<id>X` or `#<id>:not(X)`, where X is one `[attr]` or `.class`. Any other
+  # selector names other dialogs, and this page has none.
   defp gate?(gate, state) do
-    [_match, rest] = Regex.run(~r/^##{@id}(.*)$/, gate)
+    case Regex.run(~r/^##{@id}(.*)$/, gate) do
+      [_match, rest] -> own_gate?(rest, state)
+      nil -> false
+    end
+  end
 
+  defp own_gate?(rest, state) do
     case Regex.run(~r/^:not\((.+)\)$/, rest) do
       [_match, token] -> not MapSet.member?(state, token)
       nil -> rest == "" or MapSet.member?(state, rest)
