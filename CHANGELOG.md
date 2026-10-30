@@ -1,3 +1,135 @@
+# Changelog for MishkaChelekom 0.0.11
+
+### Bug fixes:
+- **Breaking**: `flash_group/1` names each of its flashes after its own `id`: `<id>-info`,
+  `<id>-error`, `<id>-client-error` and `<id>-server-error`, which is `flash-group-info`,
+  `flash-group-error`, `flash-group-client-error` and `flash-group-server-error` by default. The
+  connection flashes were always `client-error` and `server-error`, the ids Phoenix's layout gives
+  its own flash group, so a group inside a page whose layout has one, or two groups on one page,
+  put each id in the document twice and LiveView logged "Multiple IDs detected". The commands that
+  show and hide them name the new ids, and a page that has two groups gives each its own `id`. CSS,
+  JavaScript or tests that select `#client-error` or `#server-error` in the group's flashes need
+  the new ids. An app keeps its old ids until it regenerates the alert
+- **Breaking**: the file field's `convert_to_mb/1` is private. It formats the size of an upload
+  entry that the field renders itself, no slot hands a caller an entry, and nothing documents it.
+  Code that calls it on a regenerated file field module stops compiling. The same change makes
+  every styled catalog list each public function its component defines, so
+  `mix mishka.ui.gen.components --import --helpers` imports them: `rating_select/2` for the rating,
+  `label/1` for the input field, and `show_sidebar` and `hide_sidebar` (arities 2 and 3) for the
+  sidebar. A test fails when a catalog leaves out a public function. The input field's usage rules
+  list `label/1`
+- **Breaking**: the styled drawer locks the page's scroll while it is open, and names itself only
+  when it has a title. It already declared itself a modal dialog (`role="dialog"`,
+  `aria-modal="true"`) but did not behave like one. Opening moves focus to its first control, Tab
+  stays inside, and Escape, a click outside or the close button closes it and gives focus back to
+  the element that opened it. A closed drawer is `inert`, so its controls leave the Tab order. The
+  lock is `overflow-hidden` on `<body>` and `[scrollbar-gutter:stable]` on `<html>`, so the page
+  keeps the room its scrollbar took. A page that scrolls under an open drawer no longer does. The
+  dialog's `aria-labelledby` is set only when the drawer has a `title` or a `header` slot, where it
+  always pointed at an id the page might not have, and the fixed sr-only "Drawer content"
+  description is gone. The new optional `description` attribute renders the description and
+  `aria-describedby` only when given. Mark the trigger with `aria-haspopup`, `aria-controls` and
+  `aria-expanded`. The usage rules list the attributes and helpers the drawer has and say how the
+  dialog is named
+- A modal, a drawer and a sidebar manage focus the same way, and the page stays locked until the
+  last modal or drawer closes, in any order. `show_modal/2` focused `#<id>-content`, an id the modal
+  does not render, so focus stayed behind it and Tab went to the page underneath. It now focuses
+  the first control in `#<id>-container` and gives focus back to the opener on close, through a
+  paired `JS.push_focus` and `JS.pop_focus` that pushes one entry even when nothing had focus.
+  Only an open modal or drawer acts when it closes: Escape reaches every one on the page and
+  `phx-remove` runs on a closed one, and both used to pop another dialog's focus entry or unlock
+  the page under an open one. The commands live in `data-open-focus`, `data-close-focus`,
+  `data-open-scroll` and `data-close-scroll` on the root, which `data-open` marks as open. Closing
+  runs `data-open-scroll` again on every other open element that has it. The modal's ids,
+  attributes and helper signatures are unchanged. Regenerate the modal and the drawer together,
+  since a modal beside an older drawer does not know that drawer's lock. The modal's usage rules
+  named `hide_close` and `on_confirm`, which it does not have, and gave `color`, `size` and
+  `rounded` the wrong defaults. They now list every attribute with its real default and describe
+  focus and scroll
+- The sidebar leaves the Tab order when it is closed, and opening one moves focus into it. Below
+  `md` a sidebar with a `hide_position` was only translated off-screen, so its links stayed
+  reachable by keyboard and screen reader. It is now `visibility: hidden` until `translate-none`
+  is added, and its transition covers `visibility`, so it stays visible while it slides out. It
+  remembers its opener in `data-sidebar-opener="<id>"` instead of the focus stack that every dialog
+  shares: a click outside closed it without a pop, and with nothing focused the close popped
+  another dialog's entry. The `base` variant writes its colours, where a misspelled condition
+  (`"based"`) left the clause out of any generation that named `base`, and the CMS bundle had the
+  same misspelling. After the first minimize the hook replaced the sidebar's transitions with its
+  own, so opening and closing it below `md` no longer slid. It now keeps them and adds `width`
+  once. The hook's cleanup is named `destroyed()`, which LiveView calls, where `destroy()` never
+  ran and the minimize button's click listener was never removed. The usage rules named a
+  `toggle-sidebar` event that nothing listens for, gave `hide_position` a default of `left` (it is
+  `nil`) and used slots the sidebar does not have. They are rewritten to what the code does
+- The headless drawer, dialog and popover share one page scroll lock, so the page stays locked
+  until the last modal drawer, dialog or popover closes, in any order. The drawer saved and restored
+  `<body>`'s styles on its own, and the dialog and the popover kept counters of their own, so two
+  overlays open at once could unlock the page under one that was still open, or lock it with
+  nothing open. The three hooks now share a lock count kept on the body under
+  `Symbol.for("mishka_chelekom.scroll_lock")`. The first lock saves the body's inline styles and
+  pads it by the scrollbar's width, and the last unlock puts them back. A drawer removed while open
+  gives its lock back, and a non-modal one leaves the page alone. A closed headless drawer is
+  `inert`, and a non-modal one gives focus back when it closes with focus inside. Regenerate the
+  drawer, dialog and popover together, since a hook that keeps its own counter beside hooks that
+  share one keeps the old problem for that pair
+- The headless kit spells each category one way, and the styled kit's way where it has one. Its
+  twelve navigation components wrote `navigation` where the styled kit writes `navigations`, and
+  four of its twelve data display components wrote `data-display`. A CMS groups its palette and its
+  installer's picker by category, so each was drawn as two headings holding half the components.
+  They now write `navigations` and `data display`, the Mob components that take their category
+  from the headless ones follow, and a test fails on two spellings of one category in any layer.
+  Code that matches on the old strings `navigation` or `data-display` has to match the new ones
+- A component dropped on a page arrives with neutral sample content, and a headless one carries no
+  Tailwind classes. The styled drops read like one shop's pages: a tabs drop sold a desk shelf with
+  its delivery terms, a timeline told a parcel's journey, and others carried prices, plans and a
+  `/shop` breadcrumb. 46 files in `priv/showcase` now hold short placeholders any page could keep,
+  and the examples an author browses keep their worked content. Most headless components had no
+  drop at all, so a plain drag of a slider, splitter, tree, chart, editor, separator, meter,
+  progress, segmented control, stepper, sparkline, table, rating, burger, floating action button,
+  floating indicator, OTP field or a text, textarea, mask, JSON, tags or pills input gave an empty
+  box. 27 new furnishings in `priv/showcase_headless` give each one sample content and two
+  examples. They hold text, items, nodes, options and labels, and no `class`, `*_class` or style,
+  since styling belongs to the styled components. A dropped table arrives with column headings and
+  an empty-state line, because the CMS seeds its `row_id` with a string and a table with rows then
+  calls it. A node the Inspector adds to a dropped tree is a leaf, where it used to get
+  `children: ""`, which raised on the canvas. Tests refuse shop words in any furnishing and fail
+  for any headless component whose drop draws no sample content
+- `mix mishka.ui.uninstall` lists a component that is not installed as "Not installed" and removes
+  nothing for it. A mistyped name used to count as removed and, with nothing else installed, took
+  `assets/vendor/mishka_components.js` and the import macro with it. When no name is installed the
+  task says "Nothing to uninstall." and changes nothing
+- The MCP tools take a component or hook name only if the kit ships it. `get_component_info`,
+  `get_example`, `get_js_hook_info` and `get_docs` built file paths, `Code.eval_file` calls and
+  atoms from the client's `name`, so `../` reached any `.exs` on disk. One check now comes first,
+  and each tool has a test that sends `../`. The HTTP server listens on 127.0.0.1 by default, where
+  it listened on every interface. Pass `--ip 0.0.0.0` to `mix mishka.mcp.server`, or `ip:` to
+  `MCP.Supervisor`, to reach it from another machine. The docs links for `toggle_field` and
+  `form_wrapper` no longer point at 404 pages. A malformed EEx template reports "EEx parse error at
+  line:col" instead of "no case clause matching"
+- Dependencies and security: `bandit` 1.14.1 replaces 1.14.0, which `mix hex.audit` flagged
+  (EEF-CVE-2026-116078), and every dependency of the library, `development/web` and
+  `development/mob` moves to its latest Hex release, among them `anubis_mcp` 2.2.0,
+  `phoenix_live_view` 1.2.13, `spark` 2.7.9, `usage_rules` 1.3.0 and `websock_adapter` 0.7.0.
+  `mix hex.audit` reports nothing in all three projects, and `mix deps.audit` nothing in the
+  library
+
+### Refactors:
+- Both CMS bundles in `priv/cms_ui_kits` are exported again from the merged sources with
+  `--bundle-version 0.0.11-alpha.1`, so each bundle and each component says that version. They carry
+  the modal, drawer, sidebar, flash group and headless drawer, dialog and popover above, the
+  headless categories and the neutral drops
+- The library passes `mix ci`: `hex.audit` first, then compile with warnings as errors, format,
+  credo, sobelow, `deps.audit`, dialyzer, ex_dna and the tests. Credo and dialyzer findings are
+  fixed, each remaining sobelow site has a `# sobelow_skip` with its reason, and one
+  `Core.stop_spinner/2` replaces the block copied into 13 generator tasks.
+  `ComponentConfig.load_all/0` rescues only syntax, compile, match and file errors, where it
+  rescued everything, and `Npm.closure/2` and `Examples.build/5` read atom keys only. `mix credo`
+  in `development/web` reads its own config
+- A GitHub Actions workflow runs `mix hex.audit` on pull requests, master and every day and sends
+  its report to code scanning, the test workflow runs `mix deps.audit`, and Dependabot checks the
+  Hex dependencies and the Actions every week
+- The Mob usage rules link each component's page on mishka.tools and describe
+  `config :mob, :extra_tags`
+
 # Changelog for MishkaChelekom 0.0.10
 
 ### Features:
@@ -46,18 +178,6 @@
   swapping one element for another
 
 ### Bug fixes:
-- `flash_group/1` names each of its flashes after its own `id`: `flash-group-info`,
-  `flash-group-error`, `flash-group-client-error` and `flash-group-server-error` by default. The
-  connection flashes were always `client-error` and `server-error`, the ids Phoenix's layout gives
-  its own flash group, so a group inside a page whose layout has one, or two groups on one page,
-  put each id in the document twice and LiveView logged "Multiple IDs detected". The commands that
-  show and hide them name the new ids; a page that has two groups gives each its own `id`
-- The headless kit spells each category one way, and the styled kit's way where it has one. Its
-  twelve navigation components wrote `navigation` where the styled kit writes `navigations`, and
-  four of its twelve data display components wrote `data-display`. A CMS groups its palette and its
-  installer's picker by category, so each was drawn as two headings holding half the components.
-  They now write `navigations` and `data display`, the Mob components that take their category
-  from the headless ones follow, and a test fails on two spellings of one category in any layer
 - The headless `chart` keeps its styling with `--lib billboard` under a Content Security Policy
   that allows no inline style. The engine wrote billboard's stylesheet into a `<style>` element,
   which a `style-src` without `'unsafe-inline'` or a nonce refuses, so lines filled in black and
