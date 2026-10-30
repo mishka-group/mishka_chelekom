@@ -224,6 +224,18 @@ defmodule MishkaChelekom.DrawerScrollLockTest do
     assert locked?(page)
   end
 
+  # Without its scrollbar the page would be wider and its content would shift under the backdrop,
+  # so the lock keeps the scrollbar's gutter while the page is locked.
+  test "the page keeps its scrollbar's gutter while it is locked", context do
+    %{drawer: drawer, page: page} = context
+    gutter = MapSet.new(["[scrollbar-gutter:stable]"])
+
+    assert %{html: ^gutter} = open = open(page, drawer, "first")
+    assert %{html: ^gutter} = both = open(open, drawer, "second")
+    assert %{html: ^gutter} = one = close(both, drawer, "first")
+    assert MapSet.size(close(one, drawer, "second").html) == 0
+  end
+
   test "closing a drawer that is already closed leaves the page's scroll as it is", context do
     %{drawer: drawer, page: page} = context
     page = open(page, drawer, "second")

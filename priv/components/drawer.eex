@@ -125,13 +125,21 @@ defmodule <%= @module %> do
         |> JS.focus_first(to: "##{@id}-container")
       }
       data-close-focus={JS.pop_focus()}
-      <%!-- Every open drawer or modal puts the same lock on `<body>`, so a close takes it off and
+      <%!-- Every open drawer or modal puts the same lock on the page, so a close takes it off and
             runs `data-open-scroll` again on every other element that has it and is open
             (`data-open`): the page stays locked until the last of them closes, whichever closes
-            first. The modal carries the same two attributes. --%>
-      data-open-scroll={JS.add_class("overflow-hidden", to: "body")}
+            first. The modal carries the same two attributes.
+            The lock is `overflow-hidden` on `<body>` and a stable scrollbar gutter on `<html>`:
+            the page keeps the room its scrollbar took, so its content does not shift under the
+            backdrop when the scrollbar goes. The headless drawer measures the scrollbar and pads
+            `<body>` with its width; a JS command cannot measure, and the gutter is that width. --%>
+      data-open-scroll={
+        JS.add_class("overflow-hidden", to: "body")
+        |> JS.add_class("[scrollbar-gutter:stable]", to: "html")
+      }
       data-close-scroll={
         JS.remove_class("overflow-hidden", to: "body")
+        |> JS.remove_class("[scrollbar-gutter:stable]", to: "html")
         |> JS.exec("data-open-scroll", to: "[data-open-scroll][data-open]:not(##{@id})")
       }
       class={[
