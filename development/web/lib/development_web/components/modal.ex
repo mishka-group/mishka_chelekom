@@ -118,7 +118,15 @@ defmodule DevelopmentWeb.Components.Modal do
         |> JS.focus_first(to: "##{@id}-container")
       }
       data-close-focus={JS.pop_focus()}
-      data-close-scroll={JS.remove_class("overflow-hidden", to: "body")}
+      data-open-scroll={
+        JS.add_class("overflow-hidden", to: "body")
+        |> JS.add_class("[scrollbar-gutter:stable]", to: "html")
+      }
+      data-close-scroll={
+        JS.remove_class("overflow-hidden", to: "body")
+        |> JS.remove_class("[scrollbar-gutter:stable]", to: "html")
+        |> JS.exec("data-open-scroll", to: "[data-open-scroll][data-open]:not(##{@id})")
+      }
       class={["relative z-50 hidden", @class]}
     >
       <div
@@ -554,7 +562,8 @@ defmodule DevelopmentWeb.Components.Modal do
       transition: {"transition-all transform ease-out duration-300", "opacity-0", "opacity-100"}
     )
     |> transition_show("##{id}-container")
-    |> JS.add_class("overflow-hidden", to: "body")
+    # Locks the page's scroll.
+    |> JS.exec("data-open-scroll", to: "##{id}:not([data-open])")
     # Pushes the focused element (`<body>` when nothing has focus), which `hide_modal/2` pops to
     # give focus back, and focuses the first element of the focus wrap, which holds the close
     # button. A selector rather than the default source element, because opened through
@@ -573,7 +582,7 @@ defmodule DevelopmentWeb.Components.Modal do
     |> transition_hide("##{id}-container")
     |> JS.hide(to: "##{id}", transition: {"block", "block", "hidden"})
     # Before `data-open` is removed, so only a modal that was open gives focus back and unlocks
-    # the page's scroll.
+    # the page's scroll, which stays locked while another modal or drawer is open.
     |> JS.exec("data-close-focus", to: "##{id}[data-open]")
     |> JS.exec("data-close-scroll", to: "##{id}[data-open]")
     |> JS.remove_attribute("data-open", to: "##{id}")
