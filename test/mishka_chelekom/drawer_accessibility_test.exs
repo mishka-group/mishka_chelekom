@@ -1,13 +1,15 @@
 defmodule MishkaChelekom.DrawerAccessibilityTest do
   @moduledoc """
-  The styled drawer's dialog is named only by an element it renders, and its description is the
-  caller's when the caller gives one.
+  The styled drawer's dialog is named only by an element it renders, and it has a description only
+  when the caller gives one.
 
   The template is generated the way `mix mishka.ui.gen.component drawer` writes it, every option
   on, compiled, and rendered. An `aria-labelledby` or `aria-describedby` that names an id the page
   does not have gives the dialog no name or description at all, and the browser says nothing about
-  it. The headless drawer's rule is the bar: the title names the dialog when there is one, and a
-  drawer without one is named only by what the caller passes.
+  it. The headless drawer's rule is the bar: the title names the dialog when there is one, a
+  drawer without one is named only by what the caller passes, and a description is rendered and
+  referenced only when there is one. A generic one would be read out each time the drawer opens
+  and say nothing.
   """
   use ExUnit.Case, async: true
 
@@ -60,6 +62,10 @@ defmodule MishkaChelekom.DrawerAccessibilityTest do
 
       def described(assigns) do
         ~H|<.drawer id="described" title="Cart" description="Three items, 42 euros">Items</.drawer>|
+      end
+
+      def referenced(assigns) do
+        ~H|<.drawer id="referenced" title="Cart" aria-describedby="cart-total">Items</.drawer>|
       end
     end
     """
@@ -122,11 +128,18 @@ defmodule MishkaChelekom.DrawerAccessibilityTest do
     refute attribute(root, "aria-labelledby")
   end
 
-  test "the description is the caller's, and a generic one without it", %{render: render} do
+  test "the description is the caller's, and a drawer without one has none", %{render: render} do
     {html, root} = render.(:described)
     assert text(html, attribute(root, "aria-describedby")) == "Three items, 42 euros"
 
-    {html, root} = render.(:titled)
-    assert text(html, attribute(root, "aria-describedby")) == "Drawer content"
+    for name <- [:titled, :headed, :untitled, :labelled] do
+      {html, root} = render.(name)
+
+      refute attribute(root, "aria-describedby")
+      refute html =~ ~r/id="#{name}-\w+-desc"/, "#{name} renders a description it was not given"
+    end
+
+    {_html, root} = render.(:referenced)
+    assert attribute(root, "aria-describedby") == "cart-total"
   end
 end

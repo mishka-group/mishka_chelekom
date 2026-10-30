@@ -51,7 +51,7 @@ defmodule <%= @module %> do
 
   attr :description, :string,
     default: nil,
-    doc: "What screen readers announce as the drawer's description, \"Drawer content\" when nil"
+    doc: "What screen readers announce as the drawer's description; none when nil"
 
   attr :title_class, :string, default: nil, doc: "Determines custom class for the title"
   attr :variant, :string, default: "base", doc: "Determines the style"
@@ -145,9 +145,11 @@ defmodule <%= @module %> do
       role="dialog"
       aria-modal="true"
       <%!-- Only a drawer with a title or a header renders the element this names. Without one
-            it has no name unless the caller gives an `aria-label`, which `@rest` passes here. --%>
+            it has no name unless the caller gives an `aria-label`, which `@rest` passes here.
+            The description, like the headless drawer's, is there only when the caller gives
+            one: a generic one would be read out every time the drawer opens and say nothing. --%>
       aria-labelledby={(@title || @header != []) && "#{@id}-#{@position}-title"}
-      aria-describedby={"#{@id}-#{@position}-desc"}
+      aria-describedby={@description && "#{@id}-#{@position}-desc"}
       <%!-- A closed drawer is only moved off-screen, so this is what keeps its controls out of
             the Tab order and away from screen readers. `show_drawer/3` removes it. --%>
       inert
@@ -197,8 +199,8 @@ defmodule <%= @module %> do
             </h5>
           </div>
 
-          <div id={"#{@id}-#{@position}-desc"} class="sr-only">
-            {@description || gettext("Drawer content")}
+          <div :if={@description} id={"#{@id}-#{@position}-desc"} class="sr-only">
+            {@description}
           </div>
 
           <div class={@content_class}>
