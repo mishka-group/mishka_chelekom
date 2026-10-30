@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-headless-rating",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "value": 3,
+      "label": "Rating"
+    }
+  },
+  "examples": [
+    {
+      "label": "Three of five stars",
+      "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" />"
+    },
+    {
+      "label": "Read-only score of four",
+      "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly />"
+    }
+  ]
+}

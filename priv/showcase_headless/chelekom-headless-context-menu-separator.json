@@ -1,0 +1,13 @@
+{
+  "name": "chelekom-headless-context-menu-separator",
+  "examples": [
+    {
+      "label": "Line between two groups of actions",
+      "source": "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" /><p>Archive</p></div>"
+    },
+    {
+      "label": "Separator marked as vertical",
+      "source": "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
+    }
+  ]
+}

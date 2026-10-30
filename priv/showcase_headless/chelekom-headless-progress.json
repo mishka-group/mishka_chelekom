@@ -1,0 +1,22 @@
+{
+  "name": "chelekom-headless-progress",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "value": 40,
+      "label": "Uploading files",
+      "show_value": true
+    }
+  },
+  "examples": [
+    {
+      "label": "Upload with a percentage readout",
+      "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"upload-progress\" value={40} label=\"Uploading files\" show_value />"
+    },
+    {
+      "label": "Loading bar with no known end",
+      "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"loading-progress\" label=\"Loading\" />"
+    }
+  ]
+}

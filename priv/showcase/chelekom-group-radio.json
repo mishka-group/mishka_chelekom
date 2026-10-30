@@ -1,28 +1,28 @@
 {
   "name": "chelekom-group-radio",
   "furnishing": {
-    "body": "<div class=\"mb-1 text-sm font-medium\">Choose a plan</div>",
+    "body": "<div class=\"mb-1 text-sm font-medium\">How often should we write?</div>",
     "slots": [
+      {
+        "name": "radio",
+        "attrs": {
+          "value": "daily"
+        },
+        "body": "Every day"
+      },
+      {
+        "name": "radio",
+        "attrs": {
+          "value": "weekly"
+        },
+        "body": "Once a week"
+      },
       {
         "name": "radio",
         "attrs": {
           "value": "monthly"
         },
-        "body": "Monthly billing"
-      },
-      {
-        "name": "radio",
-        "attrs": {
-          "value": "annual"
-        },
-        "body": "Annual billing, two months free"
-      },
-      {
-        "name": "radio",
-        "attrs": {
-          "value": "metered"
-        },
-        "body": "Pay only for what you use"
+        "body": "Once a month"
       }
     ]
   },

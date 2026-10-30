@@ -1,7 +1,7 @@
 {
   "name": "chelekom-dropdown-content",
   "furnishing": {
-    "body": "<ul class=\"py-1 text-sm\">\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Your profile</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Billing and plan</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Team members</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Sign out</li>\n</ul>",
+    "body": "<ul class=\"py-1 text-sm\">\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Your profile</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Settings</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Help</li>\n  <li class=\"cursor-pointer rounded-sm px-3 py-2 hover:bg-black/5 dark:hover:bg-white/10\">Sign out</li>\n</ul>",
     "slots": []
   },
   "examples": [

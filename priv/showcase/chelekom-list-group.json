@@ -1,7 +1,7 @@
 {
   "name": "chelekom-list-group",
   "furnishing": {
-    "body": "<li>Overview</li>\n<li>Billing</li>\n<li>Team</li>",
+    "body": "<li>Overview</li>\n<li>Details</li>\n<li>Settings</li>",
     "slots": []
   },
   "examples": [

@@ -1,0 +1,13 @@
+{
+  "name": "chelekom-headless-hue-slider",
+  "examples": [
+    {
+      "label": "Hue picker",
+      "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" value=\"210\" label=\"Accent hue\" />"
+    },
+    {
+      "label": "Theme hue set to green",
+      "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" value=\"140\" label=\"Theme hue\" />"
+    }
+  ]
+}

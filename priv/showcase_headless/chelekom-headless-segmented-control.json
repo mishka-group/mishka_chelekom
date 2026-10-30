@@ -1,0 +1,27 @@
+{
+  "name": "chelekom-headless-segmented-control",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "options": [
+        "Day",
+        "Week",
+        "Month"
+      ],
+      "value": "Week",
+      "name": "period",
+      "label": "Period"
+    }
+  },
+  "examples": [
+    {
+      "label": "Day, week or month switch",
+      "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} />"
+    },
+    {
+      "label": "View switch with one option turned off",
+      "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} />"
+    }
+  ]
+}

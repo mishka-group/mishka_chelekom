@@ -1,0 +1,26 @@
+{
+  "name": "chelekom-headless-splitter",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "first",
+        "body": "<p>First panel</p><p>Drag the bar to resize.</p>"
+      },
+      {
+        "name": "second",
+        "body": "<p>Second panel</p><p>Content goes here.</p>"
+      }
+    ]
+  },
+  "examples": [
+    {
+      "label": "Sidebar and content, resizable",
+      "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" default_size=\"30\"><:first><p>Folders</p></:first><:second><p>Files</p></:second></.component>"
+    },
+    {
+      "label": "Original and revised text to compare",
+      "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\"><:first><p>Original</p></:first><:second><p>Revised</p></:second></.component>"
+    }
+  ]
+}

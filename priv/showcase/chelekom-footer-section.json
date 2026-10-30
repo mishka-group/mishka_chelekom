@@ -1,7 +1,7 @@
 {
   "name": "chelekom-footer-section",
   "furnishing": {
-    "body": "<div class=\"mb-3 text-sm font-semibold uppercase tracking-wide\">Product</div>\n<ul class=\"space-y-2 text-sm\">\n  <li><a href=\"/features\" class=\"hover:underline\">Features</a></li>\n  <li><a href=\"/pricing\" class=\"hover:underline\">Pricing</a></li>\n  <li><a href=\"/changelog\" class=\"hover:underline\">Changelog</a></li>\n</ul>",
+    "body": "<div class=\"mb-3 text-sm font-semibold uppercase tracking-wide\">Explore</div>\n<ul class=\"space-y-2 text-sm\">\n  <li><a href=\"/about\" class=\"hover:underline\">About</a></li>\n  <li><a href=\"/blog\" class=\"hover:underline\">Blog</a></li>\n  <li><a href=\"/contact\" class=\"hover:underline\">Contact</a></li>\n</ul>",
     "slots": []
   },
   "examples": [

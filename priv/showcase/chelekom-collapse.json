@@ -1,11 +1,11 @@
 {
   "name": "chelekom-collapse",
   "furnishing": {
-    "body": "<p class=\"py-4 text-sm leading-6 opacity-80\">Refunds go back to the original payment method and usually land within five business days. You keep access until the end of the period you already paid for.</p>",
+    "body": "<p class=\"py-4 text-sm leading-6 opacity-80\">Explain it here in a sentence or two. This part stays hidden until someone opens it.</p>",
     "slots": [
       {
         "name": "trigger",
-        "body": "<div class=\"flex cursor-pointer items-center justify-between gap-3 border-b border-neutral-200 py-4 font-medium dark:border-neutral-700\">\n  <span>How do refunds work?</span>\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chevron-down\" class=\"size-4 shrink-0 opacity-60\" />\n</div>"
+        "body": "<div class=\"flex cursor-pointer items-center justify-between gap-3 border-b border-neutral-200 py-4 font-medium dark:border-neutral-700\">\n  <span>How does this work?</span>\n  <.component component_name=\"chelekom-icon\" site=\"Global\" name=\"hero-chevron-down\" class=\"size-4 shrink-0 opacity-60\" />\n</div>"
       }
     ]
   },

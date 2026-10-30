@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-headless-otp-field",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "length": 6,
+      "label": "Verification code"
+    }
+  },
+  "examples": [
+    {
+      "label": "Six-digit code",
+      "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"verify-code\" length={6} label=\"Verification code\" />"
+    },
+    {
+      "label": "Four characters in two groups",
+      "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"pair-code\" length={4} group={2} separator=\"–\" validation_type=\"alphanumeric\" label=\"Pairing code\" />"
+    }
+  ]
+}

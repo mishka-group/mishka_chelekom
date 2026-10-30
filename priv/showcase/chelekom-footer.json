@@ -1,7 +1,7 @@
 {
   "name": "chelekom-footer",
   "furnishing": {
-    "body": "<div class=\"px-6 py-8\">\n  <div class=\"flex flex-wrap items-center justify-between gap-4\">\n    <span class=\"font-semibold\">Mishka CMS</span>\n    <nav class=\"flex flex-wrap gap-6 text-sm\">\n      <a href=\"/about\" class=\"hover:underline\">About</a>\n      <a href=\"/docs\" class=\"hover:underline\">Documentation</a>\n      <a href=\"/pricing\" class=\"hover:underline\">Pricing</a>\n      <a href=\"/contact\" class=\"hover:underline\">Contact</a>\n    </nav>\n  </div>\n  <p class=\"mt-6 text-sm\">© 2025 Mishka Group. All rights reserved.</p>\n</div>",
+    "body": "<div class=\"px-6 py-8\">\n  <div class=\"flex flex-wrap items-center justify-between gap-4\">\n    <span class=\"font-semibold\">Your site</span>\n    <nav class=\"flex flex-wrap gap-6 text-sm\">\n      <a href=\"/about\" class=\"hover:underline\">About</a>\n      <a href=\"/blog\" class=\"hover:underline\">Blog</a>\n      <a href=\"/contact\" class=\"hover:underline\">Contact</a>\n    </nav>\n  </div>\n  <p class=\"mt-6 text-sm\">© Your site. All rights reserved.</p>\n</div>",
     "slots": []
   },
   "examples": [

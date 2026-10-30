@@ -1,7 +1,7 @@
 {
   "name": "chelekom-timeline-section",
   "furnishing": {
-    "body": "<h3 class=\"text-base font-semibold\">Design review signed off</h3>\n<p class=\"mt-1 text-sm leading-6 opacity-80\">The new checkout layout was approved and moved into the build queue for next sprint.</p>\n<div class=\"mt-2 text-xs opacity-60\">14 March, 11:20</div>",
+    "body": "<h3 class=\"text-base font-semibold\">Plan</h3>\n<p class=\"mt-1 text-sm leading-6 opacity-80\">Agree on the goal, the scope and who does what.</p>\n<div class=\"mt-2 text-xs opacity-60\">Week 1</div>",
     "slots": []
   },
   "examples": [

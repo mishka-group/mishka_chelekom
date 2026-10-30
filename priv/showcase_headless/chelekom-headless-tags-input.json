@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-headless-tags-input",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "tags": [
+        "Design",
+        "Writing",
+        "Research"
+      ],
+      "placeholder": "Add a tag…"
+    }
+  },
+  "examples": [
+    {
+      "label": "Topics with room for one more",
+      "source": "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"topics\" tags={[\"Design\", \"Writing\", \"Research\"]} placeholder=\"Add a tag…\" />"
+    },
+    {
+      "label": "Empty list waiting for its first tag",
+      "source": "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"keywords\" placeholder=\"Type a keyword and press Enter\" />"
+    }
+  ]
+}

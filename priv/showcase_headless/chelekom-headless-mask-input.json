@@ -1,0 +1,22 @@
+{
+  "name": "chelekom-headless-mask-input",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "mask": "(999) 999-9999",
+      "placeholder": "(___) ___-____",
+      "inputmode": "numeric"
+    }
+  },
+  "examples": [
+    {
+      "label": "Phone number",
+      "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" />"
+    },
+    {
+      "label": "Date as day, month and year",
+      "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" />"
+    }
+  ]
+}

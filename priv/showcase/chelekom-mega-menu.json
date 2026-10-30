@@ -1,11 +1,11 @@
 {
  "name": "chelekom-mega-menu",
  "furnishing": {
-  "body": "<div class=\"grid gap-6 md:grid-cols-3\">\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Build</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Page builder</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Component library</a></li>\n    </ul>\n  </div>\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Publish</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Hosting</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Domains</a></li>\n    </ul>\n  </div>\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Measure</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Analytics</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Experiments</a></li>\n    </ul>\n  </div>\n</div>",
+  "body": "<div class=\"grid gap-6 md:grid-cols-3\">\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Learn</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Guides</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Articles</a></li>\n    </ul>\n  </div>\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">Connect</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Events</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Newsletter</a></li>\n    </ul>\n  </div>\n  <div>\n    <h6 class=\"mb-3 text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400\">About</h6>\n    <ul class=\"space-y-2 text-sm\">\n      <li><a href=\"#\" class=\"hover:underline\">Our story</a></li>\n      <li><a href=\"#\" class=\"hover:underline\">Contact</a></li>\n    </ul>\n  </div>\n</div>",
   "slots": [
    {
     "name": "trigger",
-    "body": "<button type=\"button\" class=\"flex items-center gap-1 text-sm font-semibold\">Products</button>"
+    "body": "<button type=\"button\" class=\"flex items-center gap-1 text-sm font-semibold\">Explore</button>"
    }
   ]
  },

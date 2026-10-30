@@ -6,26 +6,26 @@
       {
         "name": "item",
         "attrs": {
-          "id": "acc-furnish-install",
-          "title": "How do I install the theme?"
+          "id": "acc-furnish-about",
+          "title": "What is this about?"
         },
-        "body": "Download the package from your account, unzip it, and upload the folder to your site. The installer walks you through the remaining steps."
+        "body": "A one or two sentence answer that gets straight to the point."
       },
       {
         "name": "item",
         "attrs": {
-          "id": "acc-furnish-licence",
-          "title": "Can I use it on more than one site?"
+          "id": "acc-furnish-who",
+          "title": "Who is it for?"
         },
-        "body": "A single licence covers one production site plus as many staging environments as you need."
+        "body": "Say who will find this useful, so readers know they are in the right place."
       },
       {
         "name": "item",
         "attrs": {
-          "id": "acc-furnish-expiry",
-          "title": "What happens when my licence expires?"
+          "id": "acc-furnish-contact",
+          "title": "How do I get in touch?"
         },
-        "body": "Your site keeps working exactly as it is. You simply stop receiving new releases and priority support until you renew."
+        "body": "Tell readers the best way to reach you and when to expect a reply."
       }
     ]
   },

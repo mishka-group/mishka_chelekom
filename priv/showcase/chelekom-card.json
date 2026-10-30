@@ -1,7 +1,7 @@
 {
   "name": "chelekom-card",
   "furnishing": {
-    "body": "<div class=\"p-4 space-y-2\">\n  <h3 class=\"text-lg font-semibold\">Weekly product digest</h3>\n  <p class=\"text-sm leading-6\">Three releases shipped this week, the checkout redesign is in review, and support tickets are down 14 percent.</p>\n</div>",
+    "body": "<div class=\"p-4 space-y-2\">\n  <h3 class=\"text-lg font-semibold\">Getting started</h3>\n  <p class=\"text-sm leading-6\">A short summary of what this card is about and where it leads.</p>\n</div>",
     "slots": []
   },
   "examples": [

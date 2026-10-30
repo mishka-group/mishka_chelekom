@@ -81,6 +81,158 @@ defmodule MishkaChelekom.CmsBundle.ShowcaseCoverageTest do
     assert lazy == [], "these labels only repeat the component name: #{inspect(lazy)}"
   end
 
+  # WHAT LANDS ON A DROP IS ANY PAGE'S. An example is browsed and picked; a furnishing is what a page
+  # gets the moment a component is dragged onto it, before the author has chosen anything, so it has
+  # to read as a placeholder any page could keep. The drop defaults read like one shop's pages: a
+  # timeline tracked a parcel from "Order placed" to "Out for delivery", the tabs sold a walnut desk
+  # shelf, a strong said "Free delivery on orders over $50" and an h6 said "Shipping and returns".
+  # A page about anything else had to clear all of that first, so no furnishing sells, prices or
+  # ships anything.
+  @shop_copy ~r/\b(?:orders?|parcels?|courier|deliver(?:y|ies|ed)|warehouse|shipping|shop(?:s|ping)?|carts?|checkout|refunds?|pric(?:e|es|ing)|billing|licen[cs]es?|discounts?|coupons?|invoices?|receipts?|purchases?|buy(?:s|ing|ers?)?|retail|freight|in stock|customers?|products?|pay(?:ment)?s?|paid)\b|[$€£¥]\s?\d/iu
+
+  test "no component dropped on a page arrives with a shop's copy" do
+    shop_copy =
+      for path <- @showcase,
+          furnishing = entry(path)["furnishing"],
+          is_map(furnishing),
+          text <- furnishing_text(furnishing),
+          [match | _] <- [Regex.run(@shop_copy, text)],
+          uniq: true,
+          do: {Path.basename(path), String.downcase(match)}
+
+    assert shop_copy == [],
+           "these drop defaults read like a shop's page: #{inspect(shop_copy)}"
+  end
+
+  # Every string a drop writes onto the page: the body, each slot's body, and the attribute values on
+  # the component and on its slots (a timeline's steps and a gallery's captions are attributes).
+  defp furnishing_text(furnishing) do
+    slots = furnishing["slots"] || []
+
+    [furnishing["body"], attribute_text(furnishing["attrs"])] ++
+      Enum.flat_map(slots, &[&1["body"], attribute_text(&1["attrs"])])
+  end
+
+  defp attribute_text(value) when is_map(value),
+    do: value |> Map.values() |> Enum.map_join(" ", &attribute_text/1)
+
+  defp attribute_text(value) when is_list(value), do: Enum.map_join(value, " ", &attribute_text/1)
+  defp attribute_text(nil), do: ""
+  defp attribute_text(value), do: to_string(value)
+
+  # AND THE SHIPPED KIT DROPS WHAT THE FILES SAY. The bundle in `priv/cms_ui_kits/` is what a CMS
+  # installs, and it is regenerated from these files by an export; a furnishing edited here and not
+  # carried into the bundle is a fix no CMS ever sees.
+  test "the shipped kit drops every component's showcase furnishing" do
+    shipped =
+      "priv/cms_ui_kits/chelekom.json"
+      |> File.read!()
+      |> Jason.decode!()
+      |> Map.fetch!("components")
+      |> Map.new(&{&1["name"], get_in(&1, ["extra", "furnishing"])})
+
+    names =
+      for path <- @showcase, entry = entry(path), is_map(entry["furnishing"]), do: entry["name"]
+
+    stale =
+      for component <-
+            Showcase.overlay(Enum.map(names, &%{"name" => &1, "extra" => %{}}), "priv/showcase"),
+          shipped[component["name"]] != component["extra"]["furnishing"],
+          do: component["name"]
+
+    assert length(names) > 100, "no showcase file carries a furnishing to compare"
+
+    assert stale == [],
+           "the shipped kit drops something other than these showcase furnishings: #{inspect(stale)}"
+  end
+
+  # A HEADLESS COMPONENT SHIPS NO STYLING, and so do its furnishings. Styling belongs to the styled
+  # components alone: a headless drop carries sample content (text, items, nodes, options, values,
+  # labels) and no `class`, no `*_class` and no inline `style`, in the furnishing or in an example.
+  # A slider or a splitter dropped bare may be zero-size until the page styles it, and the CMS
+  # editor gives such a node a floor on its canvas. Which components need sample content is
+  # `MishkaChelekom.CmsBundle.HeadlessDropTest`'s question: it renders every drop and looks for it.
+  @headless_showcase Path.wildcard("priv/showcase_headless/*.json")
+
+  # `class="…"`, `track_class="…"` or `style="…"` written in markup or in a component's call.
+  @styling_attribute ~r/(?:^|[\s<])(?:[a-z][a-z0-9]*[_-])*(?:class|style)\s*=/
+
+  defp styled?(text), do: Regex.match?(@styling_attribute, text)
+
+  test "every headless furnishing ships examples and neutral copy" do
+    assert length(@headless_showcase) > 20, "the headless showcase wildcard matched too little"
+
+    for path <- @headless_showcase, entry = entry(path) do
+      assert length(entry["examples"] || []) >= 2, "#{entry["name"]} ships too few examples"
+
+      for text <- furnishing_text(entry["furnishing"] || %{}), is_binary(text) do
+        refute Regex.match?(@shop_copy, text), "#{entry["name"]} drops a shop's copy: #{text}"
+      end
+    end
+  end
+
+  test "no headless furnishing or example carries a class or a style" do
+    for path <- @headless_showcase, entry = entry(path) do
+      furnishing = entry["furnishing"] || %{}
+      slots = furnishing["slots"] || []
+
+      names =
+        Map.keys(furnishing["attrs"] || %{}) ++
+          Enum.flat_map(slots, &Map.keys(&1["attrs"] || %{}))
+
+      styled =
+        Enum.filter(names, &(&1 == "style" or &1 == "class" or String.ends_with?(&1, "_class")))
+
+      assert styled == [],
+             "#{entry["name"]}: a headless furnishing carries no styling, only content: #{inspect(styled)}"
+
+      markup = furnishing_text(furnishing) ++ Enum.map(entry["examples"], & &1["source"])
+
+      for text <- markup, is_binary(text) do
+        refute styled?(text),
+               "#{entry["name"]} carries a class or a style, styling belongs to the styled kit: #{text}"
+      end
+    end
+  end
+
+  test "the headless styling check tells content from a class" do
+    for styled <- [
+          ~s(<span class="font-medium">Ada</span>),
+          ~s(<.component track_class="h-2" />),
+          ~s(<.component class="w-full" />),
+          ~s(<p style="margin: 0">Ada</p>),
+          ~s(<.component data-class="x" />)
+        ] do
+      assert styled?(styled), "should be caught: #{styled}"
+    end
+
+    for plain <- [
+          ~s(<span>Ada</span> <span>Grace</span>),
+          ~s(<.component aria_label="Visits" option={%{"xAxis" => %{}}} />),
+          ~s(<.component label="Classes and styles" />)
+        ] do
+      refute styled?(plain), "should pass: #{plain}"
+    end
+  end
+
+  test "the shipped headless kit drops every headless showcase furnishing" do
+    shipped =
+      "priv/cms_ui_kits/chelekom_headless.json"
+      |> File.read!()
+      |> Jason.decode!()
+      |> Map.fetch!("components")
+      |> Map.new(&{&1["name"], get_in(&1, ["extra", "furnishing"])})
+
+    stale =
+      for path <- @headless_showcase,
+          entry = entry(path),
+          shipped[entry["name"]] != entry["furnishing"],
+          do: entry["name"]
+
+    assert @headless_showcase != [], "no headless showcase file to compare"
+    assert stale == [], "the shipped headless kit drops something else for: #{inspect(stale)}"
+  end
+
   # THE GAP THIS CORPUS ACTUALLY DEVELOPS: a component is added and its showcase file is not.
   test "every component in the catalogue has a showcase file" do
     documented = MapSet.new(@showcase, &(&1 |> Path.basename(".json")))

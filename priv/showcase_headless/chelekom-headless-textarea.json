@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-headless-textarea",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "placeholder": "Write a message…",
+      "rows": 4
+    }
+  },
+  "examples": [
+    {
+      "label": "Message box",
+      "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" />"
+    },
+    {
+      "label": "Notes that grow as you type",
+      "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" />"
+    }
+  ]
+}

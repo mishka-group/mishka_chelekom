@@ -1,0 +1,46 @@
+{
+  "name": "chelekom-headless-stepper",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "step",
+        "attrs": {
+          "label": "Account",
+          "description": "Your details"
+        },
+        "body": "1"
+      },
+      {
+        "name": "step",
+        "attrs": {
+          "label": "Profile",
+          "description": "About you"
+        },
+        "body": "2"
+      },
+      {
+        "name": "step",
+        "attrs": {
+          "label": "Finish",
+          "description": "All set"
+        },
+        "body": "3"
+      }
+    ],
+    "attrs": {
+      "active": 1,
+      "label": "Steps"
+    }
+  },
+  "examples": [
+    {
+      "label": "Three steps, the second current",
+      "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"signup-steps\" label=\"Steps\" active={1}><:step label=\"Account\" description=\"Your details\">1</:step><:step label=\"Profile\" description=\"About you\">2</:step><:step label=\"Finish\" description=\"All set\">3</:step></.component>"
+    },
+    {
+      "label": "Vertical stepper, the third step current",
+      "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"setup-steps\" label=\"Setup\" active={2} orientation=\"vertical\"><:step label=\"Connect\">1</:step><:step label=\"Configure\">2</:step><:step label=\"Publish\">3</:step></.component>"
+    }
+  ]
+}

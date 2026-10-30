@@ -1,0 +1,25 @@
+{
+  "name": "chelekom-headless-pills-input",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "pills",
+        "body": "<span>Ada</span> <span>Grace</span>"
+      }
+    ],
+    "attrs": {
+      "placeholder": "Add a name…"
+    }
+  },
+  "examples": [
+    {
+      "label": "Recipients with room for more",
+      "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"recipients\" placeholder=\"Add a name…\"><:pills><span>Ada</span> <span>Grace</span></:pills></.component>"
+    },
+    {
+      "label": "Empty field waiting for its first pill",
+      "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"labels\" placeholder=\"Add a label…\" />"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "chelekom-headless-text-input",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "placeholder": "Your name"
+    }
+  },
+  "examples": [
+    {
+      "label": "Email field",
+      "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" />"
+    },
+    {
+      "label": "Web address with a fixed prefix",
+      "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\"><:start_section>https://</:start_section></.component>"
+    }
+  ]
+}

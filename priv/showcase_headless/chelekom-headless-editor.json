@@ -1,0 +1,20 @@
+{
+  "name": "chelekom-headless-editor",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "placeholder": "Start writing…"
+    }
+  },
+  "examples": [
+    {
+      "label": "Note editor",
+      "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" />"
+    },
+    {
+      "label": "Comment box that posts with a form",
+      "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" name=\"comment\" placeholder=\"Add a comment…\" />"
+    }
+  ]
+}

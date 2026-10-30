@@ -1,7 +1,7 @@
 {
   "name": "chelekom-card-content",
   "furnishing": {
-    "body": "Every plan includes unlimited projects, 50 GB of asset storage, and support that answers within one business day.",
+    "body": "A short summary of what this card is about, in two or three lines.",
     "slots": []
   },
   "examples": [

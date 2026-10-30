@@ -1,0 +1,21 @@
+{
+  "name": "chelekom-headless-semi-circle-progress",
+  "furnishing": {
+    "body": "<span>72</span> <span>out of 100</span>",
+    "slots": [],
+    "attrs": {
+      "value": 72,
+      "label": "Score"
+    }
+  },
+  "examples": [
+    {
+      "label": "Score out of a hundred",
+      "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\"><span>72</span> <span>out of 100</span></.component>"
+    },
+    {
+      "label": "Full ring with a percentage",
+      "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\">45%</.component>"
+    }
+  ]
+}

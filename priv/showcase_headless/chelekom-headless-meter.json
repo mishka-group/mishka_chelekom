@@ -1,0 +1,22 @@
+{
+  "name": "chelekom-headless-meter",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "value": 72,
+      "label": "Storage used",
+      "show_value": true
+    }
+  },
+  "examples": [
+    {
+      "label": "Storage used with a percentage",
+      "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value />"
+    },
+    {
+      "label": "Battery level with its own words",
+      "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value />"
+    }
+  ]
+}

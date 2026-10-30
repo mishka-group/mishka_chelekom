@@ -8,8 +8,8 @@
         "body": "",
         "attrs": {
           "image": "/images/scene-1.svg",
-          "title": "Build pages without leaving the browser",
-          "description": "Drag a section in, edit the copy in place, publish when it reads right."
+          "title": "Welcome",
+          "description": "Say hello and tell visitors what they will find here."
         }
       },
       {
@@ -17,8 +17,8 @@
         "body": "",
         "attrs": {
           "image": "/images/scene-2.svg",
-          "title": "Every component is yours to change",
-          "description": "Colours, spacing and rounding are attributes, not a theme you have to fork."
+          "title": "What we do",
+          "description": "One or two lines about the work, the idea or the story."
         }
       },
       {
@@ -26,8 +26,8 @@
         "body": "",
         "attrs": {
           "image": "/images/scene-3.svg",
-          "title": "Ship one page to every site",
-          "description": "Write it once as a global component and reuse it across each site you run."
+          "title": "Get in touch",
+          "description": "Tell people how to reach you and what happens next."
         }
       }
     ]

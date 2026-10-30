@@ -1,23 +1,19 @@
 {
   "name": "chelekom-table",
   "furnishing": {
-    "body": "<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Chelekom Starter Licence</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Published</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">128</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">$49.00</.component>\n</.component>\n<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Chelekom Team Licence</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Published</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">64</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">$149.00</.component>\n</.component>\n<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Chelekom Agency Licence</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Draft</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">12</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">$399.00</.component>\n</.component>",
+    "body": "<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Ada Lovelace</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">ada@example.com</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Active</.component>\n</.component>\n<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Grace Hopper</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">grace@example.com</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Active</.component>\n</.component>\n<.component component_name=\"chelekom-tr\" site=\"Global\">\n  <.component component_name=\"chelekom-td\" site=\"Global\">Alan Turing</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">alan@example.com</.component>\n  <.component component_name=\"chelekom-td\" site=\"Global\">Invited</.component>\n</.component>",
     "slots": [
       {
         "name": "header",
-        "body": "Product"
+        "body": "Name"
+      },
+      {
+        "name": "header",
+        "body": "Email"
       },
       {
         "name": "header",
         "body": "Status"
-      },
-      {
-        "name": "header",
-        "body": "In stock"
-      },
-      {
-        "name": "header",
-        "body": "Price"
       }
     ]
   },

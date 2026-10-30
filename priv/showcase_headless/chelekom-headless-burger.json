@@ -1,0 +1,20 @@
+{
+  "name": "chelekom-headless-burger",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "label": "Open menu"
+    }
+  },
+  "examples": [
+    {
+      "label": "Menu button, closed",
+      "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button\" label=\"Open menu\" controls=\"site-menu\" />"
+    },
+    {
+      "label": "Menu button, open",
+      "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button-open\" label=\"Close menu\" opened controls=\"site-menu\" />"
+    }
+  ]
+}

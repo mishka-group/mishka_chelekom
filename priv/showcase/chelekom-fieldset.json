@@ -5,7 +5,7 @@
     "slots": [
       {
         "name": "control",
-        "body": "<label class=\"flex items-center gap-2\"><input type=\"checkbox\" name=\"topics[]\" value=\"product\" checked /> Product updates</label>"
+        "body": "<label class=\"flex items-center gap-2\"><input type=\"checkbox\" name=\"topics[]\" value=\"news\" checked /> News and updates</label>"
       },
       {
         "name": "control",

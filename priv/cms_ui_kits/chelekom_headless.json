@@ -320,13 +320,41 @@
       "dependencies": [
         "slider.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value />",
+        "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value />"
+      ],
       "extra": {
         "clauses": null,
         "component": "slider",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/slider",
+        "examples": [
+          {
+            "base": true,
+            "label": "Volume with its value beside the label",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value />"
+          },
+          {
+            "base": false,
+            "label": "Range with two thumbs",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value />"
+          }
+        ],
         "function": "slider",
+        "furnishing": {
+          "attrs": {
+            "label": "Volume",
+            "show_value": true,
+            "value": 40
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -1480,13 +1508,44 @@
       ],
       "body": null,
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"recipients\" placeholder=\"Add a name…\"><:pills><span>Ada</span> <span>Grace</span></:pills></.component>",
+        "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"labels\" placeholder=\"Add a label…\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "pills_input",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/pills-input",
+        "examples": [
+          {
+            "base": true,
+            "label": "Recipients with room for more",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"recipients\" placeholder=\"Add a name…\"><:pills><span>Ada</span> <span>Grace</span></:pills></.component>"
+          },
+          {
+            "base": false,
+            "label": "Empty field waiting for its first pill",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-pills-input\" site=\"Global\" id=\"labels\" placeholder=\"Add a label…\" />"
+          }
+        ],
         "function": "pills_input",
+        "furnishing": {
+          "attrs": {
+            "placeholder": "Add a name…"
+          },
+          "body": "",
+          "slots": [
+            {
+              "body": "<span>Ada</span> <span>Grace</span>",
+              "name": "pills"
+            }
+          ]
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -1614,13 +1673,41 @@
       ],
       "body": "lo = assigns.min\nhi = assigns.max\n\n{value, ratio, status} =\n  case assigns.value do\n    nil ->\n      {nil, nil, \"indeterminate\"}\n\n    v ->\n      c = v |> Kernel.max(lo) |> Kernel.min(hi)\n\n      r =\n        if hi > lo do\n          (c - lo) / (hi - lo)\n        else\n          0.0\n        end\n\n      {c, r,\n       if c >= hi do\n         \"complete\"\n       else\n         \"progressing\"\n       end}\n  end\n\nassigns =\n  assigns\n  |> assign(:value, value)\n  |> assign(:ratio, ratio)\n  |> assign(:status, status)\n  |> assign(\n    :value_text,\n    assigns.value_text ||\n      if status == \"indeterminate\" do\n        \"Indeterminate\"\n      else\n        \"#{round(ratio * 100)}%\"\n      end\n  )",
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"upload-progress\" value={40} label=\"Uploading files\" show_value />",
+        "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"loading-progress\" label=\"Loading\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "progress",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/progress",
+        "examples": [
+          {
+            "base": true,
+            "label": "Upload with a percentage readout",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"upload-progress\" value={40} label=\"Uploading files\" show_value />"
+          },
+          {
+            "base": false,
+            "label": "Loading bar with no known end",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-progress\" site=\"Global\" id=\"loading-progress\" label=\"Loading\" />"
+          }
+        ],
         "function": "progress",
+        "furnishing": {
+          "attrs": {
+            "label": "Uploading files",
+            "show_value": true,
+            "value": 40
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -2022,13 +2109,45 @@
       "dependencies": [
         "splitter.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" default_size=\"30\"><:first><p>Folders</p></:first><:second><p>Files</p></:second></.component>",
+        "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\"><:first><p>Original</p></:first><:second><p>Revised</p></:second></.component>"
+      ],
       "extra": {
         "clauses": null,
         "component": "splitter",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/splitter",
+        "examples": [
+          {
+            "base": true,
+            "label": "Sidebar and content, resizable",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"sidebar-split\" default_size=\"30\"><:first><p>Folders</p></:first><:second><p>Files</p></:second></.component>"
+          },
+          {
+            "base": false,
+            "label": "Original and revised text to compare",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-splitter\" site=\"Global\" id=\"compare-split\"><:first><p>Original</p></:first><:second><p>Revised</p></:second></.component>"
+          }
+        ],
         "function": "splitter",
+        "furnishing": {
+          "body": "",
+          "slots": [
+            {
+              "body": "<p>First panel</p><p>Drag the bar to resize.</p>",
+              "name": "first"
+            },
+            {
+              "body": "<p>Second panel</p><p>Content goes here.</p>",
+              "name": "second"
+            }
+          ]
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -2192,13 +2311,39 @@
       "dependencies": [
         "slider.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" color=\"#2563eb\" value=\"60\" label=\"Layer opacity\" />",
+        "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" color=\"#111827\" value=\"35\" label=\"Overlay strength\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "alpha_slider",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/alpha-slider",
+        "examples": [
+          {
+            "base": true,
+            "label": "Opacity picker",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" color=\"#2563eb\" value=\"60\" label=\"Layer opacity\" />"
+          },
+          {
+            "base": false,
+            "label": "Dark overlay strength",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" color=\"#111827\" value=\"35\" label=\"Overlay strength\" />"
+          }
+        ],
         "function": "alpha_slider",
+        "furnishing": {
+          "attrs": {
+            "color": "#2563eb"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -2938,12 +3083,31 @@
       "dependencies": [
         "slider.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" value=\"210\" label=\"Accent hue\" />",
+        "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" value=\"140\" label=\"Theme hue\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "hue_slider",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/hue-slider",
+        "examples": [
+          {
+            "base": true,
+            "label": "Hue picker",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"hue-picker\" value=\"210\" label=\"Accent hue\" />"
+          },
+          {
+            "base": false,
+            "label": "Theme hue set to green",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-hue-slider\" site=\"Global\" id=\"theme-hue\" value=\"140\" label=\"Theme hue\" />"
+          }
+        ],
         "function": "hue_slider",
         "module_attributes": [],
         "prelude": null,
@@ -4132,12 +4296,31 @@
       "dependencies": [
         "context_menu.js"
       ],
-      "examples": [],
+      "examples": [
+        "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" /><p>Archive</p></div>",
+        "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
+      ],
       "extra": {
         "clauses": null,
         "component": "context_menu",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/context-menu",
+        "examples": [
+          {
+            "base": true,
+            "label": "Line between two groups of actions",
+            "requires": {},
+            "section": null,
+            "source": "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" /><p>Archive</p></div>"
+          },
+          {
+            "base": false,
+            "label": "Separator marked as vertical",
+            "requires": {},
+            "section": null,
+            "source": "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-context-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
+          }
+        ],
         "function": "context_menu_separator",
         "module_attributes": [],
         "prelude": null,
@@ -4784,13 +4967,40 @@
       ],
       "body": "value = to_num(assigns.value)\nspan = max(assigns.max - assigns.min, 1)\nfrac = min(max(value - assigns.min, 0), span) / span\nfull? = assigns.shape == \"full\"\ncirc = Float.round(:math.pi() * 90 * ((full? && 2) || 1), 3)\n\nassigns =\n  assign(assigns,\n    value: value,\n    circ: circ,\n    offset: Float.round(circ * (1 - frac), 3),\n    view_box: (full? && \"0 0 200 200\") || \"0 0 200 108\",\n    arc: (full? && \"M 100 10 A 90 90 0 1 1 99.99 10\") || \"M 10 100 A 90 90 0 0 1 190 100\"\n  )",
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\"><span>72</span> <span>out of 100</span></.component>",
+        "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\">45%</.component>"
+      ],
       "extra": {
         "clauses": null,
         "component": "semi_circle_progress",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/semi-circle-progress",
+        "examples": [
+          {
+            "base": true,
+            "label": "Score out of a hundred",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"score-gauge\" value={72} label=\"Score\"><span>72</span> <span>out of 100</span></.component>"
+          },
+          {
+            "base": false,
+            "label": "Full ring with a percentage",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-semi-circle-progress\" site=\"Global\" id=\"goal-ring\" value={45} label=\"Goal\" shape=\"full\">45%</.component>"
+          }
+        ],
         "function": "semi_circle_progress",
+        "furnishing": {
+          "attrs": {
+            "label": "Score",
+            "value": 72
+          },
+          "body": "<span>72</span> <span>out of 100</span>",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -4932,13 +5142,46 @@
       ],
       "body": null,
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} />",
+        "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} />"
+      ],
       "extra": {
         "clauses": null,
         "component": "segmented_control",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/segmented-control",
+        "examples": [
+          {
+            "base": true,
+            "label": "Day, week or month switch",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"period-switch\" name=\"period\" label=\"Period\" value=\"Week\" options={[\"Day\", \"Week\", \"Month\"]} />"
+          },
+          {
+            "base": false,
+            "label": "View switch with one option turned off",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-segmented-control\" site=\"Global\" id=\"view-switch\" name=\"view\" label=\"View\" value=\"list\" options={[{\"List\", \"list\"}, {\"Grid\", \"grid\"}, {\"Board\", \"board\", true}]} />"
+          }
+        ],
         "function": "segmented_control",
+        "furnishing": {
+          "attrs": {
+            "label": "Period",
+            "name": "period",
+            "options": [
+              "Day",
+              "Week",
+              "Month"
+            ],
+            "value": "Week"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -7483,13 +7726,79 @@
       "dependencies": [
         "chart_echarts.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />",
+        "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
+      ],
       "extra": {
         "clauses": null,
         "component": "chart",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/chart",
+        "examples": [
+          {
+            "base": true,
+            "label": "Visits per day as bars",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"visits-chart\" aria_label=\"Visits per day this week\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"bar\", \"data\" => [12, 18, 9, 22, 16]}]}} />"
+          },
+          {
+            "base": false,
+            "label": "Sign-ups over a month as a line",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-chart\" site=\"Global\" id=\"signups-chart\" aria_label=\"Sign-ups per week this month\" option={%{\"xAxis\" => %{\"type\" => \"category\", \"data\" => [\"Week 1\", \"Week 2\", \"Week 3\", \"Week 4\"]}, \"yAxis\" => %{\"type\" => \"value\"}, \"series\" => [%{\"type\" => \"line\", \"smooth\" => true, \"data\" => [40, 52, 47, 63]}]}} />"
+          }
+        ],
         "function": "chart",
+        "furnishing": {
+          "attrs": {
+            "aria_label": "Visits per day this week",
+            "option": {
+              "grid": {
+                "bottom": 28,
+                "left": 32,
+                "right": 16,
+                "top": 16
+              },
+              "series": [
+                {
+                  "data": [
+                    12,
+                    18,
+                    9,
+                    22,
+                    16,
+                    7,
+                    11
+                  ],
+                  "type": "bar"
+                }
+              ],
+              "tooltip": {
+                "trigger": "axis"
+              },
+              "xAxis": {
+                "data": [
+                  "Mon",
+                  "Tue",
+                  "Wed",
+                  "Thu",
+                  "Fri",
+                  "Sat",
+                  "Sun"
+                ],
+                "type": "category"
+              },
+              "yAxis": {
+                "type": "value"
+              }
+            }
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -7717,13 +8026,39 @@
       "dependencies": [
         "editor_tiptap.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" />",
+        "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" name=\"comment\" placeholder=\"Add a comment…\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "editor",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/editor",
+        "examples": [
+          {
+            "base": true,
+            "label": "Note editor",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"note-editor\" placeholder=\"Write a note…\" />"
+          },
+          {
+            "base": false,
+            "label": "Comment box that posts with a form",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-editor\" site=\"Global\" id=\"comment-editor\" name=\"comment\" placeholder=\"Add a comment…\" />"
+          }
+        ],
         "function": "editor",
+        "furnishing": {
+          "attrs": {
+            "placeholder": "Start writing…"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -7851,13 +8186,41 @@
       ],
       "body": "lo = assigns.min\nhi = assigns.max\nclamped = assigns.value |> Kernel.max(lo) |> Kernel.min(hi)\n\nratio =\n  if hi > lo do\n    (clamped - lo) / (hi - lo)\n  else\n    0.0\n  end\n\nassigns =\n  assigns\n  |> assign(:value, clamped)\n  |> assign(:ratio, ratio)\n  |> assign(:value_text, assigns.value_text || \"#{round(ratio * 100)}%\")",
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value />",
+        "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value />"
+      ],
       "extra": {
         "clauses": null,
         "component": "meter",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/meter",
+        "examples": [
+          {
+            "base": true,
+            "label": "Storage used with a percentage",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"storage-meter\" value={72} label=\"Storage used\" show_value />"
+          },
+          {
+            "base": false,
+            "label": "Battery level with its own words",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-meter\" site=\"Global\" id=\"battery-meter\" value={64} label=\"Battery\" value_text=\"64% charged\" show_value />"
+          }
+        ],
         "function": "meter",
+        "furnishing": {
+          "attrs": {
+            "label": "Storage used",
+            "show_value": true,
+            "value": 72
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -8355,13 +8718,41 @@
       "dependencies": [
         "mask_input.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" />",
+        "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "mask_input",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/mask-input",
+        "examples": [
+          {
+            "base": true,
+            "label": "Phone number",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"phone\" mask=\"(999) 999-9999\" placeholder=\"(___) ___-____\" inputmode=\"numeric\" />"
+          },
+          {
+            "base": false,
+            "label": "Date as day, month and year",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-mask-input\" site=\"Global\" id=\"birthday\" mask=\"99/99/9999\" placeholder=\"dd/mm/yyyy\" inputmode=\"numeric\" />"
+          }
+        ],
         "function": "mask_input",
+        "furnishing": {
+          "attrs": {
+            "inputmode": "numeric",
+            "mask": "(999) 999-9999",
+            "placeholder": "(___) ___-____"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -8682,7 +9073,10 @@
       ],
       "body": "assigns = assign(assigns, :invalid?, assigns.errors != [])",
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" />",
+        "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\"><:start_section>https://</:start_section></.component>"
+      ],
       "extra": {
         "clauses": [
           {
@@ -8703,7 +9097,30 @@
         "component": "text_input",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/text-input",
+        "examples": [
+          {
+            "base": true,
+            "label": "Email field",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"email\" type=\"email\" name=\"email\" placeholder=\"you@example.com\" />"
+          },
+          {
+            "base": false,
+            "label": "Web address with a fixed prefix",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-text-input\" site=\"Global\" id=\"website\" name=\"website\" placeholder=\"example.com\"><:start_section>https://</:start_section></.component>"
+          }
+        ],
         "function": "text_input",
+        "furnishing": {
+          "attrs": {
+            "placeholder": "Your name"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -10081,12 +10498,31 @@
       "dependencies": [
         "menu.js"
       ],
-      "examples": [],
+      "examples": [
+        "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" /><p>Archive</p></div>",
+        "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
+      ],
       "extra": {
         "clauses": null,
         "component": "menu",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/menu",
+        "examples": [
+          {
+            "base": true,
+            "label": "Line between two groups of actions",
+            "requires": {},
+            "section": null,
+            "source": "<div><p>Edit</p><p>Duplicate</p><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" /><p>Archive</p></div>"
+          },
+          {
+            "base": false,
+            "label": "Separator marked as vertical",
+            "requires": {},
+            "section": null,
+            "source": "<div><p>Bold</p><p>Italic</p><.component component_name=\"chelekom-headless-menu-separator\" site=\"Global\" orientation=\"vertical\" /><p>Link</p></div>"
+          }
+        ],
         "function": "menu_separator",
         "module_attributes": [],
         "prelude": null,
@@ -12173,13 +12609,50 @@
       ],
       "body": "assigns = assign_geometry(assigns)",
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[4, 7, 5, 9, 8, 12, 10, 14]} last_point aria_label=\"Visits this week\" />",
+        "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[3, 5, 2, 8, 6, 9, 4]} type=\"bar\" aria_label=\"Visits per day\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "sparkline",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/sparkline",
+        "examples": [
+          {
+            "base": true,
+            "label": "Trend line ending on a point",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[4, 7, 5, 9, 8, 12, 10, 14]} last_point aria_label=\"Visits this week\" />"
+          },
+          {
+            "base": false,
+            "label": "Week of visits as bars",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-sparkline\" site=\"Global\" values={[3, 5, 2, 8, 6, 9, 4]} type=\"bar\" aria_label=\"Visits per day\" />"
+          }
+        ],
         "function": "sparkline",
+        "furnishing": {
+          "attrs": {
+            "aria_label": "Visits this week",
+            "last_point": true,
+            "values": [
+              4,
+              7,
+              5,
+              9,
+              8,
+              12,
+              10,
+              14
+            ]
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -13013,13 +13486,79 @@
       "dependencies": [
         "tree.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />",
+        "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
+      ],
       "extra": {
         "clauses": null,
         "component": "tree",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/tree",
+        "examples": [
+          {
+            "base": true,
+            "label": "Documentation outline",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"docs-outline\" nodes={[%{label: \"Getting started\", value: \"start\", children: [%{label: \"Installation\", value: \"install\"}, %{label: \"First page\", value: \"first-page\"}]}, %{label: \"Reference\", value: \"reference\"}]} expanded={[\"start\"]} />"
+          },
+          {
+            "base": false,
+            "label": "Project files with checkboxes",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-tree\" site=\"Global\" id=\"project-files\" with_checkboxes nodes={[%{label: \"src\", value: \"src\", children: [%{label: \"app.ex\", value: \"app\"}, %{label: \"router.ex\", value: \"router\"}]}, %{label: \"README.md\", value: \"readme\"}]} expanded={[\"src\"]} />"
+          }
+        ],
         "function": "tree",
+        "furnishing": {
+          "attrs": {
+            "expanded": [
+              "start"
+            ],
+            "nodes": [
+              {
+                ":label": "Overview",
+                ":value": "overview"
+              },
+              {
+                ":children": [
+                  {
+                    ":label": "Installation",
+                    ":value": "install"
+                  },
+                  {
+                    ":label": "First page",
+                    ":value": "first-page"
+                  }
+                ],
+                ":label": "Getting started",
+                ":value": "start"
+              },
+              {
+                ":children": [
+                  {
+                    ":label": "Layouts",
+                    ":value": "layouts"
+                  },
+                  {
+                    ":label": "Components",
+                    ":value": "components"
+                  }
+                ],
+                ":label": "Guides",
+                ":value": "guides"
+              },
+              {
+                ":label": "Reference",
+                ":value": "reference"
+              }
+            ]
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -13465,13 +14004,40 @@
       ],
       "body": null,
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"settings-json\" name=\"settings\" rows={4} value={~s({\"theme\": \"light\", \"compact\": true})} />",
+        "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"payload-json\" name=\"payload\" rows={6} placeholder=\"Paste JSON here\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "json_input",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/json-input",
+        "examples": [
+          {
+            "base": true,
+            "label": "Settings written as JSON",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"settings-json\" name=\"settings\" rows={4} value={~s({\"theme\": \"light\", \"compact\": true})} />"
+          },
+          {
+            "base": false,
+            "label": "Empty box with a hint",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-json-input\" site=\"Global\" id=\"payload-json\" name=\"payload\" rows={6} placeholder=\"Paste JSON here\" />"
+          }
+        ],
         "function": "json_input",
+        "furnishing": {
+          "attrs": {
+            "placeholder": "Paste JSON here",
+            "rows": 6
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -14644,13 +15210,44 @@
       ],
       "body": null,
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"topics\" tags={[\"Design\", \"Writing\", \"Research\"]} placeholder=\"Add a tag…\" />",
+        "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"keywords\" placeholder=\"Type a keyword and press Enter\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "tags_input",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/tags-input",
+        "examples": [
+          {
+            "base": true,
+            "label": "Topics with room for one more",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"topics\" tags={[\"Design\", \"Writing\", \"Research\"]} placeholder=\"Add a tag…\" />"
+          },
+          {
+            "base": false,
+            "label": "Empty list waiting for its first tag",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-tags-input\" site=\"Global\" id=\"keywords\" placeholder=\"Type a keyword and press Enter\" />"
+          }
+        ],
         "function": "tags_input",
+        "furnishing": {
+          "attrs": {
+            "placeholder": "Add a tag…",
+            "tags": [
+              "Design",
+              "Writing",
+              "Research"
+            ]
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -14843,7 +15440,10 @@
       "dependencies": [
         "autosize.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" />",
+        "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" />"
+      ],
       "extra": {
         "clauses": [
           {
@@ -14864,7 +15464,31 @@
         "component": "textarea",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/textarea",
+        "examples": [
+          {
+            "base": true,
+            "label": "Message box",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"message\" name=\"message\" rows={4} placeholder=\"Write a message…\" />"
+          },
+          {
+            "base": false,
+            "label": "Notes that grow as you type",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-textarea\" site=\"Global\" id=\"notes\" name=\"notes\" autosize min_rows={2} max_rows={6} placeholder=\"Add a note…\" />"
+          }
+        ],
         "function": "textarea",
+        "furnishing": {
+          "attrs": {
+            "placeholder": "Write a message…",
+            "rows": 4
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -15998,13 +16622,65 @@
       ],
       "body": null,
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"signup-steps\" label=\"Steps\" active={1}><:step label=\"Account\" description=\"Your details\">1</:step><:step label=\"Profile\" description=\"About you\">2</:step><:step label=\"Finish\" description=\"All set\">3</:step></.component>",
+        "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"setup-steps\" label=\"Setup\" active={2} orientation=\"vertical\"><:step label=\"Connect\">1</:step><:step label=\"Configure\">2</:step><:step label=\"Publish\">3</:step></.component>"
+      ],
       "extra": {
         "clauses": null,
         "component": "stepper",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/stepper",
+        "examples": [
+          {
+            "base": true,
+            "label": "Three steps, the second current",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"signup-steps\" label=\"Steps\" active={1}><:step label=\"Account\" description=\"Your details\">1</:step><:step label=\"Profile\" description=\"About you\">2</:step><:step label=\"Finish\" description=\"All set\">3</:step></.component>"
+          },
+          {
+            "base": false,
+            "label": "Vertical stepper, the third step current",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-stepper\" site=\"Global\" id=\"setup-steps\" label=\"Setup\" active={2} orientation=\"vertical\"><:step label=\"Connect\">1</:step><:step label=\"Configure\">2</:step><:step label=\"Publish\">3</:step></.component>"
+          }
+        ],
         "function": "stepper",
+        "furnishing": {
+          "attrs": {
+            "active": 1,
+            "label": "Steps"
+          },
+          "body": "",
+          "slots": [
+            {
+              "attrs": {
+                "description": "Your details",
+                "label": "Account"
+              },
+              "body": "1",
+              "name": "step"
+            },
+            {
+              "attrs": {
+                "description": "About you",
+                "label": "Profile"
+              },
+              "body": "2",
+              "name": "step"
+            },
+            {
+              "attrs": {
+                "description": "All set",
+                "label": "Finish"
+              },
+              "body": "3",
+              "name": "step"
+            }
+          ]
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -16379,13 +17055,40 @@
       "dependencies": [
         "otp.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"verify-code\" length={6} label=\"Verification code\" />",
+        "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"pair-code\" length={4} group={2} separator=\"–\" validation_type=\"alphanumeric\" label=\"Pairing code\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "otp_field",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/otp-field",
+        "examples": [
+          {
+            "base": true,
+            "label": "Six-digit code",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"verify-code\" length={6} label=\"Verification code\" />"
+          },
+          {
+            "base": false,
+            "label": "Four characters in two groups",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-otp-field\" site=\"Global\" id=\"pair-code\" length={4} group={2} separator=\"–\" validation_type=\"alphanumeric\" label=\"Pairing code\" />"
+          }
+        ],
         "function": "otp_field",
+        "furnishing": {
+          "attrs": {
+            "label": "Verification code",
+            "length": 6
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -17835,13 +18538,62 @@
       "dependencies": [
         "indeterminate.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"people-table\" rows={[%{name: \"Ada Lovelace\", role: \"Engineer\"}, %{name: \"Grace Hopper\", role: \"Admiral\"}, %{name: \"Alan Turing\", role: \"Researcher\"}]}><:col :let={person} label=\"Name\">{person.name}</:col><:col :let={person} label=\"Role\">{person.role}</:col></.component>",
+        "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"empty-table\" rows={[]} caption=\"Team\" show_caption><:col label=\"Name\"></:col><:col label=\"Role\"></:col><:empty>Nobody here yet.</:empty></.component>"
+      ],
       "extra": {
         "clauses": null,
         "component": "table",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/table",
+        "examples": [
+          {
+            "base": true,
+            "label": "People with their role",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"people-table\" rows={[%{name: \"Ada Lovelace\", role: \"Engineer\"}, %{name: \"Grace Hopper\", role: \"Admiral\"}, %{name: \"Alan Turing\", role: \"Researcher\"}]}><:col :let={person} label=\"Name\">{person.name}</:col><:col :let={person} label=\"Role\">{person.role}</:col></.component>"
+          },
+          {
+            "base": false,
+            "label": "Team with a caption and no members yet",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-table\" site=\"Global\" id=\"empty-table\" rows={[]} caption=\"Team\" show_caption><:col label=\"Name\"></:col><:col label=\"Role\"></:col><:empty>Nobody here yet.</:empty></.component>"
+          }
+        ],
         "function": "table",
+        "furnishing": {
+          "attrs": {
+            "rows": []
+          },
+          "body": "",
+          "slots": [
+            {
+              "attrs": {
+                "label": "Name"
+              },
+              "name": "col"
+            },
+            {
+              "attrs": {
+                "label": "Role"
+              },
+              "name": "col"
+            },
+            {
+              "attrs": {
+                "label": "Status"
+              },
+              "name": "col"
+            },
+            {
+              "body": "No rows yet.",
+              "name": "empty"
+            }
+          ]
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -18292,13 +19044,40 @@
       "dependencies": [
         "radio_group.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" />",
+        "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly />"
+      ],
       "extra": {
         "clauses": null,
         "component": "rating",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/rating",
+        "examples": [
+          {
+            "base": true,
+            "label": "Three of five stars",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"review-rating\" value={3} label=\"Rating\" />"
+          },
+          {
+            "base": false,
+            "label": "Read-only score of four",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-rating\" site=\"Global\" id=\"score-rating\" value={4} label=\"Average score\" readonly />"
+          }
+        ],
         "function": "rating",
+        "furnishing": {
+          "attrs": {
+            "label": "Rating",
+            "value": 3
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -18531,13 +19310,59 @@
       "dependencies": [
         "popup.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>",
+        "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained><:icon>+</:icon></.component>"
+      ],
       "extra": {
         "clauses": null,
         "component": "fab",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/fab",
+        "examples": [
+          {
+            "base": true,
+            "label": "Button with three actions",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>"
+          },
+          {
+            "base": false,
+            "label": "Single action that opens nothing",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained><:icon>+</:icon></.component>"
+          }
+        ],
         "function": "fab",
+        "furnishing": {
+          "attrs": {
+            "contained": true,
+            "label": "Actions"
+          },
+          "body": "",
+          "slots": [
+            {
+              "body": "+",
+              "name": "icon"
+            },
+            {
+              "attrs": {
+                "label": "Share"
+              },
+              "body": "S",
+              "name": "action"
+            },
+            {
+              "attrs": {
+                "label": "Edit"
+              },
+              "body": "E",
+              "name": "action"
+            }
+          ]
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -18839,13 +19664,62 @@
       "dependencies": [
         "floating_indicator.js"
       ],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"range-picker\" active=\"week\" label=\"Range\"><:target value=\"day\">Day</:target><:target value=\"week\">Week</:target><:target value=\"month\">Month</:target></.component>",
+        "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"theme-picker\" active=\"light\" label=\"Theme\"><:target value=\"light\">Light</:target><:target value=\"dark\">Dark</:target></.component>"
+      ],
       "extra": {
         "clauses": null,
         "component": "floating_indicator",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/floating-indicator",
+        "examples": [
+          {
+            "base": true,
+            "label": "Day, week or month picker",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"range-picker\" active=\"week\" label=\"Range\"><:target value=\"day\">Day</:target><:target value=\"week\">Week</:target><:target value=\"month\">Month</:target></.component>"
+          },
+          {
+            "base": false,
+            "label": "Two-way toggle",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-floating-indicator\" site=\"Global\" id=\"theme-picker\" active=\"light\" label=\"Theme\"><:target value=\"light\">Light</:target><:target value=\"dark\">Dark</:target></.component>"
+          }
+        ],
         "function": "floating_indicator",
+        "furnishing": {
+          "attrs": {
+            "active": "day",
+            "label": "Range"
+          },
+          "body": "",
+          "slots": [
+            {
+              "attrs": {
+                "value": "day"
+              },
+              "body": "Day",
+              "name": "target"
+            },
+            {
+              "attrs": {
+                "value": "week"
+              },
+              "body": "Week",
+              "name": "target"
+            },
+            {
+              "attrs": {
+                "value": "month"
+              },
+              "body": "Month",
+              "name": "target"
+            }
+          ]
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",
@@ -19113,13 +19987,39 @@
       ],
       "body": null,
       "dependencies": [],
-      "examples": [],
+      "examples": [
+        "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button\" label=\"Open menu\" controls=\"site-menu\" />",
+        "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button-open\" label=\"Close menu\" opened controls=\"site-menu\" />"
+      ],
       "extra": {
         "clauses": null,
         "component": "burger",
         "doc_examples": [],
         "doc_url": "https://mishka.tools/chelekom/docs/headless/burger",
+        "examples": [
+          {
+            "base": true,
+            "label": "Menu button, closed",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button\" label=\"Open menu\" controls=\"site-menu\" />"
+          },
+          {
+            "base": false,
+            "label": "Menu button, open",
+            "requires": {},
+            "section": null,
+            "source": "<.component component_name=\"chelekom-headless-burger\" site=\"Global\" id=\"site-menu-button-open\" label=\"Close menu\" opened controls=\"site-menu\" />"
+          }
+        ],
         "function": "burger",
+        "furnishing": {
+          "attrs": {
+            "label": "Open menu"
+          },
+          "body": "",
+          "slots": []
+        },
         "module_attributes": [],
         "prelude": null,
         "ui_kit": "chelekom_headless",

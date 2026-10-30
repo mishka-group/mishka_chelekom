@@ -1,0 +1,22 @@
+{
+  "name": "chelekom-headless-slider",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "value": 40,
+      "label": "Volume",
+      "show_value": true
+    }
+  },
+  "examples": [
+    {
+      "label": "Volume with its value beside the label",
+      "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"volume-slider\" value={40} label=\"Volume\" show_value />"
+    },
+    {
+      "label": "Range with two thumbs",
+      "source": "<.component component_name=\"chelekom-headless-slider\" site=\"Global\" id=\"range-slider\" values={[20, 70]} thumb_labels={[\"Minimum\", \"Maximum\"]} label=\"Range\" show_value />"
+    }
+  ]
+}

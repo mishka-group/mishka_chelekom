@@ -1,0 +1,20 @@
+{
+  "name": "chelekom-headless-alpha-slider",
+  "furnishing": {
+    "body": "",
+    "slots": [],
+    "attrs": {
+      "color": "#2563eb"
+    }
+  },
+  "examples": [
+    {
+      "label": "Opacity picker",
+      "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"opacity-picker\" color=\"#2563eb\" value=\"60\" label=\"Layer opacity\" />"
+    },
+    {
+      "label": "Dark overlay strength",
+      "source": "<.component component_name=\"chelekom-headless-alpha-slider\" site=\"Global\" id=\"overlay-strength\" color=\"#111827\" value=\"35\" label=\"Overlay strength\" />"
+    }
+  ]
+}

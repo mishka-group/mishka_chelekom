@@ -1,0 +1,40 @@
+{
+  "name": "chelekom-headless-fab",
+  "furnishing": {
+    "body": "",
+    "slots": [
+      {
+        "name": "icon",
+        "body": "+"
+      },
+      {
+        "name": "action",
+        "attrs": {
+          "label": "Share"
+        },
+        "body": "S"
+      },
+      {
+        "name": "action",
+        "attrs": {
+          "label": "Edit"
+        },
+        "body": "E"
+      }
+    ],
+    "attrs": {
+      "label": "Actions",
+      "contained": true
+    }
+  },
+  "examples": [
+    {
+      "label": "Button with three actions",
+      "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"page-actions\" label=\"Actions\" contained><:icon>+</:icon><:action label=\"Share\">S</:action><:action label=\"Copy\">C</:action><:action label=\"Edit\">E</:action></.component>"
+    },
+    {
+      "label": "Single action that opens nothing",
+      "source": "<.component component_name=\"chelekom-headless-fab\" site=\"Global\" id=\"new-note\" label=\"New note\" contained><:icon>+</:icon></.component>"
+    }
+  ]
+}

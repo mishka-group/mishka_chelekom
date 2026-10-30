@@ -5,23 +5,23 @@
     "slots": [
       {
         "name": "option",
-        "body": "Starter",
+        "body": "Morning",
         "attrs": {
-          "value": "starter"
+          "value": "morning"
         }
       },
       {
         "name": "option",
-        "body": "Team",
+        "body": "Afternoon",
         "attrs": {
-          "value": "team"
+          "value": "afternoon"
         }
       },
       {
         "name": "option",
-        "body": "Business",
+        "body": "Evening",
         "attrs": {
-          "value": "business"
+          "value": "evening"
         }
       }
     ]
