@@ -51,7 +51,7 @@ defmodule DevelopmentWeb.Components.Drawer do
 
   attr :description, :string,
     default: nil,
-    doc: "What screen readers announce as the drawer's description, \"Drawer content\" when nil"
+    doc: "What screen readers announce as the drawer's description; none when nil"
 
   attr :title_class, :string, default: nil, doc: "Determines custom class for the title"
   attr :variant, :string, default: "base", doc: "Determines the style"
@@ -110,7 +110,15 @@ defmodule DevelopmentWeb.Components.Drawer do
         |> JS.focus_first(to: "##{@id}-container")
       }
       data-close-focus={JS.pop_focus()}
-      data-close-scroll={JS.remove_class("overflow-hidden", to: "body")}
+      data-open-scroll={
+        JS.add_class("overflow-hidden", to: "body")
+        |> JS.add_class("[scrollbar-gutter:stable]", to: "html")
+      }
+      data-close-scroll={
+        JS.remove_class("overflow-hidden", to: "body")
+        |> JS.remove_class("[scrollbar-gutter:stable]", to: "html")
+        |> JS.exec("data-open-scroll", to: "[data-open-scroll][data-open]:not(##{@id})")
+      }
       class={[
         "fixed z-50 transition-transform",
         "[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100",
@@ -122,7 +130,7 @@ defmodule DevelopmentWeb.Components.Drawer do
       role="dialog"
       aria-modal="true"
       aria-labelledby={(@title || @header != []) && "#{@id}-#{@position}-title"}
-      aria-describedby={"#{@id}-#{@position}-desc"}
+      aria-describedby={@description && "#{@id}-#{@position}-desc"}
       inert
       {@rest}
     >
@@ -172,8 +180,8 @@ defmodule DevelopmentWeb.Components.Drawer do
             </h5>
           </div>
 
-          <div id={"#{@id}-#{@position}-desc"} class="sr-only">
-            {@description || gettext("Drawer content")}
+          <div :if={@description} id={"#{@id}-#{@position}-desc"} class="sr-only">
+            {@description}
           </div>
 
           <div class={@content_class}>
@@ -687,9 +695,11 @@ defmodule DevelopmentWeb.Components.Drawer do
     |> JS.remove_attribute("inert", to: "##{id}")
     |> JS.remove_class(translate_position(position), to: "##{id}")
     |> JS.add_class("translate-none", to: "##{id}")
-    |> JS.add_class("overflow-hidden", to: "body")
-    # Before `drawer-showed` is added, so only a drawer that was closed runs it.
-    |> JS.exec("data-open-focus", to: "##{id}:not(.drawer-showed)")
+    # Before `data-open` is set, so only a drawer that was closed locks the page's scroll and
+    # moves focus.
+    |> JS.exec("data-open-scroll", to: "##{id}:not([data-open])")
+    |> JS.exec("data-open-focus", to: "##{id}:not([data-open])")
+    |> JS.set_attribute({"data-open", ""}, to: "##{id}")
     |> JS.add_class("drawer-showed", to: "##{id}")
   end
 
@@ -704,8 +714,8 @@ defmodule DevelopmentWeb.Components.Drawer do
   ## Behavior:
   Removes the `"translate-none"` CSS class that keeps the drawer visible and adds the class based on the drawer's position (e.g., `"-translate-x-full"` for a left-positioned drawer) to move the drawer off-screen.
   It gives focus back to the element that had it when the drawer opened, unlocks the page's
-  scroll and takes the drawer out of the Tab order. A drawer that is already closed leaves focus
-  and the page's scroll as they are.
+  scroll unless another drawer or modal is still open, and takes the drawer out of the Tab order.
+  A drawer that is already closed leaves focus and the page's scroll as they are.
 
   ## Examples:
 
@@ -717,10 +727,11 @@ defmodule DevelopmentWeb.Components.Drawer do
   """
   def hide_drawer(js \\ %JS{}, id, position) do
     js
-    # Before `drawer-showed` is removed, so only a drawer that was open gives focus back and
-    # unlocks the page's scroll.
-    |> JS.exec("data-close-focus", to: "##{id}.drawer-showed")
-    |> JS.exec("data-close-scroll", to: "##{id}.drawer-showed")
+    # Before `data-open` is removed, so only a drawer that was open gives focus back and unlocks
+    # the page's scroll, which stays locked while another drawer or modal is open.
+    |> JS.exec("data-close-focus", to: "##{id}[data-open]")
+    |> JS.exec("data-close-scroll", to: "##{id}[data-open]")
+    |> JS.remove_attribute("data-open", to: "##{id}")
     |> JS.remove_class("drawer-showed", to: "##{id}")
     |> JS.remove_class("translate-none", to: "##{id}")
     |> JS.add_class(translate_position(position), to: "##{id}")
