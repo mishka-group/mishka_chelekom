@@ -20,9 +20,8 @@ env:
   MOB_OTP_VERSION: "29.1.2"
   ANDROID_NDK_VERSION: "27.2.12479018"
   JAVA_VERSION: "17"
-  # The one zig mob_dev's native build accepts (MobDev.Toolchain.required_zig_version/0).
-  # A dev build: ziglang.org drops those, and setup-zig fetches it from the community mirrors.
-  ZIG_VERSION: "0.17.0-dev.269+ebff43698"
+  # The Zig release mob_dev's native build requires (MobDev.Toolchain.required_zig_version/0).
+  ZIG_VERSION: "0.17.0"
 
 jobs:
   version:
