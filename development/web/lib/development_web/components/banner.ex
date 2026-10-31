@@ -149,7 +149,7 @@ defmodule DevelopmentWeb.Components.Banner do
       aria-live="polite"
       aria-atomic="true"
       class={[
-        "overflow-hidden fixed z-50",
+        "overflow-hidden fixed m-0 z-50",
         vertical_position(@vertical_size, @vertical_position),
         rounded_size(@rounded, @rounded_position),
         border_class(@border, @border_position, @variant),

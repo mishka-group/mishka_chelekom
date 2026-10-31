@@ -105,6 +105,12 @@
   `MCP.Supervisor`, to reach it from another machine. The docs links for `toggle_field` and
   `form_wrapper` no longer point at 404 pages. A malformed EEx template reports "EEx parse error at
   line:col" instead of "no case clause matching"
+- A styled component whose root is `position: fixed` resets its margin with `m-0`: the drawer,
+  sidebar, banner, speed dial, toast, toast group, flash group and the dock in its four fixed
+  positions. Tailwind v4 writes `space-y-*` as a margin with no specificity, so a page that wrapped
+  a closed bottom drawer in `space-y-4` lifted it 16px into view. A static or sticky dock and a
+  toast inside a toast group keep the margin their wrapper gives them. Regenerate these components
+  to get the fix
 - Dependencies and security: `bandit` 1.14.1 replaces 1.14.0, which `mix hex.audit` flagged
   (EEF-CVE-2026-116078), and every dependency of the library, `development/web` and
   `development/mob` moves to its latest Hex release, among them `anubis_mcp` 2.2.0,
@@ -137,6 +143,10 @@
 - The test, release, hex-audit and dependency-submission workflows and the Mob app's
   `.tool-versions` run on Erlang 29.1.2 and Elixir 1.20.5. The temporary OTP 29.0.5 pin is
   removed, because the download libraries now pass `max_header_size` to `:httpc`
+- The Mob app builds with Zig 0.17.0, the release mob_dev 0.7.31 requires: its `.tool-versions`
+  and the device test README name it. The iOS `build.zig` and `build_device.zig` open mob's Swift
+  directory with `std.Io.Dir.openDirAbsolute` after `b.dependOnDirectoryContents`, where
+  `b.build_root`, which 0.17.0 removed, stopped the configure phase
 
 # Changelog for MishkaChelekom 0.0.10
 

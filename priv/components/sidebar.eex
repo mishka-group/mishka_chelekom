@@ -140,7 +140,7 @@ defmodule <%= @module %> do
       class={[
         <%!-- `visibility` beside the translate, so a closing sidebar stays visible while it
               slides out and is hidden once it is off-screen. --%>
-        "fixed h-screen transition-[transform,translate,scale,rotate,visibility] z-10 overflow-x-hidden",
+        "fixed m-0 h-screen transition-[transform,translate,scale,rotate,visibility] z-10 overflow-x-hidden",
         <%!-- A closed sidebar is only moved off-screen, below `md`; from `md` up it stays in view.
               Hidden while it is off-screen, its controls leave the Tab order and screen readers
               skip them. `translate-none` is what `show_sidebar/3` adds. --%>

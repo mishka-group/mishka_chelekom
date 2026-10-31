@@ -329,16 +329,16 @@ defmodule DevelopmentWeb.Components.Dock do
     do: "sticky top-0 left-0 right-0 z-40"
 
   defp position_class("fixed_bottom"),
-    do: "fixed bottom-0 left-0 right-0 z-40"
+    do: "fixed m-0 bottom-0 left-0 right-0 z-40"
 
   defp position_class("fixed_top"),
-    do: "fixed top-0 left-0 right-0 z-40"
+    do: "fixed m-0 top-0 left-0 right-0 z-40"
 
   defp position_class("fixed_bottom_center"),
-    do: "fixed bottom-4 left-1/2 -translate-x-1/2 w-fit! z-40"
+    do: "fixed m-0 bottom-4 left-1/2 -translate-x-1/2 w-fit! z-40"
 
   defp position_class("fixed_top_center"),
-    do: "fixed top-4 left-1/2 -translate-x-1/2 w-fit! z-40"
+    do: "fixed m-0 top-4 left-1/2 -translate-x-1/2 w-fit! z-40"
 
   defp position_class(params) when is_binary(params), do: params
 

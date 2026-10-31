@@ -32,7 +32,7 @@ be done by hand, per device:
    devices, so a phone and an emulator each take half of the files. One summary at the end.
 
 On the build machine (`mix android.native` needs them):
-`ASDF_ZIG_VERSION=0.17.0-dev.269+ebff43698` and
+`ASDF_ZIG_VERSION=0.17.0` and
 `JAVA_HOME=/opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk/Contents/Home`.
 
 By hand, with one device and the app already running with its tunnels up:
