@@ -144,7 +144,7 @@ defmodule DevelopmentWeb.Components.SpeedDial do
           )
       }
       class={[
-        "fixed group",
+        "fixed m-0 group",
         "[&_.speed-dial-content]:invisible [&_.speed-dial-content]:opacity-0",
         "[&_.speed-dial-content.show-speed-dial]:visible [&_.speed-dial-content.show-speed-dial]:opacity-100",
         "[&_.speed-dial-base]:flex [&_.speed-dial-base]:items-center [&_.speed-dial-base]:justify-center",

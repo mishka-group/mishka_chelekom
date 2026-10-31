@@ -133,7 +133,7 @@ defmodule DevelopmentWeb.Components.Toast do
       tabindex="0"
       class={[
         "overflow-hidden leading-5",
-        @fixed && "fixed",
+        @fixed && "fixed m-0",
         width_class(@width),
         rounded_size(@rounded),
         border_class(@border, @variant),
@@ -252,7 +252,7 @@ defmodule DevelopmentWeb.Components.Toast do
       id={@id}
       role="region"
       class={[
-        "fixed",
+        "fixed m-0",
         space_class(@space),
         position_class(@horizontal_space, @horizontal),
         vertical_position(@vertical_space, @vertical),
