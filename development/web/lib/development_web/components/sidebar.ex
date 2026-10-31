@@ -124,7 +124,7 @@ defmodule DevelopmentWeb.Components.Sidebar do
       data-close-focus={JS.focus(to: opener(@id))}
       role="complementary"
       class={[
-        "fixed h-screen transition-[transform,translate,scale,rotate,visibility] z-10 overflow-x-hidden",
+        "fixed m-0 h-screen transition-[transform,translate,scale,rotate,visibility] z-10 overflow-x-hidden",
         @hide_position in ["left", "right"] && "max-md:[&:not(.translate-none)]:invisible",
         border_class(@border, @position, @variant),
         hide_position(@hide_position),

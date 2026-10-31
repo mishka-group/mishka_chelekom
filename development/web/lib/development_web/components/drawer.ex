@@ -120,7 +120,7 @@ defmodule DevelopmentWeb.Components.Drawer do
         |> JS.exec("data-open-scroll", to: "[data-open-scroll][data-open]:not(##{@id})")
       }
       class={[
-        "fixed z-50 transition-transform",
+        "fixed m-0 z-50 transition-transform",
         "[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100",
         translate_position(@position),
         position_class(@position),

@@ -380,10 +380,10 @@ defmodule DevelopmentWeb.Components.Alert do
 
   defp content_size(params) when is_binary(params), do: params
 
-  defp position_class("top_left"), do: "fixed top-2 left-0 ml-2"
-  defp position_class("top_right"), do: "fixed top-2 right-0 mr-2"
-  defp position_class("bottom_left"), do: "fixed bottom-2 left-0 ml-2"
-  defp position_class("bottom_right"), do: "fixed bottom-2 right-0 mr-2"
+  defp position_class("top_left"), do: "fixed m-0 top-2 left-0 ml-2"
+  defp position_class("top_right"), do: "fixed m-0 top-2 right-0 mr-2"
+  defp position_class("bottom_left"), do: "fixed m-0 bottom-2 left-0 ml-2"
+  defp position_class("bottom_right"), do: "fixed m-0 bottom-2 right-0 mr-2"
   defp position_class(params) when is_binary(params), do: params
 
   defp border_class(_, variant)

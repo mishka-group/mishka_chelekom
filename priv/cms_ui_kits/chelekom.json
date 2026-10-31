@@ -62082,7 +62082,7 @@
         }
       ],
       "stateful": false,
-      "template": "<div\n  id={@id}\n  data-pb-toggle={\n    @id &&\n      JS.toggle_class(\"show-speed-dial\",\n        to: \"##{@id}-speed-dial-content\",\n        transition: \"duration-100\"\n      )\n  }\n  class={[\n    \"fixed group\",\n    \"[&_.speed-dial-content]:invisible [&_.speed-dial-content]:opacity-0\",\n    \"[&_.speed-dial-content.show-speed-dial]:visible [&_.speed-dial-content.show-speed-dial]:opacity-100\",\n    \"[&_.speed-dial-base]:flex [&_.speed-dial-base]:items-center [&_.speed-dial-base]:justify-center\",\n    !@clickable && trigger_dial(),\n    action_position(@position_size, @action_position),\n    space_class(@space, @wrapper_position),\n    position_class(@wrapper_position),\n    rounded_size(@rounded),\n    border_class(@border, @variant),\n    padding_class(@padding),\n    width_class(@width),\n    size_class(@size),\n    @class\n  ]}\n  {@rest}\n>\n  <div\n    class={[\n      \"speed-dial-content flex items-center\",\n      \"absolute z-10 w-full transition-all ease-in-out delay-100 duration-500\",\n      (@wrapper_position == \"top\" || @wrapper_position == \"bottom\") && \"flex-col\",\n      @wrapper_content_class\n    ]}\n    id={@id && \"#{@id}-speed-dial-content\"}\n    role=\"menu\"\n    phx-click-away={\n      @id &&\n        JS.remove_class(\"show-speed-dial\",\n          to: \"##{@id}-speed-dial-content\",\n          transition: \"duration-300\"\n        )\n    }\n  >\n    <div\n      :for={{item, index} <- Enum.with_index(@item, 1)}\n      id={\"#{@id}-item-#{index}\"}\n      class={[\n        \"speed-dial-item w-fit h-fit\",\n        item[:icon_position] == \"end\" && \"flex-row-reverse\",\n        item[:class]\n      ]}\n    >\n      <.speed_dial_content id={@id} index={index} {item}>\n        {render_slot(item)}\n      </.speed_dial_content>\n    </div>\n    {render_slot(@inner_block)}\n  </div>\n\n  <button\n    type=\"button\"\n    aria-haspopup=\"menu\"\n    aria-controls={\"#{@id}-speed-dial-content\"}\n    class={[\"speed-dial-base cursor-pointer\", color_variant(@variant, @color), @trigger_class]}\n    phx-click={\n      @id &&\n        JS.toggle_class(\"show-speed-dial\",\n          to: \"##{@id}-speed-dial-content\",\n          transition: \"duration-100\"\n        )\n    }\n  >\n    <.component component_name=\"chelekom-icon\" site={assigns[:site]}\n      :if={!is_nil(@icon)}\n      name={@icon}\n      class={[\n        \"speed-dial-icon-base\",\n        @icon_animated && \"transition-transform group-hover:rotate-45\"\n      ]}\n    />\n    <span :if={is_nil(@icon)} class={@trigger_content[:class]}>{render_slot(@trigger_content)}</span>\n    <span class=\"sr-only\">{gettext(\"Open actions menu\")}</span>\n  </button>\n</div>\n",
+      "template": "<div\n  id={@id}\n  data-pb-toggle={\n    @id &&\n      JS.toggle_class(\"show-speed-dial\",\n        to: \"##{@id}-speed-dial-content\",\n        transition: \"duration-100\"\n      )\n  }\n  class={[\n    \"fixed m-0 group\",\n    \"[&_.speed-dial-content]:invisible [&_.speed-dial-content]:opacity-0\",\n    \"[&_.speed-dial-content.show-speed-dial]:visible [&_.speed-dial-content.show-speed-dial]:opacity-100\",\n    \"[&_.speed-dial-base]:flex [&_.speed-dial-base]:items-center [&_.speed-dial-base]:justify-center\",\n    !@clickable && trigger_dial(),\n    action_position(@position_size, @action_position),\n    space_class(@space, @wrapper_position),\n    position_class(@wrapper_position),\n    rounded_size(@rounded),\n    border_class(@border, @variant),\n    padding_class(@padding),\n    width_class(@width),\n    size_class(@size),\n    @class\n  ]}\n  {@rest}\n>\n  <div\n    class={[\n      \"speed-dial-content flex items-center\",\n      \"absolute z-10 w-full transition-all ease-in-out delay-100 duration-500\",\n      (@wrapper_position == \"top\" || @wrapper_position == \"bottom\") && \"flex-col\",\n      @wrapper_content_class\n    ]}\n    id={@id && \"#{@id}-speed-dial-content\"}\n    role=\"menu\"\n    phx-click-away={\n      @id &&\n        JS.remove_class(\"show-speed-dial\",\n          to: \"##{@id}-speed-dial-content\",\n          transition: \"duration-300\"\n        )\n    }\n  >\n    <div\n      :for={{item, index} <- Enum.with_index(@item, 1)}\n      id={\"#{@id}-item-#{index}\"}\n      class={[\n        \"speed-dial-item w-fit h-fit\",\n        item[:icon_position] == \"end\" && \"flex-row-reverse\",\n        item[:class]\n      ]}\n    >\n      <.speed_dial_content id={@id} index={index} {item}>\n        {render_slot(item)}\n      </.speed_dial_content>\n    </div>\n    {render_slot(@inner_block)}\n  </div>\n\n  <button\n    type=\"button\"\n    aria-haspopup=\"menu\"\n    aria-controls={\"#{@id}-speed-dial-content\"}\n    class={[\"speed-dial-base cursor-pointer\", color_variant(@variant, @color), @trigger_class]}\n    phx-click={\n      @id &&\n        JS.toggle_class(\"show-speed-dial\",\n          to: \"##{@id}-speed-dial-content\",\n          transition: \"duration-100\"\n        )\n    }\n  >\n    <.component component_name=\"chelekom-icon\" site={assigns[:site]}\n      :if={!is_nil(@icon)}\n      name={@icon}\n      class={[\n        \"speed-dial-icon-base\",\n        @icon_animated && \"transition-transform group-hover:rotate-45\"\n      ]}\n    />\n    <span :if={is_nil(@icon)} class={@trigger_content[:class]}>{render_slot(@trigger_content)}</span>\n    <span class=\"sr-only\">{gettext(\"Open actions menu\")}</span>\n  </button>\n</div>\n",
       "type": "general"
     },
     {
@@ -66270,7 +66270,7 @@
         }
       ],
       "stateful": false,
-      "template": "<div\n  id={@id}\n  role=\"status\"\n  aria-live=\"polite\"\n  aria-atomic=\"true\"\n  class={[\n    \"overflow-hidden fixed z-50\",\n    vertical_position(@vertical_size, @vertical_position),\n    rounded_size(@rounded, @rounded_position),\n    border_class(@border, @border_position, @variant),\n    color_variant(@variant, @color),\n    position_class(@position_size, @position),\n    space_class(@space),\n    padding_size(@padding),\n    @font_weight,\n    @class\n  ]}\n  {@rest}\n>\n  <div class={[\"flex gap-2 items-center justify-between\", @content_wrapper_class]}>\n    {render_slot(@inner_block)}\n    <.banner_dismiss :if={!@hide_dismiss} id={@id} dismiss_size={@dismiss_size} class={@dismiss_class} params={@params} />\n  </div>\n</div>\n",
+      "template": "<div\n  id={@id}\n  role=\"status\"\n  aria-live=\"polite\"\n  aria-atomic=\"true\"\n  class={[\n    \"overflow-hidden fixed m-0 z-50\",\n    vertical_position(@vertical_size, @vertical_position),\n    rounded_size(@rounded, @rounded_position),\n    border_class(@border, @border_position, @variant),\n    color_variant(@variant, @color),\n    position_class(@position_size, @position),\n    space_class(@space),\n    padding_size(@padding),\n    @font_weight,\n    @class\n  ]}\n  {@rest}\n>\n  <div class={[\"flex gap-2 items-center justify-between\", @content_wrapper_class]}>\n    {render_slot(@inner_block)}\n    <.banner_dismiss :if={!@hide_dismiss} id={@id} dismiss_size={@dismiss_size} class={@dismiss_class} params={@params} />\n  </div>\n</div>\n",
       "type": "feedback"
     },
     {
@@ -71581,7 +71581,7 @@
         }
       ],
       "stateful": false,
-      "template": "<div\n  id={@id}\n  phx-mounted={@show && show_drawer(@on_show, @id, @position)}\n  phx-remove={hide_drawer(@id, @position)}\n  data-pb-open={show_drawer(@id, @position)}\n  \n  data-pb-close={JS.exec(\"phx-remove\", to: \"##{@id}\")}\n  \n  data-open-focus={\n    JS.push_focus(to: \":focus, body:not(:focus-within)\")\n    |> JS.focus_first(to: \"##{@id}-container\")\n  }\n  data-close-focus={JS.pop_focus()}\n  \n  data-open-scroll={\n    JS.add_class(\"overflow-hidden\", to: \"body\")\n    |> JS.add_class(\"[scrollbar-gutter:stable]\", to: \"html\")\n  }\n  data-close-scroll={\n    JS.remove_class(\"overflow-hidden\", to: \"body\")\n    |> JS.remove_class(\"[scrollbar-gutter:stable]\", to: \"html\")\n    |> JS.exec(\"data-open-scroll\", to: \"[data-open-scroll][data-open]:not(##{@id})\")\n  }\n  class={[\n    \"fixed z-50 transition-transform\",\n    \"[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100\",\n    translate_position(@position),\n    position_class(@position),\n    @class\n  ]}\n  tabindex=\"-1\"\n  role=\"dialog\"\n  aria-modal=\"true\"\n  \n  aria-labelledby={(@title || @header != []) && \"#{@id}-#{@position}-title\"}\n  aria-describedby={@description && \"#{@id}-#{@position}-desc\"}\n  \n  inert\n  {@rest}\n>\n  <div\n    class={[\"fixed bg-black/60 inset-0 -z-10 transition-all duration-[0.4s] delay-[0.1s] ease-in-out drawer-overlay\", @overlay_class]}\n    role=\"presentation\"\n    aria-hidden=\"true\"\n  ></div>\n\n  <div\n    phx-click-away={hide_drawer(@on_hide_away, @id, @position)}\n    phx-window-keydown={hide_drawer(@on_hide, @id, @position)}\n    phx-key=\"escape\"\n    class={[\n      \"p-2 overflow-y-auto\",\n      (@position in [\"left\", \"right\"]) && \"h-full\",\n      size_class(@size, @position),\n      border_class(@border, @position, @variant),\n      color_variant(@variant, @color),\n      @wrapper_class\n    ]}\n    tabindex=\"0\"\n    role=\"document\"\n  >\n    \n    <.focus_wrap id={\"#{@id}-container\"} class=\"contents\">\n      <div class=\"flex flex-row-reverse justify-between items-center gap-5 mb-2\">\n        <button\n          type=\"button\"\n          phx-click={JS.exec(@on_hide, \"phx-remove\", to: \"##{@id}\")}\n          aria-label={gettext(\"Close menu\")}\n          class={[\"cursor-pointer\", @close_class]}\n        >\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-x-mark\" />\n          <span class=\"sr-only\">{gettext(\"Close menu\")}</span>\n        </button>\n\n        <h5\n          :if={title = @title || render_slot(@header)}\n          id={\"#{@id}-#{@position}-title\"}\n          class={[@title_class || \"text-lg font-semibold\"]}\n        >\n          {title}\n        </h5>\n      </div>\n\n      <div :if={@description} id={\"#{@id}-#{@position}-desc\"} class=\"sr-only\">\n        {@description}\n      </div>\n\n      <div class={@content_class}>\n        {render_slot(@inner_block)}\n      </div>\n    </.focus_wrap>\n  </div>\n</div>\n",
+      "template": "<div\n  id={@id}\n  phx-mounted={@show && show_drawer(@on_show, @id, @position)}\n  phx-remove={hide_drawer(@id, @position)}\n  data-pb-open={show_drawer(@id, @position)}\n  \n  data-pb-close={JS.exec(\"phx-remove\", to: \"##{@id}\")}\n  \n  data-open-focus={\n    JS.push_focus(to: \":focus, body:not(:focus-within)\")\n    |> JS.focus_first(to: \"##{@id}-container\")\n  }\n  data-close-focus={JS.pop_focus()}\n  \n  data-open-scroll={\n    JS.add_class(\"overflow-hidden\", to: \"body\")\n    |> JS.add_class(\"[scrollbar-gutter:stable]\", to: \"html\")\n  }\n  data-close-scroll={\n    JS.remove_class(\"overflow-hidden\", to: \"body\")\n    |> JS.remove_class(\"[scrollbar-gutter:stable]\", to: \"html\")\n    |> JS.exec(\"data-open-scroll\", to: \"[data-open-scroll][data-open]:not(##{@id})\")\n  }\n  class={[\n    \"fixed m-0 z-50 transition-transform\",\n    \"[&:not(.drawer-showed)_.drawer-overlay]:opacity-0 [&.drawer-showed_.drawer-overlay]:opacity-100\",\n    translate_position(@position),\n    position_class(@position),\n    @class\n  ]}\n  tabindex=\"-1\"\n  role=\"dialog\"\n  aria-modal=\"true\"\n  \n  aria-labelledby={(@title || @header != []) && \"#{@id}-#{@position}-title\"}\n  aria-describedby={@description && \"#{@id}-#{@position}-desc\"}\n  \n  inert\n  {@rest}\n>\n  <div\n    class={[\"fixed bg-black/60 inset-0 -z-10 transition-all duration-[0.4s] delay-[0.1s] ease-in-out drawer-overlay\", @overlay_class]}\n    role=\"presentation\"\n    aria-hidden=\"true\"\n  ></div>\n\n  <div\n    phx-click-away={hide_drawer(@on_hide_away, @id, @position)}\n    phx-window-keydown={hide_drawer(@on_hide, @id, @position)}\n    phx-key=\"escape\"\n    class={[\n      \"p-2 overflow-y-auto\",\n      (@position in [\"left\", \"right\"]) && \"h-full\",\n      size_class(@size, @position),\n      border_class(@border, @position, @variant),\n      color_variant(@variant, @color),\n      @wrapper_class\n    ]}\n    tabindex=\"0\"\n    role=\"document\"\n  >\n    \n    <.focus_wrap id={\"#{@id}-container\"} class=\"contents\">\n      <div class=\"flex flex-row-reverse justify-between items-center gap-5 mb-2\">\n        <button\n          type=\"button\"\n          phx-click={JS.exec(@on_hide, \"phx-remove\", to: \"##{@id}\")}\n          aria-label={gettext(\"Close menu\")}\n          class={[\"cursor-pointer\", @close_class]}\n        >\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-x-mark\" />\n          <span class=\"sr-only\">{gettext(\"Close menu\")}</span>\n        </button>\n\n        <h5\n          :if={title = @title || render_slot(@header)}\n          id={\"#{@id}-#{@position}-title\"}\n          class={[@title_class || \"text-lg font-semibold\"]}\n        >\n          {title}\n        </h5>\n      </div>\n\n      <div :if={@description} id={\"#{@id}-#{@position}-desc\"} class=\"sr-only\">\n        {@description}\n      </div>\n\n      <div class={@content_class}>\n        {render_slot(@inner_block)}\n      </div>\n    </.focus_wrap>\n  </div>\n</div>\n",
       "type": "overlays"
     },
     {
@@ -96846,7 +96846,7 @@
         {
           "args": "\"fixed_bottom\"",
           "attrs": [],
-          "code": "\"fixed bottom-0 left-0 right-0 z-40\"",
+          "code": "\"fixed m-0 bottom-0 left-0 right-0 z-40\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -96854,7 +96854,7 @@
         {
           "args": "\"fixed_top\"",
           "attrs": [],
-          "code": "\"fixed top-0 left-0 right-0 z-40\"",
+          "code": "\"fixed m-0 top-0 left-0 right-0 z-40\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -96862,7 +96862,7 @@
         {
           "args": "\"fixed_bottom_center\"",
           "attrs": [],
-          "code": "\"fixed bottom-4 left-1/2 -translate-x-1/2 w-fit! z-40\"",
+          "code": "\"fixed m-0 bottom-4 left-1/2 -translate-x-1/2 w-fit! z-40\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -96870,7 +96870,7 @@
         {
           "args": "\"fixed_top_center\"",
           "attrs": [],
-          "code": "\"fixed top-4 left-1/2 -translate-x-1/2 w-fit! z-40\"",
+          "code": "\"fixed m-0 top-4 left-1/2 -translate-x-1/2 w-fit! z-40\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -104474,7 +104474,7 @@
         {
           "args": "\"top_left\"",
           "attrs": [],
-          "code": "\"fixed top-2 left-0 ml-2\"",
+          "code": "\"fixed m-0 top-2 left-0 ml-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -104482,7 +104482,7 @@
         {
           "args": "\"top_right\"",
           "attrs": [],
-          "code": "\"fixed top-2 right-0 mr-2\"",
+          "code": "\"fixed m-0 top-2 right-0 mr-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -104490,7 +104490,7 @@
         {
           "args": "\"bottom_left\"",
           "attrs": [],
-          "code": "\"fixed bottom-2 left-0 ml-2\"",
+          "code": "\"fixed m-0 bottom-2 left-0 ml-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -104498,7 +104498,7 @@
         {
           "args": "\"bottom_right\"",
           "attrs": [],
-          "code": "\"fixed bottom-2 right-0 mr-2\"",
+          "code": "\"fixed m-0 bottom-2 right-0 mr-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -106278,7 +106278,7 @@
         {
           "args": "\"top_left\"",
           "attrs": [],
-          "code": "\"fixed top-2 left-0 ml-2\"",
+          "code": "\"fixed m-0 top-2 left-0 ml-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -106286,7 +106286,7 @@
         {
           "args": "\"top_right\"",
           "attrs": [],
-          "code": "\"fixed top-2 right-0 mr-2\"",
+          "code": "\"fixed m-0 top-2 right-0 mr-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -106294,7 +106294,7 @@
         {
           "args": "\"bottom_left\"",
           "attrs": [],
-          "code": "\"fixed bottom-2 left-0 ml-2\"",
+          "code": "\"fixed m-0 bottom-2 left-0 ml-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -106302,7 +106302,7 @@
         {
           "args": "\"bottom_right\"",
           "attrs": [],
-          "code": "\"fixed bottom-2 right-0 mr-2\"",
+          "code": "\"fixed m-0 bottom-2 right-0 mr-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -109348,7 +109348,7 @@
         {
           "args": "\"top_left\"",
           "attrs": [],
-          "code": "\"fixed top-2 left-0 ml-2\"",
+          "code": "\"fixed m-0 top-2 left-0 ml-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -109356,7 +109356,7 @@
         {
           "args": "\"top_right\"",
           "attrs": [],
-          "code": "\"fixed top-2 right-0 mr-2\"",
+          "code": "\"fixed m-0 top-2 right-0 mr-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -109364,7 +109364,7 @@
         {
           "args": "\"bottom_left\"",
           "attrs": [],
-          "code": "\"fixed bottom-2 left-0 ml-2\"",
+          "code": "\"fixed m-0 bottom-2 left-0 ml-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -109372,7 +109372,7 @@
         {
           "args": "\"bottom_right\"",
           "attrs": [],
-          "code": "\"fixed bottom-2 right-0 mr-2\"",
+          "code": "\"fixed m-0 bottom-2 right-0 mr-2\"",
           "discriminators": [],
           "name": "position_class",
           "slots": []
@@ -205135,7 +205135,7 @@
         }
       ],
       "stateful": false,
-      "template": "<aside\n  id={@id}\n  phx-click-away={hide_sidebar(@on_hide_away, @id, @hide_position)}\n  phx-remove={hide_sidebar(@id, @hide_position)}\n  \n  data-pb-open={show_sidebar(@id, @hide_position)}\n  \n  data-pb-close={JS.exec(\"phx-remove\", to: \"##{@id}\")}\n  \n  data-open-focus={\n    JS.set_attribute({\"data-sidebar-opener\", @id}, to: \":focus\")\n    |> JS.focus_first(to: \"##{@id}\")\n  }\n  data-close-focus={JS.focus(to: opener(@id))}\n  role=\"complementary\"\n  class={[\n    \n    \"fixed h-screen transition-[transform,translate,scale,rotate,visibility] z-10 overflow-x-hidden\",\n    \n    @hide_position in [\"left\", \"right\"] && \"max-md:[&:not(.translate-none)]:invisible\",\n    border_class(@border, @position, @variant),\n    hide_position(@hide_position),\n    color_variant(@variant, @color),\n    position_class(@position),\n    size_class(@size),\n    @class\n  ]}\n  {@rest}\n>\n  <div class={[\"h-full overflow-y-auto overflow-x-hidden\", @content_class]}>\n    <div :if={@minimize} class={[\"flex mb-0.5 justify-end\", @minimize_wrapper_class]}>\n      <button\n        type=\"button\"\n        phx-hook=\"GlobalChelekomSidebar\"\n        data-original-width={size_class(@size)}\n        id={\"toggle-button-#{@id}\"}\n        data-sidebar-selector={\"##{@id}\"}\n        aria-label={gettext(\"Minimize sidebar\")}\n        class={[\"size-8 flex items-center justify-center leading-5\",\"rounded-sm cursor-pointer focus:outline-hidden bg-gray-500/10 border border-gray-200\",\"dark:border-gray-700 m-2 text-gray-500\", @hide_button_class]}\n      >\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-chevron-right\" class={[\"minimize-icon size-5\", @minimize_icon_class]}/>\n        <span class=\"sr-only\">{gettext(\"Minimize sidebar\")}</span>\n      </button>\n    </div>\n    <div class={[\"flex justify-end pt-2 px-2 mb-1 md:hidden dismiss-sidebar-wrapper\", @close_wrapper_class]}>\n      <button\n        type=\"button\"\n        class={[\"dismiss-sidebar-button cursor-pointer focus:outline-hidden\", @close_button_class]}\n        aria-label={gettext(\"Close sidebar\")}\n        phx-click={JS.exec(@on_hide, \"phx-remove\", to: \"##{@id}\")}\n      >\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-x-mark\" class={@close_icon_class} />\n        <span class=\"sr-only\">{gettext(\"Close menu\")}</span>\n      </button>\n    </div>\n\n    <ul :if={@item != []} class={@list_wrapper_class} role=\"list\">\n      <li :for={item <- @item} class={item[:class]}>\n        <.link href={item[:link]} class={[\"sidebar-item-link flex items-center leading-5\", item[:link_class]]}>\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={item[:icon]} name={item[:icon]} class={[\"shrink-0\", item[:icon_class]]} />\n          <span class={[\"sidebar-text block ms-1\", item[:label_class]]} data-item-label>\n            {item[:label] || render_slot(item)}\n          </span>\n        </.link>\n      </li>\n    </ul>\n    {render_slot(@inner_block)}\n  </div>\n</aside>\n",
+      "template": "<aside\n  id={@id}\n  phx-click-away={hide_sidebar(@on_hide_away, @id, @hide_position)}\n  phx-remove={hide_sidebar(@id, @hide_position)}\n  \n  data-pb-open={show_sidebar(@id, @hide_position)}\n  \n  data-pb-close={JS.exec(\"phx-remove\", to: \"##{@id}\")}\n  \n  data-open-focus={\n    JS.set_attribute({\"data-sidebar-opener\", @id}, to: \":focus\")\n    |> JS.focus_first(to: \"##{@id}\")\n  }\n  data-close-focus={JS.focus(to: opener(@id))}\n  role=\"complementary\"\n  class={[\n    \n    \"fixed m-0 h-screen transition-[transform,translate,scale,rotate,visibility] z-10 overflow-x-hidden\",\n    \n    @hide_position in [\"left\", \"right\"] && \"max-md:[&:not(.translate-none)]:invisible\",\n    border_class(@border, @position, @variant),\n    hide_position(@hide_position),\n    color_variant(@variant, @color),\n    position_class(@position),\n    size_class(@size),\n    @class\n  ]}\n  {@rest}\n>\n  <div class={[\"h-full overflow-y-auto overflow-x-hidden\", @content_class]}>\n    <div :if={@minimize} class={[\"flex mb-0.5 justify-end\", @minimize_wrapper_class]}>\n      <button\n        type=\"button\"\n        phx-hook=\"GlobalChelekomSidebar\"\n        data-original-width={size_class(@size)}\n        id={\"toggle-button-#{@id}\"}\n        data-sidebar-selector={\"##{@id}\"}\n        aria-label={gettext(\"Minimize sidebar\")}\n        class={[\"size-8 flex items-center justify-center leading-5\",\"rounded-sm cursor-pointer focus:outline-hidden bg-gray-500/10 border border-gray-200\",\"dark:border-gray-700 m-2 text-gray-500\", @hide_button_class]}\n      >\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-chevron-right\" class={[\"minimize-icon size-5\", @minimize_icon_class]}/>\n        <span class=\"sr-only\">{gettext(\"Minimize sidebar\")}</span>\n      </button>\n    </div>\n    <div class={[\"flex justify-end pt-2 px-2 mb-1 md:hidden dismiss-sidebar-wrapper\", @close_wrapper_class]}>\n      <button\n        type=\"button\"\n        class={[\"dismiss-sidebar-button cursor-pointer focus:outline-hidden\", @close_button_class]}\n        aria-label={gettext(\"Close sidebar\")}\n        phx-click={JS.exec(@on_hide, \"phx-remove\", to: \"##{@id}\")}\n      >\n        <.component component_name=\"chelekom-icon\" site={assigns[:site]} name=\"hero-x-mark\" class={@close_icon_class} />\n        <span class=\"sr-only\">{gettext(\"Close menu\")}</span>\n      </button>\n    </div>\n\n    <ul :if={@item != []} class={@list_wrapper_class} role=\"list\">\n      <li :for={item <- @item} class={item[:class]}>\n        <.link href={item[:link]} class={[\"sidebar-item-link flex items-center leading-5\", item[:link_class]]}>\n          <.component component_name=\"chelekom-icon\" site={assigns[:site]} :if={item[:icon]} name={item[:icon]} class={[\"shrink-0\", item[:icon_class]]} />\n          <span class={[\"sidebar-text block ms-1\", item[:label_class]]} data-item-label>\n            {item[:label] || render_slot(item)}\n          </span>\n        </.link>\n      </li>\n    </ul>\n    {render_slot(@inner_block)}\n  </div>\n</aside>\n",
       "type": "navigations"
     },
     {
@@ -218988,7 +218988,7 @@
         }
       ],
       "stateful": false,
-      "template": "<div\n  id={@id}\n  aria-atomic=\"true\"\n  tabindex=\"0\"\n  class={[\n    \"overflow-hidden leading-5\",\n    @fixed && \"fixed\",\n    width_class(@width),\n    rounded_size(@rounded),\n    border_class(@border, @variant),\n    color_variant(@variant, @color),\n    position_class(@horizontal_space, @horizontal),\n    vertical_position(@vertical_space, @vertical),\n    @font_weight,\n    @z_index,\n    @class\n  ]}\n  {@rest}\n>\n  <div class={[\n    \"toast-content-wrapper relative\",\n    \"before:block before:absolute before:inset-y-0 before:rounded-full before:my-1\",\n    content_border(@content_border),\n    @content_border != \"none\" && border_position(@border_position),\n    @wrapper_class\n  ]}>\n    <div class={[\n      \"flex gap-2 items-center justify-between\",\n      row_direction(@row_direction),\n      padding_size(@padding),\n      @content_wrapper_class\n    ]}>\n      <div class={[space_class(@space), @content_class]}>\n        {render_slot(@inner_block)}\n      </div>\n      <.toast_dismiss id={@id} params={@params} class={@dismiss_class} icon_class={@dismiss_icon_class} />\n    </div>\n  </div>\n</div>\n",
+      "template": "<div\n  id={@id}\n  aria-atomic=\"true\"\n  tabindex=\"0\"\n  class={[\n    \"overflow-hidden leading-5\",\n    @fixed && \"fixed m-0\",\n    width_class(@width),\n    rounded_size(@rounded),\n    border_class(@border, @variant),\n    color_variant(@variant, @color),\n    position_class(@horizontal_space, @horizontal),\n    vertical_position(@vertical_space, @vertical),\n    @font_weight,\n    @z_index,\n    @class\n  ]}\n  {@rest}\n>\n  <div class={[\n    \"toast-content-wrapper relative\",\n    \"before:block before:absolute before:inset-y-0 before:rounded-full before:my-1\",\n    content_border(@content_border),\n    @content_border != \"none\" && border_position(@border_position),\n    @wrapper_class\n  ]}>\n    <div class={[\n      \"flex gap-2 items-center justify-between\",\n      row_direction(@row_direction),\n      padding_size(@padding),\n      @content_wrapper_class\n    ]}>\n      <div class={[space_class(@space), @content_class]}>\n        {render_slot(@inner_block)}\n      </div>\n      <.toast_dismiss id={@id} params={@params} class={@dismiss_class} icon_class={@dismiss_icon_class} />\n    </div>\n  </div>\n</div>\n",
       "type": "feedback"
     },
     {
@@ -221275,7 +221275,7 @@
         }
       ],
       "stateful": false,
-      "template": "<div\n  id={@id}\n  role=\"region\"\n  class={[\n    \"fixed\",\n    space_class(@space),\n    position_class(@horizontal_space, @horizontal),\n    vertical_position(@vertical_space, @vertical),\n    @z_index,\n    @class\n  ]}\n  {@rest}\n>\n  {render_slot(@inner_block)}\n</div>\n",
+      "template": "<div\n  id={@id}\n  role=\"region\"\n  class={[\n    \"fixed m-0\",\n    space_class(@space),\n    position_class(@horizontal_space, @horizontal),\n    vertical_position(@vertical_space, @vertical),\n    @z_index,\n    @class\n  ]}\n  {@rest}\n>\n  {render_slot(@inner_block)}\n</div>\n",
       "type": "feedback"
     },
     {
