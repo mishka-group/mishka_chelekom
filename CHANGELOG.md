@@ -143,6 +143,10 @@
 - The test, release, hex-audit and dependency-submission workflows and the Mob app's
   `.tool-versions` run on Erlang 29.1.2 and Elixir 1.20.5. The temporary OTP 29.0.5 pin is
   removed, because the download libraries now pass `max_header_size` to `:httpc`
+- The Mob app builds with Zig 0.17.0, the release mob_dev 0.7.31 requires: its `.tool-versions`
+  and the device test README name it. The iOS `build.zig` and `build_device.zig` open mob's Swift
+  directory with `std.Io.Dir.openDirAbsolute` after `b.dependOnDirectoryContents`, where
+  `b.build_root`, which 0.17.0 removed, stopped the configure phase
 
 # Changelog for MishkaChelekom 0.0.10
 

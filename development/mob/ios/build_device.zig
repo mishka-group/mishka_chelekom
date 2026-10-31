@@ -118,9 +118,12 @@ pub fn build(b: *std.Build) void {
     swift_run.addArgs(&.{ "-parse-as-library", "-wmo" });
     // Glob all mob Swift sources so a newly-added file (e.g. MobGpuView.swift,
     // referenced by MobRootView) compiles without editing this template.
+    // Zig 0.17 caches this configure phase; dependOnDirectoryContents reruns
+    // it when a file is added, removed or renamed there.
     {
+        b.dependOnDirectoryContents(.{ .cwd_relative = b.fmt("{s}/ios", .{mob_dir}) });
         const glob_io = b.graph.io;
-        var mob_ios = b.build_root.handle.openDir(glob_io, b.fmt("{s}/ios", .{mob_dir}), .{ .iterate = true }) catch @panic("mob ios dir not found");
+        var mob_ios = std.Io.Dir.openDirAbsolute(glob_io, b.fmt("{s}/ios", .{mob_dir}), .{ .iterate = true }) catch @panic("mob ios dir not found");
         defer mob_ios.close(glob_io);
         var swift_entries = mob_ios.iterate();
         while (swift_entries.next(glob_io) catch @panic("mob ios dir iterate failed")) |entry| {
