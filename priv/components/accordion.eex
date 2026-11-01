@@ -119,10 +119,10 @@ defmodule <%= @module %> do
             name={@chevron_icon}
             class={chevron_classes(assigns)}
           />
-          <div class="flex items-center space-x-3">
-            <div :if={item[:icon]} class={["shrink-0", item[:icon_wrapper_class]]}>
+          <span class="flex items-center space-x-3">
+            <span :if={item[:icon]} class={["shrink-0", item[:icon_wrapper_class]]}>
               <.<%= @component_prefix %>icon name={item[:icon]} class={item[:icon_class] || "accordion-icon"} />
-            </div>
+            </span>
 
             <img
               :if={!is_nil(item[:image])}
@@ -131,13 +131,13 @@ defmodule <%= @module %> do
               alt={item[:alt] || ""}
             />
 
-            <div class="flex-1">
-              <div class="accordion-title">{item[:title]}</div>
-              <div :if={item[:description]} class="accordion-description">
+            <span class="flex-1">
+              <span class="block accordion-title">{item[:title]}</span>
+              <span :if={item[:description]} class="block accordion-description">
                 {item[:description]}
-              </div>
-            </div>
-          </div>
+              </span>
+            </span>
+          </span>
 
           <.<%= @component_prefix %>icon
             :if={chevron_visible?(assigns) && chevron_position(assigns) == "right"}

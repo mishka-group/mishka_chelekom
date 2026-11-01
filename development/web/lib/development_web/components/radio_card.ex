@@ -165,40 +165,40 @@ defmodule DevelopmentWeb.Components.RadioCard do
               radio[:radio_input_class]
             ]}
           />
-          <div
+          <span
             data-part="label"
             class={["radio-card-content-wrapper flex-1", radio[:card_label_class]]}
           >
-            <div
+            <span
               :if={!is_nil(radio[:icon]) || radio[:title] || radio[:description]}
-              class={["radio-slot-content", radio[:content_wrapper_class]]}
+              class={["block radio-slot-content", radio[:content_wrapper_class]]}
             >
               <.icon
                 :if={!is_nil(radio[:icon])}
                 name={radio[:icon]}
                 class={["block mx-auto", radio[:icon_class]]}
               />
-              <div
+              <span
                 :if={radio[:title]}
                 class={["block radio-card-title leading-[16px] font-semibold", radio[:title_class]]}
               >
                 {radio[:title]}
-              </div>
+              </span>
 
-              <p
+              <span
                 :if={radio[:description]}
-                class={["radio-card-description", radio[:description_class]]}
+                class={["block radio-card-description", radio[:description_class]]}
               >
                 {radio[:description]}
-              </p>
-            </div>
-            <div
+              </span>
+            </span>
+            <span
               :if={Map.get(radio, :inner_block)}
-              class={["radio-card-content leading-[17px]", radio[:content_class]]}
+              class={["block radio-card-content leading-[17px]", radio[:content_class]]}
             >
               {render_slot(radio)}
-            </div>
-          </div>
+            </span>
+          </span>
         </label>
       </div>
     </div>

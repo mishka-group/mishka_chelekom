@@ -182,16 +182,16 @@ defmodule DevelopmentWeb.Components.FileField do
         for={@upload.ref}
         {@rest}
       >
-        <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
+        <span class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
-          <div class="mb-2 font-semibold">
+          <span class="mb-2 font-semibold">
             {@dropzone_title}
-          </div>
+          </span>
 
-          <div>
+          <span>
             {@dropzone_description}
-          </div>
-        </div>
+          </span>
+        </span>
         <.live_file_input upload={@upload} class="hidden" />
       </label>
 
@@ -278,16 +278,16 @@ defmodule DevelopmentWeb.Components.FileField do
         for={@upload.ref}
         {@rest}
       >
-        <div class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
+        <span class="flex flex-col gap-3 items-center justify-center pt-5 pb-6">
           <.icon name={@dropzone_icon} class="size-14" />
-          <div class="mb-2 font-semibold">
+          <span class="mb-2 font-semibold">
             {@dropzone_title}
-          </div>
+          </span>
 
-          <div>
+          <span>
             {@dropzone_description}
-          </div>
-        </div>
+          </span>
+        </span>
         <.live_file_input upload={@upload} class="hidden" />
       </label>
 

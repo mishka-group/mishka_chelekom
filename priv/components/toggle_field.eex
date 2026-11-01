@@ -106,7 +106,7 @@ defmodule <%= @module %> do
         </div>
       </div>
       <label for={@id} class={["flex items-center cursor-pointer select-none w-fit", @toggle_wrapper_class]}>
-        <div class={["relative toggle-field-wrapper", @toggle_field_wrapper_class]}>
+        <span class={["relative toggle-field-wrapper", @toggle_field_wrapper_class]}>
           <input type="hidden" name={@name} value="false" disabled={@rest[:disabled]} />
           <input
             type="checkbox"
@@ -119,19 +119,19 @@ defmodule <%= @module %> do
             aria-checked={to_string(@checked)}
             {@rest}
           />
-          <div class={[
+          <span class={[
             "toggle-field-circle absolute transition-all ease-in-out duration-500 bg-white",
             "top-1 peer-checked:translate-x-full left-1",
             @toggle_circle_class
           ]}>
-          </div>
-          <div class={[
-            "bg-default-light-gray dark:bg-natural-light transition-all ease-in-out duration-500 toggle-field-base",
+          </span>
+          <span class={[
+            "block bg-default-light-gray dark:bg-natural-light transition-all ease-in-out duration-500 toggle-field-base",
             color_class(@color),
             @toggle_base_class
           ]}>
-          </div>
-        </div>
+          </span>
+        </span>
       </label>
 
       <.error :for={msg <- @errors} icon={@error_icon}>{msg}</.error>
