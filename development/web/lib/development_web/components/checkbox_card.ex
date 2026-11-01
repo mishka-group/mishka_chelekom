@@ -164,11 +164,11 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
               !@show_checkbox && "opacity-0 absolute"
             ]}
           />
-          <div
+          <span
             data-part="label"
             class={["checkbox-card-content-wrapper flex-1", @content_wrapper_class]}
           >
-            <div
+            <span
               :if={!is_nil(checkbox[:icon]) || checkbox[:title] || checkbox[:description]}
               class={["checkbox-slot-content flex flex-col", checkbox[:content_class]]}
             >
@@ -177,7 +177,7 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
                 name={checkbox[:icon]}
                 class={["block mx-auto", checkbox[:icon_class]]}
               />
-              <div
+              <span
                 :if={checkbox[:title]}
                 class={[
                   "block checkbox-card-title leading-[16px] font-semibold",
@@ -185,19 +185,19 @@ defmodule DevelopmentWeb.Components.CheckboxCard do
                 ]}
               >
                 {checkbox[:title]}
-              </div>
+              </span>
 
-              <p
+              <span
                 :if={checkbox[:description]}
                 class={["checkbox-card-description", checkbox[:description_class]]}
               >
                 {checkbox[:description]}
-              </p>
-            </div>
-            <div class={["checkbox-card-content leading-[17px]", checkbox[:card_content_class]]}>
+              </span>
+            </span>
+            <span class={["block checkbox-card-content leading-[17px]", checkbox[:card_content_class]]}>
               {render_slot(checkbox)}
-            </div>
-          </div>
+            </span>
+          </span>
         </label>
       </div>
     </div>

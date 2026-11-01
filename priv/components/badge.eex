@@ -113,7 +113,7 @@ defmodule <%= @module %> do
 
   def <%= @component_prefix %>badge(assigns) do
     ~H"""
-    <div
+    <span
       id={@id}
       role="status"
       class={
@@ -144,9 +144,9 @@ defmodule <%= @module %> do
         name={@icon}
         class={["badge-icon", @icon_class]}
       />
-      <div class={["leading-5", @content_class]}>
+      <span class={["block leading-5", @content_class]}>
         {render_slot(@inner_block)}
-      </div>
+      </span>
       <.<%= @component_prefix %>icon
         :if={icon_position(@icon, @rest) == "right"}
         name={@icon}
@@ -160,7 +160,7 @@ defmodule <%= @module %> do
         class={@dismiss_class}
         params={@params}
       />
-    </div>
+    </span>
     """
   end
 

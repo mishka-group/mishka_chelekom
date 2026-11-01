@@ -238,8 +238,8 @@ defmodule DevelopmentWeb.Components.Combobox do
             aria-labelledby={"#{@id}-label #{@id}-button"}
             type="button"
           >
-            <div class="flex-1 flex items-center gap-2">
-              <div
+            <span class="flex-1 flex items-center gap-2">
+              <span
                 :if={@start_section != []}
                 class={[
                   "shrink-0",
@@ -247,24 +247,23 @@ defmodule DevelopmentWeb.Components.Combobox do
                 ]}
               >
                 {render_slot(@start_section)}
-              </div>
+              </span>
 
-              <div :if={@placeholder} class="combobox-placeholder select-none">
+              <span :if={@placeholder} class="combobox-placeholder select-none">
                 {@placeholder}
-              </div>
+              </span>
 
-              <div
+              <span
                 data-part="select-toggle-label"
                 class={[
                   "selected-value flex flex-wrap items-center gap-2 [&_.combobox-pill]:py-0.5",
                   "[&_.combobox-pill]:px-1 [&_.combobox-pill]:leading-4"
                 ]}
-              >
-              </div>
-            </div>
+              ></span>
+            </span>
 
-            <div class="flex items-center gap-1">
-              <div
+            <span class="flex items-center gap-1">
+              <span
                 class="shrink-0 cursor-pointer"
                 data-part="clear-combobox-button"
                 role="button"
@@ -284,7 +283,7 @@ defmodule DevelopmentWeb.Components.Combobox do
                 >
                   <path d="M18 6 6 18" /><path d="m6 6 12 12" />
                 </svg>
-              </div>
+              </span>
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +299,7 @@ defmodule DevelopmentWeb.Components.Combobox do
               >
                 <path d="m7 15 5 5 5-5" /><path d="m7 9 5-5 5 5" />
               </svg>
-            </div>
+            </span>
           </button>
 
           <div
@@ -463,8 +462,8 @@ defmodule DevelopmentWeb.Components.Combobox do
             aria-labelledby={"#{@id}-label #{@id}-button"}
             type="button"
           >
-            <div id={"#{@id}-select-toggle-label"} class="flex-1 flex items-center gap-2">
-              <div
+            <span id={"#{@id}-select-toggle-label"} class="flex-1 flex items-center gap-2">
+              <span
                 :if={@start_section != []}
                 class={[
                   "shrink-0",
@@ -472,17 +471,17 @@ defmodule DevelopmentWeb.Components.Combobox do
                 ]}
               >
                 {render_slot(@start_section)}
-              </div>
+              </span>
 
-              <div :if={@placeholder} class="combobox-placeholder select-none">
+              <span :if={@placeholder} class="combobox-placeholder select-none">
                 {@placeholder}
-              </div>
+              </span>
 
-              <div data-part="select-toggle-label" class="selected-value"></div>
-            </div>
+              <span data-part="select-toggle-label" class="selected-value"></span>
+            </span>
 
-            <div class="flex items-center gap-1">
-              <div
+            <span class="flex items-center gap-1">
+              <span
                 class="shrink-0 cursor-pointer"
                 data-part="clear-combobox-button"
                 role="button"
@@ -502,7 +501,7 @@ defmodule DevelopmentWeb.Components.Combobox do
                 >
                   <path d="M18 6 6 18" /><path d="m6 6 12 12" />
                 </svg>
-              </div>
+              </span>
 
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -518,7 +517,7 @@ defmodule DevelopmentWeb.Components.Combobox do
               >
                 <path d="m7 15 5 5 5-5" /><path d="m7 9 5-5 5 5" />
               </svg>
-            </div>
+            </span>
           </button>
 
           <div

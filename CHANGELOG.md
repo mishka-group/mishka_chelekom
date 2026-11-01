@@ -111,6 +111,16 @@
   a closed bottom drawer in `space-y-4` lifted it 16px into view. A static or sticky dock and a
   toast inside a toast group keep the margin their wrapper gives them. Regenerate these components
   to get the fix
+- A `<button>` and a `<label>` in a styled component hold phrasing content only, as the HTML
+  standard asks, where each held a `<div>` or a `<p>`. The accordion's trigger, the combobox's
+  trigger (both variants), the radio card's, the checkbox card's and the toggle field's label and
+  the file field's dropzone label now draw `<span>`s with the classes they had, plus `block` where a
+  `<div>` or `<p>` sat in normal flow rather than in a flex container, so every element lays out as
+  it did. The badge is a `<span>` too, its text wrapper included, since it is `inline-flex` by
+  default and each tab that shows a badge held it inside its `<button>`. The ids, `data-*`, `phx-*`
+  and `aria-*` attributes, the JavaScript hooks and every attribute and slot are unchanged. A test
+  renders the tabs, accordion, combobox, cards, toggle field, file dropzone and badge and
+  fails on a block element inside a button or a label. Regenerate these components to get the fix
 - Dependencies and security: `bandit` 1.14.1 replaces 1.14.0, which `mix hex.audit` flagged
   (EEF-CVE-2026-116078), and every dependency of the library, `development/web` and
   `development/mob` moves to its latest Hex release, among them `anubis_mcp` 2.2.0,
