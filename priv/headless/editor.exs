@@ -14,9 +14,9 @@
     # drift there yields two prosemirror-model instances — which fails at runtime with an opaque
     # RangeError, not at install time. The catalog-integrity test enforces the x.y.z shape.
     npm: [
-      %{name: "@tiptap/core", version: "3.32.0"},
-      %{name: "@tiptap/pm", version: "3.32.0"},
-      %{name: "@tiptap/starter-kit", version: "3.32.0"}
+      %{name: "@tiptap/core", version: "3.32.3"},
+      %{name: "@tiptap/pm", version: "3.32.3"},
+      %{name: "@tiptap/starter-kit", version: "3.32.3"}
     ],
 
     license: [
@@ -35,9 +35,9 @@
         default: true,
         formats: ["json", "html"],
         npm: [
-          %{name: "@tiptap/core", version: "3.32.0"},
-          %{name: "@tiptap/pm", version: "3.32.0"},
-          %{name: "@tiptap/starter-kit", version: "3.32.0"}
+          %{name: "@tiptap/core", version: "3.32.3"},
+          %{name: "@tiptap/pm", version: "3.32.3"},
+          %{name: "@tiptap/starter-kit", version: "3.32.3"}
         ],
         scripts: [
           %{

@@ -6,7 +6,7 @@
 //
 // Install a package first, with the tool you already have:
 //
-//     mix mishka.assets.deps @tiptap/extension-table@3.32.0
+//     mix mishka.assets.deps @tiptap/extension-table@3.32.3
 //
 // then register it here.
 //
