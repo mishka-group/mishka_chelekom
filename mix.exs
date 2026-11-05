@@ -53,6 +53,7 @@ defmodule MishkaChelekom.MixProject do
     [
       "mcp.server": ["mishka.mcp.server"],
       "mcp.setup": ["mishka.mcp.setup"],
+      "cms.kits": "mishka.ui.cms_kits",
       ci: [
         # First: after `compile`, Mix prunes the code path and the Hex archive's task can no longer be found.
         "hex.audit",

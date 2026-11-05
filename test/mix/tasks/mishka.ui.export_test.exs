@@ -56,6 +56,51 @@ defmodule Mix.Tasks.Mishka.Ui.ExportTest do
     end
   end
 
+  describe "--output" do
+    setup do
+      dir = Path.join(System.tmp_dir!(), "export_output_#{System.unique_integer([:positive])}")
+      input = Path.join(dir, "input")
+      output = Path.join(dir, "output")
+      File.mkdir_p!(input)
+      on_exit(fn -> File.rm_rf!(dir) end)
+      %{input: input, output: output}
+    end
+
+    test "writes the file in the given directory", %{input: input, output: output} do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.compose_task("mishka.ui.export", [
+          input,
+          "--template",
+          "--name",
+          "kit",
+          "--output",
+          output,
+          "--test"
+        ])
+
+      assert exported_json(igniter, output, "kit.json")["name"] == "something-new"
+      refute igniter.rewrite.sources[relative(input, "kit.json")]
+    end
+
+    test "without it the file goes next to the input", %{input: input} do
+      igniter =
+        test_project_with_formatter()
+        |> Igniter.compose_task("mishka.ui.export", [
+          input,
+          "--template",
+          "--name",
+          "kit",
+          "--test"
+        ])
+
+      assert exported_json(igniter, input, "kit.json")["name"] == "something-new"
+    end
+  end
+
+  defp relative(dir, file),
+    do: dir |> Path.join(file) |> Path.relative_to(File.cwd!(), force: true)
+
   describe "directory validation" do
     test "reports error when directory doesn't exist" do
       non_existent_dir = "/path/that/does/not/exist"

@@ -208,6 +208,7 @@ mix mishka.ui.gen.headless.components
   * `--name` or `-n` - Defines a name for JSON file, if it is not set default is template.json
   * `--org` or `-o` - It is only for structuring the file and has no effect on your export
   * `--template` or `-t` - Creates a default JSON file for manual processing steps
+  * `--output` - Names the directory the JSON file is written to (defaults to the input directory)
 
   ## Options `mishka.assets.install` task
 

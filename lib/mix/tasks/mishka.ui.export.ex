@@ -73,14 +73,18 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   Export the built-in styled components as a MishkaCMS UI-kit bundle:
 
   ```bash
-  mix mishka.ui.export priv/components --cms --name chelekom --bundle-name chelekom --bundle-version 0.0.9
+  mix mishka.ui.export priv/components --cms --name chelekom --bundle-name chelekom --bundle-version 0.0.9 --output priv/cms_ui_kits
   ```
 
   Export the headless Kit components as a MishkaCMS UI-kit bundle:
 
   ```bash
-  mix mishka.ui.export priv/headless --cms --name chelekom_headless --bundle-name chelekom_headless --bundle-version 0.0.9
+  mix mishka.ui.export priv/headless --cms --name chelekom_headless --bundle-name chelekom_headless --bundle-version 0.0.9 --output priv/cms_ui_kits
   ```
+
+  Chelekom's maintainers export both bundles into `priv/cms_ui_kits` with `mix mishka.ui.cms_kits`
+  (shortcut: `mix cms.kits`, an alias in this repository's `mix.exs` that is not shipped to users).
+  `--bundle-version X` overrides the version, which defaults to the project's.
 
   ## Options
 
@@ -88,6 +92,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
   * `--name` or `-n` - Defines a name for JSON file, if it is not set default is template.json
   * `--org` or `-o` - It is only for structuring the file and has no effect on your export.
   * `--template` or `-t` - Creates a default JSON file for manual processing steps.
+  * `--output` - Names the directory the JSON file is written to (defaults to the input directory).
   * `--cms` - Exports a MishkaCMS UI-kit bundle (`mishka.ui_kit.bundle.v3`) instead of the default JSON.
   * `--bundle-name` - Sets the bundle name in `--cms` output (defaults to the `--name` value).
   * `--bundle-version` - Sets the bundle version in `--cms` output (defaults to `0.0.1`).
@@ -214,7 +219,8 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         test: :boolean,
         cms: :boolean,
         bundle_name: :string,
-        bundle_version: :string
+        bundle_version: :string,
+        output: :string
       ],
       # Default values for the options in the `schema`
       defaults: [],
@@ -259,7 +265,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
     # If user selects --template, it just creates a default JSON template
     cond do
       Keyword.get(options, :template, false) ->
-        Igniter.create_new_file(igniter, dir <> "/#{name}.json", @default_json_template,
+        Igniter.create_new_file(igniter, output_path(dir, options, name), @default_json_template,
           on_exists: :overwrite
         )
 
@@ -278,6 +284,10 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         |> create_json_file(name, org)
     end
   end
+
+  # The JSON file's path: inside `--output` when given, next to the input otherwise.
+  defp output_path(input_dir, options, name),
+    do: Path.join(Keyword.get(options, :output, input_dir), "#{name}.json")
 
   # --cms output (mishka.ui_kit.bundle.v3)
   #
@@ -432,7 +442,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         igniter =
           Igniter.create_new_file(
             igniter,
-            igniter.assigns.cli_dir <> "/#{name}.json",
+            output_path(igniter.assigns.cli_dir, options, name),
             json,
             on_exists: :overwrite
           )
@@ -952,6 +962,7 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
 
   defp create_json_file(igniter, name, org) do
     dir = igniter.assigns.cli_dir
+    options = igniter.assigns.cli_args
 
     case Map.get(igniter.assigns, :cli_configs, []) do
       [] ->
@@ -962,7 +973,9 @@ defmodule Mix.Tasks.Mishka.Ui.Export do
         new_data = %{name: name, type: org, files: data} |> encode_json!()
 
         igniter
-        |> Igniter.create_new_file(dir <> "/#{name}.json", new_data, on_exists: :overwrite)
+        |> Igniter.create_new_file(output_path(dir, options, name), new_data,
+          on_exists: :overwrite
+        )
     end
   end
 

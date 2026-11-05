@@ -1,5 +1,10 @@
 # Changelog for MishkaChelekom 0.0.11
 
+### Features:
+- `mix mishka.ui.export --output <dir>` writes the JSON file into that directory, where it went next
+  to the input. `mix mishka.ui.cms_kits` (shortcut `mix cms.kits`) in this repository exports both
+  CMS bundles into `priv/cms_ui_kits` at the project version, or at `--bundle-version`
+
 ### Bug fixes:
 - **Breaking**: `flash_group/1` names each of its flashes after its own `id`: `<id>-info`,
   `<id>-error`, `<id>-client-error` and `<id>-server-error`, which is `flash-group-info`,
