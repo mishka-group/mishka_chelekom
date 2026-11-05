@@ -199,6 +199,8 @@ class MainActivity : ComponentActivity() {
         // inherit the wreckage anyway.
         MobBridge.releaseCompositionState()
 
+        MobBridge.watchKeyboard(window.decorView)
+
         setContent {
             val state by MobBridge.rootState
             val themeColors by MobBridge.themeColors

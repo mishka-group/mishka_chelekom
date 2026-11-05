@@ -590,7 +590,85 @@ object MobBridge {
             // windows open and its element ids answering, until the exit animation
             // ends. Keep drawing frames until it has gone, so a test that remounts a
             // page does not start on top of the previous one.
-        } while (outgoingPages.get() > 0 && SystemClock.uptimeMillis() < deadline)
+        } while (
+            (outgoingPages.get() > 0 || imeAnimations.get() > 0 || keyboardPending.get()) &&
+                SystemClock.uptimeMillis() < deadline
+        )
+    }
+
+    // How many soft-keyboard animations are running. Counted from the window's insets
+    // animation callback (watchKeyboard): the page is resized on every frame of one.
+    private val imeAnimations = java.util.concurrent.atomic.AtomicInteger(0)
+
+    // A text field took focus and the soft keyboard is on its way, but its animation has
+    // not started yet. Focus asks the input method to show the keyboard, and the window
+    // only reports an animation once the input method has answered, so between the two
+    // the page is still, and about to move.
+    private val keyboardPending = java.util.concurrent.atomic.AtomicBoolean(false)
+
+    /**
+     * Reports the soft keyboard's insets animation to the native barrier, which keeps
+     * drawing frames until it has ended. Call once with the activity's decor view.
+     */
+    fun watchKeyboard(decor: android.view.View) {
+        androidx.core.view.ViewCompat.setWindowInsetsAnimationCallback(
+            decor,
+            object : androidx.core.view.WindowInsetsAnimationCompat.Callback(
+                androidx.core.view.WindowInsetsAnimationCompat.Callback.DISPATCH_MODE_CONTINUE_ON_SUBTREE
+            ) {
+                override fun onPrepare(animation: androidx.core.view.WindowInsetsAnimationCompat) {
+                    if (animation.isKeyboard()) {
+                        keyboardPending.set(false)
+                        imeAnimations.incrementAndGet()
+                    }
+                }
+
+                override fun onProgress(
+                    insets: androidx.core.view.WindowInsetsCompat,
+                    runningAnimations: List<androidx.core.view.WindowInsetsAnimationCompat>
+                ) = insets
+
+                override fun onEnd(animation: androidx.core.view.WindowInsetsAnimationCompat) {
+                    if (animation.isKeyboard()) {
+                        imeAnimations.updateAndGet { maxOf(it - 1, 0) }
+                    }
+                }
+            }
+        )
+    }
+
+    private fun androidx.core.view.WindowInsetsAnimationCompat.isKeyboard(): Boolean =
+        typeMask and androidx.core.view.WindowInsetsCompat.Type.ime() != 0
+
+    /**
+     * A text field took focus (`focused`) or lost it. When the soft keyboard is going to
+     * rise, the barrier waits for its animation to start and end. It does not wait when
+     * the keyboard is already up, or when a hardware keyboard is attached and the system
+     * is set not to show the soft one with it: neither animates.
+     */
+    fun fieldFocusChanged(focused: Boolean) {
+        val activity = activityRef?.get()
+        keyboardPending.set(focused && activity != null && softKeyboardWillRise(activity))
+    }
+
+    private fun softKeyboardWillRise(activity: Activity): Boolean {
+        val decor = activity.window.decorView
+        val visible =
+            androidx.core.view.ViewCompat.getRootWindowInsets(decor)
+                ?.isVisible(androidx.core.view.WindowInsetsCompat.Type.ime()) == true
+        if (visible) return false
+
+        val configuration = activity.resources.configuration
+        val hardwareKeyboard =
+            configuration.keyboard != android.content.res.Configuration.KEYBOARD_NOKEYS &&
+                configuration.hardKeyboardHidden == android.content.res.Configuration.HARDKEYBOARDHIDDEN_NO
+        val showWithHardware =
+            android.provider.Settings.Secure.getInt(
+                activity.contentResolver,
+                "show_ime_with_hard_keyboard",
+                0
+            ) != 0
+        return !hardwareKeyboard || showWithHardware
     }
 
     // How many pages are still composed only to play their exit animation. Counted by
@@ -3697,8 +3775,10 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
                     // Focus arrives from the tap that positioned the caret, so
                     // the correction has to happen here too, not just on edit.
                     if (caretAtEnd) field = field.copy(selection = TextRange(field.text.length))
+                    MobBridge.fieldFocusChanged(true)
                     focusHandle?.let { MobBridge.nativeSendFocus(it) }
                 } else {
+                    MobBridge.fieldFocusChanged(false)
                     blurHandle?.let { MobBridge.nativeSendBlur(it) }
                 }
             },
