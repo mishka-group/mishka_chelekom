@@ -165,6 +165,11 @@
   and the device test README name it. The iOS `build.zig` and `build_device.zig` open mob's Swift
   directory with `std.Io.Dir.openDirAbsolute` after `b.dependOnDirectoryContents`, where
   `b.build_root`, which 0.17.0 removed, stopped the configure phase
+- Every Hex dependency is at its newest release in the library, `development/web` and
+  `development/mob`. Ecto 3.14.3 fixes EEF-CVE-2026-118391 (GHSA-cxjx-vmm2-qr8r), unbounded query
+  cache growth from interpolated JSON paths, in both apps. `guarded_struct` 0.1.6 and `igniter_css`
+  1.1.2 are now the minimum versions, and `nimble_options` 1.2.0, `websock_adapter` 0.7.1 and
+  `lazy_html` 0.1.14 follow. `peri` stays at 0.11.3 until `anubis_mcp` allows 0.12
 
 # Changelog for MishkaChelekom 0.0.10
 
