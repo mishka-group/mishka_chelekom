@@ -134,6 +134,9 @@
   dependency of all three projects is at its latest release
 
 ### Refactors:
+- The headless editor pins `@tiptap/core`, `@tiptap/pm` and `@tiptap/starter-kit` at 3.32.3, the
+  latest release, in its `.exs`, in `development/web` and in the exported headless CMS bundle, and the
+  `@tiptap/extension-table` hint names the same version
 - Both CMS bundles in `priv/cms_ui_kits` are exported again from the merged sources with
   `--bundle-version 0.0.11-alpha.2`, so each bundle and each component says that version. They carry
   the modal, drawer, sidebar, flash group and headless drawer, dialog and popover above, the
