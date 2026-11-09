@@ -676,4 +676,23 @@ defmodule MishkaMob.Components.MishkaPopoverTest do
 
     for props <- variants, do: assert_renderable(MishkaPopover.popover(props, content()))
   end
+
+  test "shadow and per-edge padding ride the panel" do
+    tree =
+      open(%{
+        id: "p",
+        shadow: "0 1 2 0 #000000",
+        padding: 0,
+        padding_top: 6,
+        padding_bottom: 6,
+        padding_left: 12
+      })
+
+    panel = node_with_id(tree, "p-panel")
+
+    assert panel.props.shadow == "0 1 2 0 #000000"
+    assert panel.props.padding_top == 6
+    assert panel.props.padding_bottom == 6
+    assert panel.props.padding_left == 12
+  end
 end

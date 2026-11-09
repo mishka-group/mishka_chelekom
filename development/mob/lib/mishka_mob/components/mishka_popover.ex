@@ -145,6 +145,8 @@ defmodule MishkaMob.Components.MishkaPopover do
   | `color` / `muted_color` | color token / ARGB int | `:on_surface` / `:muted` | Title ink, and the description's. |
   | `corner_radius` | radius token / number | `:radius_md` | Panel corners. |
   | `padding` | spacing token / number | `:space_md` | Padding inside the panel. |
+  | `padding_top` / `padding_right` / `padding_bottom` / `padding_left` | spacing token / number | unset | One edge, overriding `padding`. |
+  | `shadow` | shadow spec string | unset | Drop shadow on the panel. |
   | `border_color` / `border_width` | color / number | `:border` / `1` | The edge that separates it from the content beneath. |
   | `offset_x` / `offset_y` | number | `nil` | Raw nudge in dp, applied last — on top of `side_offset` and `align_offset` rather than instead of either. |
 
@@ -397,6 +399,11 @@ defmodule MishkaMob.Components.MishkaPopover do
     |> put(:id, Map.get(props, :id))
     |> put(:width, Map.get(props, :width))
     |> put(:fill_width, fill?)
+    |> put(:shadow, Map.get(props, :shadow))
+    |> put(:padding_top, Map.get(props, :padding_top))
+    |> put(:padding_right, Map.get(props, :padding_right))
+    |> put(:padding_bottom, Map.get(props, :padding_bottom))
+    |> put(:padding_left, Map.get(props, :padding_left))
     |> put(:offset_x, Map.get(props, :offset_x))
     |> put(:offset_y, Map.get(props, :offset_y))
   end
