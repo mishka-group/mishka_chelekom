@@ -1,6 +1,10 @@
 # Changelog for MishkaChelekom 0.0.11
 
 ### Features:
+- **Mob**: `MishkaCard` and `MishkaRating` join the component set; `MishkaMenu.dropdown/4` puts the
+  menu panel in its own anchored window, with per-item geometry and separator props. `MishkaPopover`
+  gains `shadow` and per-edge padding, `MishkaEmptyState` gains `align: :left`, title type and
+  per-edge padding, and `MishkaActionIcon` gains `size: :hug`
 - `mix mishka.ui.export --output <dir>` writes the JSON file into that directory, where it went next
   to the input. `mix mishka.ui.cms_kits` (shortcut `mix cms.kits`) in this repository exports both
   CMS bundles into `priv/cms_ui_kits` at the project version, or at `--bundle-version`

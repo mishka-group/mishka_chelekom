@@ -27,6 +27,7 @@ defmodule MishkaMob.Showcase.Components.Menu do
     |> Mob.Socket.assign(:grid?, true)
     |> Mob.Socket.assign(:sort, :name)
     |> Mob.Socket.assign(:submenu, nil)
+    |> Mob.Socket.assign(:menu_dd, false)
   end
 
   @impl true
@@ -166,6 +167,88 @@ defmodule MishkaMob.Showcase.Components.Menu do
           </Column>
           """
         end
+      },
+      %Example{
+        title: "An anchored dropdown",
+        description:
+          "dropdown/4 keeps the trigger in the page and draws the panel in its own " <>
+            "window, so opening it does not push the page down. The panel numbers " <>
+            "are the caller's: width, fill, radius, shadow, per-edge padding, and " <>
+            "the geometry of the rows.",
+        code: ~S"""
+        trigger = ~MOB(<Button text="Options ▾" on_tap={:menu_toggle} />)
+
+        MishkaMenu.dropdown(
+          trigger,
+          @open?,
+          [
+            MishkaMenu.item(:edit, "Edit", icon: "✎", on_tap: {:pick, :edit}),
+            MishkaMenu.separator(),
+            MishkaMenu.item(:delete, "Delete", icon: "⌫", danger: true,
+                            on_tap: {:pick, :delete})
+          ],
+          width: 250,
+          background: :surface,
+          corner_radius: 18,
+          shadow: "0 12 24 -18 #991A1917",
+          on_dismiss: {:pick, :dismiss},
+          item_height: 44,
+          item_padding_x: 12,
+          item_padding_y: 0,
+          item_icon_gap: 12,
+          item_font_weight: :semibold,
+          item_label_weight: 1.0
+        )
+
+        # The trigger's own on_tap opens and closes it; on_dismiss is the tap
+        # outside. An item's own on_tap wins over the menu's on_select.
+        def handle_info({:tap, :menu_toggle}, socket), do: toggle(socket, :open?)
+        def handle_info({:tap, {:pick, _}}, socket), do: close(socket)
+        """,
+        render: fn assigns ->
+          trigger = ~MOB"""
+          <Button
+            text="Options ▾"
+            background={:primary}
+            text_color={:on_primary}
+            padding={:space_sm}
+            on_tap={{self(), :menu_dd_toggle}}
+          />
+          """
+
+          items = [
+            MishkaMob.Components.MishkaMenu.item(:edit, "Edit",
+              icon: "✎",
+              on_tap: {:menu_dd_pick, :edit}
+            ),
+            MishkaMob.Components.MishkaMenu.separator(),
+            MishkaMob.Components.MishkaMenu.item(:delete, "Delete",
+              icon: "⌫",
+              danger: true,
+              on_tap: {:menu_dd_pick, :delete}
+            )
+          ]
+
+          MishkaMob.Components.MishkaMenu.dropdown(
+            trigger,
+            assigns.menu_dd,
+            items,
+            width: 250,
+            background: :surface,
+            corner_radius: 18,
+            shadow: "0 12 24 -18 #991A1917",
+            on_dismiss: {self(), :menu_dd_close},
+            item_height: 44,
+            item_padding_x: 12,
+            item_padding_y: 0,
+            item_icon_gap: 12,
+            item_font_weight: :semibold,
+            item_label_weight: 1.0,
+            item_corner_radius: :radius_sm,
+            item_text_color: :on_surface,
+            item_max_lines: 1
+          )
+        end
       }
     ]
   end
@@ -232,7 +315,21 @@ defmodule MishkaMob.Showcase.Components.Menu do
         name: "item/3",
         type: "builder",
         default: "—",
-        description: "id, label, plus :icon, :disabled, :danger."
+        description:
+          "id, label, plus :icon (a string or nodes), :disabled, :danger, :on_tap, :test_id."
+      },
+      %{
+        name: "dropdown/4",
+        type: "builder",
+        default: "—",
+        description:
+          "trigger, open?, items, opts — an anchored panel. Panel: :width, :background, " <>
+            ":corner_radius, :border_width, :shadow, :padding_*; placement: :side, " <>
+            ":align, :side_offset, :on_dismiss; rows: :item_height, :item_padding_x, " <>
+            ":item_padding_y, :item_icon_gap, :item_text_size, :item_font_weight, " <>
+            ":item_label_weight, :item_corner_radius, :item_text_color, :item_max_lines; " <>
+            "separators: :separator_color, :separator_thickness, :separator_padding_y, " <>
+            ":separator_padding_x."
       },
       %{
         name: "separator/0 · label/1",
@@ -275,6 +372,19 @@ defmodule MishkaMob.Showcase.Components.Menu do
     |> Mob.Socket.assign(:menu_last, id)
     |> Mob.Socket.assign(:menu_open, false)
     |> Mob.Socket.assign(:submenu, nil)
+  end
+
+  # The dropdown's own state: the trigger toggles it and an outside tap closes
+  # it. An item's on_tap is an ordinary row handler, so it picks and closes.
+  def handle(:menu_dd_toggle, socket),
+    do: Mob.Socket.assign(socket, :menu_dd, not socket.assigns.menu_dd)
+
+  def handle(:menu_dd_close, socket), do: Mob.Socket.assign(socket, :menu_dd, false)
+
+  def handle({:menu_dd_pick, id}, socket) do
+    socket
+    |> Mob.Socket.assign(:menu_last, id)
+    |> Mob.Socket.assign(:menu_dd, false)
   end
 
   def handle(_tag, socket), do: socket

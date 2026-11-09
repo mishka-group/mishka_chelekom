@@ -22,7 +22,7 @@ defmodule MishkaMob.Components.MishkaActionIcon do
   | `icon` | string | `nil` | The glyph. Children override it. |
   | `on_tap` | event tag (atom) | — | Sent as `{:tap, tag}`. |
   | `disabled` | boolean | `false` | Wires no handler, mutes the glyph and drops a `:filled` fill to `:surface`. |
-  | `size` | number | `40` | Tap-target edge, not the glyph size. |
+  | `size` | number / `:hug` | `40` | Tap-target edge, not the glyph size. `:hug` drops the box's own size and decoration so it wraps the glyph — see "A bare glyph". |
   | `variant` | `:plain` `:filled` | `:plain` | Transparent, or on a raised surface. |
   | `shape` | `:rounded` `:circle` | `:rounded` | `:circle` uses an exact `size / 2` radius. |
   | `color` | color token / ARGB int | `:on_surface` | Glyph colour. |
@@ -33,6 +33,16 @@ defmodule MishkaMob.Components.MishkaActionIcon do
 
   `label` is not ported: it is an `aria-label`, and Mob exposes no accessible
   name on a box. `type` (submit/reset) is form plumbing.
+
+  ## A bare glyph
+
+  `size: :hug` is for the other kind of icon button: a glyph that already sits
+  in a row and carries only a tap, with no disc, fill or fixed target around it.
+  The box then drops its `width`/`height`, its radius and its fill, and writes
+  `fill_width: false` so it wraps the glyph exactly as a hand-rolled
+  `<Box fill_width={false}>` did. `variant`, `shape` and `background` are
+  ignored — there is no painted surface left for them to describe. The tap
+  target is the glyph, which is the caller's explicit choice.
 
   ## A floating disc is defined by its shadow
 
@@ -104,20 +114,31 @@ defmodule MishkaMob.Components.MishkaActionIcon do
     disabled? = truthy?(Map.get(props, :disabled, false))
     size = Map.get(props, :size) || 40
 
-    node = ~MOB"""
-    <Box
-      width={size}
-      height={size}
-      align={:center}
-      corner_radius={radius(Map.get(props, :shape) || :rounded, size)}
-      background={background(props, disabled?)}
-    >
-      {glyph(props, content, disabled?)}
-    </Box>
-    """
+    node =
+      if hug?(size) do
+        ~MOB"""
+        <Box fill_width={false}>
+          {glyph(props, content, disabled?)}
+        </Box>
+        """
+      else
+        ~MOB"""
+        <Box
+          width={size}
+          height={size}
+          align={:center}
+          corner_radius={radius(Map.get(props, :shape) || :rounded, size)}
+          background={background(props, disabled?)}
+        >
+          {glyph(props, content, disabled?)}
+        </Box>
+        """
+      end
 
     %{node | props: Map.merge(node.props, container(props, disabled?))}
   end
+
+  defp hug?(size), do: size in [:hug, "hug"]
 
   @doc """
   The corner radius for a shape — a circle is `size / 2` so it stays round at

@@ -128,6 +128,25 @@ defmodule MishkaMob.Components.MishkaActionIconTest do
              MishkaActionIcon.action_icon(%{}, art)
   end
 
+  describe "size: :hug" do
+    test "drops the box's own size and decoration" do
+      node = MishkaActionIcon.action_icon(icon: "✎", size: :hug)
+
+      refute Map.has_key?(node.props, :width)
+      refute Map.has_key?(node.props, :height)
+      refute Map.has_key?(node.props, :corner_radius)
+      refute Map.has_key?(node.props, :background)
+      assert node.props.fill_width == false
+    end
+
+    test "still carries the glyph and the tap" do
+      node = MishkaActionIcon.action_icon(icon: "✎", size: :hug, on_tap: :edit_note)
+
+      assert node.props.on_tap == {self(), :edit_note}
+      assert find_all(node, :text) |> Enum.map(& &1.props.text) == ["✎"]
+    end
+  end
+
   test "every variant renders" do
     for props <- [%{}, %{icon: "x"}, %{icon: "x", variant: :filled}, %{icon: "x", disabled: true}] do
       assert_renderable(MishkaActionIcon.action_icon(props))

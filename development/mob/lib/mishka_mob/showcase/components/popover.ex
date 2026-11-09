@@ -32,6 +32,7 @@ defmodule MishkaMob.Showcase.Components.Popover do
     |> Mob.Socket.assign(:pop_aligned, false)
     |> Mob.Socket.assign(:pop_off, false)
     |> Mob.Socket.assign(:pop_data, false)
+    |> Mob.Socket.assign(:pop_shadow, false)
   end
 
   @impl true
@@ -291,6 +292,43 @@ defmodule MishkaMob.Showcase.Components.Popover do
           </Column>
           """
         end
+      },
+      %Example{
+        title: "Panel shadow and per-edge padding",
+        description:
+          "shadow takes a box-shadow string. padding_top, padding_right, padding_bottom " <>
+            "and padding_left override the uniform padding one edge at a time.",
+        code: ~S"""
+        <MishkaPopover id="lifted" open={@open?} on_open_change={:lifted}
+                       shadow="0 12 24 -18 #991A1917"
+                       padding={0} padding_top={:space_md} padding_bottom={:space_md}
+                       padding_left={:space_md} padding_right={:space_md}>
+          <MishkaPopoverTrigger text="Lifted" />
+          <MishkaPopoverTitle text="Off the page" />
+          <MishkaPopoverDescription text="The panel carries its own shadow." />
+        </MishkaPopover>
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaPopover
+              id="lifted"
+              open={@pop_shadow}
+              on_open_change={:pop_shadow}
+              shadow="0 12 24 -18 #991A1917"
+              padding={0}
+              padding_top={:space_md}
+              padding_bottom={:space_md}
+              padding_left={:space_md}
+              padding_right={:space_md}
+            >
+              <MishkaPopoverTrigger text="Lifted" />
+              <MishkaPopoverTitle text="Off the page" />
+              <MishkaPopoverDescription text="The panel carries its own shadow and padding." />
+            </MishkaPopover>
+          </Column>
+          """
+        end
       }
     ]
   end
@@ -412,7 +450,15 @@ defmodule MishkaMob.Showcase.Components.Popover do
         name: "padding",
         type: "spacing / number",
         default: ":space_md",
-        description: "Padding inside the panel."
+        description:
+          "Padding inside the panel. padding_top / padding_right / padding_bottom / " <>
+            "padding_left override one edge."
+      },
+      %{
+        name: "shadow",
+        type: "shadow string",
+        default: "nil",
+        description: "A drop shadow on the panel, in CSS box-shadow order."
       },
       %{
         name: "border_color / border_width",
@@ -475,6 +521,7 @@ defmodule MishkaMob.Showcase.Components.Popover do
   def handle({:pop_off, open?}, socket), do: Mob.Socket.assign(socket, :pop_off, open?)
 
   def handle({:pop_data, open?}, socket), do: Mob.Socket.assign(socket, :pop_data, open?)
+  def handle({:pop_shadow, open?}, socket), do: Mob.Socket.assign(socket, :pop_shadow, open?)
 
   def handle(_tag, socket), do: socket
 

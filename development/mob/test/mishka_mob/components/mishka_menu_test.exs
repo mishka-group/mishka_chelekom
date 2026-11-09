@@ -241,4 +241,103 @@ defmodule MishkaMob.Components.MishkaMenuTest do
       assert find_all(tree, type) == [], "#{type} leaked to the renderer"
     end
   end
+
+  describe "dropdown/4" do
+    defp trigger, do: %{type: :text, props: %{text: "Options"}, children: []}
+
+    test "open draws the panel in an anchored node, trigger first" do
+      node =
+        MishkaMenu.dropdown(trigger(), true, [MishkaMenu.item(:edit, "Edit")],
+          width: 200,
+          shadow: "0 1 2 0 #000000"
+        )
+
+      assert node.type == :anchored
+      [anchor, panel] = node.children
+      assert anchor == trigger()
+      assert panel.props.width == 200
+      assert panel.props.shadow == "0 1 2 0 #000000"
+      assert text(panel) =~ "Edit"
+    end
+
+    test "closed is the anchor alone" do
+      node = MishkaMenu.dropdown(trigger(), false, [MishkaMenu.item(:edit, "Edit")])
+
+      assert node.type == :anchored
+      assert node.children == [trigger()]
+    end
+
+    test "on_dismiss travels to the anchored node as on_tap" do
+      node =
+        MishkaMenu.dropdown(trigger(), true, [], on_dismiss: {self(), :close_menu})
+
+      assert node.props.on_tap == {self(), :close_menu}
+    end
+
+    test "panel padding can be set per edge" do
+      node =
+        MishkaMenu.dropdown(trigger(), true, [],
+          padding_top: 4,
+          padding_bottom: 8,
+          padding_left: 3,
+          padding_right: 3
+        )
+
+      [_anchor, panel] = node.children
+      assert panel.props.padding_top == 4
+      assert panel.props.padding_bottom == 8
+      assert panel.props.padding_left == 3
+      assert panel.props.padding_right == 3
+    end
+
+    test "an item's own on_tap wins over on_select" do
+      tree =
+        MishkaMenu.menu(%{open: true, on_select: :pick}, [
+          MishkaMenu.item(:edit, "Edit", on_tap: :own)
+        ])
+
+      taps = find_all(tree, :box) |> Enum.map(& &1.props[:on_tap]) |> Enum.reject(&is_nil/1)
+      assert taps == [{self(), :own}]
+    end
+
+    test "row geometry reaches the item" do
+      tree =
+        MishkaMenu.menu(
+          %{
+            open: true,
+            item_height: 44,
+            item_padding_x: 12,
+            item_padding_y: 0,
+            item_corner_radius: 0
+          },
+          [MishkaMenu.item(:edit, "Edit")]
+        )
+
+      row = find_all(tree, :box) |> Enum.find(&(Map.get(&1.props, :height) == 44))
+
+      assert row.props.padding_left == 12
+      assert row.props.padding_top == 0
+      assert row.props.corner_radius == 0
+    end
+
+    test "separator colour, thickness and padding reach the rule" do
+      tree =
+        MishkaMenu.menu(
+          %{
+            open: true,
+            separator_color: :muted,
+            separator_thickness: 2,
+            separator_padding_y: 9,
+            separator_padding_x: 3
+          },
+          [MishkaMenu.separator()]
+        )
+
+      rule = find_all(tree, :box) |> Enum.find(&(Map.get(&1.props, :height) == 2))
+      assert rule.props.background == :muted
+
+      column = find_all(tree, :column) |> Enum.find(&(Map.get(&1.props, :padding_top) == 9))
+      assert column.props.padding_left == 3
+    end
+  end
 end

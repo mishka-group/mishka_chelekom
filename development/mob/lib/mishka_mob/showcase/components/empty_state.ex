@@ -107,6 +107,46 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
         end
       },
       %Example{
+        title: "Left-aligned with its own type",
+        description:
+          "The web component's data-align=\"left\" anatomy: indicator above, body " <>
+            "left-aligned. title_size, title_weight and title_line_height carry a " <>
+            "heading copied from a drawing; per-edge padding lets the page pass its " <>
+            "own geometry.",
+        code: ~S"""
+        <MishkaEmptyState
+          align={:left}
+          indicator="🗂"
+          title="No projects in this account yet"
+          title_size={22}
+          title_weight={:bold}
+          title_line_height={1.25}
+          padding_left={21}
+          padding_right={21}
+          padding_top={140}
+        />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Box fill_width={true} background={:surface_raised} corner_radius={:radius_md}>
+            <MishkaEmptyState
+              id="es-left"
+              align={:left}
+              indicator="🗂"
+              title="No projects in this account yet"
+              title_size={22}
+              title_weight={:bold}
+              title_line_height={1.25}
+              padding_left={21}
+              padding_right={21}
+              padding_top={24}
+              padding_bottom={24}
+            />
+          </Box>
+          """
+        end
+      },
+      %Example{
         title: "Text only",
         description: "Every part is optional.",
         code: ~S"""
@@ -127,12 +167,19 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
   def props do
     [
       %{name: "title", type: "string", default: "nil", description: "Heading."},
+      %{
+        name: "title_size / title_weight / title_line_height",
+        type: "size, weight, line height",
+        default: ":xl / nil / nil",
+        description: "Heading type, when the drawing is not the component's :xl regular text."
+      },
       %{name: "description", type: "string", default: "nil", description: "Supporting text."},
       %{
         name: "align",
-        type: ":center · :leading",
+        type: ":center · :leading · :left",
         default: ":center",
-        description: "Indicator above the text, or beside it."
+        description:
+          "Indicator above and centred, beside the text, or above with the block left-aligned."
       },
       %{
         name: "indicator",
@@ -144,7 +191,9 @@ defmodule MishkaMob.Showcase.Components.EmptyState do
         name: "padding",
         type: "spacing / number",
         default: ":space_xl",
-        description: "Padding around the block (centred layout)."
+        description:
+          "Padding around the block. padding_top / padding_right / padding_bottom / " <>
+            "padding_left override one edge; an edge-only call writes no uniform padding."
       },
       %{
         name: "actions",
