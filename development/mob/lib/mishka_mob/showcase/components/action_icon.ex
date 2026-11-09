@@ -139,6 +139,29 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
           </Row>
           """
         end
+      },
+      %Example{
+        title: "A bare glyph",
+        description:
+          "size: :hug drops the box's own size and decoration so the glyph is the " <>
+            "target — for an icon that already sits in a row, like a pencil on a note.",
+        code: ~S"""
+        # No disc and no fixed target: this is a hand-rolled
+        # <Box fill_width={false}> that carries a tap. The tap target is the
+        # glyph, which is the caller's explicit choice.
+        <MishkaActionIcon icon="✎" size={:hug} on_tap={:edit_note} />
+
+        def handle_info({:tap, :edit_note}, socket), do: {:noreply, socket}
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Row fill_width={true} align="center">
+            <Text text="A note" text_color={:on_surface} />
+            <Spacer weight={1.0} />
+            <MishkaActionIcon icon="✎" size={:hug} on_tap={:ai_tap} />
+          </Row>
+          """
+        end
       }
     ]
   end
@@ -163,9 +186,11 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
       },
       %{
         name: "size",
-        type: "number",
+        type: "number · :hug",
         default: "40",
-        description: "Tap-target edge, not the glyph size. Keeps the target finger-sized."
+        description:
+          "Tap-target edge, not the glyph size. Keeps the target finger-sized. " <>
+            ":hug drops the box's size and decoration so it wraps the glyph."
       },
       %{
         name: "variant",
