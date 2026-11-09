@@ -69,40 +69,39 @@ defmodule <%= @module %> do
   def <%= @component_prefix %>rating(props \\ %{}) do
     props = Map.new(props)
 
-    value = Map.get(props, :value) || 0
-    count = Map.get(props, :count) || 5
-    size = Map.get(props, :size) || 22
-    gap = Map.get(props, :gap) || 2
-    color = Map.get(props, :color) || :warning
-    empty_color = Map.get(props, :empty_color) || color
-    half? = truthy?(Map.get(props, :half, true))
-
-    full = trunc(value)
-    half_star? = half? and value - full >= 0.5
-
-    cells =
-      if count > 0 do
-        1..count
-        |> Enum.map(fn i ->
-          cond do
-            i <= full -> star(:full, props, size, color, empty_color)
-            i == full + 1 and half_star? -> star(:half, props, size, color, empty_color)
-            true -> star(:empty, props, size, color, empty_color)
-          end
-        end)
-        |> List.flatten()
-        |> Enum.intersperse(gap_node(gap))
-      else
-        []
-      end
-
     ~MOB"""
     <Row align="center">
-      {cells}
+      {cells(props)}
     </Row>
     """
     |> put(:id, Map.get(props, :id))
   end
+
+  defp cells(props) do
+    size = setting(props, :size, 22)
+    color = setting(props, :color, :warning)
+    empty_color = setting(props, :empty_color, color)
+    gap = setting(props, :gap, 2)
+    count = setting(props, :count, 5)
+    value = setting(props, :value, 0)
+    full = trunc(value)
+    half? = truthy?(Map.get(props, :half, true)) and value - full >= 0.5
+
+    if count > 0 do
+      1..count
+      |> Enum.map(&star(cell(&1, full, half?), props, size, color, empty_color))
+      |> List.flatten()
+      |> Enum.intersperse(gap_node(gap))
+    else
+      []
+    end
+  end
+
+  defp setting(props, key, default), do: Map.get(props, key) || default
+
+  defp cell(index, full, _half?) when index <= full, do: :full
+  defp cell(index, full, true) when index == full + 1, do: :half
+  defp cell(_index, _full, _half?), do: :empty
 
   defp star(:full, props, size, color, _empty_color) do
     glyph(Map.get(props, :icon) || "★", size, color)
