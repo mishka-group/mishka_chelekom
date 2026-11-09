@@ -143,15 +143,9 @@ defmodule MishkaMob.Components.MishkaEmptyState do
     end
   end
 
-  defp layout(props) do
-    case Map.get(props, :align) || :center do
-      :leading -> :leading
-      "leading" -> :leading
-      :left -> :left
-      "left" -> :left
-      _center -> :center
-    end
-  end
+  defp layout(%{align: align}) when align in [:leading, "leading"], do: :leading
+  defp layout(%{align: align}) when align in [:left, "left"], do: :left
+  defp layout(_props), do: :center
 
   # Every part gets its OWN centring Box. Centring the block as a whole is not
   # the same thing and looks wrong the moment the parts differ in width: a

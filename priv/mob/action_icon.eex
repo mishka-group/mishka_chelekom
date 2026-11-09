@@ -138,9 +138,7 @@ defmodule <%= @module %> do
     %{node | props: Map.merge(node.props, container(props, disabled?))}
   end
 
-  defp hug?(:hug), do: true
-  defp hug?("hug"), do: true
-  defp hug?(_size), do: false
+  defp hug?(size), do: size in [:hug, "hug"]
 
   @doc """
   The corner radius for a shape — a circle is `size / 2` so it stays round at

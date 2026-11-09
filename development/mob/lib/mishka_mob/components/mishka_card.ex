@@ -203,13 +203,11 @@ defmodule MishkaMob.Components.MishkaCard do
   defp title_nodes(title) when is_map(title), do: [title]
   defp title_nodes(titles) when is_list(titles), do: titles
 
-  defp figure_position(:end), do: :end
-  defp figure_position("end"), do: :end
-  defp figure_position(_start), do: :start
+  defp figure_position(position) when position in [:end, "end"], do: :end
+  defp figure_position(_position), do: :start
 
-  defp direction(:row), do: :row
-  defp direction("row"), do: :row
-  defp direction(_column), do: :column
+  defp direction(direction) when direction in [:row, "row"], do: :row
+  defp direction(_direction), do: :column
 
   defp put_some(map, _key, nil), do: map
   defp put_some(map, key, value), do: Map.put(map, key, value)
