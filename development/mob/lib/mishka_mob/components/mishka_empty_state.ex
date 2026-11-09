@@ -6,24 +6,47 @@ defmodule MishkaMob.Components.MishkaEmptyState do
 
   ## Alignment is the one real prop
 
-  The web component's `align` decides whether the indicator sits above the text
-  (centred) or beside it (leading). Both are ported, because they are genuinely
-  different layouts rather than a styling nicety: a centred empty state fills a
-  blank screen, while a leading one sits inside a card or a section without
-  looking like the screen has failed.
+  The web component's `align` decides the reading alignment, and its own
+  anatomy already puts the indicator above the body. Three layouts are ported:
+
+    * `:center` — indicator above the text, all centred. Fills a blank screen.
+    * `:leading` — indicator beside the text. Sits inside a card or a section.
+    * `:left` — indicator above the text, the block left-aligned. This is the
+      web component's own default anatomy with `data-align="left"`.
 
   Centring uses `align: :center` on a Box, which Mob maps to `Alignment.Center`
-  on Compose and the matching SwiftUI alignment.
+  on Compose and the matching SwiftUI alignment. `:left` is a plain `Column`,
+  so the block keeps the caller's own leading edge and padding.
+
+  ## The title carries type when the caller says so
+
+  `title_size`, `title_weight` and `title_line_height` exist because a heading
+  copied from a drawing is often not the component's `:xl` regular text — a
+  page's gone or empty block often wants 22pt bold at 1.25 leading. Each is
+  absent unless asked for, so an empty state that sets none of them draws the
+  same `Text` it always did.
+
+  ## Padding
+
+  `padding` sets all four sides as it always has. `padding_top`,
+  `padding_right`, `padding_bottom` and `padding_left` override one edge each;
+  an edge-only call writes no uniform `padding` key at all, which is what lets
+  a page pass its own 21/21/140 as the block's geometry rather than wrapping
+  it in another container.
 
   ## Props
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
   | `title` | string | `nil` | Heading. |
+  | `title_size` | text token / number | `:xl` | Heading size. |
+  | `title_weight` | `:regular`, `:medium`, `:semibold`, `:bold`, … | unset | Heading weight. |
+  | `title_line_height` | number | unset | Multiplier of `title_size`. |
   | `description` | string | `nil` | Supporting text. |
-  | `align` | `:center` `:leading` | `:center` | Indicator above the text, or beside it. |
+  | `align` | `:center` `:leading` `:left` | `:center` | Indicator above and centred, beside, or above and left-aligned. |
   | `indicator` | string | `nil` | A glyph or emoji shown above/beside the text. |
   | `padding` | spacing token / number | `:space_xl` | Padding around the block. |
+  | `padding_top` / `padding_right` / `padding_bottom` / `padding_left` | spacing token / number | unset | One edge, overriding `padding`. |
   | `id` | string | — | A native testTag on the block, fanned out to its parts: `<id>-indicator`, `<id>-title`, `<id>-description`. |
 
   ## Slots
@@ -113,10 +136,20 @@ defmodule MishkaMob.Components.MishkaEmptyState do
   def empty_state(props \\ %{}, indicator_nodes \\ [], actions \\ [], body \\ []) do
     props = Map.new(props)
 
-    if (Map.get(props, :align) || :center) == :leading do
-      leading(props, indicator_nodes, actions, body)
-    else
-      centred(props, indicator_nodes, actions, body)
+    case layout(props) do
+      :leading -> leading(props, indicator_nodes, actions, body)
+      :left -> left(props, indicator_nodes, actions, body)
+      :center -> centred(props, indicator_nodes, actions, body)
+    end
+  end
+
+  defp layout(props) do
+    case Map.get(props, :align) || :center do
+      :leading -> :leading
+      "leading" -> :leading
+      :left -> :left
+      "left" -> :left
+      _center -> :center
     end
   end
 
@@ -128,7 +161,7 @@ defmodule MishkaMob.Components.MishkaEmptyState do
   # sits visibly off-centre on a layout whose entire job is centring.
   defp centred(props, indicator_nodes, actions, body) do
     ~MOB"""
-    <Box fill_width={true} align={:center} padding={Map.get(props, :padding) || :space_xl}>
+    <Box fill_width={true} align={:center}>
       <Column fill_width={true}>
         {centre(indicator(props, indicator_nodes))}
         {centre(text_block(props, :center))}
@@ -137,8 +170,28 @@ defmodule MishkaMob.Components.MishkaEmptyState do
       </Column>
     </Box>
     """
+    |> with_props(padding(props))
     |> with_id(Map.get(props, :id))
   end
+
+  # The web component's own anatomy at `data-align="left"`: indicator above,
+  # body below, everything on the caller's leading edge. No centring Box, so
+  # the block keeps the page's own width and padding.
+  defp left(props, indicator_nodes, actions, body) do
+    ~MOB"""
+    <Column fill_width={true}>
+      {indicator(props, indicator_nodes)}
+      {text_block(props, :left)}
+      {body}
+      {actions_or_none(actions)}
+    </Column>
+    """
+    |> with_props(padding(props))
+    |> with_id(Map.get(props, :id))
+  end
+
+  defp actions_or_none([]), do: []
+  defp actions_or_none(actions), do: actions_row(actions)
 
   defp centre(nodes) do
     ~MOB"""
@@ -197,24 +250,20 @@ defmodule MishkaMob.Components.MishkaEmptyState do
       ~MOB"""
       <Text
         text={title}
-        text_size={:xl}
+        text_size={Map.get(props, :title_size) || :xl}
         text_color={:on_surface}
-        text_align={align}
         :if={is_binary(title)}
       />
       """
+      |> with_props(align_prop(align))
+      |> with_props(title_type(props))
       |> with_id(part(props, "title"))
 
     supporting =
       ~MOB"""
-      <Text
-        text={description}
-        text_size={:base}
-        text_color={:muted}
-        text_align={align}
-        :if={is_binary(description)}
-      />
+      <Text text={description} text_size={:base} text_color={:muted} :if={is_binary(description)} />
       """
+      |> with_props(align_prop(align))
       |> with_id(part(props, "description"))
 
     ~MOB"""
@@ -231,6 +280,45 @@ defmodule MishkaMob.Components.MishkaEmptyState do
   defp with_id(node, nil), do: node
   defp with_id(nil, _id), do: nil
   defp with_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
+
+  defp with_props(nil, _props), do: nil
+  defp with_props(node, props), do: %{node | props: Map.merge(node.props, props)}
+
+  # A nil alignment is left OFF the node, not written as a null the bridge has
+  # to interpret — a left-aligned block has no `text_align` key at all.
+  defp align_prop(nil), do: %{}
+  defp align_prop(align), do: %{text_align: align}
+
+  # Type overrides stay ABSENT when unset, so a caller that names none builds
+  # the same Text it built before these props existed.
+  defp title_type(props) do
+    %{}
+    |> maybe(:font_weight, Map.get(props, :title_weight))
+    |> maybe(:line_height, Map.get(props, :title_line_height))
+  end
+
+  # Uniform padding unless the caller names an edge. An edge-only call writes
+  # no `padding` key at all — `0` and "absent" are different to the bridge,
+  # and the page that passes its own geometry should get exactly that key set.
+  defp padding(props) do
+    uniform = Map.get(props, :padding)
+
+    edges =
+      %{}
+      |> maybe(:padding_top, Map.get(props, :padding_top))
+      |> maybe(:padding_right, Map.get(props, :padding_right))
+      |> maybe(:padding_bottom, Map.get(props, :padding_bottom))
+      |> maybe(:padding_left, Map.get(props, :padding_left))
+
+    cond do
+      uniform != nil -> Map.merge(%{padding: uniform}, edges)
+      edges != %{} -> edges
+      true -> %{padding: :space_xl}
+    end
+  end
+
+  defp maybe(map, _key, nil), do: map
+  defp maybe(map, key, value), do: Map.put(map, key, value)
 
   defp part(props, name) do
     case Map.get(props, :id) do

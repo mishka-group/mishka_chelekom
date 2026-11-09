@@ -176,8 +176,62 @@ defmodule MishkaMob.Components.MishkaEmptyStateTest do
     end
   end
 
+  describe "left-aligned, with its own type" do
+    test "stacks the indicator above a left-aligned body" do
+      tree = ES.empty_state(align: :left, indicator: "🔍", title: "No results")
+
+      assert tree.type == :column
+      assert text(tree) =~ "🔍"
+      assert text(tree) =~ "No results"
+    end
+
+    test "title_size, title_weight and title_line_height reach the heading" do
+      tree =
+        ES.empty_state(
+          align: :left,
+          title: "Gone",
+          title_size: 22,
+          title_weight: :bold,
+          title_line_height: 1.25
+        )
+
+      heading = find_all(tree, :text) |> Enum.find(&(&1.props[:text] == "Gone"))
+
+      assert heading.props.text_size == 22
+      assert heading.props.font_weight == :bold
+      assert heading.props.line_height == 1.25
+      refute Map.has_key?(heading.props, :text_align)
+    end
+
+    test "an edge-only padding writes no uniform padding key" do
+      tree =
+        ES.empty_state(%{
+          align: :left,
+          title: "x",
+          padding_left: 21,
+          padding_right: 21,
+          padding_top: 140
+        })
+
+      assert tree.props.padding_left == 21
+      assert tree.props.padding_right == 21
+      assert tree.props.padding_top == 140
+      refute Map.has_key?(tree.props, :padding)
+    end
+
+    test "a uniform padding still reaches the block" do
+      assert ES.empty_state(%{align: :left, title: "x", padding: 0}).props.padding == 0
+    end
+  end
+
   test "every variant renders" do
-    for props <- [%{}, %{title: "t"}, %{align: :leading, title: "t"}, %{indicator: "x"}] do
+    for props <- [
+          %{},
+          %{title: "t"},
+          %{align: :leading, title: "t"},
+          %{align: :left, title: "t"},
+          %{indicator: "x"}
+        ] do
       assert_renderable(ES.empty_state(props))
     end
   end
