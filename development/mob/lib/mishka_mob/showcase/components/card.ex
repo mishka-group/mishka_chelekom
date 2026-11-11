@@ -262,6 +262,12 @@ defmodule MishkaMob.Showcase.Components.Card do
             "split their row evenly."
       },
       %{
+        name: "height",
+        type: "number",
+        default: "nil",
+        description: "A fixed height for the surface."
+      },
+      %{
         name: "background",
         type: "color token / ARGB int",
         default: "nil",
