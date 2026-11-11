@@ -172,6 +172,122 @@ defmodule MishkaMob.Showcase.Components.Calendar do
           />
           """
         end
+      },
+      %Example{
+        title: "The calendar can compute the month",
+        description:
+          "Give it any date in the month and it lays out the weeks itself: the " <>
+            "first weekday is a parameter, six fixed rows keep the height stable, " <>
+            "and the outside days are marked rather than dropped.",
+        code: ~S"""
+        <MishkaCalendar
+          month={~D[2026-11-15]}
+          today={~D[2026-11-11]}
+          value={~D[2026-11-14]}
+          weekday_labels={~w(M T W T F S S)}
+          on_select={:calendar_pick}
+        />
+        """,
+        render: fn assigns ->
+          ~MOB"""
+          <MishkaCalendar
+            id="cal-computed"
+            month={~D[2026-11-15]}
+            today={~D[2026-11-11]}
+            value={@calendar_selected}
+            weekday_labels={~w(M T W T F S S)}
+            on_select={:calendar_pick}
+            cell_id_prefix="cal-c-"
+            cell_color={:on_surface}
+            outside_color={:muted}
+            today_background={:on_surface}
+            today_color={:background}
+            selected_background={:surface_raised}
+            selected_shadow="0 1 2 0 #0D1A1917"
+          />
+          """
+        end
+      },
+      %Example{
+        title: "Multiple and range selection",
+        description:
+          "mode: :multiple takes a list of dates. mode: :range takes a {from, to} " <>
+            "pair and marks the days between as a state of their own, not a " <>
+            "class the caller works out.",
+        code: ~S"""
+        <MishkaCalendar mode={:multiple} value={[~D[2026-11-03], ~D[2026-11-19]]} ... />
+        <MishkaCalendar mode={:range} value={~D[2026-11-05]..~D[2026-11-09]} ... />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <Text text="Multiple" text_size={:sm} text_color={:muted} />
+            <MishkaCalendar
+              id="cal-multiple"
+              month={~D[2026-11-15]}
+              today={~D[2026-11-11]}
+              mode={:multiple}
+              value={[~D[2026-11-03], ~D[2026-11-19]]}
+              weekday_labels={~w(M T W T F S S)}
+              on_select={:calendar_pick}
+              cell_id_prefix="cal-m-"
+              cell_color={:on_surface}
+              outside_color={:muted}
+              selected_background={:surface_raised}
+            />
+            <Spacer size={12} />
+            <Text text="Range" text_size={:sm} text_color={:muted} />
+            <MishkaCalendar
+              id="cal-range"
+              month={~D[2026-11-15]}
+              today={~D[2026-11-11]}
+              mode={:range}
+              value={{~D[2026-11-05], ~D[2026-11-09]}}
+              weekday_labels={~w(M T W T F S S)}
+              on_select={:calendar_pick}
+              cell_id_prefix="cal-r-"
+              cell_color={:on_surface}
+              outside_color={:muted}
+              selected_background={:surface_raised}
+              in_range_background={:surface}
+            />
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Bounds and disabled days",
+        description:
+          "min and max put the edges of the pickable month in one place, and " <>
+            "disabled_dates names single days. A disabled day is inert, not " <>
+            "merely grey.",
+        code: ~S"""
+        <MishkaCalendar
+          month={~D[2026-11-15]}
+          min={~D[2026-11-05]}
+          max={~D[2026-11-25]}
+          disabled_dates={[~D[2026-11-11]]}
+          on_select={:calendar_pick}
+        />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <MishkaCalendar
+            id="cal-bounds"
+            month={~D[2026-11-15]}
+            today={~D[2026-11-11]}
+            min={~D[2026-11-05]}
+            max={~D[2026-11-25]}
+            disabled_dates={[~D[2026-11-11]]}
+            weekday_labels={~w(M T W T F S S)}
+            on_select={:calendar_pick}
+            cell_id_prefix="cal-b-"
+            cell_color={:on_surface}
+            outside_color={:muted}
+            disabled_color={:muted}
+          />
+          """
+        end
       }
     ]
   end
@@ -184,6 +300,34 @@ defmodule MishkaMob.Showcase.Components.Calendar do
         type: "list of rows of cell maps",
         default: "[]",
         description: "The month, already laid out. A cell is %{label, value, state, markers, id}."
+      },
+      %{
+        name: "month / today",
+        type: "Date",
+        default: "today",
+        description:
+          "When weeks is absent, the calendar lays the month out itself from any date in it."
+      },
+      %{
+        name: "value / mode",
+        type: "Date · list · range / mode",
+        default: "nil / :single",
+        description: "The selection, read according to the mode."
+      },
+      %{
+        name: "min / max / disabled_dates",
+        type: "Date / Date / list of dates",
+        default: "nil / nil / []",
+        description:
+          "Bounds and single days that cannot be picked; they render disabled and inert."
+      },
+      %{
+        name: "first_day_of_week / fixed_weeks / show_outside_days",
+        type: "1..7 / boolean / boolean",
+        default: "1 / true / true",
+        description:
+          "Which column the week starts in, whether six rows are always drawn, and " <>
+            "whether the days either side of the month appear."
       },
       %{
         name: "weekday_labels / weekday_nodes",

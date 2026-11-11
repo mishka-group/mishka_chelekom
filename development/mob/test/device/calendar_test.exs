@@ -23,4 +23,10 @@ defmodule MishkaMob.Device.CalendarTest do
 
     assert_eventually(fn -> assigns().calendar_selected == ~D[2026-11-20] end)
   end
+
+  test "a computed month reports the date of the cell it drew" do
+    tap("cal-c-2026-11-20")
+
+    assert_eventually(fn -> assigns().calendar_selected == ~D[2026-11-20] end)
+  end
 end

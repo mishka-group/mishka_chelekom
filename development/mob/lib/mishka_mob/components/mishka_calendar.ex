@@ -32,7 +32,17 @@ defmodule MishkaMob.Components.MishkaCalendar do
 
   | Prop | Values | Default | Meaning |
   |------|--------|---------|---------|
-  | `weeks` | list of rows of cell maps | `[]` | The month, already laid out. |
+  | `weeks` | list of rows of cell maps | computed | The month, already laid out. |
+  | `month` | `Date` | today | Any date in the month to draw when `weeks` is absent. |
+  | `value` | `Date` · list · `{from, to}` | `nil` | Selection, read according to `mode`. |
+  | `mode` | `:single` `:multiple` `:range` | `:single` | How many days are picked. |
+  | `min` / `max` | `Date` | `nil` | Bounds; a day outside them is `:disabled`. |
+  | `disabled_dates` | list of `Date` | `[]` | Days that cannot be picked. |
+  | `first_day_of_week` | `1..7` | `1` | The ISO weekday the first column is. |
+  | `fixed_weeks` | boolean | `true` | Always six rows, for a stable grid height. |
+  | `show_outside_days` | boolean | `true` | Draw the days either side of the month. |
+  | `today` | `Date` | `Date.utc_today/0` | What counts as today. |
+  | `cell_id_prefix` | string | `nil` | Prefix for each cell's id: `d-2026-11-14`. |
   | `weekday_labels` | list of 7 strings | `[]` | Column headings built by the component. |
   | `weekday_nodes` | list of 7 nodes | `[]` | Headings used as given — for per-letter type. Wins over labels. |
   | `on_select` | event tag | — | A cell sends `{:tap, {tag, value}}`. |
@@ -44,7 +54,8 @@ defmodule MishkaMob.Components.MishkaCalendar do
   | `corner_radius` | radius token / number | `13` | Cell corners. |
   | `cell_background` / `cell_color` / `cell_font_weight` | color / color / atom | `:transparent` / `:on_surface` / `:medium` | The default cell. |
   | `today_background` / `today_color` / `today_shadow` / `today_marker_color` | color / color / string / color | `:on_surface` / `:background` / `nil` / `nil` | Today. `today_marker_color` recolours its dots. |
-  | `selected_background` / `selected_color` / `selected_shadow` | color / color / string | `:surface_raised` / `:on_surface` / `nil` | The selected day. |
+  | `selected_background` / `selected_color` / `selected_shadow` | color / color / string | `:surface_raised` / `:on_surface` / `nil` | The selected day and range ends. |
+  | `in_range_background` / `in_range_color` | color | selected look | The days between a range's ends. |
   | `outside_color` / `disabled_color` | color | `:muted` | Outside-month numbers / inert cells. |
   | `label_size` / `label_gap` | number | `13.5` / `4` | The number and the space under it. |
   | `marker_band` / `marker_size` / `marker_radius` / `marker_gap` | number | `5` / `5` / `3` / `2.5` | The dot band. |
@@ -199,12 +210,94 @@ defmodule MishkaMob.Components.MishkaCalendar do
   # ── The grid ────────────────────────────────────────────────────────────────
 
   defp rows(props) do
-    weeks = Map.get(props, :weeks) || []
+    weeks = Map.get(props, :weeks) || computed_weeks(props)
     gap = Map.get(props, :row_gap) || 2
 
     weeks
     |> Enum.map(fn row -> row_nodes(row, props, gap) end)
   end
+
+  # When no weeks are handed in, the calendar does the month arithmetic itself
+  # from `month`, `first_day_of_week` and `today` — the same data a web
+  # calendar computes on the server. `fixed_weeks` always draws six rows so the
+  # grid does not change height between months.
+  defp computed_weeks(props) do
+    first_day = Map.get(props, :first_day_of_week) || 1
+    today = Map.get(props, :today) || Date.utc_today()
+    month = Map.get(props, :month) || today
+    first = Date.beginning_of_month(month)
+    lead = rem(Date.day_of_week(first) - first_day + 7, 7)
+    days = Date.days_in_month(first)
+    count = if Map.get(props, :fixed_weeks, true), do: 6, else: div(lead + days + 6, 7)
+    mode = Map.get(props, :mode) || :single
+    value = Map.get(props, :value)
+    outside? = Map.get(props, :show_outside_days, true)
+
+    for row <- 0..(count - 1), col <- 0..6 do
+      date = Date.add(first, row * 7 + col - lead)
+      in_month? = date.month == first.month and date.year == first.year
+
+      if in_month? or outside? do
+        computed_cell(date, in_month?, props, value, mode, today)
+      end
+    end
+    |> Enum.chunk_every(7)
+  end
+
+  defp computed_cell(date, in_month?, props, value, mode, today) do
+    %{
+      label: Integer.to_string(date.day),
+      value: date,
+      state: computed_state(date, in_month?, props, value, mode, today),
+      markers: [],
+      id: cell_id(props, date)
+    }
+  end
+
+  defp cell_id(props, date) do
+    case Map.get(props, :cell_id_prefix) do
+      nil -> nil
+      prefix -> prefix <> Date.to_iso8601(date)
+    end
+  end
+
+  defp computed_state(date, in_month?, props, value, mode, today) do
+    cond do
+      disabled?(date, props) -> :disabled
+      not in_month? -> :outside
+      true -> selected_state(date, value, mode) || if(date == today, do: :today, else: :default)
+    end
+  end
+
+  defp disabled?(date, props) do
+    min = Map.get(props, :min)
+    max = Map.get(props, :max)
+    disabled = Map.get(props, :disabled_dates) || []
+
+    (min != nil and Date.compare(date, min) == :lt) or
+      (max != nil and Date.compare(date, max) == :gt) or
+      date in disabled
+  end
+
+  defp selected_state(_date, nil, _mode), do: nil
+
+  defp selected_state(date, value, :multiple) when is_list(value),
+    do: if(date in value, do: :selected)
+
+  defp selected_state(date, {from, to}, :range) do
+    cond do
+      Date.compare(date, from) == :eq and Date.compare(from, to) == :eq -> :selected
+      Date.compare(date, from) == :eq -> :range_start
+      Date.compare(date, to) == :eq -> :range_end
+      Date.compare(date, from) == :gt and Date.compare(date, to) == :lt -> :in_range
+      true -> nil
+    end
+  end
+
+  defp selected_state(date, value, _single) when is_struct(value, Date),
+    do: if(Date.compare(date, value) == :eq, do: :selected)
+
+  defp selected_state(_date, _value, _mode), do: nil
 
   defp row_nodes(row, props, gap) do
     assigns = %{cells: cell_row(row, props, gap), gap: gap}
@@ -291,12 +384,18 @@ defmodule MishkaMob.Components.MishkaCalendar do
     }
   end
 
-  defp look(:selected, props) do
+  defp look(:selected, props), do: selected_look(props)
+  defp look(:range_start, props), do: selected_look(props)
+  defp look(:range_end, props), do: selected_look(props)
+
+  defp look(:in_range, props) do
     %{
-      background: Map.get(props, :selected_background) || :surface_raised,
-      color: Map.get(props, :selected_color) || :on_surface,
-      shadow: Map.get(props, :selected_shadow),
-      font_weight: :bold
+      background:
+        Map.get(props, :in_range_background) || Map.get(props, :selected_background) ||
+          :surface_raised,
+      color: Map.get(props, :in_range_color) || Map.get(props, :selected_color) || :on_surface,
+      shadow: nil,
+      font_weight: :medium
     }
   end
 
@@ -324,6 +423,15 @@ defmodule MishkaMob.Components.MishkaCalendar do
       color: Map.get(props, :cell_color) || :on_surface,
       shadow: nil,
       font_weight: Map.get(props, :cell_font_weight) || :medium
+    }
+  end
+
+  defp selected_look(props) do
+    %{
+      background: Map.get(props, :selected_background) || :surface_raised,
+      color: Map.get(props, :selected_color) || :on_surface,
+      shadow: Map.get(props, :selected_shadow),
+      font_weight: :bold
     }
   end
 

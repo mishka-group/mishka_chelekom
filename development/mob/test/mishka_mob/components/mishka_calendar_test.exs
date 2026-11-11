@@ -145,7 +145,8 @@ defmodule MishkaMob.Components.MishkaCalendarTest do
 
     test "is absent when there is nothing to say" do
       node = MishkaCalendar.calendar(%{})
-      assert node.children == []
+
+      refute Enum.any?(flatten(node), &match?(%{props: %{on_tap: _}}, &1))
     end
   end
 
@@ -170,5 +171,128 @@ defmodule MishkaMob.Components.MishkaCalendarTest do
 
   defp text_color(node) do
     node |> find_all(:text) |> hd() |> Map.get(:props) |> Map.get(:text_color)
+  end
+end
+
+defmodule MishkaMob.Components.MishkaCalendarComputedTest do
+  use Mob.ScreenCase, async: false
+
+  alias MishkaMob.Components.MishkaCalendar
+
+  defp calendar(props), do: MishkaCalendar.calendar(Map.merge(%{cell_id_prefix: "d-"}, props))
+
+  defp cell_by_id(node, id) do
+    node
+    |> find_all(:box)
+    |> Enum.find(&(&1.props[:id] == id))
+  end
+
+  describe "weeks computed from a month" do
+    test "six fixed rows starting on the configured weekday" do
+      node = calendar(%{month: ~D[2026-11-15], today: ~D[2026-11-11]})
+
+      rows = node.children |> Enum.filter(&match?(%{type: :column}, &1))
+      assert length(rows) == 6
+
+      # November 2026 starts on a Sunday, so a Monday-first grid leads with
+      # 26 October.
+      assert cell_by_id(node, "d-2026-10-26")
+    end
+
+    test "fixed_weeks: false draws only the rows the month needs" do
+      # February 2027 starts on a Monday and has 28 days: exactly four rows.
+      node = calendar(%{month: ~D[2027-02-10], fixed_weeks: false})
+
+      rows = node.children |> Enum.filter(&match?(%{type: :column}, &1))
+      assert length(rows) == 4
+    end
+
+    test "outside days are omitted, not merely muted" do
+      node =
+        calendar(%{
+          month: ~D[2026-11-15],
+          show_outside_days: false
+        })
+
+      refute cell_by_id(node, "d-2026-10-26")
+      assert cell_by_id(node, "d-2026-11-01")
+    end
+  end
+
+  describe "selection" do
+    test "single marks one day" do
+      node = calendar(%{month: ~D[2026-11-15], value: ~D[2026-11-14]})
+
+      assert cell_by_id(node, "d-2026-11-14").props.background == :surface_raised
+    end
+
+    test "multiple marks each picked day" do
+      node =
+        calendar(%{
+          month: ~D[2026-11-15],
+          mode: :multiple,
+          value: [~D[2026-11-03], ~D[2026-11-19]]
+        })
+
+      assert cell_by_id(node, "d-2026-11-03").props.background == :surface_raised
+      assert cell_by_id(node, "d-2026-11-19").props.background == :surface_raised
+      refute cell_by_id(node, "d-2026-11-04").props.background == :surface_raised
+    end
+
+    test "range marks the ends and everything between" do
+      node =
+        calendar(%{
+          month: ~D[2026-11-15],
+          mode: :range,
+          value: {~D[2026-11-05], ~D[2026-11-09]},
+          in_range_background: 0xFFABCDEF
+        })
+
+      assert cell_by_id(node, "d-2026-11-05").props.background == :surface_raised
+      assert cell_by_id(node, "d-2026-11-09").props.background == :surface_raised
+      assert cell_by_id(node, "d-2026-11-07").props.background == 0xFFABCDEF
+      refute cell_by_id(node, "d-2026-11-10").props.background == 0xFFABCDEF
+    end
+  end
+
+  describe "bounds" do
+    test "a day before min or after max is disabled and carries no handler" do
+      node =
+        calendar(%{
+          month: ~D[2026-11-15],
+          min: ~D[2026-11-05],
+          max: ~D[2026-11-25],
+          on_select: :pick
+        })
+
+      assert cell_by_id(node, "d-2026-11-04").props.background == :transparent
+      refute Map.has_key?(cell_by_id(node, "d-2026-11-04").props, :on_tap)
+      assert Map.has_key?(cell_by_id(node, "d-2026-11-05").props, :on_tap)
+    end
+
+    test "disabled_dates disables exactly those days" do
+      node =
+        calendar(%{
+          month: ~D[2026-11-15],
+          disabled_dates: [~D[2026-11-11]],
+          on_select: :pick
+        })
+
+      refute Map.has_key?(cell_by_id(node, "d-2026-11-11").props, :on_tap)
+      assert Map.has_key?(cell_by_id(node, "d-2026-11-12").props, :on_tap)
+    end
+  end
+
+  test "a computed cell reports its date through on_select" do
+    node = calendar(%{month: ~D[2026-11-15], on_select: :pick})
+
+    assert cell_by_id(node, "d-2026-11-20").props.on_tap ==
+             {self(), {:pick, ~D[2026-11-20]}}
+  end
+
+  test "today is marked when nothing is selected" do
+    node = calendar(%{month: ~D[2026-11-15], today: ~D[2026-11-11]})
+
+    assert cell_by_id(node, "d-2026-11-11").props.background == :on_surface
   end
 end
