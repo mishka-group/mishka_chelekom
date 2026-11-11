@@ -25,6 +25,7 @@ defmodule MishkaMob.Components do
     {:mishka_autocomplete, MishkaMob.Components.MishkaAutocomplete},
     {:mishka_avatar, MishkaMob.Components.MishkaAvatar},
     {:mishka_burger, MishkaMob.Components.MishkaBurger},
+    {:mishka_calendar, MishkaMob.Components.MishkaCalendar},
     {:mishka_card, MishkaMob.Components.MishkaCard},
     {:mishka_checkbox, MishkaMob.Components.MishkaCheckbox},
     {:mishka_checkbox_group, MishkaMob.Components.MishkaCheckboxGroup},

@@ -73,6 +73,8 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.Tabs, :mishka_tabs, MishkaMob.Components.MishkaTabs},
     {MishkaMob.Showcase.Components.Chip, :mishka_chip, MishkaMob.Components.MishkaChip},
     {MishkaMob.Showcase.Components.Card, :mishka_card, MishkaMob.Components.MishkaCard},
+    {MishkaMob.Showcase.Components.Calendar, :mishka_calendar,
+     MishkaMob.Components.MishkaCalendar},
     {MishkaMob.Showcase.Components.Pill, :mishka_pill, MishkaMob.Components.MishkaPill},
     {MishkaMob.Showcase.Components.Rating, :mishka_rating, MishkaMob.Components.MishkaRating},
     {MishkaMob.Showcase.Components.TextInput, :mishka_text_input,

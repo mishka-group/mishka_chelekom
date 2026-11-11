@@ -1,0 +1,408 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  A headless month calendar: a weekday header and a grid of day cells, with
+  selection, today, outside-month tones, per-day markers and month navigation.
+
+  The calendar does no date arithmetic. A month grid is a fact about the
+  reader's calendar — which weekday a month starts on, how many days it has,
+  and which of them are today — and that fact is computed by the app, with the
+  calendar system, locale and week start it already owns. The component takes
+  the finished weeks and draws them: seven equal columns, one cell per day.
+
+  ## The cell
+
+  Each entry in `weeks` is a map:
+
+      %{
+        label: "14",
+        value: ~D[2026-11-14],
+        state: :default | :today | :selected | :outside | :disabled,
+        markers: [color, ...],
+        id: "day_2026-11-14"
+      }
+
+  `value` is what `on_select` reports back. `id` is an optional native test
+  tag. `markers` are the colours of the dots under the number — one per
+  section with something on that day. A `nil` cell draws an empty box so a
+  short month keeps its columns.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `weeks` | list of rows of cell maps | `[]` | The month, already laid out. |
+  | `weekday_labels` | list of 7 strings | `[]` | Column headings built by the component. |
+  | `weekday_nodes` | list of 7 nodes | `[]` | Headings used as given — for per-letter type. Wins over labels. |
+  | `on_select` | event tag | — | A cell sends `{:tap, {tag, value}}`. |
+  | `month_label` | string | `nil` | Headline above the grid; the header is drawn when any header prop is set. |
+  | `on_prev` / `on_next` | event tag | — | Month arrows. |
+  | `prev_icon` / `next_icon` | string | `"‹"` / `"›"` | Arrow glyphs. |
+  | `cell_ratio` | number | `1.0` | Cell aspect ratio. |
+  | `gap` / `row_gap` | number | `2` | Space between columns / rows. |
+  | `corner_radius` | radius token / number | `13` | Cell corners. |
+  | `cell_background` / `cell_color` / `cell_font_weight` | color / color / atom | `:transparent` / `:on_surface` / `:medium` | The default cell. |
+  | `today_background` / `today_color` / `today_shadow` / `today_marker_color` | color / color / string / color | `:on_surface` / `:background` / `nil` / `nil` | Today. `today_marker_color` recolours its dots. |
+  | `selected_background` / `selected_color` / `selected_shadow` | color / color / string | `:surface_raised` / `:on_surface` / `nil` | The selected day. |
+  | `outside_color` / `disabled_color` | color | `:muted` | Outside-month numbers / inert cells. |
+  | `label_size` / `label_gap` | number | `13.5` / `4` | The number and the space under it. |
+  | `marker_band` / `marker_size` / `marker_radius` / `marker_gap` | number | `5` / `5` / `3` / `2.5` | The dot band. |
+  | `weekday_color` / `weekday_size` / `weekday_font_family` / `weekday_letter_spacing` / `weekday_gap` | color / number / string / number / number | `:muted` / `10` / `nil` / `nil` / `6` | Labels built from `weekday_labels`. |
+  | `month_label_size` / `month_label_color` / `header_gap` | number / color / number | `15` / `:on_surface` / `10` | The header. |
+  | `nav_color` / `nav_size` | color / number | `:on_surface` / `18` | The arrows. |
+  | `id` | string | unset | Native testTag on the calendar. |
+
+  A cell with `state: :disabled` carries no tap handler. Every other state is
+  tappable when `on_select` is set.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/calendar
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>Calendar>`). Children are ignored."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>calendar(props)
+
+  @doc """
+  The calendar node.
+
+      <%= @component_prefix %>calendar(%{weeks: weeks, weekday_labels: ~w(M T W T F S S),
+                 on_select: :pick}, [])
+  """
+  @spec <%= @component_prefix %>calendar(map() | keyword()) :: map()
+  def <%= @component_prefix %>calendar(props \\ %{}) do
+    props = Map.new(props)
+
+    assigns = %{
+      header: header(props),
+      weekdays: weekdays(props),
+      rows: rows(props),
+      id: Map.get(props, :id)
+    }
+
+    ~MOB"""
+    <Column fill_width={true} id={@id}>
+      {@header}
+      {@weekdays}
+      {@rows}
+    </Column>
+    """
+    |> drop_nil_id()
+  end
+
+  # ── Header ──────────────────────────────────────────────────────────────────
+
+  defp header(props) do
+    label = Map.get(props, :month_label)
+    prev = Map.get(props, :on_prev)
+    next = Map.get(props, :on_next)
+
+    if label == nil and prev == nil and next == nil do
+      nil
+    else
+      assigns = %{
+        label: label || "",
+        prev: arrow(prev, Map.get(props, :prev_icon) || "‹", props),
+        next: arrow(next, Map.get(props, :next_icon) || "›", props),
+        gap: Map.get(props, :header_gap) || 10,
+        size: Map.get(props, :month_label_size) || 15,
+        color: Map.get(props, :month_label_color) || :on_surface
+      }
+
+      ~MOB"""
+      <Row fill_width={true} align={:center}>
+        <Text text={@label} text_size={@size} text_color={@color} max_lines={1} />
+        <Spacer weight={1.0} />
+        {@prev}
+        <Spacer size={@gap} />
+        {@next}
+      </Row>
+      """
+    end
+  end
+
+  defp arrow(nil, _icon, _props), do: nil
+
+  defp arrow(tag, icon, props) do
+    assigns = %{
+      icon: icon,
+      size: Map.get(props, :nav_size) || 18,
+      color: Map.get(props, :nav_color) || :on_surface,
+      tap: Event.handler(tag)
+    }
+
+    ~MOB"""
+    <Box width={30} height={30} align={:center} on_tap={@tap}>
+      <Text text={@icon} text_size={@size} text_color={@color} max_lines={1} />
+    </Box>
+    """
+  end
+
+  # ── Weekday headings ────────────────────────────────────────────────────────
+
+  defp weekdays(props) do
+    nodes = Map.get(props, :weekday_nodes) || []
+    labels = Map.get(props, :weekday_labels) || []
+
+    cond do
+      nodes != [] -> weekday_row(nodes, props)
+      labels != [] -> weekday_row(Enum.map(labels, &weekday_label(&1, props)), props)
+      true -> nil
+    end
+  end
+
+  defp weekday_label(label, props) do
+    assigns = %{
+      text: label,
+      size: Map.get(props, :weekday_size) || 10,
+      color: Map.get(props, :weekday_color) || :muted,
+      family: Map.get(props, :weekday_font_family),
+      spacing: Map.get(props, :weekday_letter_spacing)
+    }
+
+    ~MOB"""
+    <Box weight={1.0} align={:center}>
+      <Text
+        text={@text}
+        text_size={@size}
+        text_color={@color}
+        font_family={@family}
+        letter_spacing={@spacing}
+        max_lines={1}
+      />
+    </Box>
+    """
+    |> drop_nil_keys([:font_family, :letter_spacing])
+  end
+
+  defp weekday_row(nodes, props) do
+    assigns = %{nodes: nodes, gap: Map.get(props, :weekday_gap) || 6}
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Row fill_width={true} align={:center}>
+        {@nodes}
+      </Row>
+      <Spacer size={@gap} />
+    </Column>
+    """
+  end
+
+  # ── The grid ────────────────────────────────────────────────────────────────
+
+  defp rows(props) do
+    weeks = Map.get(props, :weeks) || []
+    gap = Map.get(props, :row_gap) || 2
+
+    weeks
+    |> Enum.map(fn row -> row_nodes(row, props, gap) end)
+  end
+
+  defp row_nodes(row, props, gap) do
+    assigns = %{cells: cell_row(row, props, gap), gap: gap}
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Row fill_width={true} align={:top}>
+        {@cells}
+      </Row>
+      <Spacer size={@gap} />
+    </Column>
+    """
+  end
+
+  defp cell_row(row, props, gap) do
+    row
+    |> Enum.map(&cell(&1, props))
+    |> Enum.intersperse(spacer(gap))
+  end
+
+  # A nil cell is an empty column, not a missing column.
+  defp cell(nil, _props), do: ~MOB"<Box weight={1.0} />"
+
+  defp cell(cell, props) do
+    state = Map.get(cell, :state) || :default
+    look = look(state, props)
+
+    assigns = %{
+      ratio: Map.get(props, :cell_ratio) || 1.0,
+      radius: Map.get(props, :corner_radius) || 13,
+      background: look.background,
+      shadow: look.shadow,
+      color: look.color,
+      weight: look.font_weight,
+      label: Map.get(cell, :label) || "",
+      size: Map.get(props, :label_size) || 13.5,
+      label_gap: Map.get(props, :label_gap) || 4,
+      markers: markers(cell, state, props),
+      tap: tap(cell, state, props),
+      id: Map.get(cell, :id)
+    }
+
+    ~MOB"""
+    <Box
+      weight={1.0}
+      aspect_ratio={@ratio}
+      corner_radius={@radius}
+      background={@background}
+      shadow={@shadow}
+      align={:center}
+      on_tap={@tap}
+    >
+      <Column fill_width={true}>
+        <Row fill_width={true} align={:center}>
+          <Spacer weight={1.0} />
+          <Text
+            text={@label}
+            text_size={@size}
+            font_weight={@weight}
+            text_color={@color}
+            max_lines={1}
+          />
+          <Spacer weight={1.0} />
+        </Row>
+        <Spacer size={@label_gap} />
+        <Row fill_width={true} align={:center}>
+          <Spacer weight={1.0} />
+          {@markers}
+          <Spacer weight={1.0} />
+        </Row>
+      </Column>
+    </Box>
+    """
+    |> drop_nil_keys([:shadow, :on_tap])
+    |> put_id(assigns.id)
+  end
+
+  defp look(:today, props) do
+    %{
+      background: Map.get(props, :today_background) || :on_surface,
+      color: Map.get(props, :today_color) || :background,
+      shadow: Map.get(props, :today_shadow),
+      font_weight: :bold
+    }
+  end
+
+  defp look(:selected, props) do
+    %{
+      background: Map.get(props, :selected_background) || :surface_raised,
+      color: Map.get(props, :selected_color) || :on_surface,
+      shadow: Map.get(props, :selected_shadow),
+      font_weight: :bold
+    }
+  end
+
+  defp look(:outside, props) do
+    %{
+      background: Map.get(props, :cell_background) || :transparent,
+      color: Map.get(props, :outside_color) || :muted,
+      shadow: nil,
+      font_weight: :medium
+    }
+  end
+
+  defp look(:disabled, props) do
+    %{
+      background: Map.get(props, :cell_background) || :transparent,
+      color: Map.get(props, :disabled_color) || :muted,
+      shadow: nil,
+      font_weight: :medium
+    }
+  end
+
+  defp look(_default, props) do
+    %{
+      background: Map.get(props, :cell_background) || :transparent,
+      color: Map.get(props, :cell_color) || :on_surface,
+      shadow: nil,
+      font_weight: Map.get(props, :cell_font_weight) || :medium
+    }
+  end
+
+  defp markers(cell, :today, props) do
+    colors = Map.get(cell, :markers, [])
+
+    colors =
+      case Map.get(props, :today_marker_color) do
+        nil -> colors
+        color -> Enum.map(colors, fn _ -> color end)
+      end
+
+    marker_row(colors, props)
+  end
+
+  defp markers(cell, _state, props) do
+    cell |> Map.get(:markers, []) |> marker_row(props)
+  end
+
+  # The band keeps the same height whether or not a day has dots, so one date
+  # does not sit higher than the next.
+  defp marker_row([], props) do
+    assigns = %{band: Map.get(props, :marker_band) || 5}
+    ~MOB"<Row height={@band} />"
+  end
+
+  defp marker_row(colors, props) do
+    assigns = %{
+      band: Map.get(props, :marker_band) || 5,
+      size: Map.get(props, :marker_size) || 5,
+      radius: Map.get(props, :marker_radius) || 3,
+      gap: Map.get(props, :marker_gap) || 2.5
+    }
+
+    dots =
+      colors
+      |> Enum.map(fn color ->
+        ~MOB"""
+        <Box width={@size} height={@size} corner_radius={@radius} background={color} />
+        """
+      end)
+      |> Enum.intersperse(~MOB"<Spacer size={@gap} />")
+
+    ~MOB"""
+    <Row height={@band} align={:center}>
+      {dots}
+    </Row>
+    """
+  end
+
+  defp tap(_cell, :disabled, _props), do: nil
+
+  defp tap(cell, _state, props) do
+    case Map.get(props, :on_select) do
+      nil -> nil
+      tag -> Event.handler(tag, Map.get(cell, :value))
+    end
+  end
+
+  defp spacer(gap) do
+    assigns = %{gap: gap}
+    ~MOB"<Spacer size={@gap} />"
+  end
+
+  # ── Prop hygiene ────────────────────────────────────────────────────────────
+
+  defp put_id(node, nil), do: node
+  defp put_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
+
+  defp drop_nil_id(node) do
+    case node.props[:id] do
+      nil -> %{node | props: Map.delete(node.props, :id)}
+      _id -> node
+    end
+  end
+
+  defp drop_nil_keys(node, keys) do
+    props =
+      Enum.reduce(keys, node.props, fn key, acc ->
+        case Map.get(acc, key) do
+          nil -> Map.delete(acc, key)
+          _value -> acc
+        end
+      end)
+
+    %{node | props: props}
+  end
+end
