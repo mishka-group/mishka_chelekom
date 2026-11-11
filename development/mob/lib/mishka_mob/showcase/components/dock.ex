@@ -43,7 +43,7 @@ defmodule MishkaMob.Showcase.Components.Dock do
         """,
         render: fn _assigns ->
           fab = ~MOB"""
-          <Box id="dock-fab">
+          <Box id="dock-fab" fill_width={false}>
             <MishkaActionIcon icon="+" variant={:filled} shape={:circle} size={56} on_tap={:dock_tap} />
           </Box>
           """

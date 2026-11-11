@@ -102,13 +102,16 @@ defmodule <%= @module %> do
   @spec <%= @component_prefix %>text_input(map() | keyword()) :: map()
   def <%= @component_prefix %>text_input(props \\ %{}) do
     props = Map.new(props)
-    field = field_node(props)
     leading = Map.get(props, :leading)
     trailing = Map.get(props, :trailing)
 
     if leading == nil and trailing == nil do
-      field
+      field_node(props)
     else
+      # The field takes the space the slots leave. Without a weight a
+      # fill-width field inside a Row measures zero when it is empty, and the
+      # slots then sit against each other.
+      field = field_node(props, %{weight: 1.0})
       gap = Map.get(props, :slot_gap) || 8
 
       children =
@@ -123,12 +126,13 @@ defmodule <%= @module %> do
     end
   end
 
-  defp field_node(props) do
+  defp field_node(props, extra \\ %{}) do
     forwarded =
       props
       |> Map.take(@props)
       |> Enum.reject(fn {_key, value} -> is_nil(value) end)
       |> Map.new()
+      |> Map.merge(extra)
 
     %{~MOB(<TextField />) | props: Map.merge(forwarded, events(props))}
   end

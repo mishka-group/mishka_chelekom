@@ -194,7 +194,7 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
           <Row fill_width={true} align="center">
             <Text text="Has news" text_color={:on_surface} />
             <Spacer size={12} />
-            <Box id="ai-bell">
+            <Box id="ai-bell" fill_width={false}>
               <MishkaActionIcon
                 icon="🔔"
                 variant={:filled}

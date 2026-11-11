@@ -70,13 +70,13 @@ defmodule MishkaMob.Showcase.Components.TextInput do
         """,
         render: fn _assigns ->
           leading = ~MOB"""
-          <Box id="ti-leading">
+          <Box id="ti-leading" fill_width={false}>
             <Text text="⌕" text_size={:lg} text_color={:muted} />
           </Box>
           """
 
           trailing = ~MOB"""
-          <Box id="ti-trailing">
+          <Box id="ti-trailing" fill_width={false}>
             <Text text="⚙" text_size={:lg} text_color={:muted} />
           </Box>
           """

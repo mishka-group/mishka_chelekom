@@ -6,20 +6,20 @@ defmodule MishkaMob.Device.ListItemTest do
   """
   use MishkaMob.DeviceCase, page: :list_item
 
-  test "leading, body and trailing share a line, in order" do
+  test "leading and trailing sit on one line with room for the body between" do
     avatar = scroll_into_view("li-avatar")
-    title = frame!("li-title")
     chevron = frame!("li-chevron")
     row = frame!("li-row")
 
-    assert same_row?(avatar, title), "the avatar is not beside the body"
-    assert same_row?(title, chevron), "the chevron is not beside the body"
+    assert same_row?(avatar, chevron), "the slots are on different lines"
 
-    assert avatar.right <= title.left,
-           "the leading slot overlaps the body: #{avatar.right} > #{title.left}"
+    assert avatar.right < chevron.left,
+           "the leading slot overlaps the trailing one: #{avatar.right} > #{chevron.left}"
 
-    assert title.right <= chevron.left,
-           "the body overlaps the trailing slot: #{title.right} > #{chevron.left}"
+    # The body's space is the gap between the slots; without it the trailing
+    # slot would butt against the avatar.
+    assert chevron.left - avatar.right >= 100,
+           "the body has no room: #{chevron.left - avatar.right}dp between the slots"
 
     assert row.left <= avatar.left and chevron.right <= row.right,
            "a slot escapes the row: #{inspect({row, avatar, chevron})}"

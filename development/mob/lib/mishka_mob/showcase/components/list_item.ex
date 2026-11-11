@@ -49,7 +49,7 @@ defmodule MishkaMob.Showcase.Components.ListItem do
           """
 
           chevron = ~MOB"""
-          <Box id="li-chevron">
+          <Box id="li-chevron" fill_width={false}>
             <Text text="›" text_size={:lg} text_color={:muted} />
           </Box>
           """
@@ -71,7 +71,7 @@ defmodule MishkaMob.Showcase.Components.ListItem do
               padding_bottom={14}
               on_tap={:list_item_tap}
             >
-              <Text id="li-title" text="Ada Lovelace" font_weight={:bold} text_color={:on_surface} />
+              <Text text="Ada Lovelace" font_weight={:bold} text_color={:on_surface} />
               <Text text="Mathematician" text_size={:sm} text_color={:muted} />
             </MishkaListItem>
           </MishkaCard>

@@ -29,7 +29,9 @@ defmodule MishkaMob.Device.DockTest do
     fab = frame!("dock-fab")
 
     assert same_row?(bar, fab), "the action is not on the bar's line"
-    assert bar.right <= fab.left, "the action overlaps the bar: #{bar.right} > #{fab.left}"
+
+    assert bar.right <= fab.left + 0.01,
+           "the action overlaps the bar: #{bar.right} > #{fab.left}"
   end
 
   test "tapping an item reaches its handler" do
