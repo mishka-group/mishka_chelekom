@@ -21,10 +21,12 @@ defmodule <%= @module %> do
         id: "day_2026-11-14"
       }
 
-  `value` is what `on_select` reports back. `id` is an optional native test
-  tag. `markers` are the colours of the dots under the number — one per
-  section with something on that day. A `nil` cell draws an empty box so a
-  short month keeps its columns.
+  `value` is what `on_select` reports back, unless the cell carries `tag`, in
+  which case that tag is sent as-is — the shape a screen's existing
+  `handle_tap/2` already reads. `id` is an optional native test tag. `markers`
+  are the colours of the dots under the number — one per section with
+  something on that day. A `nil` cell draws an empty box so a short month
+  keeps its columns.
 
   ## Props
 
@@ -178,6 +180,10 @@ defmodule <%= @module %> do
   end
 
   defp weekday_row(nodes, props) do
+    gap = Map.get(props, :gap) || 2
+
+    nodes = Enum.intersperse(nodes, spacer(gap))
+
     assigns = %{nodes: nodes, gap: Map.get(props, :weekday_gap) || 6}
 
     ~MOB"""
@@ -370,10 +376,18 @@ defmodule <%= @module %> do
 
   defp tap(_cell, :disabled, _props), do: nil
 
+  # A cell that carries its own tag sends exactly that tag — the shape screens
+  # already handle. Without one, on_select composes with the cell's value.
   defp tap(cell, _state, props) do
-    case Map.get(props, :on_select) do
-      nil -> nil
-      tag -> Event.handler(tag, Map.get(cell, :value))
+    case Map.get(cell, :tag) do
+      nil ->
+        case Map.get(props, :on_select) do
+          nil -> nil
+          tag -> Event.handler(tag, Map.get(cell, :value))
+        end
+
+      tag ->
+        Event.handler(tag)
     end
   end
 

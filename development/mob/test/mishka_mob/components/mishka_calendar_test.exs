@@ -38,6 +38,16 @@ defmodule MishkaMob.Components.MishkaCalendarTest do
       assert tap == {self(), {:pick, ~D[2026-11-01]}}
     end
 
+    test "a cell that carries its own tag sends exactly that tag" do
+      node =
+        MishkaCalendar.calendar(%{
+          weeks: [[cell(%{tag: :day_2026_11_01})]],
+          on_select: :pick
+        })
+
+      assert find_cell(node).props.on_tap == {self(), :day_2026_11_01}
+    end
+
     test "a disabled cell carries no handler" do
       node = MishkaCalendar.calendar(%{weeks: [[cell(%{state: :disabled})]], on_select: :pick})
 
