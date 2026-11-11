@@ -20,6 +20,15 @@ defmodule MishkaMob.Showcase.Components.TextInput do
   end
 
   @impl true
+  def mount(socket), do: Mob.Socket.assign(socket, :typed, "")
+
+  @impl true
+  def handle_change(:showcase_text_typed, value, socket),
+    do: Mob.Socket.assign(socket, :typed, value)
+
+  def handle_change(_tag, _value, socket), do: socket
+
+  @impl true
   def examples do
     [
       %Example{
@@ -35,10 +44,11 @@ defmodule MishkaMob.Showcase.Components.TextInput do
           {:noreply, assign(socket, :query, value)}
         end
         """,
-        render: fn _assigns ->
+        render: fn assigns ->
           ~MOB"""
           <MishkaTextInput
-            value=""
+            id="ti-plain"
+            value={@typed}
             placeholder="Search films"
             accessibility_id="showcase_text_plain"
             on_change={:showcase_text_typed}
@@ -60,17 +70,22 @@ defmodule MishkaMob.Showcase.Components.TextInput do
         """,
         render: fn _assigns ->
           leading = ~MOB"""
-          <Text text="⌕" text_size={:lg} text_color={:muted} />
+          <Box id="ti-leading">
+            <Text text="⌕" text_size={:lg} text_color={:muted} />
+          </Box>
           """
 
           trailing = ~MOB"""
-          <Text text="⚙" text_size={:lg} text_color={:muted} />
+          <Box id="ti-trailing">
+            <Text text="⚙" text_size={:lg} text_color={:muted} />
+          </Box>
           """
 
           assigns = %{leading: leading, trailing: trailing}
 
           ~MOB"""
           <MishkaTextInput
+            id="ti-slots"
             placeholder="Search films"
             leading={@leading}
             trailing={@trailing}

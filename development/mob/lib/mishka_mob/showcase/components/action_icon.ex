@@ -183,7 +183,7 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
           overlay = ~MOB"""
           <Box fill_width={true} fill_height={true} align="top_trailing">
             <Column padding_top={8} padding_right={9}>
-              <Box width={10} height={10} corner_radius={5} background={:primary} />
+              <Box id="ai-dot" width={10} height={10} corner_radius={5} background={:primary} />
             </Column>
           </Box>
           """
@@ -194,14 +194,16 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
           <Row fill_width={true} align="center">
             <Text text="Has news" text_color={:on_surface} />
             <Spacer size={12} />
-            <MishkaActionIcon
-              icon="🔔"
-              variant={:filled}
-              shape={:circle}
-              size={44}
-              overlay={@overlay}
-              on_tap={:ai_tap}
-            />
+            <Box id="ai-bell">
+              <MishkaActionIcon
+                icon="🔔"
+                variant={:filled}
+                shape={:circle}
+                size={44}
+                overlay={@overlay}
+                on_tap={:ai_tap}
+              />
+            </Box>
           </Row>
           """
         end

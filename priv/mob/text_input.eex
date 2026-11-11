@@ -66,7 +66,7 @@ defmodule <%= @module %> do
   | `width` / `height` / `fill_width` | number / boolean | unset | Size. |
   | `leading` / `trailing` | node or list of nodes | unset | Content beside the field. |
   | `slot_gap` | number | `8` | Space between a slot and the field. |
-  | `accessibility_id` | string | unset | Native testTag. |
+  | `id` / `accessibility_id` | string | unset | Native testTag. |
   | `on_change` / `on_submit` / `on_focus` / `on_blur` | event tag | — | `{:change, tag, value}`, `{:submit, tag}`, `{:focus, tag}`, `{:blur, tag}`. |
 
   **Documentation:** https://mishka.tools/chelekom/docs/mob/text-input
@@ -82,7 +82,7 @@ defmodule <%= @module %> do
     placeholder_color font_family font_weight letter_spacing text_align
     background border_color border_width corner_radius padding padding_top
     padding_right padding_bottom padding_left width height fill_width
-    accessibility_id value_epoch
+    accessibility_id value_epoch id
   )a
 
   @events ~w(on_change on_submit on_focus on_blur)a

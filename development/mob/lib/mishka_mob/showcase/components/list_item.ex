@@ -45,11 +45,13 @@ defmodule MishkaMob.Showcase.Components.ListItem do
         """,
         render: fn _assigns ->
           avatar = ~MOB"""
-          <Box width={40} height={40} corner_radius={20} background={:surface_raised} />
+          <Box id="li-avatar" width={40} height={40} corner_radius={20} background={:surface_raised} />
           """
 
           chevron = ~MOB"""
-          <Text text="›" text_size={:lg} text_color={:muted} />
+          <Box id="li-chevron">
+            <Text text="›" text_size={:lg} text_color={:muted} />
+          </Box>
           """
 
           assigns = %{avatar: avatar, chevron: chevron}
@@ -62,13 +64,14 @@ defmodule MishkaMob.Showcase.Components.ListItem do
             padding_right={15}
           >
             <MishkaListItem
+              id="li-row"
               leading={@avatar}
               trailing={@chevron}
               padding_top={14}
               padding_bottom={14}
               on_tap={:list_item_tap}
             >
-              <Text text="Ada Lovelace" font_weight={:bold} text_color={:on_surface} />
+              <Text id="li-title" text="Ada Lovelace" font_weight={:bold} text_color={:on_surface} />
               <Text text="Mathematician" text_size={:sm} text_color={:muted} />
             </MishkaListItem>
           </MishkaCard>

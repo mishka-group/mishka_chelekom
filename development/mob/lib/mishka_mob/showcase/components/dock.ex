@@ -43,7 +43,9 @@ defmodule MishkaMob.Showcase.Components.Dock do
         """,
         render: fn _assigns ->
           fab = ~MOB"""
-          <MishkaActionIcon icon="+" variant={:filled} shape={:circle} size={56} on_tap={:dock_tap} />
+          <Box id="dock-fab">
+            <MishkaActionIcon icon="+" variant={:filled} shape={:circle} size={56} on_tap={:dock_tap} />
+          </Box>
           """
 
           assigns = %{fab: fab}
@@ -51,6 +53,7 @@ defmodule MishkaMob.Showcase.Components.Dock do
           ~MOB"""
           <Column fill_width={true}>
             <MishkaDock
+              id="dock-bar"
               background={:surface_raised}
               shadow="0 8 16 -12 #801A1917"
               padding_left={18}
@@ -59,14 +62,15 @@ defmodule MishkaMob.Showcase.Components.Dock do
               fab={@fab}
             >
               <MishkaDockItem
+                id="dock-item-home"
                 icon="⌂"
                 active={true}
                 on_tap={:dock_tap}
                 active_background={:surface}
                 active_color={:on_surface}
               />
-              <MishkaDockItem icon="▦" on_tap={:dock_tap} />
-              <MishkaDockItem icon="◔" on_tap={:dock_tap} />
+              <MishkaDockItem id="dock-item-library" icon="▦" on_tap={:dock_tap} />
+              <MishkaDockItem id="dock-item-stats" icon="◔" on_tap={:dock_tap} />
             </MishkaDock>
             <Spacer size={8} />
             <Text

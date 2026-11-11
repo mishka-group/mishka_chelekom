@@ -197,11 +197,16 @@ defmodule MishkaMob.Showcase.Components.Card do
         render: fn _assigns ->
           ~MOB"""
           <Row fill_width={true} align="top">
-            <MishkaCard weight={1.0} background={:surface_raised} padding={:space_sm}>
+            <MishkaCard id="card-weight-left" weight={1.0} background={:surface_raised} padding={:space_sm}>
               <Text text="Left" text_color={:on_surface} />
             </MishkaCard>
             <Spacer size={12} />
-            <MishkaCard weight={1.0} background={:surface_raised} padding={:space_sm}>
+            <MishkaCard
+              id="card-weight-right"
+              weight={1.0}
+              background={:surface_raised}
+              padding={:space_sm}
+            >
               <Text text="Right" text_color={:on_surface} />
             </MishkaCard>
           </Row>
