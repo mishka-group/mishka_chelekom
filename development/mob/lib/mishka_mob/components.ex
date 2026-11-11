@@ -82,6 +82,7 @@ defmodule MishkaMob.Components do
     {:mishka_switch, MishkaMob.Components.MishkaSwitch},
     {:mishka_tabs, MishkaMob.Components.MishkaTabs},
     {:mishka_tags_input, MishkaMob.Components.MishkaTagsInput},
+    {:mishka_text_input, MishkaMob.Components.MishkaTextInput},
     {:mishka_theme_icon, MishkaMob.Components.MishkaThemeIcon},
     {:mishka_toast, MishkaMob.Components.MishkaToast},
     {:mishka_toggle, MishkaMob.Components.MishkaToggle},

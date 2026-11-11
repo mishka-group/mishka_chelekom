@@ -75,6 +75,8 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.Card, :mishka_card, MishkaMob.Components.MishkaCard},
     {MishkaMob.Showcase.Components.Pill, :mishka_pill, MishkaMob.Components.MishkaPill},
     {MishkaMob.Showcase.Components.Rating, :mishka_rating, MishkaMob.Components.MishkaRating},
+    {MishkaMob.Showcase.Components.TextInput, :mishka_text_input,
+     MishkaMob.Components.MishkaTextInput},
     {MishkaMob.Showcase.Components.Mark, :mishka_mark, MishkaMob.Components.MishkaMark},
     {MishkaMob.Showcase.Components.Highlight, :mishka_highlight,
      MishkaMob.Components.MishkaHighlight},
