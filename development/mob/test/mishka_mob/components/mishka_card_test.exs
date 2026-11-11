@@ -40,6 +40,11 @@ defmodule MishkaMob.Components.MishkaCardTest do
       assert MishkaCard.card(%{on_tap: :open}, []).props.on_tap == {self(), :open}
     end
 
+    test "weight is passed through, and left off when unset" do
+      assert MishkaCard.card(%{weight: 1.0}, []).props.weight == 1.0
+      refute Map.has_key?(MishkaCard.card(%{}, []).props, :weight)
+    end
+
     test "an empty card renders" do
       assert_renderable(MishkaCard.card())
     end

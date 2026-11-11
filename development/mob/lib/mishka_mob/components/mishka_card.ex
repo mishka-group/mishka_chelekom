@@ -71,6 +71,7 @@ defmodule MishkaMob.Components.MishkaCard do
   | `figure_position` | `:start` `:end` | `:start` | Whether the figure comes before or after the body. |
   | `actions` | node or list of nodes | unset | Drawn last in the body. |
   | `fill_width` | boolean | `true` | Span the parent. |
+  | `weight` | number | unset | Share of a parent `Row`/`Column`, as on any Mob node. |
   | `background` | color token / ARGB int | unset | Surface fill. |
   | `corner_radius` | radius token / number | unset | Corner rounding. |
   | `shadow` | shadow spec string | unset | Drop shadow on the surface. |
@@ -160,6 +161,7 @@ defmodule MishkaMob.Components.MishkaCard do
     base =
       %{}
       |> put_some(:fill_width, Map.get(props, :fill_width, true))
+      |> put_some(:weight, Map.get(props, :weight))
       |> put_some(:background, Map.get(props, :background))
       |> put_some(:corner_radius, Map.get(props, :corner_radius))
       |> put_some(:shadow, Map.get(props, :shadow))

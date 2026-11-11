@@ -28,6 +28,7 @@ defmodule <%= @module %> do
   | `color` | color token / ARGB int | `:on_surface` | Glyph colour. |
   | `background` | color token / ARGB int | `:surface_raised` | Fill when `variant: :filled`. |
   | `shadow` | string | `nil` | Drop shadow on the tap target. See below. |
+  | `overlay` | node or list of nodes | `nil` | Drawn on top of the glyph, filling the target — a badge pinned to a corner. |
   | `border_color` | color token / ARGB int | `nil` | Hairline colour. Nothing draws unless you set it. |
   | `border_width` | number (dp) | `1` | Read only when `border_color` is set. |
 
@@ -131,6 +132,7 @@ defmodule <%= @module %> do
           background={background(props, disabled?)}
         >
           {glyph(props, content, disabled?)}
+          {overlay(Map.get(props, :overlay))}
         </Box>
         """
       end
@@ -139,6 +141,12 @@ defmodule <%= @module %> do
   end
 
   defp hug?(size), do: size in [:hug, "hug"]
+
+  # `nil` is dropped by the sigil, so an icon without an overlay carries the
+  # same child list it always did. An overlay that fills the target — the
+  # badge idiom — is laid over the glyph because a Box stacks its children.
+  defp overlay(nil), do: nil
+  defp overlay(nodes), do: nodes
 
   @doc """
   The corner radius for a shape — a circle is `size / 2` so it stays round at

@@ -177,6 +177,36 @@ defmodule MishkaMob.Showcase.Components.Card do
           </Column>
           """
         end
+      },
+      %Example{
+        title: "Cards sharing a row",
+        description:
+          "weight hands the card a share of its parent, exactly as it does for any " <>
+            "Mob node — two cards at 1.0 split the row evenly.",
+        code: ~S"""
+        <Row fill_width={true} align="top">
+          <MishkaCard weight={1.0} background={:surface_raised} padding={:space_sm}>
+            <Text text="Left" />
+          </MishkaCard>
+          <Spacer size={12} />
+          <MishkaCard weight={1.0} background={:surface_raised} padding={:space_sm}>
+            <Text text="Right" />
+          </MishkaCard>
+        </Row>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Row fill_width={true} align="top">
+            <MishkaCard weight={1.0} background={:surface_raised} padding={:space_sm}>
+              <Text text="Left" text_color={:on_surface} />
+            </MishkaCard>
+            <Spacer size={12} />
+            <MishkaCard weight={1.0} background={:surface_raised} padding={:space_sm}>
+              <Text text="Right" text_color={:on_surface} />
+            </MishkaCard>
+          </Row>
+          """
+        end
       }
     ]
   end
@@ -222,6 +252,14 @@ defmodule MishkaMob.Showcase.Components.Card do
         type: "boolean",
         default: "true",
         description: "Span the parent instead of hugging its content."
+      },
+      %{
+        name: "weight",
+        type: "number",
+        default: "nil",
+        description:
+          "Share of a parent Row/Column, as on any Mob node. Two cards at weight 1.0 " <>
+            "split their row evenly."
       },
       %{
         name: "background",

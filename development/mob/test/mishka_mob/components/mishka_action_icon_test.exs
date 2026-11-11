@@ -128,6 +128,22 @@ defmodule MishkaMob.Components.MishkaActionIconTest do
              MishkaActionIcon.action_icon(%{}, art)
   end
 
+  describe "overlay" do
+    test "is drawn after the glyph, inside the target" do
+      badge = %{type: :box, props: %{width: 10, height: 10}, children: []}
+      node = MishkaActionIcon.action_icon(%{overlay: badge}, [])
+
+      assert List.last(node.children) == badge
+    end
+
+    test "an unset overlay leaves the child list untouched" do
+      node = MishkaActionIcon.action_icon(%{icon: "x"}, [])
+
+      assert length(node.children) == 1
+      refute Enum.any?(node.children, &match?(%{props: %{width: 10}}, &1))
+    end
+  end
+
   describe "size: :hug" do
     test "drops the box's own size and decoration" do
       node = MishkaActionIcon.action_icon(icon: "✎", size: :hug)
