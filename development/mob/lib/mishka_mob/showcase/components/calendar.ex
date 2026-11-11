@@ -288,6 +288,224 @@ defmodule MishkaMob.Showcase.Components.Calendar do
           />
           """
         end
+      },
+      %Example{
+        title: "Week — seven lanes of blocks",
+        description:
+          "Each lane is a heading (weekday and day number) and its blocks, all " <>
+            "seven the same width. A block's rail is its section colour.",
+        code: ~S"""
+        <MishkaCalendar view={:week}
+          lanes={[
+            %{weekday: "MON", day: "9", blocks: [%{label: "09", height: 44, tag: :event}]},
+            %{weekday: "TUE", day: "10", state: :today}
+          ]} />
+        """,
+        render: fn _assigns ->
+          lanes = [
+            %{
+              id: "cw-lane-1",
+              weekday: "MON",
+              day: "9",
+              tag: :week_lane_mon,
+              blocks: [%{id: "cw-block-1", label: "11", height: 52, tag: :week_block_mon}]
+            },
+            %{id: "cw-lane-2", weekday: "TUE", day: "10", tag: :week_lane_tue},
+            %{
+              id: "cw-lane-3",
+              weekday: "WED",
+              day: "11",
+              tag: :week_lane_wed,
+              state: :today,
+              blocks: [
+                %{
+                  id: "cw-block-3a",
+                  label: "09",
+                  height: 52,
+                  tag: :week_block_wed_am,
+                  background: :surface,
+                  rail: :success
+                },
+                %{label: "13", height: 52, tag: :week_block_wed_pm},
+                %{
+                  id: "cw-block-3c",
+                  label: "18",
+                  height: 52,
+                  tag: :week_block_wed_eve,
+                  background: :surface,
+                  rail: :primary
+                }
+              ]
+            },
+            %{
+              id: "cw-lane-4",
+              weekday: "THU",
+              day: "12",
+              tag: :week_lane_thu,
+              blocks: [%{id: "cw-block-4", label: "10", height: 52, tag: :week_block_thu}]
+            },
+            %{
+              id: "cw-lane-5",
+              weekday: "FRI",
+              day: "13",
+              tag: :week_lane_fri,
+              blocks: [%{id: "cw-block-5", label: "18", height: 52, tag: :week_block_fri}]
+            },
+            %{id: "cw-lane-6", weekday: "SAT", day: "14", tag: :week_lane_sat},
+            %{
+              id: "cw-lane-7",
+              weekday: "SUN",
+              day: "15",
+              tag: :week_lane_sun,
+              blocks: [%{id: "cw-block-7", label: "07", height: 96, tag: :week_block_sun}]
+            }
+          ]
+
+          assigns = %{lanes: lanes}
+
+          ~MOB"""
+          <MishkaCalendar
+            id="cal-week"
+            view={:week}
+            lanes={@lanes}
+            weekday_color={:muted}
+            today_color={:primary}
+            lane_selected_background={:surface_raised}
+            lane_selected_shadow="0 1 2 0 #0D1A1917"
+            block_background={:surface_raised}
+            block_text_color={:muted}
+          />
+          """
+        end
+      },
+      %Example{
+        title: "Day — a timeline of rows",
+        description:
+          "One card of rows: time gutter, section rail, title and meta, and the " <>
+            "duration at the trailing edge. `empty` is what a day with nothing draws.",
+        code: ~S"""
+        <MishkaCalendar view={:day}
+          rows={[
+            %{time: "09:00", title: "Morning stand-up", meta: "Calendar", duration: "1h"},
+            %{time: "13:00", title: "Lunch with Ada", meta: "Calendar", duration: "1h",
+              colour: :success}
+          ]} />
+        """,
+        render: fn _assigns ->
+          rows = [
+            %{
+              time: "09:00",
+              title: "Morning stand-up",
+              meta: "Calendar",
+              duration: "1h",
+              id: "cd-row-1",
+              tag: :day_row_one
+            },
+            %{
+              time: "09:30",
+              title: "Overlapping review",
+              meta: "Calendar",
+              duration: "1h",
+              id: "cd-row-2",
+              tag: :day_row_two
+            },
+            %{
+              time: "13:00",
+              title: "Lunch with Ada",
+              meta: "Calendar",
+              duration: "1h",
+              colour: :success,
+              id: "cd-row-3",
+              tag: :day_row_three
+            },
+            %{
+              time: "18:30",
+              title: "Severance — S2E5",
+              meta: "Airs today",
+              duration: "1h",
+              colour: :primary,
+              id: "cd-row-4",
+              tag: :day_row_four
+            }
+          ]
+
+          assigns = %{rows: rows}
+
+          ~MOB"""
+          <MishkaCalendar
+            id="cal-day"
+            view={:day}
+            rows={@rows}
+            card_shadow="0 1 2 0 #0D1A1917"
+            time_font_family="mono"
+            rule_color={:border}
+          />
+          """
+        end
+      },
+      %Example{
+        title: "Agenda — grouped days",
+        description:
+          "Sections of rows: each is a day heading and one card of that day's " <>
+            "rows. `section_label_*` is the heading's type.",
+        code: ~S"""
+        <MishkaCalendar view={:agenda}
+          sections={[
+            %{label: "TODAY", items: [%{time: "09:00", title: "Stand-up"}]},
+            %{label: "TOMORROW", items: [%{time: "10:00", title: "Dentist"}]}
+          ]} />
+        """,
+        render: fn _assigns ->
+          sections = [
+            %{
+              id: "ca-section-today",
+              label: "TODAY · WED 11 NOV",
+              items: [
+                %{
+                  time: "09:00",
+                  title: "Morning stand-up",
+                  meta: "Calendar",
+                  duration: "1h",
+                  tag: :agenda_today_one
+                },
+                %{
+                  time: "18:30",
+                  title: "Severance — S2E5",
+                  meta: "Airs today",
+                  colour: :primary,
+                  duration: "1h",
+                  tag: :agenda_today_two
+                }
+              ]
+            },
+            %{
+              id: "ca-section-tomorrow",
+              label: "TOMORROW · THU 12 NOV",
+              items: [
+                %{
+                  time: "10:00",
+                  title: "Dentist",
+                  meta: "Calendar",
+                  duration: "1h",
+                  tag: :agenda_tomorrow_one
+                }
+              ]
+            }
+          ]
+
+          assigns = %{sections: sections}
+
+          ~MOB"""
+          <MishkaCalendar
+            id="cal-agenda"
+            view={:agenda}
+            sections={@sections}
+            section_label_color={:muted}
+            section_label_gap={8}
+            card_shadow="0 1 2 0 #0D1A1917"
+          />
+          """
+        end
       }
     ]
   end
@@ -300,6 +518,20 @@ defmodule MishkaMob.Showcase.Components.Calendar do
         type: "list of rows of cell maps",
         default: "[]",
         description: "The month, already laid out. A cell is %{label, value, state, markers, id}."
+      },
+      %{
+        name: "view",
+        type: ":month · :week · :day · :agenda",
+        default: ":month",
+        description: "Which layout: the month grid, seven lanes, one timeline or grouped days."
+      },
+      %{
+        name: "lanes / rows / sections",
+        type: "list of maps",
+        default: "[]",
+        description:
+          "The data for the week, day and agenda views. Row maps are {time, title, meta, " <>
+            "duration, colour, tag}."
       },
       %{
         name: "month / today",

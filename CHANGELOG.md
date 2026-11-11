@@ -1,9 +1,10 @@
 # Changelog for MishkaChelekom 0.0.11
 
 ### Features:
-- **Mob**: `MishkaCalendar` joins the component set — a headless month grid with weekday
-  headings, today/selected/outside tones, per-day markers and month navigation, and it does no
-  date arithmetic: the app supplies the laid-out weeks
+- **Mob**: `MishkaCalendar` joins the component set — one headless calendar with four views:
+  a month grid (computed or from laid-out weeks, with single/multiple/range selection, bounds
+  and markers), a week of seven lanes and blocks, a day timeline, and grouped agenda sections.
+  Colors, sizes, radii and type are all props; month navigation and per-view `empty` nodes too
 - **Mob**: `MishkaTextInput` joins the component set — a single- or multi-line field with the
   form events, `value_epoch`, and `leading` / `trailing` nodes beside it. `MishkaListItem` gives
   a list row its leading/body/trailing geometry, and `MishkaDock` / `MishkaDockItem` draw a

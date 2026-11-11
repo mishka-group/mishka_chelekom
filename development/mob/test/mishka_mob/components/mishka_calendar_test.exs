@@ -296,3 +296,129 @@ defmodule MishkaMob.Components.MishkaCalendarComputedTest do
     assert cell_by_id(node, "d-2026-11-11").props.background == :on_surface
   end
 end
+
+defmodule MishkaMob.Components.MishkaCalendarViewsTest do
+  use Mob.ScreenCase, async: false
+
+  alias MishkaMob.Components.MishkaCalendar
+
+  describe "the week view" do
+    test "draws seven equal lanes with their headings and blocks" do
+      lanes =
+        for n <- 1..7 do
+          %{
+            weekday: "W#{n}",
+            day: "#{n}",
+            tag: String.to_atom("lane_#{n}"),
+            blocks: [%{label: "09", height: 44, tag: String.to_atom("block_#{n}")}]
+          }
+        end
+
+      node = MishkaCalendar.calendar(%{view: :week, lanes: lanes})
+
+      [row] = node.children
+      lane_nodes = Enum.reject(row.children, &match?(%{type: :spacer}, &1))
+      assert length(lane_nodes) == 7
+      assert Enum.all?(lane_nodes, &(&1.props.weight == 1.0))
+
+      first = hd(lane_nodes)
+      assert first.props.on_tap == {self(), :lane_1}
+      assert text(first) =~ "W1"
+      assert text(first) =~ "1"
+      assert find(first, :box, width: 2.5) != nil
+    end
+
+    test "the selected lane paints its heading card" do
+      node =
+        MishkaCalendar.calendar(%{
+          view: :week,
+          lanes: [%{weekday: "MON", day: "9", state: :selected, tag: :lane}],
+          lane_selected_background: 0xFFABCDEF,
+          lane_selected_shadow: "0 1 2 0 #0D1A1917"
+        })
+
+      [row] = node.children
+      [lane] = row.children
+      [header | _] = lane.children
+      assert header.props.background == 0xFFABCDEF
+      assert header.props.shadow != nil
+    end
+
+    test "today's number takes the today colour" do
+      node =
+        MishkaCalendar.calendar(%{
+          view: :week,
+          lanes: [%{weekday: "MON", day: "9", state: :today}],
+          today_color: 0xFF123456
+        })
+
+      assert Enum.any?(find_all(node, :text), &(&1.props.text_color == 0xFF123456))
+    end
+  end
+
+  describe "the day view" do
+    test "draws the rows in order, with their time, title and duration" do
+      rows = [
+        %{time: "09:00", title: "First", meta: "Calendar", duration: "1h", tag: :row_1},
+        %{time: "13:00", title: "Second", duration: "2h", tag: :row_2}
+      ]
+
+      node = MishkaCalendar.calendar(%{view: :day, rows: rows})
+
+      texts = node |> find_all(:text) |> Enum.map(& &1.props.text)
+      assert texts == ["09:00", "First", "Calendar", "1h", "13:00", "Second", "2h"]
+
+      assert Enum.any?(flatten(node), &(&1.props[:on_tap] == {self(), :row_1}))
+      assert Enum.any?(flatten(node), &(&1.props[:on_tap] == {self(), :row_2}))
+    end
+
+    test "a rule sits between rows, not after the last" do
+      node =
+        MishkaCalendar.calendar(%{
+          view: :day,
+          rows: [%{time: "a", title: "A"}, %{time: "b", title: "B"}],
+          rule_color: 0xFF111111
+        })
+
+      rules =
+        Enum.filter(
+          flatten(node),
+          &(&1.props[:height] == 1 and &1.props[:background] == 0xFF111111)
+        )
+
+      assert length(rules) == 1
+    end
+
+    test "an empty day draws the empty node" do
+      empty = %{type: :text, props: %{text: "Nothing"}, children: []}
+
+      node = MishkaCalendar.calendar(%{view: :day, rows: [], empty: empty})
+
+      assert node == empty
+    end
+  end
+
+  describe "the agenda view" do
+    test "draws each section's label and one card of its rows" do
+      sections = [
+        %{label: "TODAY", items: [%{time: "09:00", title: "Stand-up"}]},
+        %{label: "TOMORROW", items: [%{time: "10:00", title: "Dentist"}]}
+      ]
+
+      node = MishkaCalendar.calendar(%{view: :agenda, sections: sections})
+
+      texts = node |> find_all(:text) |> Enum.map(& &1.props.text)
+      assert "TODAY" in texts
+      assert "TOMORROW" in texts
+      assert "Stand-up" in texts
+      assert "Dentist" in texts
+      assert length(find_all(node, :text)) == 6
+    end
+
+    test "an empty agenda draws the empty node" do
+      empty = %{type: :text, props: %{text: "Nothing"}, children: []}
+
+      assert MishkaCalendar.calendar(%{view: :agenda, sections: [], empty: empty}) == empty
+    end
+  end
+end
