@@ -398,6 +398,33 @@ defmodule MishkaMob.Components.MishkaCalendarViewsTest do
     end
   end
 
+  describe "the day cluster timeline" do
+    test "lays out each cluster's clash, gutter and lanes with the given margins" do
+      cluster = %{
+        clash: %{type: :text, props: %{text: "2 at once"}, children: []},
+        gutter: %{type: :text, props: %{text: "09:00"}, children: []},
+        lanes: %{type: :text, props: %{text: "LANE"}, children: []}
+      }
+
+      node =
+        MishkaCalendar.calendar(%{
+          view: :day,
+          clusters: [cluster],
+          cluster_gap: 14,
+          cluster_padding_left: 21,
+          cluster_padding_right: 21
+        })
+
+      [column] = node.children
+      assert column.props.padding_left == 21
+      assert column.props.padding_right == 21
+      assert text(node) =~ "2 at once"
+      assert text(node) =~ "09:00"
+      assert text(node) =~ "LANE"
+      assert Enum.any?(column.children, &match?(%{type: :spacer, props: %{size: 14}}, &1))
+    end
+  end
+
   describe "the agenda view" do
     test "draws each section's label and one card of its rows" do
       sections = [
@@ -413,6 +440,22 @@ defmodule MishkaMob.Components.MishkaCalendarViewsTest do
       assert "Stand-up" in texts
       assert "Dentist" in texts
       assert length(find_all(node, :text)) == 6
+    end
+
+    test "a section header node replaces the built label" do
+      header = %{type: :text, props: %{text: "OWN HEADER"}, children: []}
+      node = MishkaCalendar.calendar(%{view: :agenda, sections: [%{header: header, items: []}]})
+
+      assert text(node) =~ "OWN HEADER"
+    end
+
+    test "a row's leading node sits between its rail and its body" do
+      leading = %{type: :text, props: %{text: "POSTER"}, children: []}
+      rows = [%{time: "09:00", title: "Row", leading: leading}]
+      node = MishkaCalendar.calendar(%{view: :day, rows: rows})
+
+      assert text(node) =~ "POSTER"
+      assert text(node) =~ "Row"
     end
 
     test "an empty agenda draws the empty node" do

@@ -323,7 +323,7 @@ defmodule MishkaMob.Showcase.Components.Calendar do
                   label: "09",
                   height: 52,
                   tag: :week_block_wed_am,
-                  background: :surface,
+                  background: :surface_raised,
                   rail: :success
                 },
                 %{label: "13", height: 52, tag: :week_block_wed_pm},
@@ -332,7 +332,7 @@ defmodule MishkaMob.Showcase.Components.Calendar do
                   label: "18",
                   height: 52,
                   tag: :week_block_wed_eve,
-                  background: :surface,
+                  background: :surface_raised,
                   rail: :primary
                 }
               ]

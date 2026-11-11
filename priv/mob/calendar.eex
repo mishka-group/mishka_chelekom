@@ -17,10 +17,14 @@ defmodule <%= @module %> do
   * `:week` — seven lanes from `lanes`: each is `%{weekday, day, state,
     tag, blocks: [...]}`, and a block is `%{label, height, tag}` plus optional
     `background`, `rail`, `text_color`, `shadow`, `text_size`, `font_family`.
-  * `:day` — one card of timeline rows from `rows`: each is `%{time, title,
-    meta, duration, colour, tag}` inside `card_*` props, with `empty` for none.
-  * `:agenda` — grouped days from `sections`: each is `%{label, items: rows}`,
-    the rows being the day view's shape.
+  * `:day` — one card of timeline rows from `rows` (each `%{time, title, meta,
+    duration, colour, tag, leading}` inside `card_*` props), or a cluster
+    timeline from `clusters`: each `%{clash, gutter, lanes}` where the three
+    are nodes the app already draws, laid out with `cluster_padding_*` and
+    `cluster_gap`. `empty` is what a day with nothing draws.
+  * `:agenda` — grouped days from `sections`: each is `%{label, header, items}`,
+    a `header` node winning over the built label, and the items being the day
+    view's rows.
 
   Every view is headless: no colour, size or radius is hardcoded, and each
   view's styling props are listed below.
@@ -62,7 +66,8 @@ defmodule <%= @module %> do
   | `cell_id_prefix` | string | `nil` | Prefix for each cell's id: `d-2026-11-14`. |
   | `lanes` | list of lane maps | `[]` | A week's seven lanes and their blocks. |
   | `rows` | list of row maps | `[]` | A day's timeline rows. |
-  | `sections` | list of `%{label, items}` | `[]` | An agenda's groups. |
+  | `sections` | list of `%{label, header, items}` | `[]` | An agenda's groups. |
+  | `clusters` | list of `%{clash, gutter, lanes}` | `nil` | A day timeline's clusters, as nodes. |
   | `empty` | node | unset | Drawn by `:day` and `:agenda` when there is nothing. |
   | `week_*`, `lane_*`, `block_*` | geometry and tone | neutral | The week's gaps, heading card and block card. |
   | `card_*`, `row_*`, `time_*`, `title_*`, `meta_*`, `duration_*`, `rule_color` | geometry and tone | neutral | The day and agenda rows. |
@@ -171,7 +176,7 @@ defmodule <%= @module %> do
 
   defp lane_node(lane, props) do
     lane = Map.new(lane)
-    selected? = Map.get(lane, :state) == :selected
+    selected? = Map.get(lane, :selected) == true or Map.get(lane, :state) == :selected
 
     assigns = %{
       id: Map.get(lane, :id),
@@ -185,7 +190,7 @@ defmodule <%= @module %> do
       day_size: Map.get(props, :day_size) || 13,
       day_color: Map.get(props, :day_color) || :on_surface,
       today_color: Map.get(props, :today_color) || :primary,
-      today?: Map.get(lane, :state) == :today,
+      today?: Map.get(lane, :today) == true or Map.get(lane, :state) == :today,
       header_background:
         if(selected?,
           do: Map.get(props, :lane_selected_background) || :surface_raised,
@@ -321,13 +326,56 @@ defmodule <%= @module %> do
   # duration at the trailing edge, inside one card. Rows are {time, title,
   # meta, duration, colour, tag}; meta and duration may be nil.
   defp day_view(props) do
-    rows = Map.get(props, :rows) || []
-
-    if rows == [] do
-      Map.get(props, :empty) || spacer(0)
-    else
-      rows_card(rows, props)
+    case Map.get(props, :clusters) do
+      nil -> day_rows(Map.get(props, :rows) || [], props)
+      clusters -> day_clusters(clusters, props)
     end
+  end
+
+  defp day_rows([], props), do: Map.get(props, :empty) || spacer(0)
+  defp day_rows(rows, props), do: rows_card(rows, props)
+
+  # A cluster timeline: each cluster carries its own clash marker, clock
+  # gutter and lanes as nodes; the component owns the 21dp margins, the
+  # gutter/lane row and the 14dp between clusters. The cards inside a lane are
+  # the app's — they have no headless shape.
+  defp day_clusters(clusters, props) do
+    left = Map.get(props, :cluster_padding_left) || 21
+    right = Map.get(props, :cluster_padding_right) || 21
+    gap = Map.get(props, :cluster_gap) || 14
+
+    nodes =
+      Enum.map(clusters, fn cluster ->
+        cluster = Map.new(cluster)
+
+        assigns = %{
+          clash: Map.get(cluster, :clash),
+          gutter: Map.get(cluster, :gutter),
+          lanes: Map.get(cluster, :lanes),
+          left: left,
+          right: right,
+          gap: gap
+        }
+
+        ~MOB"""
+        <Column fill_width={true} padding_left={@left} padding_right={@right}>
+          {@clash}
+          <Row align={:top} fill_width={true}>
+            {@gutter}
+            {@lanes}
+          </Row>
+          <Spacer size={@gap} />
+        </Column>
+        """
+      end)
+
+    assigns = %{clusters: nodes}
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {@clusters}
+    </Column>
+    """
   end
 
   defp rows_card(rows, props) do
@@ -377,13 +425,13 @@ defmodule <%= @module %> do
       time: Map.get(row, :time) || "",
       title: Map.get(row, :title) || "",
       meta: meta_node(Map.get(row, :meta), props),
-      duration: duration_node(Map.get(row, :duration), props),
+      trailing: trailing_node(Map.get(row, :duration), props),
       rail: Map.get(row, :colour) || Map.get(props, :row_rail) || :primary,
       rule: if(rule?, do: Map.get(props, :rule_color) || :border, else: nil),
       time_width: Map.get(props, :time_width) || 44,
       time_size: Map.get(props, :time_size) || 11,
       time_color: Map.get(props, :time_color) || :muted,
-      time_family: Map.get(props, :time_font_family),
+      time_family: Map.get(row, :font_family) || Map.get(props, :time_font_family),
       title_size: Map.get(props, :title_size) || 13,
       title_color: Map.get(props, :title_color) || :on_surface,
       title_weight: Map.get(props, :title_weight) || :semibold,
@@ -392,7 +440,8 @@ defmodule <%= @module %> do
       pad_bottom: Map.get(props, :row_padding_bottom) || 11,
       rail_width: Map.get(props, :row_rail_width) || 3,
       rail_height: Map.get(props, :row_rail_height) || 20,
-      rail_radius: Map.get(props, :row_rail_radius) || 2
+      rail_radius: Map.get(props, :row_rail_radius) || 2,
+      leading: Map.get(row, :leading)
     }
 
     ~MOB"""
@@ -422,6 +471,7 @@ defmodule <%= @module %> do
           background={@rail}
         />
         <Spacer size={@gap} />
+        {@leading}
         <Column weight={1.0}>
           <Text
             text={@title}
@@ -432,8 +482,7 @@ defmodule <%= @module %> do
           />
           {@meta}
         </Column>
-        <Spacer size={@gap} />
-        {@duration}
+        {@trailing}
       </Row>
       {rule_node(@rule)}
     </Column>
@@ -459,7 +508,11 @@ defmodule <%= @module %> do
     """
   end
 
-  defp duration_node(nil, _props), do: nil
+  defp trailing_node(nil, _props), do: nil
+
+  defp trailing_node(duration, props) do
+    [spacer(Map.get(props, :row_gap) || 12), duration_node(duration, props)]
+  end
 
   defp duration_node(duration, props) do
     assigns = %{
@@ -523,33 +576,45 @@ defmodule <%= @module %> do
 
     assigns = %{
       id: Map.get(section, :id),
-      label: Map.get(section, :label) || "",
-      label_size: Map.get(props, :section_label_size) || 11,
-      label_color: Map.get(props, :section_label_color) || :muted,
-      label_weight: Map.get(props, :section_label_weight) || :medium,
-      label_family: Map.get(props, :section_label_font_family),
-      label_spacing: Map.get(props, :section_label_letter_spacing),
-      label_gap: Map.get(props, :section_label_gap) || 8,
+      header: Map.get(section, :header) || section_label(Map.get(section, :label) || "", props),
       rows: rows_card(Map.get(section, :items) || [], props)
     }
 
     ~MOB"""
     <Column fill_width={true} id={@id}>
-      <Text
-        text={@label}
-        font_family={@label_family}
-        text_size={@label_size}
-        font_weight={@label_weight}
-        letter_spacing={@label_spacing}
-        text_color={@label_color}
-        max_lines={1}
-      />
-      <Spacer size={@label_gap} />
+      {@header}
       {@rows}
     </Column>
     """
-    |> scrub_nil([:font_family, :letter_spacing])
     |> drop_nil_keys([:id])
+  end
+
+  defp section_label(label, props) do
+    assigns = %{
+      label: label,
+      size: Map.get(props, :section_label_size) || 11,
+      color: Map.get(props, :section_label_color) || :muted,
+      weight: Map.get(props, :section_label_weight) || :medium,
+      family: Map.get(props, :section_label_font_family),
+      spacing: Map.get(props, :section_label_letter_spacing),
+      gap: Map.get(props, :section_label_gap) || 8
+    }
+
+    ~MOB"""
+    <Column fill_width={true}>
+      <Text
+        text={@label}
+        font_family={@family}
+        text_size={@size}
+        font_weight={@weight}
+        letter_spacing={@spacing}
+        text_color={@color}
+        max_lines={1}
+      />
+      <Spacer size={@gap} />
+    </Column>
+    """
+    |> scrub_nil([:font_family, :letter_spacing])
   end
 
   # ── Header ──────────────────────────────────────────────────────────────────
