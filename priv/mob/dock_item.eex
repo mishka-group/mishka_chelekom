@@ -8,7 +8,9 @@ defmodule <%= @module %> do
   props: the well's fill and the glyph's colour and family. A dock that
   highlights the current tab passes `active_background`, `active_color` and,
   when the icon set has a filled variant, `active_font_family`; the inactive
-  look is the same three props without the prefix.
+  look is the same three props without the prefix. An active_* prop that is
+  not set falls back to its unprefixed counterpart, so an item whose look does
+  not change with state is written once.
 
   ## Props
 
@@ -74,10 +76,14 @@ defmodule <%= @module %> do
     |> put_some(:id, Map.get(props, :id))
   end
 
-  defp look(props, true, :background), do: Map.get(props, :active_background) || :transparent
+  defp look(props, true, :background),
+    do: Map.get(props, :active_background) || Map.get(props, :background) || :transparent
+
   defp look(props, false, :background), do: Map.get(props, :background) || :transparent
 
-  defp look(props, true, :color), do: Map.get(props, :active_color) || :on_surface
+  defp look(props, true, :color),
+    do: Map.get(props, :active_color) || Map.get(props, :color) || :on_surface
+
   defp look(props, false, :color), do: Map.get(props, :color) || :on_surface
 
   defp look(props, true, :family),

@@ -95,6 +95,20 @@ defmodule MishkaMob.Components.MishkaDockTest do
       assert text_color(well) == 0xFF111111
     end
 
+    test "an unset active_* falls back to the unprefixed prop" do
+      node =
+        MishkaDockItem.dock_item(%{
+          icon: "a",
+          active: true,
+          background: 0xFF000000,
+          color: 0xFF111111
+        })
+
+      assert [well] = node.children
+      assert well.props.background == 0xFF000000
+      assert text_color(well) == 0xFF111111
+    end
+
     test "on_tap is widened" do
       assert MishkaDockItem.dock_item(%{on_tap: :home}).props.on_tap == {self(), :home}
     end
