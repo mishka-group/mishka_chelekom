@@ -69,7 +69,11 @@ defmodule MishkaMob.Showcase.Components.Dock do
               <MishkaDockItem icon="◔" on_tap={:dock_tap} />
             </MishkaDock>
             <Spacer size={8} />
-            <Text text="The bar is a Row; wrap it to pin it to the bottom." text_size={:sm} text_color={:muted} />
+            <Text
+              text="The bar is a Row; wrap it to pin it to the bottom."
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end

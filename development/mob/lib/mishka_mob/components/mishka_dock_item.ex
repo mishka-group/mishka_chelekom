@@ -61,7 +61,13 @@ defmodule MishkaMob.Components.MishkaDockItem do
 
     ~MOB"""
     <Box weight={1.0} align={:center}>
-      <Box width={@size} height={@size} background={@background} corner_radius={@radius} align={:center}>
+      <Box
+        width={@size}
+        height={@size}
+        background={@background}
+        corner_radius={@radius}
+        align={:center}
+      >
         {@glyph}
       </Box>
     </Box>

@@ -55,7 +55,12 @@ defmodule MishkaMob.Showcase.Components.ListItem do
           assigns = %{avatar: avatar, chevron: chevron}
 
           ~MOB"""
-          <MishkaCard background={:surface_raised} corner_radius={:radius_md} padding_left={15} padding_right={15}>
+          <MishkaCard
+            background={:surface_raised}
+            corner_radius={:radius_md}
+            padding_left={15}
+            padding_right={15}
+          >
             <MishkaListItem
               leading={@avatar}
               trailing={@chevron}
@@ -82,7 +87,12 @@ defmodule MishkaMob.Showcase.Components.ListItem do
         """,
         render: fn _assigns ->
           ~MOB"""
-          <MishkaCard background={:surface_raised} corner_radius={:radius_md} padding_left={15} padding_right={15}>
+          <MishkaCard
+            background={:surface_raised}
+            corner_radius={:radius_md}
+            padding_left={15}
+            padding_right={15}
+          >
             <MishkaListItem padding_top={14} padding_bottom={14}>
               <Text text="A row that is only a body" text_color={:on_surface} />
             </MishkaListItem>
@@ -114,7 +124,12 @@ defmodule MishkaMob.Showcase.Components.ListItem do
           assigns = %{icon: icon, chevron: chevron}
 
           ~MOB"""
-          <MishkaCard background={:surface_raised} corner_radius={:radius_md} padding_left={15} padding_right={15}>
+          <MishkaCard
+            background={:surface_raised}
+            corner_radius={:radius_md}
+            padding_left={15}
+            padding_right={15}
+          >
             <MishkaListItem
               leading={@icon}
               trailing={@chevron}

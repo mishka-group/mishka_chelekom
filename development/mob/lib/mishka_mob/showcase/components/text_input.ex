@@ -114,11 +114,7 @@ defmodule MishkaMob.Showcase.Components.TextInput do
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaTextInput
-              secure={true}
-              placeholder="Token"
-              accessibility_id="showcase_text_secure"
-            />
+            <MishkaTextInput secure={true} placeholder="Token" accessibility_id="showcase_text_secure" />
             <Spacer size={10} />
             <MishkaTextInput
               keyboard_type={:email}
