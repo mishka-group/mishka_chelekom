@@ -72,6 +72,7 @@ defmodule <%= @module %> do
   | `actions` | node or list of nodes | unset | Drawn last in the body. |
   | `fill_width` | boolean | `true` | Span the parent. |
   | `height` | number | unset | Fixed height, as on any Mob node. |
+  | `fill_height` | boolean | `false` | Span the parent's height — a sheet's surface that runs from its scrim to the screen's bottom. Left off the node unless `true`. |
   | `min_height` | number | unset | A floor under the height: the card grows past it with its content. Passed to the root as `min_height`, which needs a renderer that reads it (`heightIn(min=)` in the Android bridge); stock Mob's bridge does not yet, so there it is ignored. |
   | `weight` | number | unset | Share of a parent `Row`/`Column`, as on any Mob node. |
   | `background` | color token / ARGB int | unset | Surface fill. |
@@ -164,6 +165,7 @@ defmodule <%= @module %> do
       %{}
       |> put_some(:fill_width, Map.get(props, :fill_width, true))
       |> put_some(:height, Map.get(props, :height))
+      |> put_some(:fill_height, if(Map.get(props, :fill_height) in [true, "true"], do: true))
       |> put_some(:min_height, Map.get(props, :min_height))
       |> put_some(:weight, Map.get(props, :weight))
       |> put_some(:background, Map.get(props, :background))

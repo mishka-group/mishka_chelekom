@@ -47,6 +47,13 @@ defmodule MishkaMob.Components.MishkaPillTest do
     end
   end
 
+  describe "weight" do
+    test "rides on the root so the parent Row can share its width, and is absent when unset" do
+      assert MishkaPill.pill(label: "e", weight: 1.0).props.weight == 1.0
+      refute Map.has_key?(MishkaPill.pill(label: "e").props, :weight)
+    end
+  end
+
   describe "the remove button" do
     test "is absent unless with_remove is set" do
       refute text(MishkaPill.pill(label: "e")) =~ "✕"

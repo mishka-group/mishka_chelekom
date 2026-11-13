@@ -64,6 +64,14 @@ defmodule MishkaMob.Components.MishkaCardTest do
     end
   end
 
+  describe "fill_height" do
+    test "rides on the surface when true, and is absent when unset or false" do
+      assert MishkaCard.card(%{fill_height: true}, []).props.fill_height == true
+      refute Map.has_key?(MishkaCard.card(%{}, []).props, :fill_height)
+      refute Map.has_key?(MishkaCard.card(%{fill_height: false}, []).props, :fill_height)
+    end
+  end
+
   describe "the body opens for a title or actions" do
     test "a title draws first and the content follows" do
       content = txt("content")

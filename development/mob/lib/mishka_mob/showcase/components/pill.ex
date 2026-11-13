@@ -169,6 +169,45 @@ defmodule MishkaMob.Showcase.Components.Pill do
         end
       },
       %Example{
+        title: "Sharing a row",
+        description:
+          "weight is read by the parent Row off the pill's root, so a button with a height " <>
+            "and a centred label can take the leftover width beside a hugging one.",
+        code: ~S"""
+        <Row fill_width={true} align="center">
+          <MishkaPill label="Confirm" weight={1.0} height={44} padding={0}
+                      align={:center} background={:primary} color={:on_primary} />
+          <Spacer size={8} />
+          <MishkaPill label="Later" height={44} padding={0} padding_left={16}
+                      padding_right={16} align={:center} />
+        </Row>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Row fill_width={true} align="center">
+            <MishkaPill
+              label="Confirm"
+              weight={1.0}
+              height={44}
+              padding={0}
+              align={:center}
+              background={:primary}
+              color={:on_primary}
+            />
+            <Spacer size={8} />
+            <MishkaPill
+              label="Later"
+              height={44}
+              padding={0}
+              padding_left={16}
+              padding_right={16}
+              align={:center}
+            />
+          </Row>
+          """
+        end
+      },
+      %Example{
         title: "Colour",
         description: "background and color are props, and take a token or an ARGB int.",
         code: ~S"""
@@ -277,6 +316,13 @@ defmodule MishkaMob.Showcase.Components.Pill do
         type: "color / ARGB",
         default: ":muted",
         description: "Label colour while disabled."
+      },
+      %{
+        name: "weight",
+        type: "number",
+        default: "nil",
+        description:
+          "Share of a parent Row/Column, as on any Mob node. Left off the node when unset."
       }
     ]
   end

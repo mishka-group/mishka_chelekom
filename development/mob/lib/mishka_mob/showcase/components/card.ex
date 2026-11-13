@@ -233,6 +233,34 @@ defmodule MishkaMob.Showcase.Components.Card do
         end
       },
       %Example{
+        title: "A surface that runs the parent's height",
+        description:
+          "fill_height spans the parent's height, the way a sheet's surface runs from its " <>
+            "scrim to the bottom of the screen. It is left off the node unless true.",
+        code: ~S"""
+        <Column fill_width={true} height={120}>
+          <MishkaCard fill_height={true} background={:surface_raised}
+                      corner_radius={:radius_md} padding={:space_md}>
+            <Text text="Fills the column" />
+          </MishkaCard>
+        </Column>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true} height={120}>
+            <MishkaCard
+              fill_height={true}
+              background={:surface_raised}
+              corner_radius={:radius_md}
+              padding={:space_md}
+            >
+              <Text text="Fills the column" text_color={:on_surface} />
+            </MishkaCard>
+          </Column>
+          """
+        end
+      },
+      %Example{
         title: "Cards sharing a row",
         description:
           "weight hands the card a share of its parent, exactly as it does for any " <>
@@ -325,6 +353,12 @@ defmodule MishkaMob.Showcase.Components.Card do
         type: "number",
         default: "nil",
         description: "A fixed height for the surface."
+      },
+      %{
+        name: "fill_height",
+        type: "boolean",
+        default: "false",
+        description: "Span the parent's height. Left off the node unless true."
       },
       %{
         name: "min_height",
