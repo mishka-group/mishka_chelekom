@@ -25,6 +25,7 @@ defmodule <%= @module %> do
   | `size` | number / `:hug` | `40` | Tap-target edge, not the glyph size. `:hug` drops the box's own size and decoration so it wraps the glyph — see "A bare glyph". |
   | `variant` | `:plain` `:filled` | `:plain` | Transparent, or on a raised surface. |
   | `shape` | `:rounded` `:circle` | `:rounded` | `:circle` uses an exact `size / 2` radius. |
+  | `corner_radius` | radius token / number | unset | Overrides the radius `shape` gives — a tile with the design's own rounding. |
   | `color` | color token / ARGB int | `:on_surface` | Glyph colour. |
   | `background` | color token / ARGB int | `:surface_raised` | Fill when `variant: :filled`. |
   | `shadow` | string | `nil` | Drop shadow on the tap target. See below. |
@@ -128,7 +129,7 @@ defmodule <%= @module %> do
           width={size}
           height={size}
           align={:center}
-          corner_radius={radius(Map.get(props, :shape) || :rounded, size)}
+          corner_radius={Map.get(props, :corner_radius) || radius(Map.get(props, :shape) || :rounded, size)}
           background={background(props, disabled?)}
         >
           {glyph(props, content, disabled?)}

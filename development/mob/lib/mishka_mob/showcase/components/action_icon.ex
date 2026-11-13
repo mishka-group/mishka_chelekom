@@ -207,6 +207,24 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
           </Row>
           """
         end
+      },
+      %Example{
+        title: "A tile with its own rounding",
+        description:
+          "corner_radius overrides the radius shape gives, so a filled icon tile " <>
+            "can follow a design's own rounding instead of :radius_md.",
+        code: ~S"""
+        <MishkaActionIcon icon="⏸" variant={:filled} size={44} corner_radius={14} />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Row fill_width={true} align="center">
+            <Text text="Paused" text_color={:on_surface} />
+            <Spacer size={12} />
+            <MishkaActionIcon icon="⏸" variant={:filled} size={44} corner_radius={14} />
+          </Row>
+          """
+        end
       }
     ]
   end
@@ -248,6 +266,12 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         type: ":rounded · :circle",
         default: ":rounded",
         description: "Circle uses an exact size/2 radius."
+      },
+      %{
+        name: "corner_radius",
+        type: "radius token | number",
+        default: "nil",
+        description: "Overrides the radius shape gives, for a tile with its own rounding."
       },
       %{
         name: "color",
