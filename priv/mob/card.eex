@@ -72,7 +72,7 @@ defmodule <%= @module %> do
   | `actions` | node or list of nodes | unset | Drawn last in the body. |
   | `fill_width` | boolean | `true` | Span the parent. |
   | `height` | number | unset | Fixed height, as on any Mob node. |
-  | `min_height` | number | unset | A floor under the height, as on any Mob node: the card grows past it with its content. |
+  | `min_height` | number | unset | A floor under the height: the card grows past it with its content. Passed to the root as `min_height`, which needs a renderer that reads it (`heightIn(min=)` in the Android bridge); stock Mob's bridge does not yet, so there it is ignored. |
   | `weight` | number | unset | Share of a parent `Row`/`Column`, as on any Mob node. |
   | `background` | color token / ARGB int | unset | Surface fill. |
   | `corner_radius` | radius token / number | unset | Corner rounding. |
@@ -80,7 +80,7 @@ defmodule <%= @module %> do
   | `padding` | spacing token / number | unset | All four sides. |
   | `padding_top` / `padding_right` / `padding_bottom` / `padding_left` | spacing token / number | unset | One edge, overriding `padding`. |
   | `border_color` / `border_width` | color / number | unset | Outline. |
-  | `align` | `:center`, `:leading`, … | unset | Cross-axis alignment, `direction: :row` only. |
+  | `align` | `:center`, `:leading`, … | unset | Cross-axis alignment, in either direction: a row's vertical, a column's horizontal. |
   | `on_tap` | event tag | unset | Makes the surface tappable. |
   | `id` | string | unset | Native testTag on the surface. |
 
@@ -179,10 +179,7 @@ defmodule <%= @module %> do
       |> put_some(:on_tap, Event.handler(Map.get(props, :on_tap)))
       |> put_some(:id, Map.get(props, :id))
 
-    base =
-      if direction == :row,
-        do: put_some(base, :align, Map.get(props, :align)),
-        else: base
+    base = put_some(base, :align, Map.get(props, :align))
 
     %{type: direction, props: base, children: before ++ content ++ after_figure}
   end

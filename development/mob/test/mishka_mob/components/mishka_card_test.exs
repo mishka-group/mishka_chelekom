@@ -33,7 +33,14 @@ defmodule MishkaMob.Components.MishkaCardTest do
       assert row.props.align == :center
 
       assert column.type == :column
-      refute Map.has_key?(column.props, :align)
+    end
+
+    test "a column card centres its children across the width, and is bare when unset" do
+      column = MishkaCard.card(%{align: :center}, [])
+
+      assert column.type == :column
+      assert column.props.align == :center
+      refute Map.has_key?(MishkaCard.card(%{}, []).props, :align)
     end
 
     test "on_tap is widened to {pid, tag}" do

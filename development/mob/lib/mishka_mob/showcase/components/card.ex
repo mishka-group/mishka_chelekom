@@ -179,10 +179,36 @@ defmodule MishkaMob.Showcase.Components.Card do
         end
       },
       %Example{
+        title: "A column of centred content",
+        description:
+          "align works in either direction: on a column card it centres the children " <>
+            "across the width, which is what an empty state wants.",
+        code: ~S"""
+        <MishkaCard align={:center} background={:surface_raised}
+                    corner_radius={:radius_md} padding={:space_md}>
+          <Text text="Nothing waiting" text_align="center" />
+        </MishkaCard>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <MishkaCard
+            align={:center}
+            background={:surface_raised}
+            corner_radius={:radius_md}
+            padding={:space_md}
+          >
+            <Text text="Nothing waiting" text_align="center" text_color={:on_surface} />
+          </MishkaCard>
+          """
+        end
+      },
+      %Example{
         title: "A floor under the height",
         description:
           "min_height keeps a short card from collapsing around its content while still " <>
-            "letting a tall one grow, unlike height, which fixes it.",
+            "letting a tall one grow, unlike height, which fixes it. It needs a renderer " <>
+            "that reads min_height; stock Mob's bridge does not yet, so here it draws at " <>
+            "its content's height.",
         code: ~S"""
         <MishkaCard direction={:row} align="center" min_height={52}
                     background={:surface_raised} corner_radius={:radius_md}
@@ -304,7 +330,9 @@ defmodule MishkaMob.Showcase.Components.Card do
         name: "min_height",
         type: "number",
         default: "nil",
-        description: "A floor under the height; the card grows past it with its content."
+        description:
+          "A floor under the height; the card grows past it with its content. Needs a " <>
+            "renderer that reads min_height — stock Mob's bridge ignores it."
       },
       %{
         name: "background",
@@ -335,7 +363,7 @@ defmodule MishkaMob.Showcase.Components.Card do
         name: "align",
         type: ":center, :leading, …",
         default: "nil",
-        description: "Cross-axis alignment when direction: :row."
+        description: "Cross-axis alignment: a row's vertical, a column's horizontal."
       },
       %{
         name: "on_tap",
