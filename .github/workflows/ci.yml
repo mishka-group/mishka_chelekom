@@ -21,6 +21,8 @@ jobs:
     with:
       elixir: 1.20.5-otp-29
       otp: 29.1.2
+      # Some library tests run bun; the shared test job does not install it.
+      pre-test: npm install -g bun
       test-args: --trace
       # credo --strict reports 2 warnings in test/ today; it was never in CI.
       credo: false
@@ -34,10 +36,10 @@ jobs:
       custom-jobs: >-
         [{"name":"js-engine","setup":["node"],"run":"cd priv/assets/js && node --test"},
          {"name":"web-harness","setup":["elixir","bun"],"run":".github/scripts/web_harness.sh"},
-         {"name":"cms-bundles","setup":["elixir"],"run":".github/scripts/cms_bundles.sh","artifacts":"dist/*.json"},
+         {"name":"cms-bundles","setup":["elixir"],"run":".github/scripts/cms_bundles.sh","artifacts":"dist/*.json","release-only":true},
          {"name":"android-apks","setup":["elixir","java","gradle","android-sdk","zig"],"java-version":"17","ndk-version":"27.2.12479018","zig-version":"0.17.0",
-          "run":".github/scripts/android_release.sh","artifacts":"development/mob/dist/*","timeout":90},
+          "run":".github/scripts/android_release.sh","artifacts":"development/mob/dist/*","release-only":true,"timeout":90},
          {"name":"android-e2e-1","setup":["elixir","java","gradle","android-sdk","zig"],"java-version":"17","ndk-version":"27.2.12479018","zig-version":"0.17.0",
-          "run":".github/scripts/android_e2e_build.sh","emulator":{"api-level":34,"script":".github/scripts/android_e2e.sh 1 2"},"timeout":60},
+          "run":".github/scripts/android_e2e_build.sh","emulator":{"api-level":34,"script":".github/scripts/android_e2e.sh 1 2"},"release-only":true,"timeout":60},
          {"name":"android-e2e-2","setup":["elixir","java","gradle","android-sdk","zig"],"java-version":"17","ndk-version":"27.2.12479018","zig-version":"0.17.0",
-          "run":".github/scripts/android_e2e_build.sh","emulator":{"api-level":34,"script":".github/scripts/android_e2e.sh 2 2"},"timeout":60}]
+          "run":".github/scripts/android_e2e_build.sh","emulator":{"api-level":34,"script":".github/scripts/android_e2e.sh 2 2"},"release-only":true,"timeout":60}]

@@ -29,6 +29,8 @@ jobs:
       semgrep-path: priv/assets/js
       elixir: 1.20.5-otp-29
       otp: 29.1.2
+      # Some library tests run bun; the shared test job does not install it.
+      pre-test: npm install -g bun
       test-args: --trace
       # credo --strict reports 2 warnings in test/ today; it was never in CI.
       credo: false
