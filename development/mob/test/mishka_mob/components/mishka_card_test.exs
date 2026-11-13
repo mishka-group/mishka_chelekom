@@ -50,6 +50,13 @@ defmodule MishkaMob.Components.MishkaCardTest do
     end
   end
 
+  describe "min_height" do
+    test "rides on the surface, and is absent when unset" do
+      assert MishkaCard.card(%{min_height: 52}, []).props.min_height == 52
+      refute Map.has_key?(MishkaCard.card(%{}, []).props, :min_height)
+    end
+  end
+
   describe "the body opens for a title or actions" do
     test "a title draws first and the content follows" do
       content = txt("content")

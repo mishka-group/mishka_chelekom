@@ -72,6 +72,7 @@ defmodule MishkaMob.Components.MishkaCard do
   | `actions` | node or list of nodes | unset | Drawn last in the body. |
   | `fill_width` | boolean | `true` | Span the parent. |
   | `height` | number | unset | Fixed height, as on any Mob node. |
+  | `min_height` | number | unset | A floor under the height, as on any Mob node: the card grows past it with its content. |
   | `weight` | number | unset | Share of a parent `Row`/`Column`, as on any Mob node. |
   | `background` | color token / ARGB int | unset | Surface fill. |
   | `corner_radius` | radius token / number | unset | Corner rounding. |
@@ -163,6 +164,7 @@ defmodule MishkaMob.Components.MishkaCard do
       %{}
       |> put_some(:fill_width, Map.get(props, :fill_width, true))
       |> put_some(:height, Map.get(props, :height))
+      |> put_some(:min_height, Map.get(props, :min_height))
       |> put_some(:weight, Map.get(props, :weight))
       |> put_some(:background, Map.get(props, :background))
       |> put_some(:corner_radius, Map.get(props, :corner_radius))

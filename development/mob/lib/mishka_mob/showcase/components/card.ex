@@ -179,6 +179,34 @@ defmodule MishkaMob.Showcase.Components.Card do
         end
       },
       %Example{
+        title: "A floor under the height",
+        description:
+          "min_height keeps a short card from collapsing around its content while still " <>
+            "letting a tall one grow, unlike height, which fixes it.",
+        code: ~S"""
+        <MishkaCard direction={:row} align="center" min_height={52}
+                    background={:surface_raised} corner_radius={:radius_md}
+                    padding_left={:space_md} padding_right={:space_md}>
+          <Text text="At least 52 tall" />
+        </MishkaCard>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <MishkaCard
+            direction={:row}
+            align="center"
+            min_height={52}
+            background={:surface_raised}
+            corner_radius={:radius_md}
+            padding_left={:space_md}
+            padding_right={:space_md}
+          >
+            <Text text="At least 52 tall" text_color={:on_surface} />
+          </MishkaCard>
+          """
+        end
+      },
+      %Example{
         title: "Cards sharing a row",
         description:
           "weight hands the card a share of its parent, exactly as it does for any " <>
@@ -271,6 +299,12 @@ defmodule MishkaMob.Showcase.Components.Card do
         type: "number",
         default: "nil",
         description: "A fixed height for the surface."
+      },
+      %{
+        name: "min_height",
+        type: "number",
+        default: "nil",
+        description: "A floor under the height; the card grows past it with its content."
       },
       %{
         name: "background",
