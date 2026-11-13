@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [master, mob-showcase]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    # Switch to @ci-v1 once mishka-group/mishka_cms#77 is merged and tagged.
+    uses: mishka-group/mishka_cms/.github/workflows/mishka-ci.yml@ci/shared-workflows
+    with:
+      elixir: 1.20.5-otp-29
+      otp: 29.1.2
+      test-args: --trace
+      sobelow: true
+      ex-dna-args: --max-clones 0
+      subprojects: '["development/mob"]'
+      extra-checks: cd development/web && mix deps.get && MIX_ENV=dev mix run --no-start idempotency_check.exs
+      retire-path: priv/assets/js
+      # js-engine and web-harness run on every push; the rest only in a release.
+      # android-e2e-N: one shard of the device suite per entry, on an emulator.
+      custom-jobs: >-
+        [{"name":"js-engine","setup":["node"],"run":"cd priv/assets/js && node --test"},
+         {"name":"web-harness","setup":["elixir","bun"],"run":".github/scripts/web_harness.sh"},
+         {"name":"cms-bundles","setup":["elixir"],"run":".github/scripts/cms_bundles.sh","artifacts":"dist/*.json"},
+         {"name":"android-apks","setup":["elixir","java","gradle","android-sdk","zig"],"java-version":"17","ndk-version":"27.2.12479018","zig-version":"0.17.0",
+          "run":".github/scripts/android_release.sh","artifacts":"development/mob/dist/*","timeout":90},
+         {"name":"android-e2e-1","setup":["elixir","java","gradle","android-sdk","zig"],"java-version":"17","ndk-version":"27.2.12479018","zig-version":"0.17.0",
+          "run":".github/scripts/android_e2e_build.sh","emulator":{"api-level":34,"script":".github/scripts/android_e2e.sh 1 2"},"timeout":60},
+         {"name":"android-e2e-2","setup":["elixir","java","gradle","android-sdk","zig"],"java-version":"17","ndk-version":"27.2.12479018","zig-version":"0.17.0",
+          "run":".github/scripts/android_e2e_build.sh","emulator":{"api-level":34,"script":".github/scripts/android_e2e.sh 2 2"},"timeout":60}]

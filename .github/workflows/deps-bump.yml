@@ -1,0 +1,21 @@
+name: Deps bump
+
+on:
+  repository_dispatch:
+    types: [upstream-released]
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+jobs:
+  bump:
+    # Switch to @ci-v1 once mishka-group/mishka_cms#77 is merged and tagged.
+    uses: mishka-group/mishka_cms/.github/workflows/mishka-deps-bump.yml@ci/shared-workflows
+    with:
+      package: ${{ github.event.client_payload.package }}
+      version: ${{ github.event.client_payload.version }}
+      elixir: 1.20.5-otp-29
+      otp: 29.1.2
+    secrets: inherit
