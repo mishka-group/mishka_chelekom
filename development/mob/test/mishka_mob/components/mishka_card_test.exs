@@ -33,15 +33,42 @@ defmodule MishkaMob.Components.MishkaCardTest do
       assert row.props.align == :center
 
       assert column.type == :column
-      refute Map.has_key?(column.props, :align)
+    end
+
+    test "a column card centres its children across the width, and is bare when unset" do
+      column = MishkaCard.card(%{align: :center}, [])
+
+      assert column.type == :column
+      assert column.props.align == :center
+      refute Map.has_key?(MishkaCard.card(%{}, []).props, :align)
     end
 
     test "on_tap is widened to {pid, tag}" do
       assert MishkaCard.card(%{on_tap: :open}, []).props.on_tap == {self(), :open}
     end
 
+    test "weight is passed through, and left off when unset" do
+      assert MishkaCard.card(%{weight: 1.0}, []).props.weight == 1.0
+      refute Map.has_key?(MishkaCard.card(%{}, []).props, :weight)
+    end
+
     test "an empty card renders" do
       assert_renderable(MishkaCard.card())
+    end
+  end
+
+  describe "min_height" do
+    test "rides on the surface, and is absent when unset" do
+      assert MishkaCard.card(%{min_height: 52}, []).props.min_height == 52
+      refute Map.has_key?(MishkaCard.card(%{}, []).props, :min_height)
+    end
+  end
+
+  describe "fill_height" do
+    test "rides on the surface when true, and is absent when unset or false" do
+      assert MishkaCard.card(%{fill_height: true}, []).props.fill_height == true
+      refute Map.has_key?(MishkaCard.card(%{}, []).props, :fill_height)
+      refute Map.has_key?(MishkaCard.card(%{fill_height: false}, []).props, :fill_height)
     end
   end
 

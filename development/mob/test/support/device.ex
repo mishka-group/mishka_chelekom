@@ -139,14 +139,25 @@ defmodule MishkaMob.Device do
     cached = :persistent_term.get(@node_key, nil)
 
     if cached && Node.ping(cached) == :pong do
+      register_showcase(cached)
       cached
     else
       node = do_connect!()
       :persistent_term.put(@node_key, node)
       :persistent_term.put(@scale_key, Mob.Test.screen_info(node).scale)
       :persistent_term.put(@stats_key, :counters.new(2, []))
+      register_showcase(node)
       node
     end
+  end
+
+  # A hot push loads new showcase modules but does not run the app's boot again,
+  # so the page registry and the composite registry still describe the build
+  # that was installed. Re-registering after every connect is what lets a test
+  # open a page that only arrived in this push.
+  defp register_showcase(node) do
+    :rpc.call(node, MishkaMob.Showcase, :register_all, [])
+    :ok
   end
 
   @doc "The connected app's node. Raises unless `connect!/0` has run."

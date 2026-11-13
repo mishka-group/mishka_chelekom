@@ -177,6 +177,123 @@ defmodule MishkaMob.Showcase.Components.Card do
           </Column>
           """
         end
+      },
+      %Example{
+        title: "A column of centred content",
+        description:
+          "align works in either direction: on a column card it centres the children " <>
+            "across the width, which is what an empty state wants.",
+        code: ~S"""
+        <MishkaCard align={:center} background={:surface_raised}
+                    corner_radius={:radius_md} padding={:space_md}>
+          <Text text="Nothing waiting" text_align="center" />
+        </MishkaCard>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <MishkaCard
+            align={:center}
+            background={:surface_raised}
+            corner_radius={:radius_md}
+            padding={:space_md}
+          >
+            <Text text="Nothing waiting" text_align="center" text_color={:on_surface} />
+          </MishkaCard>
+          """
+        end
+      },
+      %Example{
+        title: "A floor under the height",
+        description:
+          "min_height keeps a short card from collapsing around its content while still " <>
+            "letting a tall one grow, unlike height, which fixes it. It needs a renderer " <>
+            "that reads min_height; stock Mob's bridge does not yet, so here it draws at " <>
+            "its content's height.",
+        code: ~S"""
+        <MishkaCard direction={:row} align="center" min_height={52}
+                    background={:surface_raised} corner_radius={:radius_md}
+                    padding_left={:space_md} padding_right={:space_md}>
+          <Text text="At least 52 tall" />
+        </MishkaCard>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <MishkaCard
+            direction={:row}
+            align="center"
+            min_height={52}
+            background={:surface_raised}
+            corner_radius={:radius_md}
+            padding_left={:space_md}
+            padding_right={:space_md}
+          >
+            <Text text="At least 52 tall" text_color={:on_surface} />
+          </MishkaCard>
+          """
+        end
+      },
+      %Example{
+        title: "A surface that runs the parent's height",
+        description:
+          "fill_height spans the parent's height, the way a sheet's surface runs from its " <>
+            "scrim to the bottom of the screen. It is left off the node unless true.",
+        code: ~S"""
+        <Column fill_width={true} height={120}>
+          <MishkaCard fill_height={true} background={:surface_raised}
+                      corner_radius={:radius_md} padding={:space_md}>
+            <Text text="Fills the column" />
+          </MishkaCard>
+        </Column>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true} height={120}>
+            <MishkaCard
+              fill_height={true}
+              background={:surface_raised}
+              corner_radius={:radius_md}
+              padding={:space_md}
+            >
+              <Text text="Fills the column" text_color={:on_surface} />
+            </MishkaCard>
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "Cards sharing a row",
+        description:
+          "weight hands the card a share of its parent, exactly as it does for any " <>
+            "Mob node — two cards at 1.0 split the row evenly.",
+        code: ~S"""
+        <Row fill_width={true} align="top">
+          <MishkaCard weight={1.0} background={:surface_raised} padding={:space_sm}>
+            <Text text="Left" />
+          </MishkaCard>
+          <Spacer size={12} />
+          <MishkaCard weight={1.0} background={:surface_raised} padding={:space_sm}>
+            <Text text="Right" />
+          </MishkaCard>
+        </Row>
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Row fill_width={true} align="top">
+            <MishkaCard id="card-weight-left" weight={1.0} background={:surface_raised} padding={:space_sm}>
+              <Text text="Left" text_color={:on_surface} />
+            </MishkaCard>
+            <Spacer size={12} />
+            <MishkaCard
+              id="card-weight-right"
+              weight={1.0}
+              background={:surface_raised}
+              padding={:space_sm}
+            >
+              <Text text="Right" text_color={:on_surface} />
+            </MishkaCard>
+          </Row>
+          """
+        end
       }
     ]
   end
@@ -224,6 +341,34 @@ defmodule MishkaMob.Showcase.Components.Card do
         description: "Span the parent instead of hugging its content."
       },
       %{
+        name: "weight",
+        type: "number",
+        default: "nil",
+        description:
+          "Share of a parent Row/Column, as on any Mob node. Two cards at weight 1.0 " <>
+            "split their row evenly."
+      },
+      %{
+        name: "height",
+        type: "number",
+        default: "nil",
+        description: "A fixed height for the surface."
+      },
+      %{
+        name: "fill_height",
+        type: "boolean",
+        default: "false",
+        description: "Span the parent's height. Left off the node unless true."
+      },
+      %{
+        name: "min_height",
+        type: "number",
+        default: "nil",
+        description:
+          "A floor under the height; the card grows past it with its content. Needs a " <>
+            "renderer that reads min_height — stock Mob's bridge ignores it."
+      },
+      %{
         name: "background",
         type: "color token / ARGB int",
         default: "nil",
@@ -252,7 +397,7 @@ defmodule MishkaMob.Showcase.Components.Card do
         name: "align",
         type: ":center, :leading, …",
         default: "nil",
-        description: "Cross-axis alignment when direction: :row."
+        description: "Cross-axis alignment: a row's vertical, a column's horizontal."
       },
       %{
         name: "on_tap",

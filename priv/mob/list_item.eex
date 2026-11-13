@@ -1,0 +1,104 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  A headless list row: `leading` · body · `trailing`, with the body taking the
+  space between them.
+
+  Chelekom's Mob set has cards, pills and menus, but no row that puts one node
+  on each side of a title. Lists across a product — settings, timelines,
+  episode rows — are that same shape, and each screen was rebuilding the Row,
+  the spacer arithmetic and the body column by hand.
+
+  The component draws no background and no rule. It is a Row, so a caller that
+  wants a card puts it inside `<%= @module_prefix_camel %>Card`, and one that wants separators adds
+  `<%= @module_prefix_camel %>Separator` between rows. What it does own is the geometry that was
+  being restated: the leading gap, the body's `weight: 1.0`, and the trailing
+  gap.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `leading` | node or list of nodes | unset | Drawn before the body. Omitted with no gap. |
+  | `trailing` | node or list of nodes | unset | Drawn after the body. Omitted with no gap. |
+  | `gap` | number | `13` | Space between the leading slot and the body. |
+  | `trailing_gap` | number | `12` | Space between the body and the trailing slot. |
+  | `padding` | spacing token / number | unset | All four sides. |
+  | `padding_top` / `padding_right` / `padding_bottom` / `padding_left` | spacing token / number | unset | One edge, overriding `padding`. |
+  | `align` | `:center`, `:leading`, … | `:center` | Cross-axis alignment of the row. |
+  | `fill_width` | boolean | `true` | Span the parent. |
+  | `on_tap` | event tag | unset | Makes the whole row one target. |
+  | `on_long_press` | event tag | unset | Long-press handler, where the platform has one. |
+  | `id` | string | unset | Native testTag on the row. |
+
+  A row with no leading slot starts with the body; a row with no trailing slot
+  ends with it. Neither leaves a spacer behind, because the gap belongs to the
+  slot that needs it.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/list-item
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>ListItem>`). Children are the body."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, children, _ctx), do: <%= @component_prefix %>list_item(props, children)
+
+  @doc """
+  The row node. Children are the body — the column between the two slots.
+
+      <%= @component_prefix %>list_item(%{leading: avatar, trailing: chevron, on_tap: :open},
+                [title_node, subtitle_node])
+  """
+  @spec <%= @component_prefix %>list_item(map() | keyword(), [map()]) :: map()
+  def <%= @component_prefix %>list_item(props \\ %{}, body \\ []) do
+    props = Map.new(props)
+    leading = List.wrap(Map.get(props, :leading))
+    trailing = List.wrap(Map.get(props, :trailing))
+    gap = Map.get(props, :gap) || 13
+    trailing_gap = Map.get(props, :trailing_gap) || 12
+
+    children =
+      leading ++
+        spacer(leading, gap) ++
+        [%{type: :column, props: %{weight: 1.0}, children: body}] ++
+        spacer(trailing, trailing_gap) ++ trailing
+
+    assigns = %{children: children}
+
+    ~MOB"""
+    <Row fill_width={true} align={:center}>
+      {@children}
+    </Row>
+    """
+    |> merge_props(row_props(props))
+  end
+
+  defp spacer([], _gap), do: []
+
+  defp spacer(_slot, gap) do
+    assigns = %{gap: gap}
+    [~MOB"<Spacer size={@gap} />"]
+  end
+
+  defp row_props(props) do
+    %{}
+    |> put_some(:fill_width, Map.get(props, :fill_width, true))
+    |> put_some(:align, Map.get(props, :align) || :center)
+    |> put_some(:padding, Map.get(props, :padding))
+    |> put_some(:padding_top, Map.get(props, :padding_top))
+    |> put_some(:padding_right, Map.get(props, :padding_right))
+    |> put_some(:padding_bottom, Map.get(props, :padding_bottom))
+    |> put_some(:padding_left, Map.get(props, :padding_left))
+    |> put_some(:on_tap, Event.handler(Map.get(props, :on_tap)))
+    |> put_some(:on_long_press, Event.handler(Map.get(props, :on_long_press)))
+    |> put_some(:id, Map.get(props, :id))
+  end
+
+  defp put_some(map, _key, nil), do: map
+  defp put_some(map, key, value), do: Map.put(map, key, value)
+
+  defp merge_props(node, extra) when map_size(extra) == 0, do: node
+  defp merge_props(node, extra), do: %{node | props: Map.merge(node.props, extra)}
+end

@@ -162,6 +162,69 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
           </Row>
           """
         end
+      },
+      %Example{
+        title: "A badge over the glyph",
+        description:
+          "overlay draws on top of the glyph, filling the target — the corner-dot " <>
+            "idiom. The overlay is a normal node, so it can be any shape.",
+        code: ~S"""
+        # The overlay fills the 44pt target and aligns its dot to the corner; a
+        # Box stacks its children, so the badge sits over the glyph rather than
+        # beside it.
+        <MishkaActionIcon icon="🔔" variant={:filled} shape={:circle} size={44}
+                          overlay={badge_node} on_tap={:bell} />
+
+        def handle_info({:tap, :bell}, socket) do
+          {:noreply, Mob.Socket.push_screen(socket, Inbox)}
+        end
+        """,
+        render: fn _assigns ->
+          overlay = ~MOB"""
+          <Box fill_width={true} fill_height={true} align="top_trailing">
+            <Column padding_top={8} padding_right={9}>
+              <Box id="ai-dot" width={10} height={10} corner_radius={5} background={:primary} />
+            </Column>
+          </Box>
+          """
+
+          assigns = %{overlay: overlay}
+
+          ~MOB"""
+          <Row fill_width={true} align="center">
+            <Text text="Has news" text_color={:on_surface} />
+            <Spacer size={12} />
+            <Box id="ai-bell" fill_width={false}>
+              <MishkaActionIcon
+                icon="🔔"
+                variant={:filled}
+                shape={:circle}
+                size={44}
+                overlay={@overlay}
+                on_tap={:ai_tap}
+              />
+            </Box>
+          </Row>
+          """
+        end
+      },
+      %Example{
+        title: "A tile with its own rounding",
+        description:
+          "corner_radius overrides the radius shape gives, so a filled icon tile " <>
+            "can follow a design's own rounding instead of :radius_md.",
+        code: ~S"""
+        <MishkaActionIcon icon="⏸" variant={:filled} size={44} corner_radius={14} />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Row fill_width={true} align="center">
+            <Text text="Paused" text_color={:on_surface} />
+            <Spacer size={12} />
+            <MishkaActionIcon icon="⏸" variant={:filled} size={44} corner_radius={14} />
+          </Row>
+          """
+        end
       }
     ]
   end
@@ -205,6 +268,12 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         description: "Circle uses an exact size/2 radius."
       },
       %{
+        name: "corner_radius",
+        type: "radius token | number",
+        default: "nil",
+        description: "Overrides the radius shape gives, for a tile with its own rounding."
+      },
+      %{
         name: "color",
         type: "color / ARGB",
         default: ":on_surface",
@@ -215,6 +284,14 @@ defmodule MishkaMob.Showcase.Components.ActionIcon do
         type: "color / ARGB",
         default: ":surface_raised",
         description: "Fill when variant: :filled. Ignored while variant is :plain."
+      },
+      %{
+        name: "overlay",
+        type: "node | list of nodes",
+        default: "nil",
+        description:
+          "Drawn on top of the glyph and filling the target — for a badge pinned " <>
+            "to a corner. An unset overlay leaves the child list untouched."
       },
       %{
         name: "CloseButton: icon",
