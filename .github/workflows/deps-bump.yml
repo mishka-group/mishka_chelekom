@@ -12,7 +12,7 @@ permissions:
 jobs:
   bump:
     # Switch to @ci-v1 once mishka-group/mishka_cms#77 is merged and tagged.
-    uses: mishka-group/mishka_cms/.github/workflows/mishka-deps-bump.yml@ci/shared-workflows
+    uses: mishka-group/mishka_cms/.github/workflows/mishka-deps-bump.yml@ci-v1
     with:
       package: ${{ github.event.client_payload.package }}
       version: ${{ github.event.client_payload.version }}

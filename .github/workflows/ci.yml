@@ -17,7 +17,7 @@ permissions:
 jobs:
   ci:
     # Switch to @ci-v1 once mishka-group/mishka_cms#77 is merged and tagged.
-    uses: mishka-group/mishka_cms/.github/workflows/mishka-ci.yml@ci/shared-workflows
+    uses: mishka-group/mishka_cms/.github/workflows/mishka-ci.yml@ci-v1
     with:
       elixir: 1.20.5-otp-29
       otp: 29.1.2

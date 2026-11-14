@@ -19,7 +19,7 @@ permissions:
 jobs:
   release:
     # Switch to @ci-v1 once mishka-group/mishka_cms#77 is merged and tagged.
-    uses: mishka-group/mishka_cms/.github/workflows/mishka-release.yml@ci/shared-workflows
+    uses: mishka-group/mishka_cms/.github/workflows/mishka-release.yml@ci-v1
     with:
       version: ${{ inputs.version }}
       github-release: true
