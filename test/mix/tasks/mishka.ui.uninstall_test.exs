@@ -1174,6 +1174,40 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       assert macro_content(igniter) =~ "TestWeb.Components.Button"
     end
 
+    test "removing the last styled component drops the styled use while headless stays" do
+      web_ex = """
+      defmodule TestWeb do
+        defp html_helpers do
+          quote do
+            use Phoenix.Component
+            use TestWeb.Components.MishkaComponents
+            use TestWeb.Components.MishkaHeadlessComponents
+          end
+        end
+      end
+      """
+
+      igniter =
+        test_project_with_formatter(files: %{"lib/test_web.ex" => web_ex})
+        |> with_button_and_alert()
+        |> Igniter.rm("lib/test_web/components/alert.ex")
+        |> headless_macro("{TestWeb.Components.Headless.Accordion, only: [accordion: 1]}")
+        |> Igniter.create_new_file(@macro_path, """
+        defmodule TestWeb.Components.MishkaComponents do
+          defp imports do
+            [{TestWeb.Components.Button, only: [button: 1]}]
+          end
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      {_, source} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      web = Rewrite.Source.get(source, :content)
+      refute web =~ "use TestWeb.Components.MishkaComponents"
+      assert web =~ "use TestWeb.Components.MishkaHeadlessComponents"
+      assert Rewrite.has_source?(igniter.rewrite, @headless_macro_path)
+    end
+
     test "removing the last headless component deletes the headless macro, not the styled one" do
       igniter =
         test_project_with_formatter()

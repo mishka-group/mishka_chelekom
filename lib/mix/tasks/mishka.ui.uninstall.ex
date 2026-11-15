@@ -1006,9 +1006,11 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end
   end
 
-  defp maybe_cleanup_global_import(%{assigns: %{plan: %{remaining: r}}} = igniter)
-       when r != [],
-       do: igniter
+  # The styled `use` goes once no styled component is left, even when headless ones remain.
+  defp maybe_cleanup_global_import(%{assigns: %{plan: %{remaining: r, components: c}}} = igniter)
+       when r != [] do
+    if styled_macro_gone?(r, c), do: do_cleanup_global_import(igniter), else: igniter
+  end
 
   # A Mob app has no CoreComponents and no html_helpers to clean up.
   defp maybe_cleanup_global_import(%{assigns: %{plan: %{components: components}}} = igniter)
@@ -1019,6 +1021,11 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   end
 
   defp maybe_cleanup_global_import(igniter), do: do_cleanup_global_import(igniter)
+
+  defp styled_macro_gone?(remaining, removed) do
+    Enum.any?(removed, fn {_n, kind} -> kind == :styled end) and
+      not Enum.any?(remaining, fn {_n, kind} -> kind == :styled end)
+  end
 
   defp do_cleanup_global_import(igniter) do
     web_module = Igniter.Libs.Phoenix.web_module(igniter)

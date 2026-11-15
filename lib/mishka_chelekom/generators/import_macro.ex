@@ -98,7 +98,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
     |> Igniter.Project.Module.find_and_update_module!(web_module_name, fn zipper ->
       case Igniter.Code.Function.move_to_defp(zipper, :html_helpers, 0) do
         {:ok, zipper} ->
-          in_quote(zipper, &use_import_module(&1, import_module, core_components_module, layer))
+          use_import_module(zipper, import_module, core_components_module, layer)
 
         :error ->
           {:ok, zipper}
@@ -108,14 +108,6 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
   defp globalize_components(igniter, _import_module, _global, _layer) do
     igniter
-  end
-
-  # `move_to_defp/3` lands on the `defp`; the `use` belongs in the `quote` inside it.
-  defp in_quote(zipper, fun) do
-    case Sourceror.Zipper.find(zipper, &match?({:quote, _, _}, &1)) do
-      nil -> {:ok, zipper}
-      quote_zipper -> fun.(quote_zipper)
-    end
   end
 
   # `html_helpers/0` gets `use <import_module>`: in place of the `import CoreComponents` its quote
@@ -171,10 +163,12 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   defp has_use?(new_zipper, import_module) do
     target = Module.split(Module.concat([import_module])) |> Enum.map(&String.to_atom/1)
 
-    Sourceror.Zipper.find(new_zipper, fn
-      {:use, _, [{:__aliases__, _, parts}]} -> parts == target
-      _ -> false
-    end) != nil
+    new_zipper.node
+    |> Macro.prewalk(false, fn
+      {:use, _, [{:__aliases__, _, ^target}]} = node, _found -> {node, true}
+      node, found -> {node, found}
+    end)
+    |> elem(1)
   end
 
   defp import_entries(list, web_module, igniter, opts) do

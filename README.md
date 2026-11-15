@@ -195,9 +195,9 @@ mix mishka.ui.gen.headless.components --import --helpers --global --yes
   * `--component-prefix` - Prefix for public function names
   * `--module-prefix` - Prefix for module names
   * `--no-save` - Use prefixes without saving them to config
-  * `--import` or `-i` - Generates `MishkaHeadlessComponents`, a `use` macro for the headless modules (separate from the styled `MishkaComponents`)
+  * `--import` or `-i` - Generates `<App>Web.Components.MishkaHeadlessComponents`, a `use` macro for the headless modules (separate from the styled `MishkaComponents`)
   * `--helpers` - Also imports each component's helper functions in that macro
-  * `--global` or `-g` - Adds `use MishkaHeadlessComponents` to `html_helpers/0`
+  * `--global` or `-g` - Adds `use <App>Web.Components.MishkaHeadlessComponents` to `html_helpers/0`
 
   ## Options `mishka.ui.add` task
 
