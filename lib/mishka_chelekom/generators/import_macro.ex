@@ -88,6 +88,8 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   defp flash_group_def?(node), do: match?({:def, _, [{:flash_group, _, [_]}, _]}, node)
 
   # Styled and headless components share function names, so two global macros collide on import.
+  # The project's own web module.
+  # sobelow_skip ["DOS.ModuleConcat"]
   defp warn_shared_names(igniter, opts, :headless) do
     styled_macro =
       Module.concat([Igniter.Libs.Phoenix.web_module(igniter), "Components", "MishkaComponents"])
@@ -179,7 +181,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   defp append_use(zip, _import_module), do: zip
 
   # The import module this task generates.
-  # sobelow_skip ["DOS.ModuleConcat"]
+  # sobelow_skip ["DOS.ModuleConcat", "DOS.StringToAtom"]
   defp has_use?(new_zipper, import_module) do
     target = Module.split(Module.concat([import_module])) |> Enum.map(&String.to_atom/1)
 
