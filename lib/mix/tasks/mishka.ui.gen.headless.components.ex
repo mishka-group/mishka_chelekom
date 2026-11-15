@@ -2,7 +2,7 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
   use Igniter.Mix.Task
 
   alias MishkaChelekom.Config
-  alias MishkaChelekom.Generators.{Assets, Core}
+  alias MishkaChelekom.Generators.{Assets, Core, ImportMacro}
 
   @example "mix mishka.ui.gen.headless.components dialog,tabs"
   @shortdoc "Generate multiple (or all) headless components at once"
@@ -25,6 +25,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
   * `--component-prefix` - Prefix for public function names
   * `--module-prefix` - Prefix for module names
   * `--no-save` - Use prefixes without saving them to config
+  * `--import` or `-i` - Generates `<App>Web.Components.MishkaHeadlessComponents`, a `use` macro
+    importing the generated headless modules (separate from the styled `MishkaComponents`)
+  * `--helpers` - Also imports each component's helper functions in that macro
+  * `--global` or `-g` - Adds `use MishkaHeadlessComponents` to `html_helpers/0`, so headless
+    components work in every view without explicit imports
   * `--with-npm` - Also generate components that install npm packages (skipped by default)
   """
 
@@ -36,13 +41,16 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
       composes: ["mishka.ui.gen.headless"],
       schema: [
         exclude: :csv,
+        import: :boolean,
+        helpers: :boolean,
+        global: :boolean,
         component_prefix: :string,
         module_prefix: :string,
         no_save: :boolean,
         no_npm: :boolean,
         with_npm: :boolean
       ],
-      aliases: [e: :exclude]
+      aliases: [i: :import, g: :global, e: :exclude]
     }
   end
 
@@ -73,6 +81,14 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.Components do
       igniter
       |> Igniter.assign(:mishka_user_config, user_config)
       |> Core.fan_out("mishka.ui.gen.headless", list, child_args)
+      |> ImportMacro.create(list,
+        layer: :headless,
+        import: options[:import],
+        helpers: options[:helpers],
+        global: options[:global],
+        component_prefix: options[:component_prefix],
+        module_prefix: options[:module_prefix]
+      )
       |> Assets.setup_headless_css([])
       |> Core.maybe_save_prefixes(options)
 

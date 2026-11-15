@@ -45,4 +45,11 @@ defmodule Mix.Tasks.Mishka.Ui.Gen.Headless.ComponentsTest do
     assert igniter.rewrite.sources["assets/vendor/mishka_chelekom_headless.css"]
     assert igniter.rewrite.sources["priv/mishka_chelekom/config.exs"]
   end
+
+  test "declares --import, --helpers, --global and the -i / -g aliases" do
+    info = Components.info([], nil)
+    for key <- [:import, :helpers, :global], do: assert(info.schema[key] == :boolean)
+    assert info.aliases[:i] == :import
+    assert info.aliases[:g] == :global
+  end
 end

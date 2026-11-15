@@ -853,42 +853,91 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
     end)
   end
 
+  # Styled and headless each have their own import macro file; a layer's file is only touched
+  # when this run removes a component of that layer.
   defp update_import_macro(igniter) do
+    igniter
+    |> update_layer_import_macro(:styled)
+    |> update_layer_import_macro(:headless)
+  end
+
+  defp update_layer_import_macro(igniter, layer) do
     %{plan: plan, user_config: user_config} = igniter.assigns
     web_module = Igniter.Libs.Phoenix.web_module(igniter)
-    path = get_mishka_components_path(igniter, web_module)
+    macro_module = import_macro_module(web_module, layer)
+    path = Igniter.Project.Module.proper_location(igniter, macro_module)
+    removed = for {name, ^layer} <- plan.components, do: name
+    remaining? = Enum.any?(plan.remaining, fn {_n, kind} -> kind == layer end)
 
-    if Igniter.exists?(igniter, path) do
-      verbose_log(igniter, "  Updating import macro: #{path}")
-      do_update_import_macro(igniter, path, plan, user_config[:module_prefix], web_module)
-    else
-      igniter
+    cond do
+      removed == [] or not Igniter.exists?(igniter, path) ->
+        igniter
+
+      remaining? ->
+        verbose_log(igniter, "  Updating import macro: #{path}")
+
+        modules_to_remove =
+          Enum.map(
+            removed,
+            &build_module_name(igniter, web_module, &1, user_config[:module_prefix], layer)
+          )
+
+        Igniter.Project.Module.find_and_update_module!(igniter, macro_module, fn zipper ->
+          remove_imports_from_using(zipper, modules_to_remove)
+        end)
+
+      true ->
+        verbose_log(igniter, "  Removing import macro: #{path}")
+
+        igniter
+        |> Igniter.rm(path)
+        |> drop_headless_use(web_module, macro_module, layer)
     end
   end
 
-  defp get_mishka_components_path(igniter, web_module) do
-    Module.concat([web_module, "Components", "MishkaComponents"])
-    |> then(&Igniter.Project.Module.proper_location(igniter, &1))
+  defp import_macro_module(web_module, :headless),
+    do: Module.concat([web_module, "Components", "MishkaHeadlessComponents"])
+
+  defp import_macro_module(web_module, _),
+    do: Module.concat([web_module, "Components", "MishkaComponents"])
+
+  # The styled `use` is restored to `import CoreComponents` by `maybe_cleanup_global_import`; the
+  # headless one was only ever appended, so it is simply dropped.
+  defp drop_headless_use(igniter, web_module, macro_module, :headless) do
+    case Igniter.Project.Module.find_and_update_module(igniter, web_module, fn zipper ->
+           drop_use_from_html_helpers(zipper, macro_module)
+         end) do
+      {:ok, ig} -> ig
+      {:error, ig} -> ig
+    end
   end
 
-  defp do_update_import_macro(igniter, path, %{remaining: []}, _, _) do
-    Igniter.rm(igniter, path)
+  defp drop_headless_use(igniter, _web_module, _macro_module, _layer), do: igniter
+
+  defp drop_use_from_html_helpers(zipper, macro_module) do
+    case Igniter.Code.Function.move_to_defp(zipper, :html_helpers, 0) do
+      {:ok, zipper} ->
+        {:ok, Igniter.Code.Common.replace_code(zipper, drop_use(zipper.node, macro_module))}
+
+      :error ->
+        {:ok, zipper}
+    end
   end
 
-  defp do_update_import_macro(igniter, _path, plan, module_prefix, web_module) do
-    modules_to_remove =
-      Enum.map(plan.components, fn {name, kind} ->
-        build_module_name(igniter, web_module, name, module_prefix, kind)
+  defp drop_use({:quote, meta, [[{block_meta, {:__block__, inner_meta, args}}]]}, macro_module) do
+    parts = Module.split(macro_module) |> Enum.map(&String.to_atom/1)
+    last = List.last(parts)
+
+    kept =
+      Enum.reject(args, fn
+        {:use, _, [{:__aliases__, _, mod}]} when is_list(mod) -> List.last(mod) == last
+        _ -> false
       end)
 
-    Igniter.Project.Module.find_and_update_module!(
-      igniter,
-      Module.concat([web_module, "Components", "MishkaComponents"]),
-      fn zipper ->
-        remove_imports_from_using(zipper, modules_to_remove)
-      end
-    )
+    {:quote, meta, [[{block_meta, {:__block__, inner_meta, kept}}]]}
   end
+
+  defp drop_use(other, _macro_module), do: other
 
   # The generated macro lists its imports as `{module, opts}` entries in `imports/0`; one written by
   # an older generator imports each module directly inside its `quote` block.

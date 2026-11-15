@@ -58,4 +58,81 @@ defmodule MishkaChelekom.Generators.ImportMacroTest do
     assert content =~ "{TestWeb.Components.Accordion, only: [accordion: 1]}"
     refute content =~ ~r/quote do\s+import /
   end
+
+  describe "layer: :headless" do
+    @headless_path "lib/test_web/components/mishka_headless_components.ex"
+
+    defp headless(components, opts \\ []) do
+      igniter =
+        ImportMacro.create(
+          test_project_with_formatter(),
+          components,
+          [import: true, layer: :headless] ++ opts
+        )
+
+      {_, source} = Rewrite.source(igniter.rewrite, @headless_path)
+      Rewrite.Source.get(source, :content)
+    end
+
+    test "writes its own file and leaves the styled macro alone" do
+      igniter =
+        ImportMacro.create(test_project_with_formatter(), ["accordion"],
+          import: true,
+          layer: :headless
+        )
+
+      assert igniter.rewrite.sources[@headless_path]
+      refute igniter.rewrite.sources[@path]
+    end
+
+    test "imports the Headless modules" do
+      content = headless(["accordion", "dialog"])
+
+      assert content =~ "defmodule TestWeb.Components.MishkaHeadlessComponents"
+      assert content =~ "TestWeb.Components.Headless.Accordion"
+      assert content =~ "TestWeb.Components.Headless.Dialog"
+      assert content =~ "mix mishka.ui.gen.headless.components --import"
+    end
+
+    test "--helpers adds the catalog helper functions" do
+      with_helpers = headless(["accordion"], helpers: true)
+      assert with_helpers =~ "only: ["
+    end
+
+    test "applies the module and component prefixes" do
+      content = headless(["accordion"], module_prefix: "mishka_", component_prefix: "m_")
+
+      assert content =~ "TestWeb.Components.Headless.MishkaAccordion"
+      assert content =~ "m_accordion: 1"
+    end
+
+    test "--global appends one use and keeps CoreComponents" do
+      web_ex = """
+      defmodule TestWeb do
+        defp html_helpers do
+          quote do
+            use Phoenix.Component
+            import TestWeb.CoreComponents
+          end
+        end
+      end
+      """
+
+      run = fn igniter ->
+        ImportMacro.create(igniter, ["accordion"], import: true, layer: :headless, global: true)
+      end
+
+      igniter =
+        test_project_with_formatter(files: %{"lib/test_web.ex" => web_ex})
+        |> run.()
+        |> Igniter.Test.apply_igniter!()
+        |> run.()
+
+      {_, source} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      web = Rewrite.Source.get(source, :content)
+
+      assert length(Regex.scan(~r/use TestWeb\.Components\.MishkaHeadlessComponents/, web)) == 1
+      assert web =~ "import TestWeb.CoreComponents"
+    end
+  end
 end

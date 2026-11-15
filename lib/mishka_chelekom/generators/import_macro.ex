@@ -3,6 +3,11 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   Generates the `<App>Web.Components.MishkaComponents` import macro for the styled batch task
   (`mix mishka.ui.gen.components --import`) and, with `--global`, wires it into the web module's
   `html_helpers/0` in place of the default `CoreComponents` import.
+
+  With `layer: :headless` (`mix mishka.ui.gen.headless.components --import`) it writes the separate
+  `<App>Web.Components.MishkaHeadlessComponents` instead, imports the modules under
+  `<App>Web.Components.Headless`, and `--global` only appends `use` to `html_helpers/0`: the
+  styled `CoreComponents` / `MishkaComponents` import is never touched.
   """
 
   alias MishkaChelekom.Generators.Core
@@ -11,7 +16,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   @doc """
   Creates the import-macro module for `list` of components when `opts[:import]` is set and the
   igniter is issue-free. `opts`: `:import`, `:helpers`, `:global`, `:component_prefix`,
-  `:module_prefix`.
+  `:module_prefix`, `:layer` (`:styled` by default, or `:headless`).
   """
   @spec create(Igniter.t(), [String.t()], keyword()) :: Igniter.t()
   # The project's own web module.
@@ -19,13 +24,14 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   def create(igniter, list, opts) do
     if opts[:import] && Map.get(igniter, :issues, []) == [] do
       web_module = Igniter.Libs.Phoenix.web_module(igniter)
+      layer = Keyword.get(opts, :layer, :styled)
+      file = macro_file(layer)
 
       proper_location =
-        Module.concat([web_module, "components", "mishka_components"])
+        Module.concat([web_module, "components", file])
         |> then(&Igniter.Project.Module.proper_location(igniter, &1))
 
-      module_name =
-        Core.module_atom(Macro.underscore(web_module) <> ".components.mishka_components")
+      module_name = Core.module_atom(Macro.underscore(web_module) <> ".components.#{file}")
 
       entries = import_entries(list, web_module, igniter, opts)
 
@@ -37,7 +43,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
           @moduledoc \"\"\"
           `use #{module_name}` imports the generated Mishka Chelekom components.
 
-          `mix mishka.ui.gen.components --import` rewrites this file on every run.
+          `#{task_name(layer)} --import` rewrites this file on every run.
           \"\"\"
 
           defmacro __using__(_) do
@@ -55,7 +61,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
         """,
         on_exists: :overwrite
       )
-      |> globalize_components(module_name, opts[:global])
+      |> globalize_components(module_name, opts[:global], layer)
     else
       igniter
     end
@@ -82,7 +88,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
   # The project's own web module.
   # sobelow_skip ["DOS.StringToAtom"]
-  defp globalize_components(igniter, import_module, true) do
+  defp globalize_components(igniter, import_module, true, layer) do
     web_module_name = Igniter.Libs.Phoenix.web_module(igniter)
 
     core_components_module =
@@ -91,23 +97,39 @@ defmodule MishkaChelekom.Generators.ImportMacro do
     igniter
     |> Igniter.Project.Module.find_and_update_module!(web_module_name, fn zipper ->
       case Igniter.Code.Function.move_to_defp(zipper, :html_helpers, 0) do
-        {:ok, zipper} -> use_import_module(zipper, import_module, core_components_module)
-        :error -> {:ok, zipper}
+        {:ok, zipper} ->
+          in_quote(zipper, &use_import_module(&1, import_module, core_components_module, layer))
+
+        :error ->
+          {:ok, zipper}
       end
     end)
   end
 
-  defp globalize_components(igniter, _import_module, _global) do
+  defp globalize_components(igniter, _import_module, _global, _layer) do
     igniter
+  end
+
+  # `move_to_defp/3` lands on the `defp`; the `use` belongs in the `quote` inside it.
+  defp in_quote(zipper, fun) do
+    case Sourceror.Zipper.find(zipper, &match?({:quote, _, _}, &1)) do
+      nil -> {:ok, zipper}
+      quote_zipper -> fun.(quote_zipper)
+    end
   end
 
   # `html_helpers/0` gets `use <import_module>`: in place of the `import CoreComponents` its quote
   # has, or at the end of the quote when it has none. Nothing changes when it is already there.
-  defp use_import_module(zipper, import_module, core_components_module) do
+  # The headless macro never replaces `CoreComponents`; it is only appended.
+  defp use_import_module(zipper, import_module, core_components_module, layer) do
     if has_use?(zipper, import_module) do
       {:ok, zipper}
     else
-      new_node = replace_core_import(zipper.node, import_module, core_components_module)
+      new_node =
+        if layer == :headless,
+          do: zipper.node,
+          else: replace_core_import(zipper.node, import_module, core_components_module)
+
       new_zipper = Igniter.Code.Common.replace_code(zipper, new_node)
 
       if has_use?(new_zipper, import_module) do
@@ -147,17 +169,12 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   # The import module this task generates.
   # sobelow_skip ["DOS.ModuleConcat"]
   defp has_use?(new_zipper, import_module) do
-    with {:ok, zipper} <- Igniter.Code.Common.move_to_do_block(new_zipper),
-         {:ok, zipper} <-
-           Igniter.Code.Function.move_to_function_call_in_current_scope(
-             zipper,
-             :use,
-             1
-           ) do
-      Igniter.Code.Function.argument_equals?(zipper, 0, Module.concat([import_module]))
-    else
+    target = Module.split(Module.concat([import_module])) |> Enum.map(&String.to_atom/1)
+
+    Sourceror.Zipper.find(new_zipper, fn
+      {:use, _, [{:__aliases__, _, parts}]} -> parts == target
       _ -> false
-    end
+    end) != nil
   end
 
   defp import_entries(list, web_module, igniter, opts) do
@@ -171,7 +188,8 @@ defmodule MishkaChelekom.Generators.ImportMacro do
         new_phoenix?: new_phoenix?,
         component_prefix: opts[:component_prefix] || user_config[:component_prefix],
         module_prefix: opts[:module_prefix] || user_config[:module_prefix],
-        helpers?: opts[:helpers]
+        helpers?: opts[:helpers],
+        layer: Keyword.get(opts, :layer, :styled)
       }
 
       Enum.map(list, &import_entry(&1, ctx))
@@ -183,7 +201,9 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   defp import_entry(item, ctx) do
     child_imports = child_imports(item, ctx)
     prefixed_item = Core.component_atom(prefixed(ctx.module_prefix, item))
-    module = "#{inspect(ctx.web_module)}.Components.#{Core.module_atom("#{prefixed_item}")}"
+
+    module =
+      "#{inspect(ctx.web_module)}.Components.#{layer_namespace(ctx.layer)}#{Core.module_atom("#{prefixed_item}")}"
 
     if child_imports != "" do
       "{#{module}, only: [#{child_imports}]}"
@@ -196,7 +216,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   # sobelow_skip ["DOS.StringToAtom"]
   defp child_imports(component, ctx) do
     config =
-      case Core.fetch_catalog(ctx.igniter, component, :styled) do
+      case Core.fetch_catalog(ctx.igniter, component, ctx.layer) do
         {:ok, template} -> template.config[:args]
         {:error, _} -> []
       end
@@ -218,6 +238,15 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
   defp function_name(prefix, name) when prefix in [nil, false, ""] or name == "error", do: name
   defp function_name(prefix, name), do: "#{prefix}#{name}"
+
+  defp macro_file(:headless), do: "mishka_headless_components"
+  defp macro_file(_), do: "mishka_components"
+
+  defp task_name(:headless), do: "mix mishka.ui.gen.headless.components"
+  defp task_name(_), do: "mix mishka.ui.gen.components"
+
+  defp layer_namespace(:headless), do: "Headless."
+  defp layer_namespace(_), do: ""
 
   defp prefixed(prefix, item) when prefix in [nil, false, ""], do: item
   defp prefixed(prefix, item), do: "#{prefix}#{item}"

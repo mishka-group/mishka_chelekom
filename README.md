@@ -138,6 +138,7 @@ mix mishka.ui.gen.headless dialog
 ```bash
 mix mishka.ui.gen.headless.components dialog,tabs
 mix mishka.ui.gen.headless.components
+mix mishka.ui.gen.headless.components --import --helpers --global --yes
 ```
 
 > Pass a comma-separated list, or omit it (or pass `all`) to generate every headless component. Remove them the same way with `mix mishka.ui.uninstall <name> --headless` (or `--all --headless`).
@@ -192,6 +193,9 @@ mix mishka.ui.gen.headless.components
   * `--component-prefix` - Prefix for public function names
   * `--module-prefix` - Prefix for module names
   * `--no-save` - Use prefixes without saving them to config
+  * `--import` or `-i` - Generates `MishkaHeadlessComponents`, a `use` macro for the headless modules (separate from the styled `MishkaComponents`)
+  * `--helpers` - Also imports each component's helper functions in that macro
+  * `--global` or `-g` - Adds `use MishkaHeadlessComponents` to `html_helpers/0`
 
   ## Options `mishka.ui.add` task
 
