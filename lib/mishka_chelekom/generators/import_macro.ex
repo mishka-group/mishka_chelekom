@@ -62,6 +62,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
         on_exists: :overwrite
       )
       |> globalize_components(module_name, opts[:global], layer)
+      |> warn_shared_names(opts, layer)
     else
       igniter
     end
@@ -85,6 +86,25 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   defp new_phoenix(igniter, _), do: {igniter, false}
 
   defp flash_group_def?(node), do: match?({:def, _, [{:flash_group, _, [_]}, _]}, node)
+
+  # Styled and headless components share function names, so two global macros collide on import.
+  defp warn_shared_names(igniter, opts, :headless) do
+    styled_macro =
+      Module.concat([Igniter.Libs.Phoenix.web_module(igniter), "Components", "MishkaComponents"])
+
+    if opts[:global] && !opts[:component_prefix] &&
+         Igniter.Project.Module.module_exists(igniter, styled_macro) |> elem(0) do
+      Igniter.add_warning(igniter, """
+      --global with headless components next to the global styled MishkaComponents imports
+      the same function names twice (button, alert, ...), which fails to compile.
+      Pass --component-prefix (for example hl_) to the headless task.
+      """)
+    else
+      igniter
+    end
+  end
+
+  defp warn_shared_names(igniter, _opts, _layer), do: igniter
 
   # The project's own web module.
   # sobelow_skip ["DOS.StringToAtom"]
