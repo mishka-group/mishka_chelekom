@@ -79,17 +79,55 @@ defmodule Mishka.GenHeadlessComponentsTest do
     end
   end
 
+  describe "--import / --helpers / --global" do
+    @macro_path "lib/development_web/components/mishka_headless_components.ex"
+    @web_path "lib/development_web.ex"
+
+    test "--import stages a headless macro listing each generated module" do
+      igniter = stage(Task, ["dialog,tabs", "--import", "--yes"])
+      content = staged_content(igniter, @macro_path)
+
+      assert content =~ "DevelopmentWeb.Components.Headless.Dialog"
+      assert content =~ "DevelopmentWeb.Components.Headless.Tabs"
+      refute staged?(igniter, "lib/development_web/components/mishka_components.ex")
+    end
+
+    test "nothing is staged for the macro without --import" do
+      refute staged?(stage(Task, ["dialog", "--yes"]), @macro_path)
+    end
+
+    test "--global stages one use line in html_helpers and keeps the styled one" do
+      igniter = stage(Task, ["dialog", "--import", "--global", "--yes"])
+      web = staged_content(igniter, @web_path)
+
+      assert length(Regex.scan(~r/use DevelopmentWeb\.Components\.MishkaHeadlessComponents/, web)) ==
+               1
+
+      assert web =~ "use DevelopmentWeb.Components.MishkaComponents"
+    end
+  end
+
   describe "CLI contract" do
     test "exposes the batch schema and the -e alias" do
       info = Task.info([], nil)
       assert info.positional == [{:components, optional: true}]
       assert "mishka.ui.gen.headless" in info.composes
 
-      for opt <- [:exclude, :component_prefix, :module_prefix, :no_save] do
+      for opt <- [
+            :exclude,
+            :component_prefix,
+            :module_prefix,
+            :no_save,
+            :import,
+            :helpers,
+            :global
+          ] do
         assert Keyword.has_key?(info.schema, opt), "schema should expose --#{opt}"
       end
 
       assert info.aliases[:e] == :exclude
+      assert info.aliases[:i] == :import
+      assert info.aliases[:g] == :global
     end
   end
 
