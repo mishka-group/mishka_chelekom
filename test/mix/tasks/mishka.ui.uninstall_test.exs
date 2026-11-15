@@ -1210,7 +1210,20 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
 
     test "removing the last headless component deletes the headless macro, not the styled one" do
       igniter =
-        test_project_with_formatter()
+        test_project_with_formatter(
+          files: %{
+            "lib/test_web.ex" => """
+            defmodule TestWeb do
+              defp html_helpers do
+                quote do
+                  use Phoenix.Component
+                  use TestWeb.Components.MishkaHeadlessComponents
+                end
+              end
+            end
+            """
+          }
+        )
         |> with_button_and_alert()
         |> headless_macro("{TestWeb.Components.Headless.Accordion, only: [accordion: 1]}")
         |> Igniter.rm("lib/test_web/components/headless/dialog.ex")
@@ -1227,6 +1240,9 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
 
       refute Rewrite.has_source?(igniter.rewrite, @headless_macro_path)
       assert Rewrite.has_source?(igniter.rewrite, @macro_path)
+
+      {_, web} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      refute Rewrite.Source.get(web, :content) =~ "MishkaHeadlessComponents"
     end
 
     test "removes the component's import from a macro written by an older generator" do

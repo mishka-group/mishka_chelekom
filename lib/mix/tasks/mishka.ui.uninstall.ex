@@ -915,29 +915,14 @@ defmodule Mix.Tasks.Mishka.Ui.Uninstall do
   defp drop_headless_use(igniter, _web_module, _macro_module, _layer), do: igniter
 
   defp drop_use_from_html_helpers(zipper, macro_module) do
-    case Igniter.Code.Function.move_to_defp(zipper, :html_helpers, 0) do
-      {:ok, zipper} ->
-        {:ok, Igniter.Code.Common.replace_code(zipper, drop_use(zipper.node, macro_module))}
-
-      :error ->
-        {:ok, zipper}
+    with {:ok, helpers} <- Igniter.Code.Function.move_to_defp(zipper, :html_helpers, 0),
+         {:ok, body} <- Igniter.Code.Common.move_to_do_block(helpers),
+         {:ok, use_call} <- Igniter.Code.Module.move_to_use(body, macro_module) do
+      {:ok, Sourceror.Zipper.remove(use_call)}
+    else
+      _ -> {:ok, zipper}
     end
   end
-
-  defp drop_use({:quote, meta, [[{block_meta, {:__block__, inner_meta, args}}]]}, macro_module) do
-    parts = Module.split(macro_module) |> Enum.map(&String.to_atom/1)
-    last = List.last(parts)
-
-    kept =
-      Enum.reject(args, fn
-        {:use, _, [{:__aliases__, _, mod}]} when is_list(mod) -> List.last(mod) == last
-        _ -> false
-      end)
-
-    {:quote, meta, [[{block_meta, {:__block__, inner_meta, kept}}]]}
-  end
-
-  defp drop_use(other, _macro_module), do: other
 
   # The generated macro lists its imports as `{module, opts}` entries in `imports/0`; one written by
   # an older generator imports each module directly inside its `quote` block.

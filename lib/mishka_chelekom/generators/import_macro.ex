@@ -162,18 +162,18 @@ defmodule MishkaChelekom.Generators.ImportMacro do
     if has_use?(zipper, import_module) do
       {:ok, zipper}
     else
-      new_node =
+      new_zipper =
         if layer == :headless,
-          do: zipper.node,
-          else: replace_core_import(zipper.node, import_module, core_components_module)
+          do: zipper,
+          else:
+            Igniter.Code.Common.replace_code(
+              zipper,
+              replace_core_import(zipper.node, import_module, core_components_module)
+            )
 
-      new_zipper = Igniter.Code.Common.replace_code(zipper, new_node)
-
-      if has_use?(new_zipper, import_module) do
-        {:ok, new_zipper}
-      else
-        {:ok, Igniter.Code.Common.replace_code(zipper, append_use(zipper.node, import_module))}
-      end
+      if has_use?(new_zipper, import_module),
+        do: {:ok, new_zipper},
+        else: {:ok, append_use(zipper, import_module)}
     end
   end
 
@@ -193,27 +193,33 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
   defp replace_core_import(zip, _import_module, _core_components_module), do: zip
 
-  defp append_use(
-         {:quote, meta, [[{block_meta, {:__block__, block_inner_meta, args}}]]},
-         import_module
-       ) do
-    use_node = {:use, [], [{:__aliases__, [], [import_module]}]}
-    {:quote, meta, [[{block_meta, {:__block__, block_inner_meta, args ++ [use_node]}}]]}
+  # The import module this task generates.
+  # sobelow_skip ["DOS.ModuleConcat"]
+  defp append_use(zipper, import_module) do
+    with {:ok, body} <- Igniter.Code.Common.move_to_do_block(zipper),
+         last when not is_nil(last) <- last_statement(body) do
+      Igniter.Code.Common.add_code(last, "use #{inspect(Module.concat([import_module]))}",
+        expand_env?: false
+      )
+    else
+      _ -> zipper
+    end
   end
 
-  defp append_use(zip, _import_module), do: zip
+  defp last_statement(%{node: {:__block__, _, [_ | _]}} = body),
+    do: body |> Sourceror.Zipper.down() |> Sourceror.Zipper.rightmost()
+
+  defp last_statement(body), do: body
 
   # The import module this task generates.
-  # sobelow_skip ["DOS.ModuleConcat", "DOS.StringToAtom"]
-  defp has_use?(new_zipper, import_module) do
-    target = Module.split(Module.concat([import_module])) |> Enum.map(&String.to_atom/1)
-
-    new_zipper.node
-    |> Macro.prewalk(false, fn
-      {:use, _, [{:__aliases__, _, ^target}]} = node, _found -> {node, true}
-      node, found -> {node, found}
-    end)
-    |> elem(1)
+  # sobelow_skip ["DOS.ModuleConcat"]
+  defp has_use?(zipper, import_module) do
+    with {:ok, body} <- Igniter.Code.Common.move_to_do_block(zipper),
+         {:ok, _use} <- Igniter.Code.Module.move_to_use(body, Module.concat([import_module])) do
+      true
+    else
+      _ -> false
+    end
   end
 
   defp import_entries(list, web_module, igniter, opts) do
