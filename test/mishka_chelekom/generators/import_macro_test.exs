@@ -106,16 +106,21 @@ defmodule MishkaChelekom.Generators.ImportMacroTest do
       assert content =~ "m_accordion: 1"
     end
 
-    test "--global warns about shared names when the styled macro exists, unless prefixed" do
-      styled = """
-      defmodule TestWeb.Components.MishkaComponents do
-        defmacro __using__(_), do: nil
+    test "--global warns with the names both macros really share, unless prefixed" do
+      styled = fn function ->
+        """
+        defmodule TestWeb.Components.MishkaComponents do
+          defp imports, do: [{TestWeb.Components.Thing, only: [#{function}: 1]}]
+        end
+        """
       end
-      """
 
-      run = fn extra ->
+      run = fn function, extra ->
         test_project_with_formatter(
-          files: %{@path => styled, "lib/test_web.ex" => "defmodule TestWeb do\nend\n"}
+          files: %{
+            @path => styled.(function),
+            "lib/test_web.ex" => "defmodule TestWeb do\nend\n"
+          }
         )
         |> ImportMacro.create(
           ["accordion"],
@@ -123,8 +128,10 @@ defmodule MishkaChelekom.Generators.ImportMacroTest do
         )
       end
 
-      assert Enum.any?(run.([]).warnings, &(&1 =~ "--component-prefix"))
-      assert run.(component_prefix: "hl_").warnings == []
+      assert [warning] = run.("accordion", []).warnings
+      assert warning =~ "accordion"
+      assert run.("button", []).warnings == []
+      assert run.("accordion", component_prefix: "hl_").warnings == []
     end
 
     test "--global appends one use and keeps CoreComponents" do

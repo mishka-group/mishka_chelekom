@@ -62,7 +62,7 @@ defmodule MishkaChelekom.Generators.ImportMacro do
         on_exists: :overwrite
       )
       |> globalize_components(module_name, opts[:global], layer)
-      |> warn_shared_names(opts, layer)
+      |> warn_shared_names(list, web_module, opts, layer)
     else
       igniter
     end
@@ -87,26 +87,49 @@ defmodule MishkaChelekom.Generators.ImportMacro do
 
   defp flash_group_def?(node), do: match?({:def, _, [{:flash_group, _, [_]}, _]}, node)
 
-  # Styled and headless components share function names, so two global macros collide on import.
-  # The project's own web module.
-  # sobelow_skip ["DOS.ModuleConcat"]
-  defp warn_shared_names(igniter, opts, :headless) do
-    styled_macro =
-      Module.concat([Igniter.Libs.Phoenix.web_module(igniter), "Components", "MishkaComponents"])
+  # Two global macros that import the same function name fail to compile, so the headless macro
+  # warns with the names both layers really share, read from the catalogs and the styled macro.
+  defp warn_shared_names(igniter, list, web_module, opts, :headless) do
+    shared = if opts[:global], do: shared_names(igniter, list, web_module, opts), else: []
 
-    if opts[:global] && !opts[:component_prefix] &&
-         Igniter.Project.Module.module_exists(igniter, styled_macro) |> elem(0) do
+    if shared == [] do
+      igniter
+    else
       Igniter.add_warning(igniter, """
-      --global with headless components next to the global styled MishkaComponents imports
-      the same function names twice (button, alert, ...), which fails to compile.
+      --global imports #{Enum.join(shared, ", ")} from both the headless and the styled
+      MishkaComponents macro, which fails to compile.
       Pass --component-prefix (for example hl_) to the headless task.
       """)
-    else
-      igniter
     end
   end
 
-  defp warn_shared_names(igniter, _opts, _layer), do: igniter
+  defp warn_shared_names(igniter, _list, _web_module, _opts, _layer), do: igniter
+
+  defp shared_names(igniter, list, web_module, opts) do
+    ctx = build_ctx(igniter, web_module, opts)
+    headless = Enum.flat_map(list, &(&1 |> import_functions(ctx) |> Keyword.keys()))
+    Enum.sort(Enum.uniq(headless -- (headless -- styled_functions(igniter, web_module))))
+  end
+
+  # Every `only: [name: arity]` function the project's styled macro imports.
+  # The project's own web module.
+  # sobelow_skip ["DOS.ModuleConcat"]
+  defp styled_functions(igniter, web_module) do
+    module = Module.concat([web_module, "Components", "MishkaComponents"])
+
+    with {:ok, {_igniter, source, _zipper}} <- Igniter.Project.Module.find_module(igniter, module),
+         {:ok, quoted} <- Code.string_to_quoted(Rewrite.Source.get(source, :content)) do
+      {_, names} =
+        Macro.prewalk(quoted, [], fn
+          {:only, only} = node, acc when is_list(only) -> {node, Keyword.keys(only) ++ acc}
+          node, acc -> {node, acc}
+        end)
+
+      Enum.filter(names, &is_atom/1)
+    else
+      _ -> []
+    end
+  end
 
   # The project's own web module.
   # sobelow_skip ["DOS.StringToAtom"]
@@ -194,24 +217,27 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   end
 
   defp import_entries(list, web_module, igniter, opts) do
-    {igniter, new_phoenix?} = new_phoenix(igniter, opts[:global])
-    user_config = igniter.assigns[:mishka_user_config] || Config.load_user_config(igniter)
-
     if Map.get(igniter, :issues, []) == [] do
-      ctx = %{
-        igniter: igniter,
-        web_module: web_module,
-        new_phoenix?: new_phoenix?,
-        component_prefix: opts[:component_prefix] || user_config[:component_prefix],
-        module_prefix: opts[:module_prefix] || user_config[:module_prefix],
-        helpers?: opts[:helpers],
-        layer: Keyword.get(opts, :layer, :styled)
-      }
-
+      ctx = build_ctx(igniter, web_module, opts)
       Enum.map(list, &import_entry(&1, ctx))
     else
       igniter
     end
+  end
+
+  defp build_ctx(igniter, web_module, opts) do
+    {igniter, new_phoenix?} = new_phoenix(igniter, opts[:global])
+    user_config = igniter.assigns[:mishka_user_config] || Config.load_user_config(igniter)
+
+    %{
+      igniter: igniter,
+      web_module: web_module,
+      new_phoenix?: new_phoenix?,
+      component_prefix: opts[:component_prefix] || user_config[:component_prefix],
+      module_prefix: opts[:module_prefix] || user_config[:module_prefix],
+      helpers?: opts[:helpers],
+      layer: Keyword.get(opts, :layer, :styled)
+    }
   end
 
   defp import_entry(item, ctx) do
@@ -231,6 +257,13 @@ defmodule MishkaChelekom.Generators.ImportMacro do
   # Function names from the kit's own configs, with the prefix given on the command line.
   # sobelow_skip ["DOS.StringToAtom"]
   defp child_imports(component, ctx) do
+    component
+    |> import_functions(ctx)
+    |> Enum.map_join(", ", fn {key, value} -> "#{key}: #{value}" end)
+  end
+
+  # sobelow_skip ["DOS.StringToAtom"]
+  defp import_functions(component, ctx) do
     config =
       case Core.fetch_catalog(ctx.igniter, component, ctx.layer) do
         {:ok, template} -> template.config[:args]
@@ -245,7 +278,6 @@ defmodule MishkaChelekom.Generators.ImportMacro do
     |> Enum.map(&function_name(ctx.component_prefix, &1))
     |> Enum.map(&{String.to_atom(&1), 1})
     |> Keyword.merge(helper_functions)
-    |> Enum.map_join(", ", fn {key, value} -> "#{key}: #{value}" end)
   end
 
   # A Phoenix new enough to define `flash_group/1` in its Layouts keeps its own.
