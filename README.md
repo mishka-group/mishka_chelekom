@@ -138,8 +138,11 @@ mix mishka.ui.gen.headless dialog
 ```bash
 mix mishka.ui.gen.headless.components dialog,tabs
 mix mishka.ui.gen.headless.components
+mix mishka.ui.gen.headless.components --import --helpers --global --yes
 ```
 
+> With `--global`, headless and styled components share function names (`button`, `alert`, ...), so Elixir reports a conflicting import when both macros are global. Give headless a `--component-prefix` in that case.
+>
 > Pass a comma-separated list, or omit it (or pass `all`) to generate every headless component. Remove them the same way with `mix mishka.ui.uninstall <name> --headless` (or `--all --headless`).
 
 <details>
@@ -192,6 +195,9 @@ mix mishka.ui.gen.headless.components
   * `--component-prefix` - Prefix for public function names
   * `--module-prefix` - Prefix for module names
   * `--no-save` - Use prefixes without saving them to config
+  * `--import` or `-i` - Generates `<App>Web.Components.MishkaHeadlessComponents`, a `use` macro for the headless modules (separate from the styled `MishkaComponents`)
+  * `--helpers` - Also imports each component's helper functions in that macro
+  * `--global` or `-g` - Adds `use <App>Web.Components.MishkaHeadlessComponents` to `html_helpers/0`
 
   ## Options `mishka.ui.add` task
 

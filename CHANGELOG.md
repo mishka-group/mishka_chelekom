@@ -1,6 +1,7 @@
 # Changelog for MishkaChelekom 0.0.11
 
 ### Features:
+- `mix mishka.ui.gen.headless.components` takes `--import` (`-i`), `--helpers` and `--global` (`-g`), as the styled batch task does. `--import` writes a separate `<App>Web.Components.MishkaHeadlessComponents` macro for the headless modules, `--helpers` adds each component's helper functions to it, and `--global` appends `use` of it to `html_helpers/0`; the styled imports are left as they are, and the task warns when both macros would import the same function name. `mix mishka.ui.uninstall --headless` keeps the macro in step [#514](https://github.com/mishka-group/mishka_chelekom/issues/514) [#555](https://github.com/mishka-group/mishka_chelekom/pull/555)
 - **Mob**: `MishkaCalendar` joins the component set — one headless calendar with four views:
   a month grid (computed or from laid-out weeks, with single/multiple/range selection, bounds
   and markers), a week of seven lanes and blocks, a day timeline, and grouped agenda sections.

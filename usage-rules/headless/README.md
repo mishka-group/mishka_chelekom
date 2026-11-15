@@ -9,7 +9,12 @@ They ship no colors, spacing or typography — style the `chelekom-<comp>__<part
 ```bash
 mix mishka.ui.gen.headless <name>          # one component
 mix mishka.ui.gen.headless.components       # all of them
+mix mishka.ui.gen.headless.components --import --helpers --global --yes
 ```
+
+`--import` writes `<App>Web.Components.MishkaHeadlessComponents` (a `use` macro for the headless
+modules), `--helpers` adds their helper functions and `--global` appends `use` of it to
+`html_helpers/0`, leaving the styled imports untouched.
 
 Output: `lib/<app>_web/components/headless/<name>.ex`, module
 `<App>Web.Components.Headless.<Name>` — styled and headless coexist without collisions.

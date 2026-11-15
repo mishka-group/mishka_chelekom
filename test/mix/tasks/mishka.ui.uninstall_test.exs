@@ -1115,6 +1115,136 @@ defmodule Mix.Tasks.Mishka.Ui.UninstallTest do
       assert content =~ "{TestWeb.Components.Alert, only: [alert: 1]}"
     end
 
+    @headless_macro_path "lib/test_web/components/mishka_headless_components.ex"
+
+    defp headless_macro(igniter, entries) do
+      igniter
+      |> Igniter.create_new_file("lib/test_web/components/headless/accordion.ex", """
+      defmodule TestWeb.Components.Headless.Accordion do
+        use Phoenix.Component
+        def accordion(assigns), do: ~H"<div>Accordion</div>"
+      end
+      """)
+      |> Igniter.create_new_file("lib/test_web/components/headless/dialog.ex", """
+      defmodule TestWeb.Components.Headless.Dialog do
+        use Phoenix.Component
+        def dialog(assigns), do: ~H"<div>Dialog</div>"
+      end
+      """)
+      |> Igniter.create_new_file(@headless_macro_path, """
+      defmodule TestWeb.Components.MishkaHeadlessComponents do
+        @moduledoc false
+
+        defmacro __using__(_) do
+          for {module, opts} <- imports() do
+            quote do: import(unquote(module), unquote(opts))
+          end
+        end
+
+        defp imports do
+          [
+            #{entries}
+          ]
+        end
+      end
+      """)
+    end
+
+    test "a headless uninstall edits only the headless macro" do
+      igniter =
+        test_project_with_formatter()
+        |> with_button_and_alert()
+        |> headless_macro("""
+        {TestWeb.Components.Headless.Accordion, only: [accordion: 1]},
+        {TestWeb.Components.Headless.Dialog, only: [dialog: 1]}
+        """)
+        |> Igniter.create_new_file(@macro_path, """
+        defmodule TestWeb.Components.MishkaComponents do
+          defp imports do
+            [{TestWeb.Components.Button, only: [button: 1]}]
+          end
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["accordion", "--headless", "--yes"])
+
+      {_, source} = Rewrite.source(igniter.rewrite, @headless_macro_path)
+      content = Rewrite.Source.get(source, :content)
+      refute content =~ "Headless.Accordion"
+      assert content =~ "Headless.Dialog"
+      assert macro_content(igniter) =~ "TestWeb.Components.Button"
+    end
+
+    test "removing the last styled component drops the styled use while headless stays" do
+      web_ex = """
+      defmodule TestWeb do
+        defp html_helpers do
+          quote do
+            use Phoenix.Component
+            use TestWeb.Components.MishkaComponents
+            use TestWeb.Components.MishkaHeadlessComponents
+          end
+        end
+      end
+      """
+
+      igniter =
+        test_project_with_formatter(files: %{"lib/test_web.ex" => web_ex})
+        |> with_button_and_alert()
+        |> Igniter.rm("lib/test_web/components/alert.ex")
+        |> headless_macro("{TestWeb.Components.Headless.Accordion, only: [accordion: 1]}")
+        |> Igniter.create_new_file(@macro_path, """
+        defmodule TestWeb.Components.MishkaComponents do
+          defp imports do
+            [{TestWeb.Components.Button, only: [button: 1]}]
+          end
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["button", "--yes"])
+
+      {_, source} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      web = Rewrite.Source.get(source, :content)
+      refute web =~ "use TestWeb.Components.MishkaComponents"
+      assert web =~ "use TestWeb.Components.MishkaHeadlessComponents"
+      assert Rewrite.has_source?(igniter.rewrite, @headless_macro_path)
+    end
+
+    test "removing the last headless component deletes the headless macro, not the styled one" do
+      igniter =
+        test_project_with_formatter(
+          files: %{
+            "lib/test_web.ex" => """
+            defmodule TestWeb do
+              defp html_helpers do
+                quote do
+                  use Phoenix.Component
+                  use TestWeb.Components.MishkaHeadlessComponents
+                end
+              end
+            end
+            """
+          }
+        )
+        |> with_button_and_alert()
+        |> headless_macro("{TestWeb.Components.Headless.Accordion, only: [accordion: 1]}")
+        |> Igniter.rm("lib/test_web/components/headless/dialog.ex")
+        |> Igniter.create_new_file(@macro_path, """
+        defmodule TestWeb.Components.MishkaComponents do
+          defp imports do
+            [{TestWeb.Components.Button, only: [button: 1]}]
+          end
+        end
+        """)
+        |> Igniter.compose_task(Uninstall, ["accordion", "--headless", "--yes"])
+
+      assert igniter.rewrite.sources[@macro_path]
+
+      refute Rewrite.has_source?(igniter.rewrite, @headless_macro_path)
+      assert Rewrite.has_source?(igniter.rewrite, @macro_path)
+
+      {_, web} = Rewrite.source(igniter.rewrite, "lib/test_web.ex")
+      refute Rewrite.Source.get(web, :content) =~ "MishkaHeadlessComponents"
+    end
+
     test "removes the component's import from a macro written by an older generator" do
       igniter =
         test_project_with_formatter()
