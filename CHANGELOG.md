@@ -7,7 +7,7 @@
   and markers), a week of seven lanes and blocks, a day timeline, and grouped agenda sections.
   Colors, sizes, radii and type are all props; month navigation and per-view `empty` nodes too
 - **Mob**: `MishkaTextInput` joins the component set — a single- or multi-line field with the
-  form events, `value_epoch`, and `leading` / `trailing` nodes beside it. `MishkaListItem` gives
+  form events and `leading` / `trailing` nodes beside it. `MishkaListItem` gives
   a list row its leading/body/trailing geometry, and `MishkaDock` / `MishkaDockItem` draw a
   floating bar of icon items with an optional action beside it. `MishkaCard` gains `height` and
   `weight`, and `MishkaActionIcon` gains `overlay`, a node drawn over the glyph that fills the
@@ -152,6 +152,31 @@
   which fixes advisory EEF-CVE-2026-117645, in the library, `development/web` and
   `development/mob`. `sobelow` 0.18.1, `usage_rules` 1.3.1 and `image` 0.73.0 follow, so every
   dependency of all three projects is at its latest release
+- **Mob**: `MishkaRating` draws its half star and its default stars. The half star's
+  `clip_width` did nothing before mob 0.9.32, so it drew as a full star, and the default ink
+  `:warning` is not a mob colour token, so default stars were invisible on iOS and drawn in the
+  text colour on Android; the default is `:amber_500`. Every cell is a Box that hugs its glyph:
+  the half cell is no longer `size` wide, which cut the glyph at a large Android font scale. It
+  centres the empty glyph under the filled one, which sits in an overlay that hugs it and carries
+  `clip_width: 0.5`, so the cut falls on the star's centre in both directions. The
+  `development/mob` app requires mob 0.9.32, and its `MobBridge.kt` gains `mobFractionClip` from
+  mob_new 0.6.21, without which Android ignores the clip. Apps generated before mob_new 0.6.21
+  need the same bridge change
+- **Mob**: `MishkaTextInput` sends the prop names mob's text field reads: `keyboard_type` as
+  `keyboard` (a string), `font_family` as `font`, and `multiline: true` with no `lines` as
+  `lines: 3`, so the keyboard variant, the font and the multi-line field apply. `keyboard` and
+  `font` are accepted too. The `development/mob` app's `MobBridge.kt` applies `font` to a text
+  field and, unless `return_key` asks for an action key, keeps Return for a newline in a
+  multi-line one, as mob_new's template does. `value_epoch` is gone, since no mob renderer reads
+  it; to replace the text, assign a new `value` (iOS adopts it while the field is not focused)
+- **Mob**: `MishkaCalendar` and `MishkaDockItem` put their `*font_family` props on Text nodes as
+  `font_family`, which mob's Text never reads, so those fonts were ignored. They now emit `font`;
+  the components' prop names are unchanged
+- **Mob**: `MishkaCalendar`'s day view draws `empty` for an empty `clusters` list, as it does for
+  empty `rows`, where it drew an empty Column
+- **Mob**: `MishkaMenu.dropdown/4` routes an atom `on_dismiss` through `Event.handler/1`, as the
+  preview card and tooltip do. A bare atom reached native as a string no bridge can send back, so
+  an outside tap never closed the menu on Android
 
 ### Refactors:
 - The headless editor pins `@tiptap/core`, `@tiptap/pm` and `@tiptap/starter-kit` at 3.32.3, the
