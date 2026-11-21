@@ -55,6 +55,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.LocalTextStyle
@@ -115,6 +116,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.layout.ContentScale
@@ -3151,7 +3153,17 @@ private fun RenderNodeInner(node: MobNode, modifier: Modifier) {
         "video"          -> MobVideoPlayer(node, m)
         "camera_preview" -> MobCameraPreview(node, m)
         "web_view"       -> MobWebView(node, m)
-        "native_view"    -> MobNativeViewRegistry.render(node)
+        // The registry's factories take no modifier, so a native view never
+        // gets `m`. clip_width / clip_height go on a wrapper Box instead, and
+        // only when one is set: an unclipped native view lays out as before.
+        // propagateMinConstraints hands the parent's minimums on unchanged.
+        // The two calls are different composition groups, so a clip crossing 1
+        // remounts the native view, as on iOS.
+        "native_view"    -> {
+            val clip = mobFractionClip(node.props)
+            if (clip == Modifier) MobNativeViewRegistry.render(node)
+            else Box(modifier = clip, propagateMinConstraints = true) { MobNativeViewRegistry.render(node) }
+        }
         "canvas"         -> MobCanvas(node, m)
         "gpu_view"       -> MobGpuView(node, m)
         "anchored"       -> MobAnchored(node, m)
@@ -3582,12 +3594,22 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         "url"     -> KeyboardType.Uri
         else      -> KeyboardType.Text
     }
+
+    // `lines: n` makes the field multi-line and n rows tall — a textarea. The
+    // return key then inserts a newline instead of submitting, which is what a
+    // multi-line field has to do, so on_submit is only meaningful single-line.
+    val lines = intProp(node.props, "lines") ?: 0
+    val multiline = lines > 1
+
     val imeAction = when (node.props["return_key"] as? String) {
         "next"   -> ImeAction.Next
         "go"     -> ImeAction.Go
         "search" -> ImeAction.Search
         "send"   -> ImeAction.Send
-        else     -> ImeAction.Done
+        "done"   -> ImeAction.Done
+        // An explicit Done would show a Done key that submits; Default keeps
+        // Return for a newline on a multi-line field.
+        else     -> if (multiline) ImeAction.Default else ImeAction.Done
     }
 
     // Elixir owns this value; the local copy exists only so typing feels instant.
@@ -3623,12 +3645,6 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
     // siblings got 0 px (silently invisible).
     val fillWidth = boolProp(node.props, "fill_width") ?: false
     val tfModifier = if (fillWidth) modifier.fillMaxWidth() else modifier
-
-    // `lines: n` makes the field multi-line and n rows tall — a textarea. The
-    // return key then inserts a newline instead of submitting, which is what a
-    // multi-line field has to do, so on_submit is only meaningful single-line.
-    val lines = intProp(node.props, "lines") ?: 0
-    val multiline = lines > 1
 
     // `max_length` is the web's `maxlength`, and rejecting here rather than in
     // Elixir is not an optimisation — it is the only place a rejection can be
@@ -3734,6 +3750,7 @@ private fun MobTextField(node: MobNode, modifier: Modifier) {
         textAlign = alignment,
         fontSize = sizeProp(node.props, "text_size").takeIf { it != TextUnit.Unspecified }
             ?: baseStyle.fontSize,
+        fontFamily = fontFamilyProp(node.props, LocalContext.current) ?: baseStyle.fontFamily,
         color = colorProp(node.props, "text_color"),
     )
 
@@ -5070,8 +5087,51 @@ private fun MobTabBar(node: MobNode, modifier: Modifier) {
 
 // ── Modifier helpers ──────────────────────────────────────────────────────────
 
+// The open side of a fraction clip: far enough out that whatever the node draws
+// past its bounds there stays visible, finite so it survives the canvas
+// transforms (Float.MAX_VALUE times a layer scale is infinity).
+private const val MOB_CLIP_UNBOUNDED = 1_000_000f
+
+// clip_width / clip_height: the fraction f (0..1) of the node's own laid-out
+// width / height that stays visible. Each cuts at one line only: clip_width at
+// leading edge + f * width (leading = left in LTR, right in RTL), keeping
+// everything on the leading side of it, including what the node draws past its
+// leading bound; clip_height at top + f * height, keeping everything above it.
+// An axis with no prop is open on both sides. Both set: the intersection.
+// Absent or >= 1 adds nothing to the chain; <= 0 draws nothing.
+//
+// A clipRect around drawContent, not a layout change: the node still measures
+// and places at full size, so its parent and siblings are unaffected, and only
+// its drawing is cut (Android's RatingBar ClipDrawable does the same). It must
+// be first in nodeModifier so the content it wraps includes the background,
+// border and children. Draw-only, so hit testing is unchanged. layoutDirection
+// is the DrawScope's, which Compose takes from LocalLayoutDirection for the
+// node; nodeModifier is not composable and cannot read the local itself.
+private fun mobFractionClip(props: Map<String, Any?>): Modifier {
+    val keepWidth = floatProp(props, "clip_width")?.coerceIn(0f, 1f) ?: 1f
+    val keepHeight = floatProp(props, "clip_height")?.coerceIn(0f, 1f) ?: 1f
+    if (keepWidth >= 1f && keepHeight >= 1f) return Modifier
+    return Modifier.drawWithContent {
+        if (keepWidth <= 0f || keepHeight <= 0f) return@drawWithContent
+        var left = -MOB_CLIP_UNBOUNDED
+        var right = MOB_CLIP_UNBOUNDED
+        if (keepWidth < 1f) {
+            val visibleWidth = size.width * keepWidth
+            if (layoutDirection == LayoutDirection.Rtl) {
+                left = size.width - visibleWidth
+            } else {
+                right = visibleWidth
+            }
+        }
+        val bottom = if (keepHeight < 1f) size.height * keepHeight else MOB_CLIP_UNBOUNDED
+        clipRect(left = left, top = -MOB_CLIP_UNBOUNDED, right = right, bottom = bottom) {
+            this@drawWithContent.drawContent()
+        }
+    }
+}
+
 private fun nodeModifier(props: Map<String, Any?>): Modifier {
-    var m: Modifier = Modifier
+    var m: Modifier = mobFractionClip(props)
     val cornerRadius = floatProp(props, "corner_radius") ?: 0f
     val shape = if (cornerRadius > 0f) RoundedCornerShape(cornerRadius.dp) else null
 
