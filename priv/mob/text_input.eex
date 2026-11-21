@@ -11,17 +11,32 @@ defmodule <%= @module %> do
 
   ## The value is controlled
 
-  `value` is echoed back by the screen. The bridge re-keys its remembered text
-  only when the string actually changes, so returning what was just typed is a
-  no-op and the caret does not move — which is why a controlled field is safe
-  here rather than a source of jumping cursors. `value_epoch` is the escape
-  hatch: bump it and the native field forgets its remembered text.
+  `value` is echoed back by the screen, and an echo of what the field already
+  shows is a no-op: the caret does not move. To replace the text (clearing it
+  after a submit, say), assign the new `value`. On Android the bridge adopts a
+  value that differs from the field's text on each render the screen pushes;
+  iOS adopts a changed value whenever the field isn't focused. There is no
+  epoch to bump.
 
   ## Multiline
 
-  `multiline: true` wraps the field into a paragraph of at least three rows and
-  keeps Return for a newline instead of submitting. `lines` is the same idea
-  with a declared row count.
+  `multiline: true` makes the field a paragraph three rows tall and keeps Return
+  for a newline instead of submitting, so `on_submit` does not fire (on
+  Android a `return_key` puts an action key back, and that key submits). An
+  explicit `lines` sets the row count and wins over `multiline`; `lines: 1` is
+  a single-line field.
+
+  ## Prop names
+
+  Mob's text field spells three of these props differently, so they are
+  translated on the way to the node:
+
+  * `keyboard_type` becomes `keyboard`, as a string (`:email` → `"email"`).
+  * `font_family` becomes `font`.
+  * `multiline: true` becomes `lines: 3`.
+
+  Mob's own spellings, `keyboard` and `font`, are accepted too, and win when
+  both are given.
 
   ## Leading and trailing nodes
 
@@ -47,18 +62,17 @@ defmodule <%= @module %> do
   |------|--------|---------|---------|
   | `value` | string | unset | The current text. |
   | `placeholder` | string | unset | Hint shown while empty. |
-  | `multiline` | boolean | `false` | A paragraph field. |
-  | `lines` | integer | unset | Declared rows for a multiline field. |
+  | `multiline` | boolean | `false` | A paragraph field three rows tall (`lines: 3`). |
+  | `lines` | integer | unset | Rows; above 1 is a multi-line field. Wins over `multiline`. |
   | `max_length` | integer | unset | Rejects edits that would exceed it. |
   | `secure` | boolean | `false` | Masks the text. |
-  | `keyboard_type` | `:default` `:email` `:number` `:phone` | unset | Keyboard variant. |
+  | `keyboard_type` / `keyboard` | `:default` `:email` `:number` `:phone`, atom or string | unset | Keyboard variant, sent as `keyboard`. Mob also reads `"decimal"` and `"url"`. |
   | `return_key` | string | unset | The keyboard's return label. |
   | `caret` | `"end"` | unset | Pin the insertion point to the end. |
   | `underline` | boolean | bridge default | Material's indicator line (Android). |
-  | `value_epoch` | integer | unset | Bump to replace the text the native field remembers. |
   | `text_size` | text token / number | `:base` | Typed text and placeholder. |
   | `text_color` / `placeholder_color` | color token / ARGB int | `:on_surface` / `:muted` | Inks. |
-  | `font_family` / `font_weight` / `letter_spacing` / `text_align` | as a Text | unset | Type of the field. |
+  | `font_family` (or `font`) / `font_weight` / `letter_spacing` / `text_align` | as a Text | unset | Type of the field; `font_family` is sent as `font`. |
   | `background` | color token / ARGB int | `:surface_raised` | Field fill. |
   | `border_color` / `border_width` | color / number | `:border` / unset | Outline. |
   | `corner_radius` | radius token / number | `:radius_sm` | Corners. |
@@ -76,14 +90,17 @@ defmodule <%= @module %> do
 
   alias <%= @namespace %>.Event
 
+  # Forwarded as they are. `keyboard_type` / `keyboard`, `font_family` / `font`
+  # and `multiline` / `lines` are translated by `translated/1`.
   @props ~w(
-    value placeholder multiline lines max_length secure enabled disabled
-    keyboard_type return_key caret underline text_size text_color
-    placeholder_color font_family font_weight letter_spacing text_align
-    background border_color border_width corner_radius padding padding_top
-    padding_right padding_bottom padding_left width height fill_width
-    accessibility_id value_epoch id
+    value placeholder max_length secure enabled disabled return_key caret
+    underline text_size text_color placeholder_color font_weight
+    letter_spacing text_align background border_color border_width
+    corner_radius padding padding_top padding_right padding_bottom
+    padding_left width height fill_width accessibility_id id
   )a
+
+  @multiline_rows 3
 
   @events ~w(on_change on_submit on_focus on_blur)a
 
@@ -130,12 +147,28 @@ defmodule <%= @module %> do
     forwarded =
       props
       |> Map.take(@props)
+      |> Map.merge(translated(props))
       |> Enum.reject(fn {_key, value} -> is_nil(value) end)
       |> Map.new()
       |> Map.merge(extra)
 
     %{~MOB(<TextField />) | props: Map.merge(forwarded, events(props))}
   end
+
+  # Upstream's prop names to the ones mob's text field reads. See "Prop names".
+  defp translated(props) do
+    %{
+      keyboard: keyboard(Map.get(props, :keyboard) || Map.get(props, :keyboard_type)),
+      font: Map.get(props, :font) || Map.get(props, :font_family),
+      lines: Map.get(props, :lines) || multiline_rows(Map.get(props, :multiline))
+    }
+  end
+
+  defp keyboard(nil), do: nil
+  defp keyboard(keyboard), do: to_string(keyboard)
+
+  defp multiline_rows(multiline) when multiline in [nil, false, "false"], do: nil
+  defp multiline_rows(_multiline), do: @multiline_rows
 
   defp spacer(nil, _gap), do: nil
 
