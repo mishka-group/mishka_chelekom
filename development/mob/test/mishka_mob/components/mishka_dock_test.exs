@@ -64,6 +64,17 @@ defmodule MishkaMob.Components.MishkaDockTest do
       assert well.props.corner_radius == 23.0
     end
 
+    test "the icon font reaches the glyph as font, the active one when active" do
+      props = %{icon: "a", font_family: "Icons", active_font_family: "IconsFilled"}
+
+      assert [glyph] = find_all(MishkaDockItem.dock_item(props), :text)
+      assert glyph.props.font == "Icons"
+      refute Map.has_key?(glyph.props, :font_family)
+
+      assert [active] = find_all(MishkaDockItem.dock_item(Map.put(props, :active, true)), :text)
+      assert active.props.font == "IconsFilled"
+    end
+
     test "the active look comes from the active props" do
       node =
         MishkaDockItem.dock_item(%{
