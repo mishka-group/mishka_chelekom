@@ -13,16 +13,65 @@ defmodule MishkaMob.Components.MishkaTextInputTest do
       assert node.props.placeholder == "Title"
       assert node.props.fill_width == true
 
-      refute Map.has_key?(node.props, :multiline)
-      refute Map.has_key?(node.props, :background)
+      for key <- [:multiline, :lines, :keyboard, :font, :background] do
+        refute Map.has_key?(node.props, key)
+      end
+    end
+  end
+
+  describe "prop names mob's text field reads" do
+    test "keyboard_type is sent as keyboard, a string, from an atom or a string" do
+      for {given, sent} <- [email: "email", number: "number", phone: "phone", default: "default"] do
+        node = MishkaTextInput.text_input(keyboard_type: given)
+
+        assert node.props.keyboard == sent
+        refute Map.has_key?(node.props, :keyboard_type)
+      end
+
+      assert MishkaTextInput.text_input(keyboard_type: "phone").props.keyboard == "phone"
     end
 
-    test "value_epoch reaches the bridge" do
+    test "mob's keyboard is accepted, and wins over keyboard_type" do
+      assert MishkaTextInput.text_input(keyboard: :decimal).props.keyboard == "decimal"
+
+      node = MishkaTextInput.text_input(keyboard: "url", keyboard_type: :email)
+      assert node.props.keyboard == "url"
+    end
+
+    test "font_family is sent as font; mob's font wins" do
+      node = MishkaTextInput.text_input(font_family: "Inter")
+
+      assert node.props.font == "Inter"
+      refute Map.has_key?(node.props, :font_family)
+
+      assert MishkaTextInput.text_input(font: "Mono", font_family: "Inter").props.font == "Mono"
+    end
+
+    test "multiline: true with no lines is three rows" do
+      node = MishkaTextInput.text_input(multiline: true)
+
+      assert node.props.lines == 3
+      refute Map.has_key?(node.props, :multiline)
+    end
+
+    test "an explicit lines wins over multiline" do
+      assert MishkaTextInput.text_input(multiline: true, lines: 5).props.lines == 5
+      assert MishkaTextInput.text_input(multiline: true, lines: 1).props.lines == 1
+      assert MishkaTextInput.text_input(lines: 4).props.lines == 4
+    end
+
+    test "multiline: false is a single-line field" do
+      refute Map.has_key?(MishkaTextInput.text_input(multiline: false).props, :lines)
+    end
+
+    test "value_epoch, which no renderer reads, is not forwarded" do
       node = MishkaTextInput.text_input(value: "", value_epoch: 3)
 
-      assert node.props.value_epoch == 3
+      refute Map.has_key?(node.props, :value_epoch)
     end
+  end
 
+  describe "events and rendering" do
     test "events are widened to {pid, tag}" do
       node = MishkaTextInput.text_input(on_change: :typed, on_submit: :done)
 

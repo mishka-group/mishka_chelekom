@@ -217,7 +217,7 @@ defmodule MishkaMob.Components.MishkaCalendar do
         <Box fill_width={true} align={:center}>
           <Text
             text={@weekday}
-            font_family={@weekday_family}
+            font={@weekday_family}
             text_size={@weekday_size}
             letter_spacing={@weekday_spacing}
             text_color={@weekday_color}
@@ -240,7 +240,7 @@ defmodule MishkaMob.Components.MishkaCalendar do
     </Column>
     """
     |> drop_nil_keys([:on_tap, :shadow, :id])
-    |> scrub_nil([:font_family, :letter_spacing])
+    |> scrub_nil([:font, :letter_spacing])
     |> drop_nil_keys([:id])
   end
 
@@ -306,18 +306,12 @@ defmodule MishkaMob.Components.MishkaCalendar do
         padding_top={@pad_top}
         padding_bottom={@pad_bottom}
       >
-        <Text
-          text={@label}
-          font_family={@family}
-          text_size={@size}
-          text_color={@color}
-          max_lines={1}
-        />
+        <Text text={@label} font={@family} text_size={@size} text_color={@color} max_lines={1} />
       </Column>
     </Row>
     """
     |> drop_nil_keys([:shadow, :on_tap, :id])
-    |> scrub_nil([:font_family])
+    |> scrub_nil([:font])
   end
 
   # ── Day ─────────────────────────────────────────────────────────────────────
@@ -328,6 +322,7 @@ defmodule MishkaMob.Components.MishkaCalendar do
   defp day_view(props) do
     case Map.get(props, :clusters) do
       nil -> day_rows(Map.get(props, :rows) || [], props)
+      [] -> day_rows([], props)
       clusters -> day_clusters(clusters, props)
     end
   end
@@ -457,7 +452,7 @@ defmodule MishkaMob.Components.MishkaCalendar do
         <Column min_width={@time_width}>
           <Text
             text={@time}
-            font_family={@time_family}
+            font={@time_family}
             text_size={@time_size}
             text_color={@time_color}
             max_lines={1}
@@ -487,7 +482,7 @@ defmodule MishkaMob.Components.MishkaCalendar do
       {rule_node(@rule)}
     </Column>
     """
-    |> scrub_nil([:font_family])
+    |> scrub_nil([:font])
     |> drop_nil_keys([:on_tap, :id])
   end
 
@@ -523,15 +518,9 @@ defmodule MishkaMob.Components.MishkaCalendar do
     }
 
     ~MOB"""
-    <Text
-      text={@duration}
-      font_family={@family}
-      text_size={@size}
-      text_color={@color}
-      max_lines={1}
-    />
+    <Text text={@duration} font={@family} text_size={@size} text_color={@color} max_lines={1} />
     """
-    |> scrub_nil([:font_family])
+    |> scrub_nil([:font])
   end
 
   defp rule_node(nil), do: spacer(0)
@@ -604,7 +593,7 @@ defmodule MishkaMob.Components.MishkaCalendar do
     <Column fill_width={true}>
       <Text
         text={@label}
-        font_family={@family}
+        font={@family}
         text_size={@size}
         font_weight={@weight}
         letter_spacing={@spacing}
@@ -614,7 +603,7 @@ defmodule MishkaMob.Components.MishkaCalendar do
       <Spacer size={@gap} />
     </Column>
     """
-    |> scrub_nil([:font_family, :letter_spacing])
+    |> scrub_nil([:font, :letter_spacing])
   end
 
   # ── Header ──────────────────────────────────────────────────────────────────
@@ -693,13 +682,13 @@ defmodule MishkaMob.Components.MishkaCalendar do
         text={@text}
         text_size={@size}
         text_color={@color}
-        font_family={@family}
+        font={@family}
         letter_spacing={@spacing}
         max_lines={1}
       />
     </Box>
     """
-    |> drop_nil_keys([:font_family, :letter_spacing])
+    |> scrub_nil([:font, :letter_spacing])
   end
 
   defp weekday_row(nodes, props) do

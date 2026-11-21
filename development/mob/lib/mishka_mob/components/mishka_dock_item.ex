@@ -116,13 +116,15 @@ defmodule MishkaMob.Components.MishkaDockItem do
     }
 
     ~MOB"""
-    <Text text={@text} font_family={@family} text_size={@size} text_color={@color} max_lines={1} />
+    <Text text={@text} font={@family} text_size={@size} text_color={@color} max_lines={1} />
     """
     |> drop_nil_family()
   end
 
-  defp drop_nil_family(%{props: %{font_family: nil}} = node),
-    do: %{node | props: Map.delete(node.props, :font_family)}
+  # mob's Text reads `font`, never `font_family`, so the `font_family` /
+  # `active_font_family` props reach the glyph as `font`.
+  defp drop_nil_family(%{props: %{font: nil}} = node),
+    do: %{node | props: Map.delete(node.props, :font)}
 
   defp drop_nil_family(node), do: node
 
