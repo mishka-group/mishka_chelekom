@@ -12,25 +12,40 @@ defmodule MishkaMob.Components.MishkaRating do
 
   `icon` and `empty_icon` take a glyph string, a node, or a list of nodes. A
   string is drawn as a `Text` at `size` in `color` / `empty_color`; a node is
-  used as given, so an app's own icon font or glyph node keeps its own type. A
-  node's width should match `size`, because the half star crops a fraction of
-  the cell's width.
+  used as given, so an app's own icon font or glyph node keeps its own type and
+  the caller sizes it.
 
   The defaults are the text characters `"★"` and `"☆"`, so a rating renders
   without an icon set.
 
+  ## Cells hug their glyph
+
+  Every cell is a Box with `fill_width: false` and **no width or height**, so
+  it is exactly as big as what it holds. `size` is a text size, not a cell
+  width: it is multiplied by the theme's `text_scale` and, on Android, is in sp,
+  which grows with the system font scale. A cell a fixed `size` wide would cut
+  the glyph at a large font scale; a hugging cell grows with it. No height
+  either: a cell keeps its glyph's line box, so the row centres every star on
+  the same line, the half star included.
+
   ## The half star is a clip, not a second glyph
 
-  A half star is the empty glyph with the filled one stacked over it and cut at
-  50% by `clip_width`. Clipping the draw leaves measurement alone, so the pair
-  occupies one star's line box and the row does not grow.
+  A half star is the empty glyph with the filled one stacked over it and cut in
+  half by `clip_width: 0.5`. The filled glyph sits in an overlay Box that hugs
+  it and carries the clip, and `clip_width` is a fraction of the overlay's own
+  laid-out width, so the cut falls at the middle of the filled glyph's advance
+  at any font scale. The half cell hugs the wider of the two and centres both
+  (`align: "center"`; Compose's Box and mob's SwiftUI `ZStack` otherwise stack
+  children top-start). `★` and `☆` come from the same font, so the centred
+  glyphs coincide and the cut lands on the star's centre. Clipping the draw
+  leaves measurement alone, so the pair occupies one star's line box and the
+  row does not grow. `clip_width` keeps the leading half: the left in a
+  left-to-right layout, the right in a right-to-left one, where the row runs
+  the other way too.
 
-  The two glyphs are siblings in a Box with the cell's **width and no height**.
-  The width is what the 50% crop needs; the height must hug the glyph's line
-  box. A fixed `size × size` Box makes this one cell shorter than its
-  neighbours: the row centres a shorter box against the other stars' text boxes
-  and the half star's baseline drops below the line. Width only puts it back in
-  the same line box, exactly as a bare star is.
+  The cut needs mob 0.9.32 or later (it draws `clip_width`) and, on Android, a
+  `MobBridge.kt` from mob_new 0.6.21 or later. On an older renderer the prop
+  is ignored and a half star draws as a full one.
 
   ## Props
 
@@ -38,11 +53,11 @@ defmodule MishkaMob.Components.MishkaRating do
   |------|--------|---------|---------|
   | `value` | number | `0` | The rating, in stars — `3.5` is three and a half. |
   | `count` | integer | `5` | How many cells. |
-  | `size` | number | `22` | One cell's edge, and a string glyph's text size. |
+  | `size` | number | `22` | A string glyph's text size. Cells hug their glyph. |
   | `gap` | number | `2` | Space between cells. |
   | `icon` | string, node, or list of nodes | `"★"` | A full cell. |
   | `empty_icon` | string, node, or list of nodes | `"☆"` | An empty cell, and the outline under a half. |
-  | `color` | color token / ARGB int | `:warning` | A string `icon`'s ink. |
+  | `color` | color token / ARGB int | `:amber_500` | A string `icon`'s ink. |
   | `empty_color` | color token / ARGB int | `color` | A string `empty_icon`'s ink. |
   | `half` | boolean | `true` | Draw the half step when the value has one. |
   | `id` | string | unset | Native testTag on the row. |
@@ -79,7 +94,7 @@ defmodule MishkaMob.Components.MishkaRating do
 
   defp cells(props) do
     size = setting(props, :size, 22)
-    color = setting(props, :color, :warning)
+    color = setting(props, :color, :amber_500)
     empty_color = setting(props, :empty_color, color)
     gap = setting(props, :gap, 2)
     count = setting(props, :count, 5)
@@ -90,7 +105,6 @@ defmodule MishkaMob.Components.MishkaRating do
     if count > 0 do
       1..count
       |> Enum.map(&star(cell(&1, full, half?), props, size, color, empty_color))
-      |> List.flatten()
       |> Enum.intersperse(gap_node(gap))
     else
       []
@@ -104,27 +118,27 @@ defmodule MishkaMob.Components.MishkaRating do
   defp cell(_index, _full, _half?), do: :empty
 
   defp star(:full, props, size, color, _empty_color) do
-    glyph(Map.get(props, :icon) || "★", size, color)
+    cell_box(%{}, glyph(Map.get(props, :icon) || "★", size, color))
   end
 
   defp star(:empty, props, size, _color, empty_color) do
-    glyph(Map.get(props, :empty_icon) || "☆", size, empty_color)
+    cell_box(%{}, glyph(Map.get(props, :empty_icon) || "☆", size, empty_color))
   end
 
-  # Width only — see "The half star is a clip, not a second glyph".
   defp star(:half, props, size, color, empty_color) do
+    empty = glyph(Map.get(props, :empty_icon) || "☆", size, empty_color)
+    filled = cell_box(%{clip_width: 0.5}, glyph(Map.get(props, :icon) || "★", size, color))
+
+    cell_box(%{}, List.wrap(empty) ++ [filled])
+  end
+
+  # A box that hugs its content (no width or height) and centres it. See "Cells
+  # hug their glyph" and "The half star is a clip, not a second glyph".
+  defp cell_box(extra, children) do
     %{
       type: :box,
-      props: %{width: size},
-      children:
-        List.wrap(glyph(Map.get(props, :empty_icon) || "☆", size, empty_color)) ++
-          [
-            %{
-              type: :box,
-              props: %{width: size, clip_width: 0.5},
-              children: List.wrap(glyph(Map.get(props, :icon) || "★", size, color))
-            }
-          ]
+      props: Map.merge(%{fill_width: false, align: "center"}, extra),
+      children: List.wrap(children)
     }
   end
 
