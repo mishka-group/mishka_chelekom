@@ -63,6 +63,8 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.Progress, :mishka_progress,
      MishkaMob.Components.MishkaProgress},
     {MishkaMob.Showcase.Components.Meter, :mishka_meter, MishkaMob.Components.MishkaMeter},
+    {MishkaMob.Showcase.Components.Heatmap, :mishka_heatmap,
+     MishkaMob.Components.MishkaHeatmap},
     {MishkaMob.Showcase.Components.Collapsible, :mishka_collapsible,
      MishkaMob.Components.MishkaCollapsible},
     {MishkaMob.Showcase.Components.Avatar, :mishka_avatar, MishkaMob.Components.MishkaAvatar},

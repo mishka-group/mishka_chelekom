@@ -405,7 +405,10 @@ defmodule MishkaChelekom.Generators.Mob do
   # A component with no web counterpart still needs a real bucket. Falling back
   # to "mob" put Skeleton in a category of one, which is the same defect as the
   # gallery's singular "Overlay" — a heading with nothing under it.
-  @mob_only_categories %{"skeleton" => "feedback"}
+  # Components with no headless web counterpart, and the category the gallery
+  # files them under. The Mob-only set is not a weaker one: a heatmap of days is
+  # a native shape whose web sibling would be a different component entirely.
+  @mob_only_categories %{"skeleton" => "feedback", "heatmap" => "data display"}
 
   defp headless_metadata(component) do
     category =
