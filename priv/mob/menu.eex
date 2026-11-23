@@ -253,7 +253,7 @@ defmodule <%= @module %> do
         side: Map.get(opts, :side) || :bottom,
         align: Map.get(opts, :align) || :end,
         side_offset: Map.get(opts, :side_offset) || 8,
-        on_dismiss: Map.get(opts, :on_dismiss)
+        on_dismiss: Event.handler(Map.get(opts, :on_dismiss))
       )
     else
       Anchored.closed(trigger)

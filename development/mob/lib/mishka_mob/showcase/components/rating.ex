@@ -88,14 +88,14 @@ defmodule MishkaMob.Showcase.Components.Rating do
             "A string is drawn at size in its colour; a node is used as given.",
         code: ~S"""
         <MishkaRating value={3.5} color={:primary} empty_color={:muted} />
-        <MishkaRating value={3.5} icon="★" empty_icon="✩" color={:danger} />
+        <MishkaRating value={3.5} icon="★" empty_icon="✩" color={:error} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
             <MishkaRating id="rating-primary" value={3.5} color={:primary} empty_color={:muted} />
             <Spacer size={10} />
-            <MishkaRating id="rating-glyphs" value={3.5} icon="★" empty_icon="✩" color={:danger} />
+            <MishkaRating id="rating-glyphs" value={3.5} icon="★" empty_icon="✩" color={:error} />
           </Column>
           """
         end
@@ -117,7 +117,7 @@ defmodule MishkaMob.Showcase.Components.Rating do
         name: "size",
         type: "number",
         default: "22",
-        description: "One cell's edge, and a string glyph's text size."
+        description: "A string glyph's text size. Cells hug their glyph."
       },
       %{name: "gap", type: "number", default: "2", description: "Space between cells."},
       %{
@@ -135,7 +135,7 @@ defmodule MishkaMob.Showcase.Components.Rating do
       %{
         name: "color",
         type: "color token / ARGB int",
-        default: ":warning",
+        default: ":amber_500",
         description: "A string icon's ink."
       },
       %{

@@ -98,8 +98,8 @@ defmodule MishkaMob.Showcase.Components.TextInput do
       %Example{
         title: "A paragraph",
         description:
-          "multiline keeps Return for a newline; lines declares a row count. The " <>
-            "field grows with the text between those bounds.",
+          "multiline keeps Return for a newline and makes the field three rows " <>
+            "tall; lines sets the row count instead and wins over multiline.",
         code: ~S"""
         <MishkaTextInput multiline={true} lines={4} value={@review}
                          placeholder="What did you make of it?" />
@@ -118,13 +118,10 @@ defmodule MishkaMob.Showcase.Components.TextInput do
       },
       %Example{
         title: "Masked and typed keyboards",
-        description:
-          "secure masks the text; keyboard_type picks the keyboard. value_epoch is " <>
-            "the escape hatch when the screen must replace what the field remembers.",
+        description: "secure masks the text; keyboard_type picks the keyboard.",
         code: ~S"""
         <MishkaTextInput secure={true} placeholder="Token" />
         <MishkaTextInput keyboard_type={:email} placeholder="you@example.com" />
-        <MishkaTextInput value={@v} value_epoch={@epoch} />
         """,
         render: fn _assigns ->
           ~MOB"""
@@ -162,13 +159,7 @@ defmodule MishkaMob.Showcase.Components.TextInput do
         name: "multiline / lines",
         type: "boolean / integer",
         default: "false / nil",
-        description: "A paragraph field, optionally with a declared row count."
-      },
-      %{
-        name: "value_epoch",
-        type: "integer",
-        default: "nil",
-        description: "Bump to replace the text the native field remembers."
+        description: "A paragraph field three rows tall, or lines rows. lines wins."
       },
       %{
         name: "leading / trailing",
@@ -200,7 +191,9 @@ defmodule MishkaMob.Showcase.Components.TextInput do
         name: "secure / keyboard_type / return_key / caret / underline",
         type: "boolean / atom / string / string / boolean",
         default: "nil",
-        description: "Native field configuration, forwarded unchanged."
+        description:
+          "Native field configuration. keyboard_type (an atom or a string) is sent " <>
+            "as mob's keyboard, a string; the rest are forwarded unchanged."
       },
       %{
         name: "text_size / text_color / placeholder_color",

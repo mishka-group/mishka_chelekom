@@ -274,6 +274,14 @@ defmodule MishkaMob.Components.MishkaMenuTest do
       assert node.props.on_tap == {self(), :close_menu}
     end
 
+    test "an atom on_dismiss is routed to the screen, like every other handler" do
+      # A bare atom reaches native as a string, which no bridge can send back,
+      # so an outside tap never closed the menu on Android.
+      node = MishkaMenu.dropdown(trigger(), true, [], on_dismiss: :close_menu)
+
+      assert node.props.on_tap == {self(), :close_menu}
+    end
+
     test "panel padding can be set per edge" do
       node =
         MishkaMenu.dropdown(trigger(), true, [],
