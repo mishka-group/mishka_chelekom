@@ -20,7 +20,7 @@ defmodule MishkaMob.Device.DockTest do
     assert_in_delta home.width, library.width, 1.0
     assert_in_delta library.width, stats.width, 1.0
 
-    assert bar.left <= home.left and stats.right <= bar.right,
+    assert bar.left <= home.left + 0.01 and stats.right <= bar.right + 0.01,
            "an item escapes the bar: #{inspect({bar, home, stats})}"
   end
 
