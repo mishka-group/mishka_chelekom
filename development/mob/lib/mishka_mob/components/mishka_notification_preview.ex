@@ -30,7 +30,8 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
   | `time` | string | `nil` | The clock beside it; the line joins them with a middot. |
   | `title` | string | `nil` | The notification's title. |
   | `body` | string | `nil` | Its body, which may wrap. |
-  | `icon` | string, node, or list of nodes | `nil` | The app mark at the start. |
+  | `layout` | `:inline` `:stacked` | `:inline` | The mark beside the text, or above it on its own line. |
+  | `icon` | string, node, or list of nodes | `nil` | The app mark. |
   | `background` | color token / ARGB int | unset | The card's fill. |
   | `corner_radius` | number | `0` | The card's corners. |
   | `padding` | number | `12` | Inside the card. |
@@ -41,12 +42,20 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
   | `title_color` | color token / ARGB int | `:on_surface` | Its ink. |
   | `body_size` | number | `12` | The body's size. |
   | `body_color` | color token / ARGB int | `:muted` | Its ink. |
-  | `line_gap` | number | `3` | Space between the three lines. |
+  | `line_gap` | number | `3` | Space between the three lines (`9` between the app row and the title under `:stacked`). |
+  | `body_gap` | number | `5` | Under `:stacked` only: space between the title and the body. |
   | `icon_gap` | number | `10` | Space between the mark and the text. |
   | `body_max_lines` | integer | `3` | How many lines the body may take. |
   | `id` | string | unset | TestTag on the card. |
 
   Children are ignored; the card is data.
+
+  ## Two layouts, because two designs exist
+
+  `:inline` puts the mark beside the text — the phone's own notification
+  shade. `:stacked` puts the mark and the app line on one row above the title,
+  which is how a settings page draws the notification it is describing. Both
+  are the same four strings; only the flow changes.
 
   **Documentation:** https://mishka.tools/chelekom/docs/mob/notification-preview
   """
@@ -67,6 +76,12 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
     props = Map.new(props)
     line = app_line(Map.get(props, :app), Map.get(props, :time))
 
+    body =
+      case setting(props, :layout, :inline) do
+        :stacked -> stacked(props, line)
+        _inline -> inline(props, line)
+      end
+
     ~MOB"""
     <Column
       fill_width={true}
@@ -74,22 +89,48 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
       corner_radius={setting(props, :corner_radius, 0)}
       padding={setting(props, :padding, 12)}
     >
-      <Row fill_width={true} align="top">
-        {icon_node(Map.get(props, :icon), props)}
-        <Spacer size={setting(props, :icon_gap, 10)} />
-        <Column weight={1.0}>
-          {line_node(line, props)}
-          <Spacer size={setting(props, :line_gap, 3)} />
-          {text(Map.get(props, :title), setting(props, :title_size, 13),
-            setting(props, :title_color, :on_surface), Map.get(props, :title_weight), 1)}
-          <Spacer size={setting(props, :line_gap, 3)} />
-          {text(Map.get(props, :body), setting(props, :body_size, 12),
-            setting(props, :body_color, :muted), nil, setting(props, :body_max_lines, 3))}
-        </Column>
-      </Row>
+      {body}
     </Column>
     """
     |> put_id(Map.get(props, :id))
+  end
+
+  defp inline(props, line) do
+    ~MOB"""
+    <Row fill_width={true} align="top">
+      {icon_node(Map.get(props, :icon), props)}
+      <Spacer size={setting(props, :icon_gap, 10)} />
+      <Column weight={1.0}>
+        {line_node(line, props)}
+        <Spacer size={setting(props, :line_gap, 3)} />
+        {text(Map.get(props, :title), setting(props, :title_size, 13),
+            setting(props, :title_color, :on_surface), Map.get(props, :title_weight), 1)}
+        <Spacer size={setting(props, :line_gap, 3)} />
+        {text(Map.get(props, :body), setting(props, :body_size, 12),
+            setting(props, :body_color, :muted), nil, setting(props, :body_max_lines, 3))}
+      </Column>
+    </Row>
+    """
+  end
+
+  # The settings-page shape: mark and app line together, then the title and
+  # body across the card's whole width.
+  defp stacked(props, line) do
+    ~MOB"""
+    <Column fill_width={true}>
+      <Row fill_width={true} align="center">
+        {icon_node(Map.get(props, :icon), props)}
+        <Spacer size={setting(props, :icon_gap, 9)} />
+        {line_node(line, props)}
+      </Row>
+      <Spacer size={setting(props, :line_gap, 9)} />
+      {text(Map.get(props, :title), setting(props, :title_size, 13),
+          setting(props, :title_color, :on_surface), Map.get(props, :title_weight), 1)}
+      <Spacer size={setting(props, :body_gap, 5)} />
+      {text(Map.get(props, :body), setting(props, :body_size, 12),
+          setting(props, :body_color, :muted), nil, setting(props, :body_max_lines, 3))}
+    </Column>
+    """
   end
 
   @doc """
@@ -114,7 +155,11 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
   defp icon_node(nil, _props), do: ~MOB"<Spacer size={0} />"
 
   defp icon_node(icon, props) when is_binary(icon) do
-    assigns = %{icon: icon, size: setting(props, :icon_size, 18), color: Map.get(props, :icon_color)}
+    assigns = %{
+      icon: icon,
+      size: setting(props, :icon_size, 18),
+      color: Map.get(props, :icon_color)
+    }
 
     ~MOB"""
     <Text text={@icon} text_size={@size} text_color={@color} />
@@ -134,13 +179,7 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
     }
 
     ~MOB"""
-    <Text
-      text={@line}
-      text_size={@size}
-      text_color={@color}
-      font_family={@family}
-      max_lines={1}
-    />
+    <Text text={@line} text_size={@size} text_color={@color} font_family={@family} max_lines={1} />
     """
   end
 
