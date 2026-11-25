@@ -38,9 +38,11 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
   | `app_size` | number | `10` | The app-and-time line's size. |
   | `app_color` | color token / ARGB int | `:muted` | Its ink. |
   | `app_font` | string | unset | Its face — a mono face suits it, and is the caller's call. |
+  | `app_letter_spacing` | number | unset | Tracking on the app line. |
   | `title_size` | number | `13` | The title's size. |
   | `title_color` | color token / ARGB int | `:on_surface` | Its ink. |
   | `body_size` | number | `12` | The body's size. |
+  | `body_line_height` | number | unset | The body's line-height multiplier. |
   | `body_color` | color token / ARGB int | `:muted` | Its ink. |
   | `line_gap` | number | `3` | Space between the three lines (`9` between the app row and the title under `:stacked`). |
   | `body_gap` | number | `5` | Under `:stacked` only: space between the title and the body. |
@@ -175,7 +177,8 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
       line: line,
       size: setting(props, :app_size, 10),
       color: setting(props, :app_color, :muted),
-      family: Map.get(props, :app_font)
+      family: Map.get(props, :app_font),
+      tracking: Map.get(props, :app_letter_spacing)
     }
 
     ~MOB"""
@@ -185,8 +188,15 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
 
   defp text(nil, _size, _color, _weight, _lines), do: ~MOB"<Spacer size={0} />"
 
-  defp text(value, size, color, weight, lines) do
-    assigns = %{value: value, size: size, color: color, weight: weight, lines: lines}
+  defp text(value, size, color, weight, lines, line_height \\ nil) do
+    assigns = %{
+      value: value,
+      size: size,
+      color: color,
+      weight: weight,
+      lines: lines,
+      height: line_height
+    }
 
     ~MOB"""
     <Text
@@ -194,6 +204,7 @@ defmodule MishkaMob.Components.MishkaNotificationPreview do
       text_size={@size}
       text_color={@color}
       font_weight={@weight}
+      line_height={@height}
       max_lines={@lines}
     />
     """

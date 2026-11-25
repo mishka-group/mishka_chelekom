@@ -63,8 +63,7 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.Progress, :mishka_progress,
      MishkaMob.Components.MishkaProgress},
     {MishkaMob.Showcase.Components.Meter, :mishka_meter, MishkaMob.Components.MishkaMeter},
-    {MishkaMob.Showcase.Components.StatBar, :mishka_stat_bar,
-     MishkaMob.Components.MishkaStatBar},
+    {MishkaMob.Showcase.Components.StatBar, :mishka_stat_bar, MishkaMob.Components.MishkaStatBar},
     {MishkaMob.Showcase.Components.NotificationPreview, :mishka_notification_preview,
      MishkaMob.Components.MishkaNotificationPreview},
     {MishkaMob.Showcase.Components.Collapsible, :mishka_collapsible,
@@ -286,8 +285,15 @@ defmodule MishkaMob.Showcase do
     components()
     |> Map.values()
     |> Enum.map(&with_module/1)
-    |> Enum.sort_by(&{&1.category, Map.get(&1, :order, 0), &1.name})
+    |> Enum.sort_by(&{new_last(&1), &1.category, Map.get(&1, :order, 0), &1.name})
   end
+
+  # A component declares `order: 900` or higher to sit at the END of the home
+  # grid whatever its category — the newest additions are the ones a reader is
+  # looking for, and sorting by category alone buries them midway down a page
+  # with no "new" marker.
+  defp new_last(%{order: order}) when is_integer(order) and order >= 900, do: 1
+  defp new_last(_entry), do: 0
 
   @doc "Entries grouped `[{category, [entry, ...]}, ...]`, categories alphabetical."
   @spec by_category() :: [{String.t(), [map()]}]

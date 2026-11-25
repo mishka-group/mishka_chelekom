@@ -17,7 +17,7 @@ defmodule MishkaMob.Showcase.Components.NotificationPreview do
       slug: :notification_preview,
       name: "Notification Preview",
       category: "Data display",
-      order: 1,
+      order: 901,
       description: "An app mark, an app-and-time line, a title and a body — the push as a card."
     }
   end
@@ -85,15 +85,35 @@ defmodule MishkaMob.Showcase.Components.NotificationPreview do
   @impl true
   def props do
     [
-      %{name: "app", type: "string", default: "nil", description: "The app name on the first line."},
+      %{
+        name: "app",
+        type: "string",
+        default: "nil",
+        description: "The app name on the first line."
+      },
       %{name: "time", type: "string", default: "nil", description: "The clock beside it."},
       %{name: "title", type: "string", default: "nil", description: "The notification's title."},
       %{name: "body", type: "string", default: "nil", description: "Its body, which may wrap."},
-      %{name: "icon", type: "string / node / nodes", default: "nil", description: "The app mark."},
-      %{name: "background", type: "color / ARGB", default: "unset", description: "The card's fill."},
+      %{
+        name: "icon",
+        type: "string / node / nodes",
+        default: "nil",
+        description: "The app mark."
+      },
+      %{
+        name: "background",
+        type: "color / ARGB",
+        default: "unset",
+        description: "The card's fill."
+      },
       %{name: "corner_radius", type: "number", default: "0", description: "The card's corners."},
       %{name: "padding", type: "number", default: "12", description: "Inside the card."},
-      %{name: "app_font", type: "string", default: "unset", description: "The first line's face."},
+      %{
+        name: "app_font",
+        type: "string",
+        default: "unset",
+        description: "The first line's face."
+      },
       %{name: "body_max_lines", type: "integer", default: "3", description: "Body line cap."},
       %{name: "id", type: "string", default: "nil", description: "TestTag on the card."}
     ]

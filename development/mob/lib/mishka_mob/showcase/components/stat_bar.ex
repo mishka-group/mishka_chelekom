@@ -18,7 +18,7 @@ defmodule MishkaMob.Showcase.Components.StatBar do
       slug: :stat_bar,
       name: "Stat Bar",
       category: "Data display",
-      order: 0,
+      order: 900,
       description: "A label, a reading, and a bar showing that reading against a scale."
     }
   end
@@ -61,7 +61,11 @@ defmodule MishkaMob.Showcase.Components.StatBar do
             <Spacer size={16} />
             <MishkaStatBar label="Storage" value={1.4} height={10} corner_radius={5} />
             <Spacer size={8} />
-            <Text text="1.4 clamps to a full bar; a missing value reads empty." text_size={:sm} text_color={:muted} />
+            <Text
+              text="1.4 clamps to a full bar; a missing value reads empty."
+              text_size={:sm}
+              text_color={:muted}
+            />
           </Column>
           """
         end
@@ -74,13 +78,28 @@ defmodule MishkaMob.Showcase.Components.StatBar do
     [
       %{name: "label", type: "string", default: "nil", description: "The name on the left."},
       %{name: "value", type: "number", default: "0", description: "Fraction 0.0..1.0, clamped."},
-      %{name: "value_text", type: "string", default: "nil", description: "The reading on the right."},
+      %{
+        name: "value_text",
+        type: "string",
+        default: "nil",
+        description: "The reading on the right."
+      },
       %{name: "color", type: "color / ARGB", default: ":primary", description: "The fill."},
-      %{name: "track_color", type: "color / ARGB", default: ":surface_raised", description: "The groove."},
+      %{
+        name: "track_color",
+        type: "color / ARGB",
+        default: ":surface_raised",
+        description: "The groove."
+      },
       %{name: "height", type: "number", default: "6", description: "Bar thickness."},
       %{name: "corner_radius", type: "number", default: "3", description: "Bar rounding."},
       %{name: "gap", type: "number", default: "8", description: "Space above the bar."},
-      %{name: "font_family", type: "string", default: "unset", description: "Applied to both texts."},
+      %{
+        name: "font_family",
+        type: "string",
+        default: "unset",
+        description: "Applied to both texts."
+      },
       %{name: "id", type: "string", default: "nil", description: "TestTag; the bar is id-bar."}
     ]
   end
