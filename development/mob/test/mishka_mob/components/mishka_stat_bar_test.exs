@@ -22,7 +22,12 @@ defmodule MishkaMob.Components.MishkaStatBarTest do
       assert node.type == :column
       assert node.props.id == "hours"
 
-      bar = Enum.find(Mob.ScreenCase.flatten(node), &(&1.type == :box and &1.props[:id] == "hours-bar"))
+      bar =
+        Enum.find(
+          Mob.ScreenCase.flatten(node),
+          &(&1.type == :box and &1.props[:id] == "hours-bar")
+        )
+
       assert bar, "the bar did not take the id"
       assert bar.props.height == 6
     end
