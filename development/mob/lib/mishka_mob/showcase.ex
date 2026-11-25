@@ -63,6 +63,7 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.Progress, :mishka_progress,
      MishkaMob.Components.MishkaProgress},
     {MishkaMob.Showcase.Components.Meter, :mishka_meter, MishkaMob.Components.MishkaMeter},
+    {MishkaMob.Showcase.Components.Heatmap, :mishka_heatmap, MishkaMob.Components.MishkaHeatmap},
     {MishkaMob.Showcase.Components.StatBar, :mishka_stat_bar, MishkaMob.Components.MishkaStatBar},
     {MishkaMob.Showcase.Components.NotificationPreview, :mishka_notification_preview,
      MishkaMob.Components.MishkaNotificationPreview},
