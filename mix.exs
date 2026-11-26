@@ -71,7 +71,7 @@ defmodule MishkaChelekom.MixProject do
 
   defp deps do
     [
-      {:igniter, "~> 0.6 and >= 0.8.4"},
+      {:igniter, "~> 0.6 and >= 0.8.6"},
       {:guarded_struct, "~> 0.1.10"},
       # Layer 3 declarative config DSL (already present transitively via guarded_struct).
       {:spark, "~> 2.7"},

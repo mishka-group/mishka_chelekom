@@ -49,7 +49,7 @@ defmodule Development.MixProject do
       # Phoenix.HTML.FormData protocol for Ecto.Changeset so `to_form(changeset)` works.
       {:ecto, "~> 3.12"},
       {:phoenix_ecto, "~> 4.6"},
-      {:lazy_html, ">= 0.1.0", only: :test},
+      {:lazy_html, ">= 0.1.16", only: :test},
       {:esbuild, "~> 0.10", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.5 and >= 0.5.2", runtime: Mix.env() == :dev},
       {:heroicons,
@@ -69,7 +69,7 @@ defmodule Development.MixProject do
       # editing templates/JS/CSS in ../../priv reflects live when regenerating here.
       # See README.md. (Path is ../../ since this app moved under development/web/.)
       {:mishka_chelekom, path: "../../", only: [:dev, :test]},
-      {:igniter, "~> 0.8 and >= 0.8.3", only: [:dev, :test]},
+      {:igniter, "~> 0.8 and >= 0.8.6", only: [:dev, :test]},
       # Quality gate — see `mix precommit` and CLAUDE.md. Latest versions.
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:sobelow, "~> 0.14", only: [:dev, :test], runtime: false},
