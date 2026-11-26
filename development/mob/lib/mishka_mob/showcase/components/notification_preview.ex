@@ -48,6 +48,9 @@ defmodule MishkaMob.Showcase.Components.NotificationPreview do
               background={0xFFFBF1DE}
               corner_radius={18}
               app_font={:mono}
+              app_color={0xFF8A8177}
+              title_color={0xFF1A1917}
+              body_color={0xFF5C574F}
             />
           </Column>
           """
@@ -80,6 +83,25 @@ defmodule MishkaMob.Showcase.Components.NotificationPreview do
         end
       }
     ]
+  end
+
+  @impl true
+  def card_preview do
+    ~MOB"""
+    <Column fill_width={true} padding_top={4} padding_bottom={4}>
+      <Row fill_width={true} align="center">
+        <Box width={14} height={14} background={:primary} corner_radius={:radius_sm} />
+        <Spacer size={6} />
+        <Box width={46} height={6} background={:muted} corner_radius={:radius_sm} />
+      </Row>
+      <Spacer size={8} />
+      <Box width={128} height={8} background={:muted} corner_radius={:radius_sm} />
+      <Spacer size={6} />
+      <Box fill_width={true} height={6} background={:surface_raised} corner_radius={:radius_sm} />
+      <Spacer size={4} />
+      <Box width={92} height={6} background={:surface_raised} corner_radius={:radius_sm} />
+    </Column>
+    """
   end
 
   @impl true

@@ -146,6 +146,29 @@ defmodule MishkaMob.Showcase.Components.Heatmap do
   end
 
   @impl true
+  def card_preview do
+    week = [0xFF4E9A73, 0xFF4E9A73, 0xFFE7E3DC, 0xFF4E9A73, 0xFFB08E55, 0xFFE7E3DC, 0xFF4E9A73]
+
+    ~MOB"""
+    <Column fill_width={true} padding_top={4} padding_bottom={4}>
+      <Row fill_width={true} align="center">
+        <MishkaHeatmap cells={week} columns={7} cell_size={11} gap={5} corner_radius={4} />
+      </Row>
+      <Spacer size={9} />
+      <Row fill_width={true} align="center">
+        <MishkaHeatmap
+          cells={List.duplicate(0xFFEFE3CB, 21)}
+          columns={7}
+          cell_size={7}
+          gap={4}
+          corner_radius={2}
+        />
+      </Row>
+    </Column>
+    """
+  end
+
+  @impl true
   def props do
     [
       %{
