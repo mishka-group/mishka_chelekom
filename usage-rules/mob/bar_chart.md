@@ -49,6 +49,14 @@ channel by channel. Fading needs ARGB integers; a colour token cannot be mixed i
 `:fade` it is used as given at the stop below it. A row's own `color`, and `selected_color`, win
 over the scale.
 
+## One bar, several colours
+
+A bar can be banded: `colors: [blue, orange, red, black]` divides the filled part evenly, and
+`segments: [{0.5, blue}, {0.3, orange}, {0.2, black}]` sets the shares. Per row or once on the
+chart; a row may stay a flat `color` beside them. Bands are drawn, not blended — a fade is this
+with enough stops — and they stack from the start of the bar (left for a bar, up for a column).
+The bar's `corner_radius` clips them, so a pill bar of four bands is still a pill.
+
 ## What it does not do
 
 No axes, gridlines, legend, tooltip or animation. A legend is a wrap and an axis is measured

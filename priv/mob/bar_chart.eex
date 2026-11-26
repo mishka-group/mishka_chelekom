@@ -15,8 +15,9 @@ defmodule <%= @module %> do
   `rows` is a list, and each entry is either
 
     * a map — `%{label: "Action", value: 6, value_text: "6h", color: 0xFF4E9A73,
-      value_font: "mono", id: "action", on_tap: :open_action, on_long_press:
-      {pid, :peek}}` — with only `value` required, or
+      colors: [0xFF5B7CA8, 0xFFB3564E, 0xFF1A1917], value_font: "mono",
+      id: "action", on_tap: :open_action, on_long_press: {pid, :peek}}` — with
+      only `value` required, or
     * a tuple — `{"Action", 6}` or `{"Action", 6, 0xFF4E9A73}`, shorthand for
       the map above.
 
@@ -86,6 +87,19 @@ defmodule <%= @module %> do
   `selected_color` — a caller highlighting one bar should not lose that to a
   band.
 
+  ## One bar, several colours
+
+  A bar can be banded — the same bar running blue, then orange, then red, then
+  black. `colors: [blue, orange, red, black]` divides the filled part evenly,
+  and `segments: [{0.5, blue}, {0.3, orange}, {0.2, black}]` sets the shares.
+  Either can be stated per row or once on the chart, and a row may stay a flat
+  `color` beside them, because each row's fill is its own.
+
+  The bands are drawn as bands, not blended: a fade is this with enough stops
+  to read as one. They stack from the start of the bar — leftwards in a
+  horizontal bar, upwards in a column — and the bar's `corner_radius` clips
+  them, so a pill bar of four bands is still a pill.
+
   ## What it does not do
 
   No axes, no gridlines, no legend, no tooltip and no animation. Each of those
@@ -104,6 +118,8 @@ defmodule <%= @module %> do
   | `gap` | number | `10` | Space between rows, or between columns. |
   | `corner_radius` | number | `3` | Rounding on the bar and its track. |
   | `color` | color token / ARGB int | `:primary` | The default fill; a row's own wins. |
+  | `colors` | list of colors | `nil` | Divides each bar's filled part evenly; a row's own wins. |
+  | `segments` | list of `{share, color}` | `nil` | The same, with the shares stated. |
   | `color_scale` | list of `{at, color}` | `nil` | Colours by fraction when a row names none. |
   | `scale_mode` | `:steps` `:fade` | `:steps` | Bands, or a blend between two stops. |
   | `track_color` | color token / ARGB int | `:transparent` | The groove behind each bar. |
@@ -277,6 +293,8 @@ defmodule <%= @module %> do
       value_text: Map.get(row, :value_text),
       value_font: Map.get(row, :value_font),
       color: Map.get(row, :color),
+      colors: Map.get(row, :colors),
+      segments: Map.get(row, :segments),
       on_tap: Map.get(row, :on_tap),
       on_long_press: Map.get(row, :on_long_press)
     }
@@ -387,6 +405,7 @@ defmodule <%= @module %> do
       height: setting(props, :bar_size, 6),
       corner_radius: setting(props, :corner_radius, 3),
       color: fill(row, props, max),
+      segments: row_segments(row, props),
       track_color: setting(props, :track_color, :transparent)
     })
   end
@@ -524,11 +543,11 @@ defmodule <%= @module %> do
 
     empty = gap_node(assigns.empty)
 
+    bands = row_segments(row, props)
+
     fill =
       if filled > 0 do
-        ~MOB"""
-        <Box fill_width={true} height={@fill} background={@color} corner_radius={@radius} />
-        """
+        column_fill(filled, assigns.color, bands, assigns.radius)
       else
         []
       end
@@ -590,6 +609,69 @@ defmodule <%= @module %> do
     else
       setting(props, :value_color, :muted)
     end
+  end
+
+  # A row's bands, if it has any: `segments` as given, or `colors` divided
+  # evenly. Chart-level `segments` covers the rows that name neither.
+  defp row_segments(row, props) do
+    cond do
+      is_list(row.segments) ->
+        row.segments
+
+      is_list(row.colors) and row.colors != [] ->
+        Enum.map(row.colors, &{1, &1})
+
+      is_list(Map.get(props, :segments)) ->
+        Map.get(props, :segments)
+
+      is_list(Map.get(props, :colors)) and Map.get(props, :colors) != [] ->
+        Enum.map(Map.get(props, :colors), &{1, &1})
+
+      true ->
+        nil
+    end
+  end
+
+  # A column's bands stack from the baseline up, so the first colour is at the
+  # bottom. Each height is arithmetic on the declared plot height, which is what
+  # keeps it identical on both platforms.
+  defp column_fill(filled, color, nil, radius) do
+    assigns = %{filled: filled, color: color, radius: radius}
+
+    ~MOB"""
+    <Box fill_width={true} height={@filled} background={@color} corner_radius={@radius} />
+    """
+  end
+
+  defp column_fill(filled, _color, bands, radius) do
+    bands = normalise_bands(bands)
+    heights = Enum.map(bands, fn {share, band} -> {round(filled * share), band} end)
+
+    cells =
+      Enum.map(heights, fn {height, band} ->
+        assigns = %{height: height, color: band}
+
+        ~MOB(<Box fill_width={true} height={@height} background={@color} />)
+      end)
+
+    assigns = %{cells: cells, filled: filled, radius: radius}
+
+    ~MOB"""
+    <Column fill_width={true} height={@filled} corner_radius={@radius}>
+      {@cells}
+    </Column>
+    """
+  end
+
+  defp normalise_bands(bands) do
+    pairs =
+      Enum.map(bands, fn
+        {share, color} when is_number(share) -> {share, color}
+        color -> {1, color}
+      end)
+
+    total = pairs |> Enum.map(&elem(&1, 0)) |> Enum.sum()
+    if total <= 0, do: [], else: Enum.map(pairs, fn {share, color} -> {share / total, color} end)
   end
 
   defp fill(row, props, max) do

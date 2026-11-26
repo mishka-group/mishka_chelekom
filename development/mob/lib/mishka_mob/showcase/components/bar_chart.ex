@@ -47,6 +47,15 @@ defmodule MishkaMob.Showcase.Components.BarChart do
     ]
   end
 
+  @doc "Three rows: two banded bars and one flat colour, side by side."
+  def bands do
+    [
+      %{label: "Dusk", value: 1.0, colors: [0xFF5B7CA8, 0xFFB3564E, 0xFF1A1917]},
+      %{label: "Ember", value: 0.8, segments: [{0.6, 0xFFB3564E}, {0.4, 0xFF1A1917}]},
+      %{label: "Slate", value: 0.55, color: 0xFF8A8177}
+    ]
+  end
+
   @doc "Five fractions and nothing else, so the colour scale decides."
   def plain do
     [
@@ -205,6 +214,42 @@ defmodule MishkaMob.Showcase.Components.BarChart do
               bar_size={8}
               track_color={:surface_raised}
               gap={10}
+            />
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "One bar, several colours",
+        description:
+          "Each bar carries its own bands: the first runs blue into orange into " <>
+            "black, the second is two bands, and the third stays a flat colour — " <>
+            "beside them in the same chart.",
+        code: ~S"""
+        <MishkaBarChart
+          rows={[
+            %{label: "Dusk", value: 1.0, colors: [0xFF5B7CA8, 0xFFB3564E, 0xFF1A1917]},
+            %{label: "Ember", value: 0.8, segments: [{0.6, 0xFFB3564E}, {0.4, 0xFF1A1917}]},
+            %{label: "Slate", value: 0.55, color: 0xFF8A8177}
+          ]}
+          label_width={96}
+          bar_size={14}
+          corner_radius={7}
+          track_color={:surface_raised}
+          gap={12}
+        />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaBarChart
+              id="bc-bands"
+              rows={MishkaMob.Showcase.Components.BarChart.bands()}
+              label_width={96}
+              bar_size={14}
+              corner_radius={7}
+              track_color={:surface_raised}
+              gap={12}
             />
           </Column>
           """
