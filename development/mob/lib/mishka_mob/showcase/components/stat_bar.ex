@@ -49,8 +49,7 @@ defmodule MishkaMob.Showcase.Components.StatBar do
       },
       %Example{
         title: "A ranked row",
-        description:
-          "A leading rank, a name that flexes, and a count pinned to the right edge.",
+        description: "A leading rank, a name that flexes, and a count pinned to the right edge.",
         code: ~S"""
         <MishkaStatBar
           leading="1" leading_gap={10}
@@ -161,7 +160,12 @@ defmodule MishkaMob.Showcase.Components.StatBar do
         default: "10",
         description: "Space between the leading mark and the label."
       },
-      %{name: "leading_size", type: "number", default: "12", description: "A string leading's size."},
+      %{
+        name: "leading_size",
+        type: "number",
+        default: "12",
+        description: "A string leading's size."
+      },
       %{
         name: "leading_color",
         type: "color / ARGB",
@@ -188,7 +192,12 @@ defmodule MishkaMob.Showcase.Components.StatBar do
         default: ":surface_raised",
         description: "The groove."
       },
-      %{name: "label_font_weight", type: "string", default: "unset", description: "The label's weight."},
+      %{
+        name: "label_font_weight",
+        type: "string",
+        default: "unset",
+        description: "The label's weight."
+      },
       %{
         name: "label_flex",
         type: "number",

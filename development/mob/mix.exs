@@ -50,7 +50,7 @@ defmodule MishkaMob.MixProject do
       {:mob_themes, "~> 0.1"},
       # Required by `mix mob.icon` (libvips NIF) to resize the Mishka mark into
       # every launcher / AppIcon size. Dev-only — it never ships on device.
-      {:image, "~> 0.72", only: :dev, runtime: false},
+      {:image, "~> 0.74", only: :dev, runtime: false},
       # Code quality — Credo + ex_slop (catches AI-generated patterns
       # like blanket rescue, narrator docs, redundant Enum chains, etc).
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
@@ -60,7 +60,7 @@ defmodule MishkaMob.MixProject do
       {:mix_audit, "~> 2.1", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
       {:mishka_chelekom, path: "../..", only: [:dev], runtime: false},
-      {:igniter, "~> 0.8.5", only: [:dev], runtime: false}
+      {:igniter, "~> 0.8.6", only: [:dev], runtime: false}
     ]
   end
 
