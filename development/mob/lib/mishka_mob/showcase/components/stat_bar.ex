@@ -30,19 +30,19 @@ defmodule MishkaMob.Showcase.Components.StatBar do
         title: "Where the hours went",
         description: "One row per name; the reading is the caller's own unit.",
         code: ~S"""
-        <MishkaStatBar label="Action" value={0.6} value_text="6h" />
-        <MishkaStatBar label="Adventure" value={0.5} value_text="5h" color={0xFF4E9A73} />
+        <MishkaStatBar label="Action" value={0.52} value_text="52%" color={0xFF4E9A73} />
+        <MishkaStatBar label="Adventure" value={0.3} value_text="30%" color={0xFFB08E55} />
         """,
         render: fn _assigns ->
           ~MOB"""
           <Column fill_width={true}>
-            <MishkaStatBar label="Action" value={0.6} value_text="6h" />
+            <MishkaStatBar label="Action" value={0.52} value_text="52%" color={0xFF4E9A73} />
             <Spacer size={14} />
-            <MishkaStatBar label="Adventure" value={0.5} value_text="5h" color={0xFF4E9A73} />
+            <MishkaStatBar label="Adventure" value={0.3} value_text="30%" color={0xFFB08E55} />
             <Spacer size={14} />
-            <MishkaStatBar label="Science fiction" value={0.3} value_text="3h" color={0xFFB08E55} />
+            <MishkaStatBar label="Science fiction" value={1.0} value_text="100%" color={0xFF4E9A73} />
             <Spacer size={14} />
-            <MishkaStatBar label="Everything else" value={0.6} value_text="6h" />
+            <MishkaStatBar label="Everything else" value={0.52} value_text="52%" />
           </Column>
           """
         end
@@ -71,6 +71,32 @@ defmodule MishkaMob.Showcase.Components.StatBar do
         end
       }
     ]
+  end
+
+  @impl true
+  def card_preview do
+    ~MOB"""
+    <Column fill_width={true} padding_top={6} padding_bottom={6}>
+      <Row fill_width={true} align="center">
+        <Box width={40} height={8} background={:muted} corner_radius={:radius_sm} />
+        <Spacer weight={1} />
+        <Box width={22} height={8} background={:surface_raised} corner_radius={:radius_sm} />
+      </Row>
+      <Spacer size={9} />
+      <Box fill_width={true} height={9} background={:surface_raised} corner_radius={:radius_pill}>
+        <Box width={112} height={9} background={:primary} corner_radius={:radius_pill} />
+      </Box>
+      <Spacer size={9} />
+      <Row fill_width={true} align="center">
+        <Box width={52} height={8} background={:muted} corner_radius={:radius_sm} />
+        <Spacer weight={1} />
+      </Row>
+      <Spacer size={7} />
+      <Box fill_width={true} height={7} background={:surface_raised} corner_radius={:radius_pill}>
+        <Box width={64} height={7} background={:primary} corner_radius={:radius_pill} />
+      </Box>
+    </Column>
+    """
   end
 
   @impl true

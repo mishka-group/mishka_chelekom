@@ -69,6 +69,7 @@ defmodule MishkaMob.Components.MishkaStatBar do
     bar =
       MishkaProgress.progress(%{
         value: fraction(Map.get(props, :value)),
+        max: 1,
         render: :box,
         height: setting(props, :height, 6),
         corner_radius: setting(props, :corner_radius, 3),
