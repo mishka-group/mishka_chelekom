@@ -1,0 +1,673 @@
+defmodule <%= @module %> do
+  @moduledoc """
+  Native Mob port of Mishka Chelekom's **headless Bar Chart** — rows of data
+  drawn as bars against one shared scale, horizontally or as columns.
+
+  A chart is a collection, and every app writes it by hand: the gutter is
+  measured differently in each screen, one of the four forgets that the loudest
+  bar is the scale, and the reading beside one bar drifts a few points from the
+  reading beside the next. This draws the collection once — the scale in one
+  place, the rhythm in one place, the tap in one place — and leaves every colour,
+  size and word to the caller.
+
+  ## The rows are data
+
+  `rows` is a list, and each entry is either
+
+    * a map — `%{label: "Action", value: 6, value_text: "6h", color: 0xFF4E9A73,
+      value_font: "mono", id: "action", on_tap: :open_action, on_long_press:
+      {pid, :peek}}` — with only `value` required, or
+    * a tuple — `{"Action", 6}` or `{"Action", 6, 0xFF4E9A73}`, shorthand for
+      the map above.
+
+  The component never formats a number. `value` is the number the scale is
+  computed from and `value_text` is the string a person reads — `6h`, `72%`,
+  `3 of 5`. With `show_values` and no `value_text` the raw number is drawn,
+  which is the one formatting this file does and it adds nothing to it.
+
+  ## The scale is one scale
+
+  Bars run from zero to `max`. Left unset, `max` is the loudest row, which is
+  what a "where did it go" chart wants: four similar records stay four
+  distinguishable bars instead of flattening against a round axis. A fixed
+  `max` is what a progress-like chart wants, where 100 is the point of the
+  chart and a full bar has to mean full.
+
+  A row above `max` clamps to a full bar rather than overshooting its track, and
+  a chart whose rows are all zero draws empty bars — no division by a zero
+  range, and no `weight: 0.0`, which Compose refuses with a throw.
+
+  ## Two orientations, one component
+
+  `:horizontal` is the ranking — a label gutter, the bar, the reading. The
+  gutter is **declared**, not measured: Mob reports no geometry back into
+  `render/1`, so `label_width` is what keeps a column of bars starting at the
+  same x. `nil` lets the label hug its own text, which is right for a single
+  row and wrong for a chart, so pass a number when they must line up. The same
+  holds for `value_width` at the other end.
+
+  `:vertical` is the series — a row of columns on one baseline, values above,
+  labels below. Each column's height comes from `height` and the row's fraction,
+  so it is arithmetic rather than measurement and is the same on both platforms.
+  There is no animation: a drawn bar changes between renders, it does not tween.
+
+  ## Taps
+
+  A row can be tapped and long-pressed. The handler goes through
+  `<%= @namespace %>.Event.handler/2`, so the message carries the row:
+  `{:tap, {tag, key}}` and `{:long_press, {tag, key}}`, where `key` is the row's
+  `id` — its index when it has none. A row's own `on_tap` / `on_long_press`
+  wins over the chart's, for a chart where one bar means something else.
+
+  ## Selection is the caller's state
+
+  `selected` names a row by that same key. The selected row is drawn in
+  `selected_color` when one is given, and its reading is drawn even when
+  `show_values` is false — so "tap a bar and see what it is" needs no extra
+  design. The component holds no state: the screen sets `selected` on the event
+  it asked for, and the chart redraws.
+
+  ## A banded scale, or a ramp
+
+  `color_scale` colours a bar by **where it falls** instead of by a colour the
+  row carries: `color_scale: [{0.0, 0xFFB3564E}, {0.3, 0xFF5B7CA8}, {1.0,
+  0xFF8A8177}]` reads "under 30% is red, under 100% is blue, a full bar is
+  grey". `scale_mode` decides what happens *between* two stops:
+
+    * `:steps` (the default) is strict — a bar takes the colour of the last stop
+      at or below it, and a bar under the first stop takes the first stop's
+      colour, because a banded scale has no colour for "less than red";
+    * `:fade` blends the two surrounding colours linearly, channel by channel,
+      so the scale is a continuous ramp.
+
+  Fading needs **ARGB integers**. A colour token is resolved by the renderer and
+  cannot be mixed in Elixir, so a token under `:fade` is used as given at the
+  stop below it. A row's own `color` always wins over the scale, and so does
+  `selected_color` — a caller highlighting one bar should not lose that to a
+  band.
+
+  ## What it does not do
+
+  No axes, no gridlines, no legend, no tooltip and no animation. Each of those
+  is a layout of its own — a legend is a wrap, an axis is measured text — and a
+  bar chart that needs them is a page rather than a component. `limit` with
+  `more_text` covers the one thing every real list needs: a cap with a count.
+
+  ## Props
+
+  | Prop | Values | Default | Meaning |
+  |------|--------|---------|---------|
+  | `rows` | list of maps / tuples | `[]` | One entry per bar, in reading order. |
+  | `orientation` | `:horizontal` `:vertical` | `:horizontal` | Ranking rows, or columns on a baseline. |
+  | `max` | number / `nil` | loudest row | The value a full bar means. |
+  | `bar_size` | number / `nil` | `6` horizontal; fills the slot vertically | Bar thickness, or column width. |
+  | `gap` | number | `10` | Space between rows, or between columns. |
+  | `corner_radius` | number | `3` | Rounding on the bar and its track. |
+  | `color` | color token / ARGB int | `:primary` | The default fill; a row's own wins. |
+  | `color_scale` | list of `{at, color}` | `nil` | Colours by fraction when a row names none. |
+  | `scale_mode` | `:steps` `:fade` | `:steps` | Bands, or a blend between two stops. |
+  | `track_color` | color token / ARGB int | `:transparent` | The groove behind each bar. |
+  | `selected` | term / `nil` | `nil` | The key of the selected row. |
+  | `selected_color` | color token / ARGB int | `nil` | The selected row's fill, when given. |
+  | `selected_value_color` | color token / ARGB int | `value_color` | The selected row's reading ink. |
+  | `show_values` | boolean | `false` | Draw each row's reading. |
+  | `value_width` | number / `nil` | `nil` | A declared width for the reading, so the tracks end at one x. |
+  | `value_size` | number | `12` | The reading's size (11 as a column's). |
+  | `value_color` | color token / ARGB int | `:muted` | The reading's ink. |
+  | `value_weight` | weight | unset | The reading's weight. |
+  | `value_font` | string | unset | The reading's face. |
+  | `value_gap` | number | `8` horizontal, `3` vertical | Between a bar and its reading, or a column's reading and its top. |
+  | `label_width` | number / `nil` | `84` | The gutter, horizontal only; `nil` hugs. |
+  | `label_size` | number | `12.5` | The label's size (11 as a column's). |
+  | `label_color` | color token / ARGB int | `:on_surface` | The label's ink. |
+  | `label_weight` | weight | unset | The label's weight. |
+  | `label_font` | string | unset | The label's face. |
+  | `label_gap` | number | `12` | Between the gutter and the bar. |
+  | `height` | number | `120` | The plot height, vertical only. |
+  | `on_tap` | tag / `{pid, tag}` | `nil` | Tapping any bar, with the row's key. |
+  | `on_long_press` | tag / `{pid, tag}` | `nil` | Pressing any bar, with the row's key. |
+  | `limit` | integer / `nil` | `nil` | Draw only the first N rows. |
+  | `more_text` | string | `nil` | Drawn under the plot when rows were cut. |
+  | `more_size` | number | `11` | The tail's size. |
+  | `more_color` | color token / ARGB int | `:muted` | The tail's ink. |
+  | `id` | string | unset | TestTag on the chart; rows are `<id>-<key>` unless they carry their own. |
+
+  Children are ignored; the chart is data.
+
+  **Documentation:** https://mishka.tools/chelekom/docs/mob/bar-chart
+  """
+
+  import Mob.Sigil
+
+  alias <%= @namespace %>.Event
+  alias <%= @namespace %>.<%= @module_prefix_camel %>Progress
+
+  @doc "Composite expander (`<<%= @module_prefix_camel %>BarChart />`). Delegates to `bar_chart/1`."
+  @spec expand(map(), [map()], map()) :: map()
+  def expand(props, _children, _ctx), do: <%= @component_prefix %>bar_chart(props)
+
+  @doc """
+  The chart.
+
+      <%= @component_prefix %>bar_chart(rows: [%{label: "Action", value: 6, value_text: "6h"}])
+      <%= @component_prefix %>bar_chart(rows: [{"Action", 6}, {"Adventure", 5}], orientation: :vertical)
+  """
+  @spec <%= @component_prefix %>bar_chart(map() | keyword()) :: map()
+  def <%= @component_prefix %>bar_chart(props \\ %{}) do
+    props = Map.new(props)
+    rows = rows(props)
+    {shown, hidden} = capped(rows, Map.get(props, :limit))
+    max = scale_max(props, rows)
+
+    plot =
+      case setting(props, :orientation, :horizontal) do
+        :vertical -> columns(shown, props, max)
+        _horizontal -> bars(shown, props, max)
+      end
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {plot}
+      {tail(hidden, props)}
+    </Column>
+    """
+    |> put_id(Map.get(props, :id))
+  end
+
+  @doc """
+  The fraction a row's value occupies on the scale, clamped to `0.0..1.0`.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>BarChart.fraction(5, 10)
+      0.5
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>BarChart.fraction(14, 10)
+      1.0
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>BarChart.fraction(5, 0)
+      0.0
+  """
+  @spec fraction(number() | nil, number() | nil) :: float()
+  def fraction(_value, max) when not is_number(max) or max <= 0, do: 0.0
+
+  def fraction(value, max) when is_number(value) do
+    (value / max) |> max(0.0) |> min(1.0) |> Kernel.*(1.0)
+  end
+
+  def fraction(_value, _max), do: 0.0
+
+  @doc """
+  The colour a fraction takes on a stop scale.
+
+  `stops` is a list of `{at, color}` with `at` in `0.0..1.0`. Under `:steps` a
+  fraction takes the colour of the last stop at or below it (a fraction under
+  the first stop takes the first stop's colour), which is a banded scale. Under
+  `:fade` the two surrounding colours are blended linearly, channel by channel,
+  which is a continuous ramp.
+
+  Fading needs **ARGB integers**: a colour token is resolved by the renderer and
+  cannot be mixed here, so a token under `:fade` is used as given at the stop
+  below it.
+
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>BarChart.scale_color([{0.0, 0xFFFF0000}, {0.3, 0xFF0000FF}], 0.2)
+      0xFFFF0000
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>BarChart.scale_color([{0.0, 0xFFFF0000}, {0.3, 0xFF0000FF}], 0.5)
+      0xFF0000FF
+      iex> <%= @namespace %>.<%= @module_prefix_camel %>BarChart.scale_color([{0.0, 0xFF000000}, {1.0, 0xFFFFFFFF}], 0.5, :fade)
+      0xFF808080
+  """
+  @spec scale_color([{number(), term()}], number(), :steps | :fade) :: term()
+  def scale_color([_single] = stops, _fraction, _mode), do: elem(hd(stops), 1)
+
+  def scale_color(stops, fraction, mode) do
+    stops = Enum.sort_by(stops, &elem(&1, 0))
+
+    case mode do
+      :fade -> fade_at(stops, fraction)
+      _steps -> step_at(stops, fraction)
+    end
+  end
+
+  defp step_at([{_at, color}], _fraction), do: color
+
+  defp step_at([{_at, color}, {next_at, next_color} | rest], fraction) do
+    if fraction >= next_at, do: step_at([{next_at, next_color} | rest], fraction), else: color
+  end
+
+  # Below the first stop is the first stop's colour: a banded scale has no
+  # colour for "less than red" and inventing one here would surprise the caller.
+  defp step_at([{_at, color} | _rest], _fraction), do: color
+
+  defp fade_at([{_at, color}], _fraction), do: color
+
+  defp fade_at([{at, color}, {next_at, next_color} | rest], fraction) do
+    cond do
+      fraction <= at -> color
+      fraction < next_at -> blend(color, next_color, (fraction - at) / (next_at - at))
+      true -> fade_at([{next_at, next_color} | rest], fraction)
+    end
+  end
+
+  defp blend(from, to, t) when is_integer(from) and is_integer(to) do
+    import Bitwise
+
+    mix = fn a, b -> round(a + (b - a) * t) end
+
+    a = mix.(from >>> 24 &&& 0xFF, to >>> 24 &&& 0xFF)
+    r = mix.(from >>> 16 &&& 0xFF, to >>> 16 &&& 0xFF)
+    g = mix.(from >>> 8 &&& 0xFF, to >>> 8 &&& 0xFF)
+    b = mix.(from &&& 0xFF, to &&& 0xFF)
+
+    a <<< 24 ||| r <<< 16 ||| g <<< 8 ||| b
+  end
+
+  defp blend(from, _to, _t), do: from
+
+  # ── Rows ────────────────────────────────────────────────────────────────────
+
+  defp rows(props) do
+    props
+    |> Map.get(:rows, [])
+    |> Enum.with_index()
+    |> Enum.map(fn {row, index} -> row(row, index) end)
+  end
+
+  defp row(%{} = row, index) do
+    %{
+      key: Map.get(row, :id) || index,
+      label: Map.get(row, :label),
+      value: Map.get(row, :value) || 0,
+      value_text: Map.get(row, :value_text),
+      value_font: Map.get(row, :value_font),
+      color: Map.get(row, :color),
+      on_tap: Map.get(row, :on_tap),
+      on_long_press: Map.get(row, :on_long_press)
+    }
+  end
+
+  defp row({label, value}, index) when is_binary(label) do
+    row(%{label: label, value: value}, index)
+  end
+
+  defp row({label, value, color}, index) when is_binary(label) do
+    row(%{label: label, value: value, color: color}, index)
+  end
+
+  defp row(_none, index), do: row(%{}, index)
+
+  defp capped(rows, limit) when is_integer(limit) and limit >= 0 do
+    {Enum.take(rows, limit), max(length(rows) - limit, 0)}
+  end
+
+  defp capped(rows, _limit), do: {rows, 0}
+
+  defp scale_max(props, rows) do
+    case Map.get(props, :max) do
+      number when is_number(number) and number > 0 -> number
+      _none -> rows |> Enum.map(& &1.value) |> Enum.max(fn -> 0 end) |> max(0)
+    end
+  end
+
+  # ── Horizontal ──────────────────────────────────────────────────────────────
+
+  defp bars(rows, props, max) do
+    gap = spacer(setting(props, :gap, 10))
+
+    nodes =
+      rows
+      |> Enum.with_index()
+      |> Enum.map(fn {row, _index} -> bar(row, props, max) end)
+      |> Enum.intersperse(gap)
+
+    assigns = %{nodes: nodes}
+
+    ~MOB"""
+    <Column fill_width={true}>
+      {@nodes}
+    </Column>
+    """
+  end
+
+  defp bar(row, props, max) do
+    assigns = %{
+      label: label_node(row, props),
+      gap: gap_node(setting(props, :label_gap, 12)),
+      bar: progress(row, props, max),
+      value: value_node(row, props),
+      tap: handler(Map.get(row, :on_tap) || Map.get(props, :on_tap), row.key),
+      hold: handler(Map.get(row, :on_long_press) || Map.get(props, :on_long_press), row.key),
+      tag: row_tag(props, row)
+    }
+
+    ~MOB"""
+    <Row fill_width={true} align="center" on_tap={@tap} on_long_press={@hold} id={@tag}>
+      {@label}
+      {@gap}
+      <Box weight={1.0}>
+        {@bar}
+      </Box>
+      {@value}
+    </Row>
+    """
+    |> drop_unset(:id, assigns.tag)
+    |> drop_unset(:on_tap, assigns.tap)
+    |> drop_unset(:on_long_press, assigns.hold)
+  end
+
+  defp label_node(%{label: nil}, _props), do: []
+
+  defp label_node(%{label: label}, props) do
+    assigns = %{
+      label: label,
+      size: setting(props, :label_size, 12.5),
+      color: setting(props, :label_color, :on_surface),
+      weight: Map.get(props, :label_weight),
+      font: Map.get(props, :label_font),
+      width: Map.get(props, :label_width)
+    }
+
+    text =
+      ~MOB"""
+      <Text
+        text={@label}
+        text_size={@size}
+        text_color={@color}
+        font_weight={@weight}
+        font_family={@font}
+        max_lines={1}
+      />
+      """
+      |> drop_unset(:font_family, assigns.font)
+
+    width_box(text, assigns.width)
+  end
+
+  defp progress(row, props, max) do
+    <%= @module_prefix_camel %>Progress.<%= @component_prefix %>progress(%{
+      value: fraction(row.value, max),
+      max: 1,
+      render: :box,
+      height: setting(props, :bar_size, 6),
+      corner_radius: setting(props, :corner_radius, 3),
+      color: fill(row, props, max),
+      track_color: setting(props, :track_color, :transparent)
+    })
+  end
+
+  # The reading sits after the track, at the row's end, and a declared
+  # `value_width` is what keeps every track ending at the same x.
+  defp value_node(row, props) do
+    if shown_value?(row, props) do
+      assigns = %{
+        text: reading(row),
+        size: setting(props, :value_size, 12),
+        color: value_ink(row, props),
+        weight: Map.get(props, :value_weight),
+        font: row.value_font || Map.get(props, :value_font),
+        width: Map.get(props, :value_width)
+      }
+
+      text =
+        ~MOB"""
+        <Text
+          text={@text}
+          text_size={@size}
+          text_color={@color}
+          font_weight={@weight}
+          font_family={@font}
+          text_align="right"
+          max_lines={1}
+        />
+        """
+        |> drop_unset(:font_family, assigns.font)
+
+      [gap_node(setting(props, :value_gap, 8)), width_box(text, assigns.width)]
+    else
+      []
+    end
+  end
+
+  defp width_box(text, nil), do: text
+
+  defp width_box(text, width) do
+    assigns = %{width: width, text: text}
+
+    ~MOB"""
+    <Column width={@width}>
+      {@text}
+    </Column>
+    """
+  end
+
+  # ── Vertical ────────────────────────────────────────────────────────────────
+
+  defp columns(rows, props, max) do
+    gap = spacer(setting(props, :gap, 10))
+
+    nodes =
+      rows
+      |> Enum.with_index()
+      |> Enum.map(fn {row, _index} -> column(row, props, max) end)
+      |> Enum.intersperse(gap)
+
+    assigns = %{nodes: nodes}
+
+    ~MOB"""
+    <Row fill_width={true} align="bottom">
+      {@nodes}
+    </Row>
+    """
+  end
+
+  defp column(row, props, max) do
+    assigns = %{
+      value: column_value(row, props),
+      plot: column_plot(row, props, max),
+      label: column_label(row, props),
+      tap: handler(Map.get(row, :on_tap) || Map.get(props, :on_tap), row.key),
+      hold: handler(Map.get(row, :on_long_press) || Map.get(props, :on_long_press), row.key),
+      tag: row_tag(props, row)
+    }
+
+    ~MOB"""
+    <Column weight={1.0} align="center" on_tap={@tap} on_long_press={@hold} id={@tag}>
+      {@value}
+      {@plot}
+      {@label}
+    </Column>
+    """
+    |> drop_unset(:id, assigns.tag)
+    |> drop_unset(:on_tap, assigns.tap)
+    |> drop_unset(:on_long_press, assigns.hold)
+  end
+
+  defp column_value(row, props) do
+    if shown_value?(row, props) do
+      assigns = %{
+        text: reading(row),
+        size: setting(props, :value_size, 11),
+        color: value_ink(row, props),
+        weight: Map.get(props, :value_weight),
+        font: row.value_font || Map.get(props, :value_font)
+      }
+
+      ~MOB"""
+      <Text
+        text={@text}
+        text_size={@size}
+        text_color={@color}
+        font_weight={@weight}
+        font_family={@font}
+        text_align="center"
+        max_lines={1}
+      />
+      """
+      |> drop_unset(:font_family, assigns.font)
+      |> then(&[&1, gap_node(setting(props, :value_gap, 3))])
+    else
+      []
+    end
+  end
+
+  # An empty part is a Spacer, a filled part a Box under it, so the fill sits on
+  # the baseline without a `justify` the bridge does not have.
+  defp column_plot(row, props, max) do
+    height = setting(props, :height, 120)
+    filled = round(height * fraction(row.value, max))
+
+    assigns = %{
+      height: height,
+      empty: max(height - filled, 0),
+      fill: filled,
+      color: fill(row, props, max),
+      track: setting(props, :track_color, :transparent),
+      radius: setting(props, :corner_radius, 3),
+      width: Map.get(props, :bar_size)
+    }
+
+    empty = gap_node(assigns.empty)
+
+    fill =
+      if filled > 0 do
+        ~MOB"""
+        <Box fill_width={true} height={@fill} background={@color} corner_radius={@radius} />
+        """
+      else
+        []
+      end
+
+    ~MOB"""
+    <Column
+      fill_width={@width == nil}
+      width={@width}
+      height={@height}
+      background={@track}
+      corner_radius={@radius}
+    >
+      {empty}
+      {fill}
+    </Column>
+    """
+    |> drop_unset(:width, assigns.width)
+  end
+
+  defp column_label(%{label: nil}, _props), do: []
+
+  defp column_label(%{label: label}, props) do
+    assigns = %{
+      label: label,
+      size: setting(props, :label_size, 11),
+      color: setting(props, :label_color, :on_surface),
+      weight: Map.get(props, :label_weight),
+      font: Map.get(props, :label_font)
+    }
+
+    ~MOB"""
+    <Column fill_width={true} align="center">
+      <Spacer size={6} />
+      <Text
+        text={@label}
+        text_size={@size}
+        text_color={@color}
+        font_weight={@weight}
+        font_family={@font}
+        text_align="center"
+        max_lines={1}
+      />
+    </Column>
+    """
+    |> drop_unset(:font_family, assigns.font)
+  end
+
+  # ── Shared ──────────────────────────────────────────────────────────────────
+
+  defp shown_value?(row, props) do
+    selected?(row, props) or Map.get(props, :show_values, false)
+  end
+
+  defp reading(row), do: row.value_text || to_string(row.value)
+
+  defp value_ink(row, props) do
+    if selected?(row, props) do
+      setting(props, :selected_value_color, setting(props, :value_color, :muted))
+    else
+      setting(props, :value_color, :muted)
+    end
+  end
+
+  defp fill(row, props, max) do
+    cond do
+      selected?(row, props) and Map.get(props, :selected_color) ->
+        Map.get(props, :selected_color)
+
+      row.color ->
+        row.color
+
+      scale = Map.get(props, :color_scale) ->
+        scale_color(
+          scale,
+          fraction(row.value, max),
+          Map.get(props, :scale_mode, :steps)
+        )
+
+      true ->
+        setting(props, :color, :primary)
+    end
+  end
+
+  defp selected?(row, props) do
+    case Map.get(props, :selected) do
+      nil -> false
+      key -> key == row.key
+    end
+  end
+
+  defp tail(0, _props), do: []
+
+  defp tail(_hidden, props) do
+    case Map.get(props, :more_text) do
+      nil ->
+        []
+
+      text ->
+        assigns = %{
+          text: text,
+          size: setting(props, :more_size, 11),
+          color: setting(props, :more_color, :muted)
+        }
+
+        ~MOB"""
+        <Column fill_width={true}>
+          <Spacer size={8} />
+          <Text text={@text} text_size={@size} text_color={@color} max_lines={1} />
+        </Column>
+        """
+    end
+  end
+
+  defp row_tag(props, row) do
+    case Map.get(props, :id) do
+      nil -> nil
+      id -> "#{id}-#{row.key}"
+    end
+  end
+
+  defp handler(nil, _key), do: nil
+  defp handler(tag, key), do: Event.handler(tag, key)
+
+  defp gap_node(size) when is_number(size) and size > 0, do: spacer(size)
+  defp gap_node(_size), do: []
+
+  defp spacer(size) do
+    assigns = %{size: size}
+    ~MOB"<Spacer size={@size} />"
+  end
+
+  # A prop left unset is omitted rather than sent as nil: a present-but-nil
+  # `font_family` makes the bridge resolve the fallback face, which draws the
+  # string at a different weight from the same string in a screen's own Text.
+  defp drop_unset(node, _key, value) when not is_nil(value), do: node
+  defp drop_unset(node, key, _value), do: %{node | props: Map.delete(node.props, key)}
+
+  defp setting(props, key, default), do: Map.get(props, key) || default
+
+  defp put_id(node, nil), do: node
+  defp put_id(node, id), do: %{node | props: Map.put(node.props, :id, id)}
+end

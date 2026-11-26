@@ -67,6 +67,8 @@ defmodule MishkaMob.Showcase do
     {MishkaMob.Showcase.Components.StatBar, :mishka_stat_bar, MishkaMob.Components.MishkaStatBar},
     {MishkaMob.Showcase.Components.NotificationPreview, :mishka_notification_preview,
      MishkaMob.Components.MishkaNotificationPreview},
+    {MishkaMob.Showcase.Components.BarChart, :mishka_bar_chart,
+     MishkaMob.Components.MishkaBarChart},
     {MishkaMob.Showcase.Components.Collapsible, :mishka_collapsible,
      MishkaMob.Components.MishkaCollapsible},
     {MishkaMob.Showcase.Components.Avatar, :mishka_avatar, MishkaMob.Components.MishkaAvatar},

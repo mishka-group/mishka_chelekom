@@ -177,18 +177,33 @@ defmodule <%= @module %> do
       flex: flex
     }
 
+    node =
+      ~MOB"""
+      <Text
+        text={@value}
+        text_size={@size}
+        text_color={@color}
+        font_family={@family}
+        font_weight={@weight}
+        max_lines={1}
+      />
+      """
+      |> drop_unset(:font_family, family)
+
+    # The flex lives on a Box, not on the Text: a `weight` prop on a Text is read
+    # by the parent Row, and iOS has no layout weight at all, so a Text-weighted
+    # label would pin the reading on Android and not on iOS.
+    if flex, do: flex_box(node, flex), else: node
+  end
+
+  defp flex_box(node, flex) do
+    assigns = %{flex: flex, node: node}
+
     ~MOB"""
-    <Text
-      text={@value}
-      text_size={@size}
-      text_color={@color}
-      font_family={@family}
-      font_weight={@weight}
-      weight={@flex}
-      max_lines={1}
-    />
+    <Box weight={@flex}>
+      {@node}
+    </Box>
     """
-    |> drop_unset(:font_family, family)
   end
 
   # A prop that is present but nil is not the same node as one that is absent:
