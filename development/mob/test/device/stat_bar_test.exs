@@ -8,9 +8,9 @@ defmodule MishkaMob.Device.StatBarTest do
 
   test "both examples draw their labels and readings" do
     assert_text("Action")
-    assert_text("6h")
+    assert_text("52%")
     assert_text("Adventure")
-    assert_text("5h")
+    assert_text("30%")
   end
 
   test "the page renders both examples and the props table" do
