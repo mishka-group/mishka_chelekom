@@ -47,13 +47,36 @@ defmodule MishkaMob.Showcase.Components.BarChart do
     ]
   end
 
-  @doc "Three rows: two banded bars and one flat colour, side by side."
+  @doc """
+  Three rows: two banded bars and one flat colour, side by side.
+
+  Every band is a mid-tone on purpose. A near-black band reads on a light card
+  and disappears on a dark one, so the gallery — which draws every example in
+  four themes — would show a three-colour bar as a two-colour bar half the time.
+  Bands are the caller's palette; these are chosen to be visible in all of them.
+  """
   def bands do
     [
-      %{label: "Dusk", value: 1.0, colors: [0xFF5B7CA8, 0xFFB3564E, 0xFF1A1917]},
-      %{label: "Ember", value: 0.8, segments: [{0.6, 0xFFB3564E}, {0.4, 0xFF1A1917}]},
+      %{label: "Dusk", value: 1.0, colors: [0xFF5B7CA8, 0xFF8A6FA8, 0xFFB3564E]},
+      %{label: "Ember", value: 0.8, segments: [{0.6, 0xFFB08E55}, {0.4, 0xFFB3564E}]},
       %{label: "Slate", value: 0.55, color: 0xFF8A8177}
     ]
+  end
+
+  @doc "The week as columns, each carrying its own two bands: deep base, light top."
+  def week_bands do
+    [
+      {"M", 4, [0xFF4C6E96, 0xFF8FB0D6]},
+      {"T", 7, [0xFFA97F45, 0xFFD6B27A]},
+      {"W", 3, [0xFF3F7F5F, 0xFF7FB79B]},
+      {"T", 6, [0xFF9E4A44, 0xFFCE8A83]},
+      {"F", 2, [0xFF6E5588, 0xFFA98FC2]},
+      {"S", 5, [0xFF4C6E96, 0xFF8FB0D6]},
+      {"S", 1, [0xFFA97F45, 0xFFD6B27A]}
+    ]
+    |> Enum.map(fn {label, value, colors} ->
+      %{label: label, value: value, colors: colors}
+    end)
   end
 
   @doc "Five fractions and nothing else, so the colour scale decides."
@@ -222,14 +245,14 @@ defmodule MishkaMob.Showcase.Components.BarChart do
       %Example{
         title: "One bar, several colours",
         description:
-          "Each bar carries its own bands: the first runs blue into orange into " <>
-            "black, the second is two bands, and the third stays a flat colour — " <>
-            "beside them in the same chart.",
+          "Each bar carries its own bands: the first runs three colours, the second " <>
+            "two uneven ones, and the third stays a flat colour — beside them in the " <>
+            "same chart. The bands are mid-tones so every theme can show all of them.",
         code: ~S"""
         <MishkaBarChart
           rows={[
-            %{label: "Dusk", value: 1.0, colors: [0xFF5B7CA8, 0xFFB3564E, 0xFF1A1917]},
-            %{label: "Ember", value: 0.8, segments: [{0.6, 0xFFB3564E}, {0.4, 0xFF1A1917}]},
+            %{label: "Dusk", value: 1.0, colors: [0xFF5B7CA8, 0xFF8A6FA8, 0xFFB3564E]},
+            %{label: "Ember", value: 0.8, segments: [{0.6, 0xFFB08E55}, {0.4, 0xFFB3564E}]},
             %{label: "Slate", value: 0.55, color: 0xFF8A8177}
           ]}
           label_width={96}
@@ -250,6 +273,46 @@ defmodule MishkaMob.Showcase.Components.BarChart do
               corner_radius={7}
               track_color={:surface_raised}
               gap={12}
+            />
+          </Column>
+          """
+        end
+      },
+      %Example{
+        title: "The same week, in colours",
+        description:
+          "The banded fill works on columns too: each day carries its own two " <>
+            "bands, deep at the baseline and light at the top, and the rings clip " <>
+            "them to the column's rounding.",
+        code: ~S"""
+        <MishkaBarChart
+          rows={week_bands()}
+          orientation={:vertical}
+          max={7}
+          height={110}
+          bar_size={24}
+          gap={10}
+          show_values={true}
+          track_color={:surface_raised}
+          label_size={11}
+          value_size={11}
+        />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaBarChart
+              id="bc-week-bands"
+              rows={MishkaMob.Showcase.Components.BarChart.week_bands()}
+              orientation={:vertical}
+              max={7}
+              height={110}
+              bar_size={24}
+              gap={10}
+              show_values={true}
+              track_color={:surface_raised}
+              label_size={11}
+              value_size={11}
             />
           </Column>
           """

@@ -41,6 +41,7 @@ defmodule MishkaMob.Device.BarChartTest do
           "The same week, as columns",
           "A banded scale, and a ramp",
           "One bar, several colours",
+          "The same week, in colours",
           "Tap a bar and read it",
           "Props"
         ] do
