@@ -35,17 +35,19 @@ defmodule MishkaMob.HomeScreen do
   # and native-inflated all 60 component preview cards before first paint;
   # the native LazyColumn this produces only realizes the rows on screen.
   def render(assigns) do
+    # A `:lazy_list` rather than the `:list` shorthand: `Mob.List`'s expansion
+    # drops the `:id`, and the bridge keys a list's remembered scroll position
+    # on that id.
     %{
-      type: :list,
+      type: :lazy_list,
       props: %{
         id: :home,
-        items: home_items(assigns),
         background: :background,
         padding: :space_lg,
         fill_width: true,
         fill_height: true
       },
-      children: []
+      children: Enum.map(home_items(assigns), &home_item/1)
     }
   end
 

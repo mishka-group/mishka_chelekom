@@ -333,6 +333,16 @@ object MobBridge {
     fun getOrCreateLazyListState(handle: Int): LazyListState =
         lazyListStates.getOrPut(handle) { LazyListState() }
 
+    // A list that names itself with :id keeps its scroll position ACROSS
+    // navigation. The handle-keyed map above is cleared on every push/pop
+    // because a handle is a render-order integer another screen's list can
+    // reuse; an :id is the screen's own name and cannot collide, so a reader
+    // coming back to Home lands where they left.
+    private val namedListStates = mutableMapOf<String, LazyListState>()
+
+    fun getOrCreateNamedListState(id: String): LazyListState =
+        namedListStates.getOrPut(id) { LazyListState() }
+
     // ── Test harness: id-addressable scroll registry + in-process capture ──────
     //
     // Gives a remotely-connected agent (Mob.Test.screenshot/scroll_info/scroll_to)
@@ -5026,13 +5036,20 @@ private fun MobVideoPlayer(node: MobNode, modifier: Modifier) {
 @Composable
 private fun MobLazyList(node: MobNode, modifier: Modifier) {
     val handle    = intProp(node.props, "on_end_reached")
+    val listId    = node.props["id"] as? String
     // Use a persistent LazyListState keyed by handle so scroll position survives
     // BEAM re-renders. rememberLazyListState() would reset to 0 on every data
     // update because AnimatedContent creates a fresh composition for each new
     // RootState, even when only list items changed (no navigation).
-    val listState = remember(handle) {
-        if (handle != null) MobBridge.getOrCreateLazyListState(handle)
-        else LazyListState()
+    //
+    // A named list (`:id`) is keyed by that name instead, in a map navigation
+    // does NOT clear.
+    val listState = remember(listId, handle) {
+        when {
+            listId != null -> MobBridge.getOrCreateNamedListState(listId)
+            handle != null -> MobBridge.getOrCreateLazyListState(handle)
+            else -> LazyListState()
+        }
     }
 
     // Register by :id so Mob.Test.scroll_info/scroll_to can address this list.
