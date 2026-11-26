@@ -13,8 +13,18 @@ defmodule MishkaMob.Device.StatBarTest do
     assert_text("30%")
   end
 
-  test "the page renders both examples and the props table" do
-    for heading <- ["Where the hours went", "A percentage, a thin bar, no reading", "Props"] do
+  test "a ranked row draws its rank and its name" do
+    assert_text("Apocalypse Z: New World")
+    assert_text("Avengers: Doomsday")
+  end
+
+  test "the page renders every example and the props table" do
+    for heading <- [
+          "Where the hours went",
+          "A ranked row",
+          "A percentage, a thin bar, no reading",
+          "Props"
+        ] do
       assert_text(heading)
     end
 

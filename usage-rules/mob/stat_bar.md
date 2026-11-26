@@ -18,11 +18,29 @@ data rather than of a bar.
 ## Headless
 
 No background, palette token or type scale beyond plain numbers. Pass `color`, `track_color`,
-`height`, `corner_radius`, `label_size`, `label_color`, `value_size`, `value_color` and
-`font_family` from the app's own design system.
+`height`, `corner_radius`, `label_size`, `label_color`, `label_font_weight`, `value_size`,
+`value_color`, `value_weight` and `font_family` from the app's own design system.
 
-## Example
+## A ranked row is the same row
+
+A "watched most" list is this component with `leading`: the rank before the name, the name as
+the label, the count as the reading. `leading` takes a string, a node or a list of nodes, so a
+rank, a glyph or a dot all fit. Pair it with `label_flex` when the list must stay aligned: the
+label then takes the free width and truncates, while the reading is pinned to the right edge by
+`label_gap`. Without `label_flex` the label hugs its text and the reading floats right behind a
+flexible spacer.
+
+## Examples
 
 ```elixir
 <MishkaStatBar label="Action" value={0.6} value_text="6h" color={0xFF4E9A73} />
+```
+
+```elixir
+<MishkaStatBar
+  leading="1" leading_gap={10} leading_weight="bold"
+  label="Apocalypse Z: New World" label_flex={1.0} label_gap={0}
+  value={1.0} value_text="7" value_weight="bold" value_size={12.5}
+  gap={6} height={5}
+/>
 ```

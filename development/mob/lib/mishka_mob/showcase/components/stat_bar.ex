@@ -48,6 +48,52 @@ defmodule MishkaMob.Showcase.Components.StatBar do
         end
       },
       %Example{
+        title: "A ranked row",
+        description:
+          "A leading rank, a name that flexes, and a count pinned to the right edge.",
+        code: ~S"""
+        <MishkaStatBar
+          leading="1" leading_gap={10}
+          label="Apocalypse Z: New World" label_flex={1.0} label_gap={0}
+          value={1.0} value_text="7" value_weight="bold" value_size={12.5}
+          gap={6} height={5}
+        />
+        """,
+        render: fn _assigns ->
+          ~MOB"""
+          <Column fill_width={true}>
+            <MishkaStatBar
+              leading="1"
+              leading_gap={10}
+              label="Apocalypse Z: New World"
+              label_flex={1.0}
+              label_gap={0}
+              value={1.0}
+              value_text="7"
+              value_weight="bold"
+              value_size={12.5}
+              gap={6}
+              height={5}
+            />
+            <Spacer size={12} />
+            <MishkaStatBar
+              leading="2"
+              leading_gap={10}
+              label="Avengers: Doomsday"
+              label_flex={1.0}
+              label_gap={0}
+              value={0.6}
+              value_text="3"
+              value_weight="bold"
+              value_size={12.5}
+              gap={6}
+              height={5}
+            />
+          </Column>
+          """
+        end
+      },
+      %Example{
         title: "A percentage, a thin bar, no reading",
         description: "The unit and the type are props; nothing is assumed.",
         code: ~S"""
@@ -103,6 +149,31 @@ defmodule MishkaMob.Showcase.Components.StatBar do
   def props do
     [
       %{name: "label", type: "string", default: "nil", description: "The name on the left."},
+      %{
+        name: "leading",
+        type: "string / node / nodes",
+        default: "nil",
+        description: "Drawn before the label — a rank, a glyph, a dot."
+      },
+      %{
+        name: "leading_gap",
+        type: "number",
+        default: "10",
+        description: "Space between the leading mark and the label."
+      },
+      %{name: "leading_size", type: "number", default: "12", description: "A string leading's size."},
+      %{
+        name: "leading_color",
+        type: "color / ARGB",
+        default: "unset",
+        description: "A string leading's ink."
+      },
+      %{
+        name: "leading_weight",
+        type: "string",
+        default: "unset",
+        description: "A string leading's weight."
+      },
       %{name: "value", type: "number", default: "0", description: "Fraction 0.0..1.0, clamped."},
       %{
         name: "value_text",
@@ -116,6 +187,19 @@ defmodule MishkaMob.Showcase.Components.StatBar do
         type: "color / ARGB",
         default: ":surface_raised",
         description: "The groove."
+      },
+      %{name: "label_font_weight", type: "string", default: "unset", description: "The label's weight."},
+      %{
+        name: "label_flex",
+        type: "number",
+        default: "unset",
+        description: "The label takes this flex weight, so a long name truncates."
+      },
+      %{
+        name: "label_gap",
+        type: "number",
+        default: "8",
+        description: "Under `label_flex` only: the fixed space before the reading."
       },
       %{name: "height", type: "number", default: "6", description: "Bar thickness."},
       %{name: "corner_radius", type: "number", default: "3", description: "Bar rounding."},

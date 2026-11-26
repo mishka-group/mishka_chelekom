@@ -5,7 +5,7 @@
     doc_url: "https://mishka.tools/chelekom/docs/mob/stat-bar",
     args: [type: ["stat_bar"], only: ["stat_bar"], helpers: [], module: ""],
     optional: [],
-    necessary: [],
+    necessary: ["progress"],
     scripts: [],
     mob: [
       composite_tag: "stat_bar",
